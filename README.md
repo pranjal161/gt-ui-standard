@@ -1,0 +1,1 @@
+# dxc-gt-ui-react-standard
