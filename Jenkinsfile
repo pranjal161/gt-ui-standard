@@ -78,8 +78,8 @@ def addStagesMegaLinter() {
 }
 
 // Add custom stages
-def stagesMap = [:]
-stagesMap['install'] = ['skip': false, 'func': this.&addStagesMegaLinter]
+def functions = [:]
+functions['install'] = ['skip': false, 'func': this.&addStagesMegaLinter]
 
 //functions = [:]
 pipelineRunner(functions, pipelineUtils)
