@@ -1,0 +1,51 @@
+############################################################################################################
+####################################### MODIFICATION AREA ###################################################
+######################## Modify these values according to your project needs.  ##############################
+### Rest of customizable values are listed in README.md section 2.1.3 Common custom configuration values  ###
+############################## Only modify them is special behaviour is needed ##############################
+#############################################################################################################
+
+#### Name of current repository for validation. It has to match the name of the repository where this file is.
+repositoryName: "dxc-gt-ui-react-standard"
+
+# Pipeline to be executed.
+# It has to match the constants defined in the Assure Library (pipelineRunner.groovy).
+# It does not need to be modify for standard -deploy projects (value='TERRAFORM_DEPLOY_PIPELINE')
+pipelineType: "UI_PIPELINE"
+
+#### Artifactory
+artifactPath: "dxc-gt-ui-react-standard/bundle"     #i.e: "assure-platform/underwriting/underwriting-lambda"
+
+##### Zip (zip)
+zipSourceFolder: "./build"
+targetZipName: "dxc-gt-ui-react-standard"
+zipInclude: ""                               #i.e: "handlers/**, node_modules/**, services/**, utils/**, *.js, package.json"
+
+##### Set up npm (setup)
+npmrcCredential: "npmrc"
+
+##### Set version parameters (setup)
+dependenciesPackageFile: "package.json"
+dependenciesPackagePath: ""
+dependenciesPackageAttribute: "version"
+
+##### Execute npm install (install)
+scriptName: "install"
+scriptParams: "--only=prod" #i.e: "--only=prod"
+build_scriptName: "build"
+build_scriptParams: ""
+
+#############################################################################################################
+################################### END OF MODIFICATION AREA ################################################
+#############################################################################################################
+
+##### GitHub data #####
+gitHubCredential: "pdxc-jenkins"
+gitEmail: "jenkins@dxc.com"
+gitUsername: "Jenkins User"
+
+#### Jenkins Assure library Repo values #####
+libraryOrg: "diaas"
+libraryRepo: "assure-platform-jenkins-projects-library"
+libraryBranch: "master"
+libraryRunnerPath: "/src/org/assure/jenkins/pipelineRunner.groovy"
