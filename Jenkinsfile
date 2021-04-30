@@ -65,7 +65,12 @@ def addStagesMegaLinter() {
     // Lint with Mega-Linter: https://nvuillam.github.io/mega-linter/
     stage('Mega-Linter') {
         sh '''
-            echo 'Install TypeScript'
+            echo 'Install npx'
+            npm install npx --save-dev
+        '''
+
+        sh '''
+            echo 'Run Mega-Linter'
             npx mega-linter-runner -r insiders
         '''
     }
