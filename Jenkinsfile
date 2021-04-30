@@ -24,6 +24,7 @@ configData = null
  */
 def cloneAndLoadAssurePipeline() {
     configData = readYaml file: 'conf.yml'
+    
     // Set up git
     def cred = ValuesUtils.getVariable(configData, 'gitHubCredential')
     def mail = ValuesUtils.getVariable(configData, 'gitEmail')
@@ -80,5 +81,5 @@ def addStagesMegaLinter() {
 def stagesMap = [:]
 stagesMap['install'] = ['skip': false, 'func': this.&addStagesMegaLinter]
 
-functions = [:]
+//functions = [:]
 pipelineRunner(functions, pipelineUtils)
