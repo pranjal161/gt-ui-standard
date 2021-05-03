@@ -5,9 +5,13 @@
     "**/node_modules/**",
     "**/vscode-extension/**",
     "**/.git/**",
-    ".vscode",
+    ".eslintrc.js",
+    "conf.yml",
     "package-lock.json",
-    "report"
+    "report",
+    "yarn.lock"
   ],
-  "words": []
+  "words": [
+    ""
+  ]
 }

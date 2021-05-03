@@ -14,12 +14,12 @@ repositoryName: "dxc-gt-ui-react-standard"
 pipelineType: "UI_PIPELINE"
 
 #### Artifactory
-artifactPath: "dxc-gt-ui-react-standard/bundle"     #i.e: "assure-platform/underwriting/underwriting-lambda"
+artifactPath: "dxc-gt-ui-react-standard/bundle" #i.e: "assure-platform/underwriting/underwriting-lambda"
 
 ##### Zip (zip)
 zipSourceFolder: "./build"
 targetZipName: "dxc-gt-ui-react-standard"
-zipInclude: ""                               #i.e: "handlers/**, node_modules/**, services/**, utils/**, *.js, package.json"
+zipInclude: "" #i.e: "handlers/**, node_modules/**, services/**, utils/**, *.js, package.json"
 
 ##### Set up npm (setup)
 npmrcCredential: "npmrc"
