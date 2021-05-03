@@ -60,25 +60,34 @@ node {
     cloneAndLoadAssurePipeline()
 }
 
-def addStagesMegaLinter() {
+def addStagesESLint() {
 
-    // Lint with Mega-Linter: https://nvuillam.github.io/mega-linter/
-    stage('Mega-Linter') {
+    stage('Code Quality ESLint') {
         sh '''
-            echo 'Install npx'
-            npm install npx --save-dev
+            echo 'Install TypeScript'
+            npm install typescript
         '''
 
         sh '''
-            echo 'Run Mega-Linter'
-            npx mega-linter-runner -r insiders
+            echo 'Install ESLint & plugins'
+            npm install eslint@latest --save-dev
+            npm install eslint-plugin-filenames@latest --save-dev
+            npm install eslint-plugin-react@latest --save-dev
+            npm install eslint-plugin-react-hooks@latest --save-dev
+            npm install @typescript-eslint/eslint-plugin@latest --save-dev
+            npm install @typescript-eslint/parser --save-dev
+        '''
+
+        sh '''
+            echo 'Check code quality using ESLint'
+            npm run lint
         '''
     }
 }
 
 // Add custom stages
 def functions = [:]
-functions['install'] = ['skip': false, 'func': this.&addStagesMegaLinter]
+functions['install'] = ['skip': false, 'func': this.&addStagesESLint]
 
 //functions = [:]
 pipelineRunner(functions, pipelineUtils)

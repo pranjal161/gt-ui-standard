@@ -51,8 +51,8 @@ module.exports = {
         'block-scoped-var': 'off',
         'block-spacing': 'error',
         'brace-style': [
-            "error", 
-            "stroustrup"
+            'error', 
+            'stroustrup'
         ],
         'callback-return': 'error',
         'camelcase': 'off',
