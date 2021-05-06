@@ -3,6 +3,43 @@ export const country = 'EN'
 export const curentCurrency = 'euro'
 export const locale = `${language}-${country}`
 
+const localization = {
+    en: {
+        date: {
+            short: 'MM/dd/yyyy',
+            Long: 'MMM ddd yyyy',
+        },
+        number: {
+            pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
+            digits: '.0-2',
+            lang: 'en'
+        },
+        currency: {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        }
+    },
+    fr: {
+        date: {
+            short: 'dd/MM/yyyy',
+            Long: 'ddd MMM yyyy',
+        },
+        number: {
+            pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
+            digits: '.0-2',
+            lang: 'fr'
+        },
+        currency: {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        }
+    }
+}
+
+export const dateformat = (value) => (moment(value).format(format))
+
 const euro = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: 'EUR',
@@ -15,7 +52,7 @@ const usd = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2
 });
 
-const localization = {
+const localization2 = {
     date: {
         en: {
             short: 'dd/MM/yyyy',
@@ -30,8 +67,8 @@ const localization = {
         }
     },
     currency: {
-        euro: (value:any) => euro.format(value),
-        usd:  (value:any) => usd.format(value),
+        euro: (value: any) => euro.format(value),
+        usd: (value: any) => usd.format(value),
     }
 }
 
