@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 export const language = 'en'
 export const country = 'EN'
@@ -46,6 +46,6 @@ export const displayDate = (value: any) => (moment(value).format(format.date.sho
 export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
 //export const displayNumber = (value:any) => new Intl.NumberFormat(locale, format.number).format(value);
 export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, format.currency).format(value);
-export const displayPercent = (value: any)=> new Intl.NumberFormat(locale,
+export const displayPercent = (value: any) => new Intl.NumberFormat(locale,
     {style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value / 100);
-export const displayDecimal = (value: any)=> new Intl.NumberFormat(locale).format(value);
+export const displayDecimal = (value: any) => new Intl.NumberFormat(locale).format(value);

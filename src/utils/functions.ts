@@ -4,7 +4,8 @@ export const getLink = (response: any, linkName: string) => {
         response._links[linkName] &&
         response._links[linkName].href) {
         return response._links[linkName].href;
-    } else {
+    }
+    else {
         return null;
     }
 }
