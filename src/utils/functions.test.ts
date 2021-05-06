@@ -1,5 +1,5 @@
-import { getLink } from './functions';
-import { resource } from './static/data';
+import {getLink} from './functions';
+import {resource} from './static/data';
 
 describe('Test Functions', () => {
     test('Test Get Link Function, Should have link as the output', () => {
