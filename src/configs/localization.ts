@@ -1,13 +1,15 @@
+import moment from "moment";
+
 export const language = 'en'
 export const country = 'EN'
-export const curentCurrency = 'euro'
+
 export const locale = `${language}-${country}`
 
 const localization = {
     en: {
         date: {
             short: 'MM/dd/yyyy',
-            Long: 'MMM ddd yyyy',
+            long: 'MMM ddd yyyy',
         },
         number: {
             pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
@@ -23,7 +25,7 @@ const localization = {
     fr: {
         date: {
             short: 'dd/MM/yyyy',
-            Long: 'ddd MMM yyyy',
+            long: 'ddd MMM yyyy',
         },
         number: {
             pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
@@ -38,38 +40,12 @@ const localization = {
     }
 }
 
-export const dateformat = (value) => (moment(value).format(format))
+const format = localization[language]
 
-const euro = new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2
-});
-
-const usd = new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-});
-
-const localization2 = {
-    date: {
-        en: {
-            short: 'dd/MM/yyyy',
-            Long: 'ddd MMM yyyy',
-        }
-    },
-    number: {
-        en: {
-            pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
-            digits: '.0-2',
-            lang: 'en'
-        }
-    },
-    currency: {
-        euro: (value: any) => euro.format(value),
-        usd: (value: any) => usd.format(value),
-    }
-}
-
-export const currency = localization.currency[curentCurrency]
+export const displayDate = (value: any) => (moment(value).format(format.date.short))
+export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
+//export const displayNumber = (value:any) => new Intl.NumberFormat(locale, format.number).format(value);
+export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, format.currency).format(value);
+export const displayPercent = (value: any)=> new Intl.NumberFormat(locale,
+    {style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value / 100);
+export const displayDecimal = (value: any)=> new Intl.NumberFormat(locale).format(value);
