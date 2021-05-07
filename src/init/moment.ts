@@ -1,4 +1,3 @@
-import {language} from 'configs/localization';
 import moment from 'moment';
 
 const getMomentRessource = (lang:string) => (lang === 'en'?'en-gb':lang)
@@ -9,6 +8,4 @@ export const momentChangeLanguage = (newLanguage:string) => {
     require('moment/locale/' + getMomentRessource(newLanguage))
     moment.locale(newLanguage)
 }
-
-momentChangeLanguage(language)
 

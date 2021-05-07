@@ -6,7 +6,6 @@ import fr from 'locales/fr'
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {logErrorByCode} from 'utils/system';
-import {momentChangeLanguage} from 'init/moment';
 import nl from 'locales/nl'
 
 //ressources has to be loaded according allLanguages
@@ -60,8 +59,8 @@ i18n.on('missingKey', function (language, ns, ident) {
 });
 
 //Event when the language has been changed on i18n
-i18n.on('languageChanged', function(lng) {
+/*i18n.on('languageChanged', function(lng) {
     momentChangeLanguage(lng)
-});
+});*/
 
 export default i18n;

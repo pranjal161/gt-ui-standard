@@ -1,5 +1,5 @@
-import i18n from 'i18next';
 import moment from 'moment'
+import {momentChangeLanguage} from 'init/moment';
 
 export let language = 'en' //Default language
 export let country = 'EN' //Default country
@@ -8,7 +8,7 @@ const localization: any = {
     en: {
         date: {
             short: 'M/D/YYYY',
-            long: 'MMM Do YYYY',
+            long: 'MMMM Do YYYY',
         },
         currency: {
             style: 'currency',
@@ -52,7 +52,7 @@ const localization: any = {
     fr: {
         date: {
             short: 'D/M/YYYY',
-            long: 'D MMM YYYY',
+            long: 'D MMMM YYYY',
         },
         currency: {
             style: 'currency',
@@ -76,16 +76,15 @@ let locale: string
 let format: any
 const setLocale = () => (locale = `${language}-${country}`)
 const setFormat = () => (format = localization[language])
-setLocale()
-setFormat()
 
-export const changeLanguage = (lng: string) => {
+export const localizationChangeLanguage = (lng: string) => {
     language = lng
     setFormat()
     setLocale()
-    //moment changelanguage will be trigger by the i18n changelanguage
-    i18n.changeLanguage(lng)
+    momentChangeLanguage(lng)
 }
+
+localizationChangeLanguage(language)
 
 export const displayDate = (value: any) => (moment(value).format(format.date.short))
 export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
