@@ -1,6 +1,6 @@
 import './App.css'
 import React, {useCallback, useState} from 'react'
-import {changeLanguage} from './init';
+import {changeLanguage} from './configs/localization';
 import {useTranslation} from 'react-i18next';
 
 // eslint-disable-next-line react/prop-types

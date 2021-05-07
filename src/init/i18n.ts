@@ -53,11 +53,6 @@ i18n
 
     });
 
-export const changeLanguage = (lng : string) => {
-    //moment changelanguage will be trigger by the i18n changelanguage
-    i18n.changeLanguage(lng)
-}
-
 //We save all missing translation into the localstorage
 i18n.on('missingKey', function (language, ns, ident) {
     findAndSaveMissingTranslation(ns, ident);
