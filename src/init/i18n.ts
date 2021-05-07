@@ -7,6 +7,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {formatValue} from 'utils/functions';
 import {logErrorByCode} from 'utils/system';
+import moment from 'moment';
 
 //ressources has to be loaded according allLanguages
 //The format of the ressource has to be : { #language# : #namespace# : translationObject }
@@ -58,6 +59,10 @@ i18n
 i18n.on('missingKey', function (_, ns, ident) {
     findAndSaveMissingTranslation(ns, ident);
     logErrorByCode('i18nMissingTranslation', {ns, ident})
+});
+
+i18n.on('languageChanged', function(lng) {
+    moment.locale(lng);
 });
 
 export default i18n;
