@@ -20,6 +20,11 @@ const localization = {
             style: 'currency',
             currency: 'EUR',
             minimumFractionDigits: 2
+        },
+        percent:{
+            style: 'percent',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
     },
     fr: {
@@ -36,6 +41,11 @@ const localization = {
             style: 'currency',
             currency: 'EUR',
             minimumFractionDigits: 2
+        },
+        percent:{
+            style: 'percent',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
     }
 }
@@ -44,8 +54,7 @@ const format = localization[language]
 
 export const displayDate = (value: any) => (moment(value).format(format.date.short))
 export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
-//export const displayNumber = (value:any) => new Intl.NumberFormat(locale, format.number).format(value);
 export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, format.currency).format(value);
-export const displayPercent = (value: any) => new Intl.NumberFormat(locale,
-    {style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value / 100);
+export const displayPercent = (value: any) => new Intl.NumberFormat(locale, format.percent).format(value / 100);
 export const displayDecimal = (value: any) => new Intl.NumberFormat(locale).format(value);
+//export const displayNumber = (value:any) => new Intl.NumberFormat(locale, format.number).format(value);
