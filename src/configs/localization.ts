@@ -9,8 +9,8 @@ export const locale = `${language}-${country}`
 const localization = {
     en: {
         date: {
-            short: 'MM/dd/yyyy',
-            long: 'MMM ddd yyyy',
+            short: 'M/D/YYYY',
+            long: 'MMM D YYYY',
         },
         number: {
             pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
@@ -30,8 +30,8 @@ const localization = {
     },
     fr: {
         date: {
-            short: 'dd/MM/yyyy',
-            long: 'ddd MMM yyyy',
+            short: 'D/M/YYYY',
+            long: 'D MMM YYYY',
         },
         number: {
             pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
