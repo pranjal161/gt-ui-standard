@@ -1,5 +1,6 @@
 import * as fr from 'locales/fr/fr.json'
 import * as nl from 'locales/nl/nl.json';
+import {allLanguages, language as defaultLanguage } from 'configs/localization';
 import en from 'locales/en'
 import {findAndSaveMissingTranslation} from 'utils/missingTranslations';
 import i18n from 'i18next';
@@ -7,6 +8,7 @@ import {initReactI18next} from 'react-i18next';
 import {formatValue} from 'utils/functions';
 import {logErrorByCode} from 'utils/system';
 
+//ressources has to be loaded according allLanguages
 //The format of the ressource has to be : { #language# : #namespace# : translationObject }
 const resources = {
     en,
@@ -14,7 +16,6 @@ const resources = {
     nl: {translation: nl.nl}
 };
 
-const languages = ['en', 'fr', 'nl'];
 const allNamespaces = Object.keys(en).map((namespace) => namespace)
 
 i18n
@@ -30,9 +31,9 @@ i18n
         //Save all missing translations into the localstorage
         saveMissing: true,
 
-        lng: 'en',
+        lng: defaultLanguage,
         fallbackLng: 'en', // use en if detected lng is not available
-        whitelist: languages,
+        whitelist: allLanguages,
 
         keySeparator: false, // we do not use keys in form messages.welcome
 

@@ -2,6 +2,7 @@ import moment from 'moment';
 
 export const language = 'en'
 export const country = 'EN'
+export const allLanguages = ['en', 'fr', 'nl']
 
 export const locale = `${language}-${country}`
 
