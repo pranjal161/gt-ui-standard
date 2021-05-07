@@ -1,18 +1,18 @@
 import './App.css'
-import React, {useCallback} from 'react'
+import React, {useCallback, useState} from 'react'
 import {changeLanguage} from './init';
 import {useTranslation} from 'react-i18next';
 
 // eslint-disable-next-line react/prop-types
-const Fake0 = ({ p }) => {
+const Child0 = ({ p }) => {
     const {t} = useTranslation()
     console.log('fake', p())
 
-    return (<div>Fake:<p>{t('test_date', {date: new Date()})}</p></div>)
+    return (<div><p>Child render : {t('test_date', {date: new Date()})}</p></div>)
     //return (<div>Fake:</div>)
 }
 
-const Fake = React.memo(Fake0)
+const Child = React.memo(Child0)
 
 /**
  * Returns the main app
@@ -21,7 +21,8 @@ const Fake = React.memo(Fake0)
  */
 function App() {
     const {t} = useTranslation()
-    const handleChangeLanguage = useCallback((newLanguage) => changeLanguage(newLanguage), [changeLanguage])
+    const [state, setState] = useState(0)
+    const handleChangeLanguage = (newLanguage) => changeLanguage(newLanguage)
     console.log('app')
     const p = useCallback(() => (1234), [])
 
@@ -33,7 +34,9 @@ function App() {
                 <button onClick={() => handleChangeLanguage('fr')}>fr</button>
                 <button onClick={() => handleChangeLanguage('en')}>en</button>
                 <button onClick={() => handleChangeLanguage('nl')}>nl</button>
-                <Fake p={p}/>
+
+                <button onClick={() => setState((prev) => prev+1)}>change the state : {state}</button>
+                <Child p={p}/>
             </header>
         </div>
     )
