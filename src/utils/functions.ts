@@ -6,6 +6,7 @@ import {
     displayNumber,
     displayPercent
 } from 'configs/localization';
+import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
     if (response &&
@@ -56,8 +57,8 @@ export const formatValue = (value: any, style?: string | undefined) => {
 
             return (style === 'date') ? displayDate(value) : displayLongDate(value)
         default: {
-            console.error('formatValue, style :', style, ' not defined to convert value : ', value)
-
+            logErrorByCode('formatValueStyleNotDefined', {style, value})
+            
             return value
         }
     }
