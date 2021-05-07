@@ -1,4 +1,11 @@
-import {displayCurrency, displayDate, displayDecimal, displayLongDate, displayPercent} from 'configs/localization';
+import {
+    displayCurrency,
+    displayDate,
+    displayDecimal,
+    displayLongDate,
+    displayNumber,
+    displayPercent
+} from 'configs/localization';
 
 export const getLink = (response: any, linkName: string) => {
     if (response &&
@@ -36,10 +43,16 @@ export const formatValue = (value: any, style?: string | undefined) => {
         case 'decimal':
             return displayDecimal(value)
 
+        case 'number':
+            return displayNumber(value)
+
         case 'date':
         case 'dateLong':
             if (value === '9999-99-99') // Date.max from API
                 return '99/99/9999'
+
+            if (value === '0000-00-00') // Date.min from API
+                return '00/00/0000'
 
             return (style === 'date') ? displayDate(value) : displayLongDate(value)
         default: {
