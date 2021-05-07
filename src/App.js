@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 // eslint-disable-next-line react/prop-types
 const Child0 = ({ p }) => {
     const {t} = useTranslation()
-    console.log('fake', p())
+    console.log('child render', p())
 
     return (<div><p>Child render : {t('test_date', {date: new Date()})}</p></div>)
     //return (<div>Fake:</div>)
@@ -31,9 +31,9 @@ function App() {
             <header className="App-header">
                 <p>{t('test_date', {date: new Date()})}</p>
                 <p>{t('test_currency', {value: 1234})}</p>
-                <button onClick={() => handleChangeLanguage('fr')}>fr</button>
-                <button onClick={() => handleChangeLanguage('en')}>en</button>
-                <button onClick={() => handleChangeLanguage('nl')}>nl</button>
+                <button onClick={() => handleChangeLanguage('fr')}>Change language to fr</button>
+                <button onClick={() => handleChangeLanguage('en')}>Change language to en</button>
+                <button onClick={() => handleChangeLanguage('nl')}>Change language to nl</button>
 
                 <button onClick={() => setState((prev) => prev+1)}>change the state : {state}</button>
                 <Child p={p}/>
