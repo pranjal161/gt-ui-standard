@@ -27,7 +27,7 @@ function App() {
     const p = useCallback(() => (1234), [])
 
     return (
-        <div className="App">
+        <div className="App" data-testid={'main_app'}>
             <header className="App-header">
                 <p>{t('test_date', {date: new Date()})}</p>
                 <p>{t('test_currency', {value: 1234})}</p>
