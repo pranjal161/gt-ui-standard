@@ -1,29 +1,39 @@
 import './App.css'
+import React, {useCallback} from 'react'
+import {changeLanguage} from './init';
+import {useTranslation} from 'react-i18next';
 
-import React from 'react'
-import logo from './logo.svg'
+// eslint-disable-next-line react/prop-types
+const Fake0 = ({ p }) => {
+    const {t} = useTranslation()
+    console.log('fake', p())
+
+    return (<div>Fake:<p>{t('test_date', {date: new Date()})}</p></div>)
+    //return (<div>Fake:</div>)
+}
+
+const Fake = React.memo(Fake0)
 
 /**
  * Returns the main app
- * 
+ *
  * @returns {*} The app depending on the context
  */
-function App () {
+function App() {
+    const {t} = useTranslation()
+    const handleChangeLanguage = useCallback((newLanguage) => changeLanguage(newLanguage), [changeLanguage])
+    console.log('app')
+    const p = useCallback(() => (1234), [])
+
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-          Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-          Learn React
-                </a>
+                <p>{t('test_date', {date: new Date()})}</p>
+                <p>{t('test_currency', {value: 1234})}</p>
+                <button onClick={() => handleChangeLanguage('fr')}>fr</button>
+                <button onClick={() => handleChangeLanguage('en')}>en</button>
+                <button onClick={() => handleChangeLanguage('nl')}>nl</button>
+                <Fake p={p}/>
             </header>
         </div>
     )

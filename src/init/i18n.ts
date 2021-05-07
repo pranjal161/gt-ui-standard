@@ -1,22 +1,19 @@
-import * as fr from 'locales/fr/fr.json'
-import * as nl from 'locales/nl/nl.json';
 import {allLanguages, language as defaultLanguage } from 'configs/localization';
 import en from 'locales/en'
 import {findAndSaveMissingTranslation} from 'utils/missingTranslations';
+import {formatValue} from 'utils/functions';
+import fr from 'locales/fr'
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import {formatValue} from 'utils/functions';
 import {logErrorByCode} from 'utils/system';
-import moment from 'moment';
+import {momentChangeLanguage} from 'init/moment';
+import nl from 'locales/nl'
 
 //ressources has to be loaded according allLanguages
 //The format of the ressource has to be : { #language# : #namespace# : translationObject }
-const resources = {
-    en,
-    fr: {translation: fr.fr},
-    nl: {translation: nl.nl}
-};
+const resources = {en, fr, nl};
 
+//Fill an array with the name of all namespaces
 const allNamespaces = Object.keys(en).map((namespace) => namespace)
 
 i18n
@@ -33,7 +30,8 @@ i18n
         saveMissing: true,
 
         lng: defaultLanguage,
-        fallbackLng: 'en', // use en if detected lng is not available
+        //We decide to let it fail (silently) instead displaying a wrong translation
+        fallbackLng: false, // use en if detected lng is not available
         whitelist: allLanguages,
 
         keySeparator: false, // we do not use keys in form messages.welcome
@@ -55,14 +53,20 @@ i18n
 
     });
 
+export const changeLanguage = (lng : string) => {
+    //moment changelanguage will be trigger by the i18n changelanguage
+    i18n.changeLanguage(lng)
+}
+
 //We save all missing translation into the localstorage
-i18n.on('missingKey', function (_, ns, ident) {
+i18n.on('missingKey', function (language, ns, ident) {
     findAndSaveMissingTranslation(ns, ident);
-    logErrorByCode('i18nMissingTranslation', {ns, ident})
+    logErrorByCode('i18nMissingTranslation', {ns, ident, language})
 });
 
+//Event when the language has been changed on i18n
 i18n.on('languageChanged', function(lng) {
-    moment.locale(lng);
+    momentChangeLanguage(lng)
 });
 
 export default i18n;

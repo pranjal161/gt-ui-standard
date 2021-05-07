@@ -8,7 +8,7 @@ import i18n from 'i18next';
  * @return {void} no return
  */
 export const logErrorByCode = (errorCode: string, param?:any) => {
-    logErrorByMessage(errorCode + ': ' + i18n.t(errorCode, param))
+    logErrorByMessage(errorCode + ': ' + i18n.t(`system:${errorCode}`, param))
 }
 
 /**

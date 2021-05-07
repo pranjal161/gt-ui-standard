@@ -1,7 +1,7 @@
 {
-  "test_date": "The current date is {{date, dateLong}}",
+  "test_date": "La date est {{date, dateLong}}",
   "test_uppercase": "{{text, uppercase}} just uppercased",
-  "test_currency": "Amount of {{value, currency}}",
+  "test_currency": "Le montant est {{value, currency}}",
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
   "_SEARCH_TICKET": "Search Ticket",
