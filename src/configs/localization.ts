@@ -10,41 +10,42 @@ const localization = {
     en: {
         date: {
             short: 'M/D/YYYY',
-            long: 'MMM D YYYY',
-        },
-        number: {
-            pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
-            digits: '.0-2',
-            lang: 'en'
+            long: 'MMM Do YYYY',
         },
         currency: {
             style: 'currency',
             currency: 'EUR',
             minimumFractionDigits: 2
         },
-        percent:{
+        percent: {
             style: 'percent',
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
+        },
+        decimal: {
+            style: 'decimal',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
+
     },
     fr: {
         date: {
             short: 'D/M/YYYY',
             long: 'D MMM YYYY',
         },
-        number: {
-            pattern: /^([0-9]+[.,]?([0-9]{1,2})?)$/,
-            digits: '.0-2',
-            lang: 'fr'
-        },
         currency: {
             style: 'currency',
             currency: 'EUR',
             minimumFractionDigits: 2
         },
-        percent:{
+        percent: {
             style: 'percent',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        },
+        decimal: {
+            style: 'decimal',
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         }
@@ -57,5 +58,5 @@ export const displayDate = (value: any) => (moment(value).format(format.date.sho
 export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
 export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, format.currency).format(value);
 export const displayPercent = (value: any) => new Intl.NumberFormat(locale, format.percent).format(value / 100);
-export const displayDecimal = (value: any) => new Intl.NumberFormat(locale).format(value);
-//export const displayNumber = (value:any) => new Intl.NumberFormat(locale, format.number).format(value);
+export const displayDecimal = (value: any) => new Intl.NumberFormat(locale, format.decimal).format(value);
+export const displayNumber = (value: any) => new Intl.NumberFormat(locale).format(value);
