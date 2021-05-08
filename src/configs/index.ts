@@ -1,7 +1,20 @@
-import {localizationChangeLanguage} from 'configs/localization';
 import i18n from 'i18next';
+import {localizationChange} from 'configs/localization';
 
-export const changeLanguage = (lng:string) => {
-    localizationChangeLanguage(lng)
-    i18n.changeLanguage(lng)
+export let language: string
+export let country: string
+export const allLanguages = ['en', 'fr', 'nl']
+export let locale: string
+const setLocale = () => (locale = `${language}-${country}`)
+
+export const changeLanguageCountry = (lng?: string, cntry?: string) => {
+    if (lng) {
+        language = lng
+        i18n.changeLanguage(lng)
+    }
+    if (cntry)
+        country = cntry
+    setLocale()
+    localizationChange()
 }
+

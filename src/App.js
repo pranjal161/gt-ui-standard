@@ -1,6 +1,6 @@
 import './App.css'
 import React, {useCallback, useState} from 'react'
-import {changeLanguage} from './configs';
+import {changeLanguageCountry} from './configs';
 import {useTranslation} from 'react-i18next';
 
 // eslint-disable-next-line react/prop-types
@@ -22,7 +22,7 @@ const Child = React.memo(Child0)
 function App() {
     const {t} = useTranslation()
     const [state, setState] = useState(0)
-    const handleChangeLanguage = (newLanguage) => changeLanguage(newLanguage)
+    const handleChangeLanguage = (newLanguage) => changeLanguageCountry(newLanguage)
     console.log('app')
     const p = useCallback(() => (1234), [])
 

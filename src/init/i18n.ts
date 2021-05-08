@@ -1,4 +1,4 @@
-import {allLanguages, language as defaultLanguage } from 'configs/localization';
+import {allLanguages, language} from 'configs';
 import en from 'locales/en'
 import {findAndSaveMissingTranslation} from 'utils/missingTranslations';
 import {formatValue} from 'utils/functions';
@@ -28,7 +28,7 @@ i18n
         //Save all missing translations into the localstorage
         saveMissing: true,
 
-        lng: defaultLanguage,
+        lng: language,
         //We decide to let it fail (silently) instead displaying a wrong translation
         fallbackLng: false, // use en if detected lng is not available
         whitelist: allLanguages,
