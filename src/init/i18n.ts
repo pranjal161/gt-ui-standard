@@ -58,9 +58,4 @@ i18n.on('missingKey', function (language, ns, ident) {
     logErrorByCode('i18nMissingTranslation', {ns, ident, language})
 });
 
-//Event when the language has been changed on i18n
-/*i18n.on('languageChanged', function(lng) {
-    momentChangeLanguage(lng)
-});*/
-
 export default i18n;

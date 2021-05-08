@@ -4,7 +4,7 @@ import {momentChangeLanguage} from 'init/moment';
 export let language = 'en' //Default language
 export let country = 'EN' //Default country
 export const allLanguages = ['en', 'fr', 'nl']
-const localization: any = {
+const localizations: any = {
     en: {
         date: {
             short: 'M/D/YYYY',
@@ -75,7 +75,7 @@ const localization: any = {
 let locale: string
 let format: any
 const setLocale = () => (locale = `${language}-${country}`)
-const setFormat = () => (format = localization[language])
+const setFormat = () => (format = localizations[language])
 
 export const localizationChangeLanguage = (lng: string) => {
     language = lng
