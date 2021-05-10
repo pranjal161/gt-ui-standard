@@ -2,14 +2,20 @@ import './index.css'
 
 import App from './App'
 import CentralSpinner from './components/CentralSpinner/CentralSpinner';
+import { Provider } from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import reportWebVitals from './reportWebVitals'
 
+const store = configureStore(initialState, history)
+
+
 ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
-            <App/>
+            <Provider store={store}>
+                <App/>
+            </Provider>
         </React.Suspense>
     </React.StrictMode>,
     document.getElementById('root')
