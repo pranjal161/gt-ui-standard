@@ -2,7 +2,7 @@ import {applyMiddleware, createStore} from 'redux'
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {getFirebase} from 'react-redux-firebase'
 import {getFirestore} from 'redux-firestore';
-import rootReducer from './reducers'
+import rootReducer from 'store/reducers'
 import thunk from 'redux-thunk'
 
 /**
@@ -18,7 +18,7 @@ export default function configureStore() {
         // Enable Webpack hot module replacement for reducers
         module.hot.accept('./reducers', () => {
             // eslint-disable-next-line global-require,@typescript-eslint/no-var-requires
-            const nextRootReducer = require('./reducers')
+            const nextRootReducer = require('store/reducers')
             store.replaceReducer(nextRootReducer)
         })
     }

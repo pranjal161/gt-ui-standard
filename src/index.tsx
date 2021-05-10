@@ -1,4 +1,4 @@
-import './init'
+import 'init'
 import './index.css'
 import App from './App'
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
