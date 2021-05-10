@@ -8,15 +8,16 @@ import i18n from 'i18next';
  * @return {void} no return
  */
 export const logErrorByCode = (errorCode: string, param?:any) => {
-    logErrorByMessage(errorCode + ': ' + i18n.t(`system:${errorCode}`, param))
+    logErrorByMessage(errorCode + ': ' + i18n.t(`system:${errorCode}`, param), param.extra)
 }
 
 /**
  * Log the given error into console.error
  * @param {string} message to log
+ * @param {string} extra data to log
  * @return {void} no return
  */
-export const logErrorByMessage = (message?: string) => {
+export const logErrorByMessage = (message?: string, extra?:any) => {
     if (message)
-        console.error(message)
+        console.error(message, extra)
 }

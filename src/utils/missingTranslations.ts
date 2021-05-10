@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import previous from 'locales/en/_previous.json'
 
 export const findAndSaveMissingTranslation = (namespace:string, field:string) => {
+    console.log('namespace', namespace,field )
     const allPrevious:any = previous
     const result = allPrevious[field]
     saveToLocal(`${namespace}:${field}`, field, result)
@@ -21,6 +22,9 @@ export const saveToLocal = (propertyName:any,label:string, translation?:string) 
         namespace = 'common'
         field = propertyName
     }
+
+    if(!localStorage)
+        return //for test contexte
 
     const storage = localStorage.getItem(namespace)
     let currentValue:any = storage?JSON.parse(storage):{}

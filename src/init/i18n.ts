@@ -5,7 +5,7 @@ import {formatValue} from 'utils/functions';
 import fr from 'locales/fr'
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import {logErrorByCode} from 'utils/system';
+import {logErrorByMessage} from 'utils/system';
 import nl from 'locales/nl'
 
 //ressources has to be loaded according allLanguages
@@ -55,7 +55,7 @@ i18n
 //We save all missing translation into the localstorage
 i18n.on('missingKey', function (language, ns, ident) {
     findAndSaveMissingTranslation(ns, ident);
-    logErrorByCode('i18nMissingTranslation', {ns, ident, language})
+    logErrorByMessage('i18nMissingTranslation', {ns, ident, language})
 });
 
 export default i18n;
