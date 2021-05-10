@@ -1,7 +1,8 @@
 import './init'
 import './index.css'
 import App from './App'
-import CentralSpinner from './components/CentralSpinner/CentralSpinner';
+import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
+import FirebaseProvider from 'configs/FirebaseProvider';
 import { Provider } from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -14,7 +15,9 @@ ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
             <Provider store={store}>
-                <App/>
+                <FirebaseProvider dispatch={store.dispatch}>
+                    <App />
+                </FirebaseProvider>
             </Provider>
         </React.Suspense>
     </React.StrictMode>,
