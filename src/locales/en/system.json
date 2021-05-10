@@ -1,0 +1,4 @@
+{
+  "i18nMissingTranslation" : "Missing translations for '{{ns}}.{{ident}}' for the language '{{language}}'",
+  "formatValueStyleNotDefined" : "Style '{{style }}' is missing in formatValue function for value '{{value}}'"
+}
