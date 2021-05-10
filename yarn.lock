@@ -7913,7 +7913,7 @@
     "minimalistic-assert" "^1.0.0"
     "minimalistic-crypto-utils" "^1.0.1"
 
-"hoist-non-react-statics@^3.3.0":
+"hoist-non-react-statics@^3.3.0", "hoist-non-react-statics@^3.3.2":
   "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="
   "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
   "version" "3.3.2"
@@ -12204,6 +12204,15 @@
     "react-fast-compare" "^3.0.1"
     "warning" "^4.0.2"
 
+"react-redux-firebase@^3.10.0":
+  "integrity" "sha512-reEPqUgNQRR2IHsNHPvyMXRZRZUvbQmA9oWzDBOK1FCxd/MiE9py6R7ezEtKs5iLEH55eDRpVPl2n3bYsndEiQ=="
+  "resolved" "https://registry.npmjs.org/react-redux-firebase/-/react-redux-firebase-3.10.0.tgz"
+  "version" "3.10.0"
+  dependencies:
+    "hoist-non-react-statics" "^3.3.2"
+    "lodash" "^4.17.20"
+    "prop-types" "^15.7.2"
+
 "react-refresh@^0.8.3":
   "integrity" "sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg=="
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.8.3.tgz"
@@ -12305,7 +12314,7 @@
     "use-composed-ref" "^1.0.0"
     "use-latest" "^1.0.0"
 
-"react@^17.0.2":
+"react@^16.3.0 || ^17.0.0", "react@^17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -12518,6 +12527,20 @@
   dependencies:
     "indent-string" "^4.0.0"
     "strip-indent" "^3.0.0"
+
+"reduce-reducers@^1.0.4":
+  "integrity" "sha512-Mb2WZ2bJF597exiqX7owBzrqJ74DHLK3yOQjCyPAaNifRncE8OD0wFIuoMhXxTnHK07+8zZ2SJEKy/qtiyR7vw=="
+  "resolved" "https://registry.npmjs.org/reduce-reducers/-/reduce-reducers-1.0.4.tgz"
+  "version" "1.0.4"
+
+"redux-firestore@^0.15.0":
+  "integrity" "sha512-t93CL6UIoycpg/zIQy7ZkZkvX0IUjlOLG9xtCrcStydoNijzv8rAMzEJmLxHh1RKzsQ8RBH4G556/zlxR1dXcA=="
+  "resolved" "https://registry.npmjs.org/redux-firestore/-/redux-firestore-0.15.0.tgz"
+  "version" "0.15.0"
+  dependencies:
+    "immer" "8.0.1"
+    "lodash" "^4.17.20"
+    "reduce-reducers" "^1.0.4"
 
 "refractor@^3.1.0":
   "integrity" "sha512-vaN6R56kLMuBszHSWlwTpcZ8KTMG6aUCok4GrxYDT20UIOXxOc5o6oDc8tNTzSlH3m2sI+Eu9Jo2kVdDcUTWYw=="
