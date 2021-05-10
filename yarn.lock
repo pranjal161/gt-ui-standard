@@ -3251,6 +3251,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-dom@^17.0.3":
+  "integrity" "sha512-4NnJbCeWE+8YBzupn/YrJxZ8VnjcJq5iR1laqQ1vkpQgBiA7bwk0Rp24fxsdNinzJY2U+HHS4dJJDPdoMjdJ7w=="
+  "resolved" "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.3.tgz"
+  "version" "17.0.3"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.16":
   "integrity" "sha512-f/FKzIrZwZk7YEO9E1yoxIuDNRiDducxkFlkw/GNMGEnK9n4K8wJzlJBghpSuOVDgEUHoDkDF7Gi9lHNQR4siw=="
   "resolved" "https://registry.npmjs.org/@types/react-redux/-/react-redux-7.1.16.tgz"
@@ -12568,6 +12575,11 @@
   "resolved" "https://registry.npmjs.org/reduce-reducers/-/reduce-reducers-1.0.4.tgz"
   "version" "1.0.4"
 
+"redux-devtools-extension@^2.13.9":
+  "integrity" "sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A=="
+  "resolved" "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.9.tgz"
+  "version" "2.13.9"
+
 "redux-firestore@^0.15.0":
   "integrity" "sha512-t93CL6UIoycpg/zIQy7ZkZkvX0IUjlOLG9xtCrcStydoNijzv8rAMzEJmLxHh1RKzsQ8RBH4G556/zlxR1dXcA=="
   "resolved" "https://registry.npmjs.org/redux-firestore/-/redux-firestore-0.15.0.tgz"
@@ -12582,7 +12594,7 @@
   "resolved" "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.3.0.tgz"
   "version" "2.3.0"
 
-"redux@^4.0.0", "redux@^4.1.0":
+"redux@^3.1.0 || ^4.0.0", "redux@^4.0.0", "redux@^4.1.0":
   "integrity" "sha512-uI2dQN43zqLWCt6B/BMGRMY6db7TTY4qeHHfGeKb3EOhmOKjU3KdWvNLJyqaHRksv/ErdNH7cFZWg9jXtewy4g=="
   "resolved" "https://registry.npmjs.org/redux/-/redux-4.1.0.tgz"
   "version" "4.1.0"

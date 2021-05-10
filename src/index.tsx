@@ -1,14 +1,14 @@
+import './init'
 import './index.css'
-
 import App from './App'
 import CentralSpinner from './components/CentralSpinner/CentralSpinner';
 import { Provider } from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
+import configureStore from 'store/configureStore';
 import reportWebVitals from './reportWebVitals'
 
-const store = configureStore(initialState, history)
-
+const store = configureStore()
 
 ReactDOM.render(
     <React.StrictMode>
