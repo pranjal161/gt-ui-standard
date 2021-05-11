@@ -1,5 +1,9 @@
+import 'init/i18n'
 import * as functions from './functions';
 import * as staticResources from './static/data';
+import {changeLanguageCountry} from 'configs';
+
+changeLanguageCountry('en', 'EN')
 
 describe('Testing Get Link', () => {
     test('Non existing parameter, Should return null', () => {
@@ -22,9 +26,10 @@ describe('Testing Function getDescriptionValue', () => {
 
 describe('Testing Format Value', () => {
     test('Exisiting Parameter - Date Type, Should Return Formatted Date', () => {
-        const date = 'Fri May 07 2021 15:28:11 GMT+0530 (India Standard Time)';
+
+        const date = new Date('2018-09-22T15:00:00')
         const today = functions.formatValue(date, 'date');
-        expect(today).toBe('5/7/2021');
+        expect(today).toBe('9/22/2018');
     });
 
     test('Exisiting Parameter - Currency Type, Should Return Formatted Currency', () => {
@@ -32,7 +37,7 @@ describe('Testing Format Value', () => {
         expect(currency).toBe('€100.00');
     });
 
-    test('Non Exisiting Parameter Style - Uppercase, Should Return Text as is since there is no style matched', () => {
+    test('Non Existing Parameter Style - Uppercase, Should Return Text as is since there is no style matched', () => {
         const valueUnchanged = 'Text Will Not be converted to Uppercase';
         const text = functions.formatValue('Text Will Not be converted to Uppercase', 'uppercase');
         //Since no operation has been performed

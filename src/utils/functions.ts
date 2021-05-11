@@ -4,6 +4,16 @@
  * @param {linkName} linkName Title of the link which you want to retrieve
  * @returns {link} Href of the linkName provided that is present in the response
  */
+import {
+    displayCurrency,
+    displayDate,
+    displayDecimal,
+    displayLongDate,
+    displayNumber,
+    displayPercent
+} from 'configs/localization';
+import {logErrorByCode} from 'utils/system';
+
 export const getLink = (response: any, linkName: string) => {
     if (response &&
         response._links &&
@@ -79,51 +89,46 @@ export const getDescriptionValue = (value: any, id: string, response: any, type?
 }
 
 /**
- * 
- * @param {value} value Value of the field
- * @param {style} style ID of the field whose oneOf should be picked
- * @returns {options} STRING - Either formated value or the title provided to the value
+ * Format given value according the given style.
+ * It's based on locale parametrization
+ * @param {any} value Value to format
+ * @param {string  | undefined} style Oneof : currency, percent, decimal, date, dateLong
+ * @return {string | undefined} formatted value | undefined
  */
 export const formatValue = (value: any, style?: string | undefined) => {
-    const intl = {
-        locale: 'nl-NL',
-        currency: 'EUR',
-        DateFormat: 'en-GB'
-    };
-    if (value !== null && value !== undefined) {
-        let formattedValue;
-        if (style) {
-            switch (style) {
-                case 'currency':
-                    formattedValue = new Intl.NumberFormat(intl.locale, {
-                        style: style,
-                        currency: intl.currency
-                    }).format(value);
-                    break;
-                case 'percent':
-                    formattedValue = new Intl.NumberFormat(intl.locale, {
-                        style: style,
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }).format(value / 100);
-                    break;
-                case 'decimal':
-                    formattedValue = new Intl.NumberFormat(intl.locale).format(value);
-                    break;
-                case 'date':
-                    if (value === '9999-99-99') {
-                        // hardcoding> api fix
-                        formattedValue = '99/99/9999'
-                    }
-                    else {
-                        const date = new Date(value);
-                        formattedValue = new Intl.DateTimeFormat(intl.DateFormat).format(date);
-                    }
-                    break;
-            }
-        }
+    if (!value)
+        return
 
-        return formattedValue ? formattedValue : value;
+    if (!style)
+        return value
+
+    switch (style) {
+        case 'currency':
+            return displayCurrency(value)
+
+        case 'percent':
+            return displayPercent(value)
+
+        case 'decimal':
+            return displayDecimal(value)
+
+        case 'number':
+            return displayNumber(value)
+
+        case 'date':
+        case 'dateLong':
+            if (value === '9999-99-99') // Date.max from API
+                return '99/99/9999'
+
+            if (value === '0000-00-00') // Date.min from API
+                return '00/00/0000'
+
+            return (style === 'date') ? displayDate(value) : displayLongDate(value)
+        default: {
+            logErrorByCode('formatValueStyleNotDefined', {style, value})
+
+            return value
+        }
     }
 }
 
