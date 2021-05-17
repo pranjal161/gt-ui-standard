@@ -1,7 +1,12 @@
 import './App.css'
+
 import React, {useEffect} from 'react'
-import logo from './logo.svg'
+import routes, { applyRoutes } from './routes';
+
+import { BrowserRouter as Router } from 'react-router-dom';
 import useDeskAuth from 'hooks/useDeskAuth';
+
+// import logo from './logo.svg'
 
 /**
  * Returns the main app
@@ -9,7 +14,9 @@ import useDeskAuth from 'hooks/useDeskAuth';
  * @returns {*} The app depending on the context
  */
 function App() {
-    const {signIn} = useDeskAuth()
+    const {signIn} = useDeskAuth();
+    const routeNodes = applyRoutes(routes);
+
     useEffect(() => {
         //Todo : remove this temporary signin
         signIn({email: 'tempo@tempo.com', password: 'tempo1'})
@@ -17,7 +24,7 @@ function App() {
 
     return (
         <div data-testid="main_app" className="App">
-            <header className="App-header">
+            {/* <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
@@ -30,7 +37,10 @@ function App() {
                 >
                     Learn React
                 </a>
-            </header>
+            </header> */}
+            <Router basename="/">
+                {routeNodes}
+            </Router>
         </div>
     )
 }
