@@ -1,5 +1,7 @@
 import './App.css'
+
 import React, {useEffect} from 'react'
+
 import logo from './logo.svg'
 import useDeskAuth from 'hooks/useDeskAuth';
 
@@ -9,6 +11,10 @@ import useDeskAuth from 'hooks/useDeskAuth';
  * @returns {*} The app depending on the context
  */
 function App() {
+
+    // eslint-disable-next-line no-process-env
+    const envVariable = process.env.REACT_APP_HOST_URL;
+    console.log('envVariable', envVariable);
     const {signIn} = useDeskAuth()
     useEffect(() => {
         //Todo : remove this temporary signin
