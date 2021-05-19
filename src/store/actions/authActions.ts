@@ -26,6 +26,8 @@ export const signUp = (newUser: any) => (dispatch: any, getState: any, {getFireb
 
 export const signIn = (credentials: { email: any; password: any }) => (dispatch: any, getState: any, {getFirebase,}: any) => {
     const firebase = getFirebase()
+    if (!firebase) return
+
     const {email, password} = credentials
     
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
