@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Home = () => (
-    <p>Home Component</p>
+    <div data-testid="home-component">
+        <p>Home Component</p>
+    </div>
 )
 
 export default Home;

@@ -3,16 +3,22 @@ import { DxcApplicationLayout, DxcFooter, DxcHeader } from '@dxc-technology/hals
 import React from 'react';
 import { applyRoutes } from '../../routes';
 
-const AuthLayout = (props: { route: { routes: any[]; }; }) => (
+const AuthLayout = (props: { route: any }) => (
     <DxcApplicationLayout>
         <DxcApplicationLayout.Header>
-            <DxcHeader></DxcHeader>
+            <div data-testid="header">
+                <DxcHeader></DxcHeader>
+            </div>
         </DxcApplicationLayout.Header>
-        <DxcApplicationLayout.Main >
-            {applyRoutes(props.route.routes)}
+        <DxcApplicationLayout.Main>
+            <div data-testid="content">
+                {applyRoutes(props.route.routes)}
+            </div>
         </DxcApplicationLayout.Main>
         <DxcApplicationLayout.Footer>
-            <DxcFooter />
+            <div data-testid="footer">
+                <DxcFooter />
+            </div>
         </DxcApplicationLayout.Footer>
     </DxcApplicationLayout>
 

@@ -1,12 +1,8 @@
 import { DxcApplicationLayout } from '@dxc-technology/halstack-react';
+import { FixMainTop } from './StyledAppLayout';
 import NavBar from 'components/NavBar/NavBar';
 import React from 'react';
 import { applyRoutes } from '../../routes';
-import styled from 'styled-components';
-
-const FixMainTop = styled.div`
-    margin-top: 42px;
-`;
 
 const AppLayout = (props: { route: any }) => {
     const { route } = props;
@@ -15,10 +11,12 @@ const AppLayout = (props: { route: any }) => {
         <>
             <DxcApplicationLayout>
                 <DxcApplicationLayout.Header>
-                    <NavBar />
+                    <div data-testid="header">
+                        <NavBar />
+                    </div>
                 </DxcApplicationLayout.Header>
                 <DxcApplicationLayout.Main>
-                    <FixMainTop>
+                    <FixMainTop data-testid="content">
                         {applyRoutes(route.routes)}
                     </FixMainTop>
                 </DxcApplicationLayout.Main>

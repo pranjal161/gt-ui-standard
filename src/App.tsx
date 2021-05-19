@@ -1,12 +1,16 @@
 import './App.css'
 
 import React, {useEffect} from 'react'
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import routes, { applyRoutes } from './routes';
 
-import { BrowserRouter as Router } from 'react-router-dom';
 import useDeskAuth from 'hooks/useDeskAuth';
 
-// import logo from './logo.svg'
+export const LocationDisplay = () => {
+    const location = useLocation()
+  
+    return <div className="d-none" data-testid="location-display">{location.pathname}</div>
+}
 
 /**
  * Returns the main app
@@ -24,22 +28,10 @@ function App() {
 
     return (
         <div data-testid="main_app" className="App">
-            {/* <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header> */}
             <Router basename="/">
                 {routeNodes}
+
+                <LocationDisplay />
             </Router>
         </div>
     )

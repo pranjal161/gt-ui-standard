@@ -9,7 +9,7 @@ import Home from 'views/Home/Home';
 import { Redirect } from 'react-router-dom';
 import Trainers from 'views/Trainers';
 
-const routes = [
+const routes: any = [
     {
         path: '/',
         name: 'default',
@@ -33,6 +33,20 @@ const routes = [
                 name: 'signUp',
                 exact: true,
                 component: lazy(() => import( 'views/SignUp/SignUp'))
+            },
+            {
+                component: () => <Redirect to="/errors/error-404"/>
+            }
+        ]
+    },
+    {
+        path: '/errors',
+        component: ErrorLayout,
+        routes: [
+            {
+                path: '/errors/error-404',
+                exact: true,
+                component: lazy(() => import('views/Errors/Error404/Error404'))
             },
             {
                 component: () => <Redirect to="/errors/error-404"/>
@@ -97,27 +111,12 @@ const routes = [
                         component: Trainers.TrainingSuhani
                     }
                 ]
-            }
-        ]
-    },
-    {
-        path: '/errors',
-        component: ErrorLayout,
-        routes: [
-            {
-                path: '/errors/error-404',
-                exact: true,
-                component: lazy(() => import('views/Errors/Error404/Error404'))
             },
             {
                 component: () => <Redirect to="/errors/error-404"/>
             }
         ]
-    },
-    {
-        component: () => <Redirect to="/errors/error-404"/>
     }
-    
 ];
 
 export default routes;

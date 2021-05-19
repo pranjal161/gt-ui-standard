@@ -6,7 +6,7 @@ import React from 'react';
  */
 function Error404() {
     return (
-        <div>404 page not found</div>
+        <div data-testid="error-component">404 page not found</div>
     );
 }
 

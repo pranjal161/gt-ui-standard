@@ -1,6 +1,6 @@
+import React, { Suspense } from 'react';
 import {Route, Switch} from 'react-router-dom';
 
-import React from 'react';
 import routes from './routes';
 
 export interface CustomRouteProps {
@@ -23,7 +23,7 @@ const applyRoutes = (routes: Array<any>) => {
 
 const applyRoute: React.FC<CustomRouteProps> = ({ component: Component, ...rest}, index: number) => (
     <Route {...rest} key={index} render={
-        (props: any) => <Component {...props} route={rest} />
+        (props: any) => <Suspense fallback={<div>Loading...</div>}><Component {...props} route={rest} /></Suspense>
     }
     />)
 
