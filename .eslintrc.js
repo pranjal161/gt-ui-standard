@@ -80,7 +80,7 @@ module.exports = {
         'dot-notation': 'off',
         'eol-last': 'off',
         'eqeqeq': 'off',
-        'filenames/match-regex': [2, '(^[A-Z]+)|^((?!components.ts).)*$', true],
+        'filenames/match-regex': [2, '(^[A-Z]+)|^((?!overrides.ts).)*$', true],
         'filenames/match-exported': [2, null, '^(index.tsx)$'],
         'func-call-spacing': 'off',
         'func-name-matching': 'error',
