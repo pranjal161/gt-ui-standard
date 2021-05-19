@@ -1,10 +1,11 @@
 import 'init'
-import { render, screen } from '@testing-library/react'
 import App from './App'
 import React from 'react'
+import {renderWithRedux} from './utils/test-utils';
+import {screen} from '@testing-library/react'
 
 test('App render correctly', () => {
-    render(<App />)
+    renderWithRedux(<App/>, {initialState: {}})
     const linkElement = screen.getByTestId('main_app')
     expect(linkElement).toBeInTheDocument()
 })
