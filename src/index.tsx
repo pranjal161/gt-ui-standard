@@ -1,5 +1,6 @@
 import 'init'
 import './index.css'
+
 import App from './App'
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
 import FirebaseProvider from 'configs/FirebaseProvider';
