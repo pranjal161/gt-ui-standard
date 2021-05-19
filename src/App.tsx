@@ -6,7 +6,6 @@ import routes, { applyRoutes } from './routes';
 
 import useDeskAuth from 'hooks/useDeskAuth';
 import useDeskSubscribe from 'hooks/useDeskSubscribe';
-import useDeskTickets from 'hooks/useDeskTickets';
 
 export const LocationDisplay = () => {
     const location = useLocation()
@@ -26,8 +25,6 @@ function App() {
     useDeskSubscribe({collection: 'tickets'})
     //------------------------------------
     const {signIn} = useDeskAuth()
-    const {getAll} = useDeskTickets()
-    const tickets = getAll()
 
     useEffect(() => {
         //Todo : remove this temporary signin
@@ -41,10 +38,6 @@ function App() {
 
                 <LocationDisplay />
             </Router>
-            <header className="App-header">
-                List of tickets :
-                {tickets && tickets.map((ticket:any, index:number) => <h6 key={index}>{ticket.title}</h6>)}
-            </header>
         </div>
     )
 }
