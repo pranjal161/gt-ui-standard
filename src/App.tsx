@@ -3,8 +3,6 @@ import './App.css'
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import routes, { applyRoutes } from './routes';
-
-import logo from './logo.svg'
 import useDeskAuth from 'hooks/useDeskAuth';
 import useDeskSubscribe from 'hooks/useDeskSubscribe';
 
