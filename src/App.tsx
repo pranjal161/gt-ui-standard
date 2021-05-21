@@ -22,13 +22,8 @@ function App() {
     // Firebase Desk management ----------
     // Do not change
     useDeskSubscribe({ collection: 'tickets' })
-    //------------------------------------
-    // eslint-disable-next-line no-process-env
-    const envVariable = process.env.REACT_APP_HOST_URL;
-    console.log('envVariable', envVariable);
 
     const { signIn } = useDeskAuth()
-
 
     useEffect(() => {
         //Todo : remove this temporary signin
