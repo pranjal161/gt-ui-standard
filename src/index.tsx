@@ -13,19 +13,12 @@ import {theme} from 'themes/standard/material';
 
 const store = configureStore()
 
-const Test = () => {
-    console.log('TEST')
-
-    return (<div/>)
-}
-
 ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
             <Provider store={store}>
                 <FirebaseProvider dispatch={store.dispatch}>
                     <ThemeProvider theme={theme}>
-                        <Test/>
                         <App/>
                     </ThemeProvider>
                 </FirebaseProvider>
