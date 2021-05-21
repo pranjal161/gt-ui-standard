@@ -1,15 +1,16 @@
 import { colors } from '@material-ui/core';
-import customerColors from '../colors'
+import dxcColors from 'themes/standard/dxcColors'
 const white = '#FFFFFF';
 const black = '#000000';
 
+//Palette color can be override here for the entire of the application
 export default {
     black,
     white,
     primary: {
         contrastText: white,
         dark: colors.indigo[900],
-        main: colors.indigo[500],
+        main: dxcColors.purple,
         light: colors.indigo[100]
     },
     secondary: {
@@ -25,12 +26,12 @@ export default {
         light: colors.red[400]
     },
     text: {
-        primary: colors.blueGrey[900],
-        secondary: colors.blueGrey[600],
+        primary: dxcColors.black,
+        secondary: dxcColors.black,
         link: colors.blue[600]
     },
     link: colors.blue[800],
-    icon: customerColors.dark,
+    icon:colors.blue[600],
     background: {
         default: '#F4F6F8',
         paper: white

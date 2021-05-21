@@ -7,7 +7,7 @@ import React from 'react';
  * @param {props} props Contains onClick handle, children contains the icon to display
  * @returns {*} Render the icon Button
  */
-const IconButton = ({onClick, children, color='primary', ...rest}) => (<IconButtonMat color={color} onClick={onClick} {...rest}>
+const IconButton = ({onClick, children, color, ...rest}) => (<IconButtonMat color={color} onClick={onClick} {...rest}>
     {children}
 </IconButtonMat>);
 
