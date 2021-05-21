@@ -3,14 +3,21 @@ import './index.css'
 import App from './App'
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
 import FirebaseProvider from 'configs/FirebaseProvider';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ThemeProvider } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import configureStore from 'store/configureStore';
 import reportWebVitals from './reportWebVitals'
 import {theme} from 'themes/standard/material';
+
 const store = configureStore()
+
+const Test = () => {
+    console.log('TEST')
+
+    return (<div/>)
+}
 
 ReactDOM.render(
     <React.StrictMode>
@@ -18,7 +25,8 @@ ReactDOM.render(
             <Provider store={store}>
                 <FirebaseProvider dispatch={store.dispatch}>
                     <ThemeProvider theme={theme}>
-                        <App />
+                        <Test/>
+                        <App/>
                     </ThemeProvider>
                 </FirebaseProvider>
             </Provider>

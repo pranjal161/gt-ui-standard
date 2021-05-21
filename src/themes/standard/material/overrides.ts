@@ -1,6 +1,9 @@
 import dxcColors from 'themes/standard/dxcColors';
 import palette from './palette';
 //Add here material ui component to override property for the entire of the application
+
+//related cdk configuration : node_modules/@dxc-technology/halstack-react/dist/common/variables.js
+
 const overrides = {
     MuiIconButton: {
         root: {

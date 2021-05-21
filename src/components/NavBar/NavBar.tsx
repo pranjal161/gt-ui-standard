@@ -73,7 +73,7 @@ const NavBar = () => {
                             margin="xxsmall"
                             padding="xxsmall" />
                         <div title="Help">
-                            <IconButton color={'error'}
+                            <IconButton
                                 onClick={() => goToPage('/home')}>
                                 <HelpIcon/>
                             </IconButton>
