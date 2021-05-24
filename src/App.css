@@ -33,3 +33,8 @@
     transform: rotate(360deg);
   }
 }
+
+/**----Global Classes-----**/
+.d-none {
+  display: none !important;
+}
