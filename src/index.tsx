@@ -6,10 +6,11 @@ import FirebaseProvider from 'configs/FirebaseProvider';
 import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {ThemeProvider} from '@material-ui/core/styles';
+import {ThemeProvider as MatThemeProvider} from '@material-ui/core/styles';
+import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import configureStore from 'store/configureStore';
+import {matTheme, cdkTheme} from 'theme';
 import reportWebVitals from './reportWebVitals'
-import {theme} from 'themes/standard/material';
 
 const store = configureStore()
 
@@ -18,9 +19,11 @@ ReactDOM.render(
         <React.Suspense fallback={<CentralSpinner/>}>
             <Provider store={store}>
                 <FirebaseProvider dispatch={store.dispatch}>
-                    <ThemeProvider theme={theme}>
-                        <App/>
-                    </ThemeProvider>
+                    <MatThemeProvider theme={matTheme}>
+                        <CdkThemeProvider theme={cdkTheme}>
+                            <App/>
+                        </CdkThemeProvider>
+                    </MatThemeProvider>
                 </FirebaseProvider>
             </Provider>
         </React.Suspense>

@@ -1,4 +1,3 @@
-import dxcColors from 'themes/standard/dxcColors';
 import palette from './palette';
 //Add here material ui component to override property for the entire of the application
 
@@ -17,13 +16,13 @@ const overrides = {
             color: palette.primary.main,
         },
         indicator: {
-            backgroundColor: dxcColors.purple
+            backgroundColor: palette.primary.main
         }
     },
     MuiTab: {
         root: {
             '&$selected': {
-                color: dxcColors.purple,
+                color: palette.primary.main,
 
                 //outline: '#6f2c91C auto 2px'
             },
@@ -32,7 +31,7 @@ const overrides = {
                 //outline: `${dxcColors.mediumGrey} auto 2px`,
             },
             '&:hover': {
-                backgroundColor: dxcColors.lightPurple
+                backgroundColor: palette.primary.light
             },
         },
     },

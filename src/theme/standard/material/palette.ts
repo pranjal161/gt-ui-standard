@@ -1,7 +1,20 @@
-import { colors } from '@material-ui/core';
-import dxcColors from 'themes/standard/dxcColors'
-const white = '#FFFFFF';
-const black = '#000000';
+import {colors } from '@material-ui/core';
+
+const black = '#000000'
+const white = '#FFFFFF'
+const darkWhite = '#EEEEEE'
+const purple= '#6f2c91'
+const lightPurple = '#f5ebf9'
+const mediumPurple = '#ead8f3'
+const lighterGrey = '#F8F8F8'
+const lightBlack = '#212121'
+
+export const special = {
+    darkWhite,
+    lightGrey : colors.grey['100'],
+    lighterGrey,
+    lightBlack
+}
 
 //Palette color can be override here for the entire of the application
 export default {
@@ -9,14 +22,14 @@ export default {
     white,
     primary: {
         contrastText: white,
-        dark: colors.indigo[900],
-        main: dxcColors.purple,
-        light: colors.indigo[100]
+        dark: mediumPurple,
+        main: purple,
+        light: lightPurple
     },
     secondary: {
         contrastText: white,
         dark: colors.blue[900],
-        main: colors.blue['A400'],
+        main: '#0067B3',
         light: colors.blue['A400']
     },
     error: {
@@ -26,12 +39,13 @@ export default {
         light: colors.red[400]
     },
     text: {
-        primary: dxcColors.black,
-        secondary: dxcColors.black,
+        primary: black,
+        secondary: colors.grey['800'],
         link: colors.blue[600]
     },
-    link: colors.blue[800],
-    icon:colors.blue[600],
+
+    link: purple,
+    icon:purple,
     background: {
         default: '#F4F6F8',
         paper: white

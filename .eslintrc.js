@@ -81,7 +81,7 @@ module.exports = {
         'eol-last': 'off',
         'eqeqeq': 'off',
         'filenames/match-regex': [2, '(^[A-Z]+)|^((?!overrides.ts).)*$', true],
-        'filenames/match-exported': [2, null, '^(index.tsx)$'],
+        'filenames/match-exported': [2, null, '^(index.ts)$'],
         'func-call-spacing': 'off',
         'func-name-matching': 'error',
         'func-names': 'off',

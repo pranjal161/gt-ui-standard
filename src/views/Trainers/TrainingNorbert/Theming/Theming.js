@@ -3,7 +3,12 @@ import {Grid, Paper, TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {createStyles} from '@material-ui/styles';
 import {DxcInput} from '@dxc-technology/halstack-react'
+import {default as DXCButtons} from './CDK/Buttons/Buttons';
+import {default as MatButtons} from './Mat/Buttons/Buttons';
+
+
 import React from 'react'
+
 
 const useStyles = makeStyles((theme) => createStyles({
         root: {
@@ -38,6 +43,7 @@ const Theming = () => {
         <Grid container justify="center" spacing={2}>
             <Container title={'Material'}>
                 <TextField label={label} value={value} helperText={helperText}></TextField>
+                <MatButtons/>
             </Container>
             <Container title={'CDK'}>
                     <DxcInput
@@ -46,6 +52,8 @@ const Theming = () => {
                         value={value}
                     />
                     {label}
+                <DXCButtons/>
+
             </Container>
             <Container title={'Other'}>
                 <span className={'caption'}>{label}</span>
