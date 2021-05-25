@@ -38,3 +38,9 @@
 .d-none {
   display: none !important;
 }
+
+
+/**-----Specific Classes----**/
+.mt-42 {
+  margin-top: 42px;
+}

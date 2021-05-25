@@ -1,5 +1,4 @@
 import { DxcApplicationLayout } from '@dxc-technology/halstack-react';
-import { FixMainTop } from './StyledAppLayout';
 import NavBar from 'components/NavBar/NavBar';
 import React from 'react';
 import { applyRoutes } from '../../routes';
@@ -16,9 +15,9 @@ const AppLayout = (props: { route: any }) => {
                     </div>
                 </DxcApplicationLayout.Header>
                 <DxcApplicationLayout.Main>
-                    <FixMainTop data-testid="content">
+                    <div className="mt-42" data-testid="content">
                         {applyRoutes(route.routes)}
-                    </FixMainTop>
+                    </div>
                 </DxcApplicationLayout.Main>
             </DxcApplicationLayout>
         </>
