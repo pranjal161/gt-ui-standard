@@ -1,11 +1,12 @@
-import moment from 'moment'
-import {momentChangeLanguage} from 'init/moment';
+import { format } from 'date-fns';
+import i18n from 'init/i18n';
 
 const localizations: any = {
     en: {
+
         date: {
-            short: 'M/D/YYYY',
-            long: 'MMMM Do YYYY',
+            short: 'M/d/yyyy',
+            long: 'MMMM do yyyy',
         },
         currency: {
             style: 'currency',
@@ -48,8 +49,8 @@ const localizations: any = {
     },
     fr: {
         date: {
-            short: 'D/M/YYYY',
-            long: 'D MMMM YYYY',
+            short: 'd/M/yyyy',
+            long: 'd MMMM yyyy',
         },
         currency: {
             style: 'currency',
@@ -69,21 +70,20 @@ const localizations: any = {
     }
 }
 
-let format: any
+let formatt: any
 let locale: string
+const setFormat = (lng: string) => (formatt = localizations[lng])
+const setLocale = (lng: string, cntry: string) => (locale = `${lng}-${cntry}`)
 
-const setFormat = (lng: string) => (format = localizations[lng])
-const setLocale = (lng:string, cntry:string) => (locale = `${lng}-${cntry}`)
-
-export const localizationChange = (lng: string, cntry:string) => {
+export const displayDate = (value: any) => format(value, formatt.date.short);
+export const displayLongDate = (value: any) => format(value, formatt.date.long);
+export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, formatt.currency).format(value);
+export const displayPercent = (value: any) => new Intl.NumberFormat(locale, formatt.percent).format(value / 100);
+export const displayDecimal = (value: any) => new Intl.NumberFormat(locale, formatt.decimal).format(value);
+export const displayNumber = (value: any) => new Intl.NumberFormat(locale).format(value);
+export const localizationChange = (lng: string, cntry: string) => {
     setFormat(lng)
-    momentChangeLanguage(lng)
+    // momentChangeLanguage(lng)
+    i18n.changeLanguage(lng);
     setLocale(lng, cntry)
 }
-
-export const displayDate = (value: any) => (moment(value).format(format.date.short))
-export const displayLongDate = (value: any) => (moment(value).format(format.date.long))
-export const displayCurrency = (value: any) => new Intl.NumberFormat(locale, format.currency).format(value);
-export const displayPercent = (value: any) => new Intl.NumberFormat(locale, format.percent).format(value / 100);
-export const displayDecimal = (value: any) => new Intl.NumberFormat(locale, format.decimal).format(value);
-export const displayNumber = (value: any) => new Intl.NumberFormat(locale).format(value);
