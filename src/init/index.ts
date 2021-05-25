@@ -1,5 +1,6 @@
 export * from 'init/firebase'
 export * from './i18n'
+export * from './moment'
 
 import {changeLanguageCountry} from 'configs';
 
