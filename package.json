@@ -10,7 +10,6 @@
     "@types/styled-components": "^5.1.9",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
-    "date-fns": "^2.21.3",
     "firebase": "^8.6.1",
     "i18next": "^20.2.4",
     "moment": "^2.29.1",
