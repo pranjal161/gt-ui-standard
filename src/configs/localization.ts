@@ -1,4 +1,5 @@
-import { format } from 'date-fns';
+import { format, formatISO } from 'date-fns';
+
 import i18n from 'init/i18n';
 
 const localizations: any = {
@@ -87,3 +88,4 @@ export const localizationChange = (lng: string, cntry: string) => {
     i18n.changeLanguage(lng);
     setLocale(lng, cntry)
 }
+export const displayISODate= (timestamp:any) => formatISO(timestamp);
