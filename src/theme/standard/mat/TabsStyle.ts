@@ -1,4 +1,4 @@
-import {globalStyle} from 'styles/GlobalStyle';
+import {globalStyle} from 'theme/standard/GlobalStyle';
 
 export const TabsStyle = {
     root: {

@@ -1,5 +1,5 @@
-import cdkThemeStd from 'theme/standard/cdk/overrides'
-import {typography as typographyStd} from 'theme/standard/mat'
+import cdkThemeStd from './standard/cdk/overrides'
+import {typography as typographyStd} from './standard/mat'
 
 let matTheme
 let cdkTheme
