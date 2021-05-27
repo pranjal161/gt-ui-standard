@@ -4,6 +4,12 @@ import palette from './palette';
 //related cdk configuration : node_modules/@dxc-technology/halstack-react/dist/common/variables.js
 
 const overrides = {
+    MuiButton: {
+        textPrimary: {
+            backgroundColor: '#f50057'
+        }
+    },
+
     MuiIconButton: {
         root: {
             color: palette.icon,

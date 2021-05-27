@@ -35,7 +35,7 @@ const Container = ({children, title}) => {
 }
 
 const Theming = () => {
-    const label = 'Enter the product NAME'
+    const label = 'Product NAME'
     const value = 'IND_ABC'
     const helperText = 'Some important text'
 

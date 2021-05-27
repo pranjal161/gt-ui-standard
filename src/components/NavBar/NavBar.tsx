@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import DXCLogo from 'assets/dxc_logo.jpg';
 import { DxcHeader } from '@dxc-technology/halstack-react';
-import IconButton from 'components/IconButton/IconButton';
+import IconButton from 'theme/standard/components/IconButton/IconButton';
 import { MainNavContainer } from './StyledNavBar';
 import {changeLanguageCountry} from 'configs';
 import en from 'assets/gb.jpg';
