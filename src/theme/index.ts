@@ -1,13 +1,19 @@
+/* eslint-disable no-process-env */
 import cdkThemeStd from './standard/cdk/overrides'
 import {typography as typographyStd} from './standard/mat'
+import cdkThemeCovea from './covea/cdk/overrides'
+import {typography as typographyCovea} from './covea/mat'
 
 let matTheme
 let cdkTheme
 
-// eslint-disable-next-line no-process-env
-if (process.env['REACT_APP_CUSTOMER_ID']==='standard') {
+if (process.env['REACT_APP_CUSTOMER_ID'] === 'standard') {
     matTheme = {typography: typographyStd}
     cdkTheme = cdkThemeStd
+}
+else if (process.env['REACT_APP_CUSTOMER_ID'] === 'covea') {
+    matTheme = {typography: typographyCovea}
+    cdkTheme = cdkThemeCovea
 }
 
 export default {matTheme, cdkTheme}

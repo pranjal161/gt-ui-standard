@@ -1,8 +1,12 @@
+/* eslint-disable no-process-env */
 import * as standard from 'theme/standard/mat'
-//const project = 'standard'
-export const getComponentStyle = (componentName) => {
-    console.log('standard', componentName, standard)
-    const entryName = componentName + 'Style'
+import * as covea from 'theme/covea/mat'
 
-    return standard[entryName]
+export const getComponentStyle = (componentName) => {
+
+    const entryName = componentName + 'Style'
+    if (process.env.REACT_APP_CUSTOMER_ID === 'standard')
+        return standard[entryName]
+    else if (process.env.REACT_APP_CUSTOMER_ID === 'covea')
+        return covea[entryName]
 }

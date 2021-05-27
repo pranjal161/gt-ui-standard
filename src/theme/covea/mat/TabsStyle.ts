@@ -4,9 +4,9 @@ export const TabsStyle = {
     root: {
         borderBottom: '1px solid #000000A3',
         backgroundColor: globalStyle.colours.white,
-        color: globalStyle.colours.purple,
+        color: globalStyle.colours.blue,
     },
     indicator: {
-        backgroundColor: globalStyle.colours.purple
+        backgroundColor: globalStyle.colours.blue
     },
 }
