@@ -13,7 +13,7 @@ export const ButtonStyle = {
         fontSize: '14px',
         letterSpacing: '1px',
         boxShadow: 'none',
-        fontWeight: 500,
+        fontWeight: 400,
         borderRadius: '4px',
         minHeight: '43px',
         lineHeight: '1',

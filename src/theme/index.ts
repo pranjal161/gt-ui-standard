@@ -7,6 +7,8 @@ import {typography as typographyCovea} from './covea/mat'
 let matTheme
 let cdkTheme
 
+//this is used for initialization of the APP.
+
 if (process.env['REACT_APP_CUSTOMER_ID'] === 'standard') {
     matTheme = {typography: typographyStd}
     cdkTheme = cdkThemeStd

@@ -2,7 +2,7 @@ import {DxcButton} from '@dxc-technology/halstack-react';
 import React from 'react';
 
 // eslint-disable-next-line require-jsdoc
-function Buttons(props) {
+function Buttons() {
     return (
         <div>
             <DxcButton
