@@ -1,13 +1,12 @@
 import ButtonMat from '@material-ui/core/Button';
 import React from 'react';
-import {buttonStyles} from './ButtonStyle'
+import {getComponentStyle} from 'theme/components/material/index';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles(buttonStyles);
+const useStyles = makeStyles(getComponentStyle('Button'));
 
 const Button = (props: any) => {
     const classes = useStyles();
-
     const {
         variant,
         color,

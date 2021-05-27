@@ -1,8 +1,6 @@
-import TabsMat from '@material-ui/core/Tabs';
 import {globalStyle} from 'styles/GlobalStyle';
-import {withStyles} from '@material-ui/core';
 
-const Tabs = withStyles({
+export const TabsStyle = {
     root: {
         borderBottom: '1px solid #000000A3',
         backgroundColor: globalStyle.colours.white,
@@ -11,6 +9,4 @@ const Tabs = withStyles({
     indicator: {
         backgroundColor: globalStyle.colours.purple
     },
-})(TabsMat);
-
-export default Tabs
+}

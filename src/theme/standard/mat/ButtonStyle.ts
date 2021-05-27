@@ -1,6 +1,6 @@
 import {globalStyle} from 'styles/GlobalStyle';
 
-export const buttonStyles = {
+export const ButtonStyle = {
     textButton: {
         cursor: 'pointer', '&:hover,&:focus': {
             backgroundColor: globalStyle.colours.black,

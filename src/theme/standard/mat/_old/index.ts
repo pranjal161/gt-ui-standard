@@ -1,6 +1,6 @@
 /* eslint-disable filenames/match-exported */
-import palette from './palette';
-import typography from './typography';
+import palette from 'theme/standard/mat/_old/palette';
+import typography from 'theme/standard/mat/typography';
 //import overrides from './overrides'
 
 const theme = {

@@ -1,4 +1,4 @@
-import palette, {special} from 'theme/standard/material/palette';
+import palette, {special} from 'theme/standard/mat/_old/palette';
 
 const overrides = {
     accordion: {

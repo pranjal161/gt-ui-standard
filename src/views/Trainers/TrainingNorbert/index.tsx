@@ -4,7 +4,7 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import FormDialog from 'views/Trainers/TrainingNorbert/FormDialog/FormDialog';
-import Tabs from '../../../theme/standard/components/Tabs/Tabs'
+import Tabs from '../../../theme/components/material/Tabs/Tabs'
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';

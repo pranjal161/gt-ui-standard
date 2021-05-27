@@ -1,5 +1,5 @@
-import palette from './palette';
-//Add here material ui component to override property for the entire of the application
+import palette from 'theme/standard/mat/_old/palette';
+//Add here mat ui component to override property for the entire of the application
 
 //related cdk configuration : node_modules/@dxc-technology/halstack-react/dist/common/variables.js
 
