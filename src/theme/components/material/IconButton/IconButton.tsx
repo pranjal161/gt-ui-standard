@@ -1,7 +1,7 @@
 import IconButtonMat from '@material-ui/core/IconButton';
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import {getComponentStyle} from 'theme/components/material/index';
+import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(getComponentStyle('IconButton'))
 

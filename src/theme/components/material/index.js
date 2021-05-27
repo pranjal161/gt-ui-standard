@@ -1,6 +1,6 @@
 /* eslint-disable no-process-env */
-import * as standard from 'theme/standard/mat'
 import * as covea from 'theme/covea/mat'
+import * as standard from 'theme/standard/mat'
 
 export const getComponentStyle = (componentName) => {
 

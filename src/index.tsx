@@ -1,17 +1,16 @@
 import 'init'
 import './index.css'
+import {ThemeProvider as MatThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import App from './App'
+import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
 import FirebaseProvider from 'configs/FirebaseProvider';
 import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
-//Theming
-import {ThemeProvider as MatThemeProvider, createMuiTheme} from '@material-ui/core/styles';
-import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import configureStore from 'store/configureStore';
-import themes from 'theme';
 import reportWebVitals from './reportWebVitals'
+import themes from 'theme';
 
 const store = configureStore()
 const matMuiTheme = createMuiTheme(themes.matTheme)

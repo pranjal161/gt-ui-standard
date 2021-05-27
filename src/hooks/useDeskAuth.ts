@@ -1,9 +1,9 @@
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
     signIn as signInAction,
     signOut as signOutAction,
     signUp as signUpAction
 } from 'store/actions/authActions';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useCallback} from 'react';
 
 /**
