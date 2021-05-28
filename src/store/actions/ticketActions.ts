@@ -1,11 +1,11 @@
-import moment from 'moment';
+import { displayDate, displayISODate } from 'configs/localization';
 
 const addHistory = (state: any, action: any, values = {}) => {
     const timestamp = Date.now()
     const historyField = 'history.' + timestamp
     const updatedBy = state.auth.id
     const updatedByDisplay = state.firebase.profile.displayName
-    const updatedISODate = moment(timestamp).format()
+    const updatedISODate = displayISODate(timestamp);
     
     return {
         [historyField]: {action, ...values, metadata: {updatedBy, updatedByDisplay, updatedISODate, timestamp}}
@@ -274,11 +274,12 @@ export const addDocument = (id: any, document: { name?: any; url?: any; received
     })
 }
 
-export const currentDailyUpdatesId = moment().format('DD-MM-Y');
+//export const currentDailyUpdatesId = moment().format('DD-MM-Y');
 
 const addToDailyUpdates = (id: any, change: { [x: string]: { metadata: { updatedBy: any; updatedByDisplay: any; updatedISODate: string; timestamp: number; }; action: any; }; }) => (dispatch: any, getState: any, {getFirebase}: any) => {
     const firestore = getFirebase().firestore()
-    const dailyUpdateId = currentDailyUpdatesId
+    //const dailyUpdateId = currentDailyUpdatesId
+    const dailyUpdateId = displayDate;
 
     const dailyUpdatesExist = (getState().firestore.data.dailyUpdates)
 
