@@ -61,7 +61,7 @@ function copyStyles(sourceDoc: Document, targetDoc: Document) {
 
 }
 
-const NewWindowPortal = ( props : {
+const NewWindow = ( props : {
                                         children: any, 
                                         onCloseCallback: Function, 
                                         windowMaximized?: boolean,
@@ -92,8 +92,8 @@ const NewWindowPortal = ( props : {
         }
     }
 
-    // When passing the NewWindowPortal setFocus function to its children, 
-    // the NewWindowPortal must have only one child element and it must have a 
+    // When passing the NewWindow setFocus function to its children, 
+    // the NewWindow must have only one child element and it must have a 
     // props property named setWindowFocus.
     if(passSetFocus) {
         children = React.cloneElement(children, {setWindowFocus: setFocus});
@@ -138,4 +138,4 @@ const NewWindowPortal = ( props : {
     )
 }
 
-export default NewWindowPortal;
+export default NewWindow;

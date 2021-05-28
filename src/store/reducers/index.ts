@@ -3,7 +3,7 @@ import basketReducer from './basketReducer';
 import {combineReducers} from 'redux';
 import {firebaseReducer} from 'react-redux-firebase';
 import {firestoreReducer} from 'redux-firestore';
-import popupWindowReducer from './popupWindowReducer'
+import newWindowReducer from './newWindowReducer'
 import ticketReducer from './ticketReducer';
 import userReducer from './userReducer';
 
@@ -13,7 +13,7 @@ const reducers = combineReducers(
         baskets: basketReducer,
         firebase: firebaseReducer,
         firestore: firestoreReducer,
-        popupWindow: popupWindowReducer,
+        newWindow: newWindowReducer,
         tickets: ticketReducer,
         users: userReducer,
     }

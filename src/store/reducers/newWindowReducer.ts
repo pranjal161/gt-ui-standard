@@ -13,31 +13,31 @@ interface windowTabsObjsInt {
     [key: string]: string
 }
 
-interface popupWindowInt {
-    isPopupWindowWithTabsOpened: boolean,
+interface newWindowInt {
+    isNewWindowWithTabsOpened: boolean,
     selectedWindowTab: selectedWindowTabInt,
     windowTabsIDs: windowTabsObjsInt
 }
 
-const initialState: popupWindowInt = {
-    isPopupWindowWithTabsOpened: false,
+const initialState: newWindowInt = {
+    isNewWindowWithTabsOpened: false,
     selectedWindowTab: {id: ''},
     windowTabsIDs: {}
 };
 
-const popupWindowSlice = createSlice({
-    name: 'popupWindow',
+const newWindowSlice = createSlice({
+    name: 'newWindow',
     initialState,
     reducers: {
         openWindowTabs(state) {
-            state.isPopupWindowWithTabsOpened = true;
+            state.isNewWindowWithTabsOpened = true;
         },
         closeWindowTabs() {
             return initialState;
         },
         addWindowTabByID(state, action: PayloadAction<addWindowTabActionInt>) {
-            if(!state.isPopupWindowWithTabsOpened)
-                state.isPopupWindowWithTabsOpened = true;
+            if(!state.isNewWindowWithTabsOpened)
+                state.isNewWindowWithTabsOpened = true;
             state.selectedWindowTab.id = action.payload.tabId;
             state.windowTabsIDs[action.payload.tabId] = action.payload.displayTabLabel;
         },
@@ -54,7 +54,7 @@ const popupWindowSlice = createSlice({
                 else {
                     state.selectedWindowTab.id = '';
                     state.windowTabsIDs = {};
-                    state.isPopupWindowWithTabsOpened = false;
+                    state.isNewWindowWithTabsOpened = false;
                 }
             }
             else {
@@ -67,11 +67,11 @@ const popupWindowSlice = createSlice({
     }
 });
 
-export default popupWindowSlice.reducer;
+export default newWindowSlice.reducer;
 export const {
     openWindowTabs,
     closeWindowTabs,
     addWindowTabByID,
     removeWindowTabByID,
     setSelectedWindowTabByID
-} = popupWindowSlice.actions;
+} = newWindowSlice.actions;

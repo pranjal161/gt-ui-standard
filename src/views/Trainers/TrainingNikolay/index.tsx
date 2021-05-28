@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { addWindowTabByID, closeWindowTabs } from '../../../store/reducers/popupWindowReducer';
+import { addWindowTabByID, closeWindowTabs } from '../../../store/reducers/newWindowReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
-import NewWindowPortal from '../../../components/NewWindowPortal/NewWindowPortal';
+import NewWindowPortal from '../../../components/NewWindow/NewWindow';
 
 const TrainingNikolay = () => {
     const [tabID, setTabId] = useState(0);
