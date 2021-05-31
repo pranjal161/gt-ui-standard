@@ -6,8 +6,7 @@ import React from 'react';
 export interface ButtonProps {
 
   /**
-   * Is this the principal call to action on the page?
-   */
+   * Is this the principal call to action on the page sdfdsffds
   primary?: boolean;
 
   /**
