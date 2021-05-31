@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 interface addWindowTabActionInt {
     tabId: string,
+    tabType: string,
     displayTabLabel: string
 }
 
@@ -10,7 +11,10 @@ interface selectedWindowTabInt {
 }
 
 interface windowTabsObjsInt {
-    [key: string]: string
+    [key: string]: {
+        label: string,
+        type: string
+    }
 }
 
 interface newWindowInt {
@@ -39,7 +43,10 @@ const newWindowSlice = createSlice({
             if(!state.isNewWindowWithTabsOpened)
                 state.isNewWindowWithTabsOpened = true;
             state.selectedWindowTab.id = action.payload.tabId;
-            state.windowTabsIDs[action.payload.tabId] = action.payload.displayTabLabel;
+            state.windowTabsIDs[action.payload.tabId] = { 
+                label: action.payload.displayTabLabel,
+                type: action.payload.tabType
+            };
         },
         removeWindowTabByID(state, action: PayloadAction<string>) {
             let newTabsIDs = {...state.windowTabsIDs};
