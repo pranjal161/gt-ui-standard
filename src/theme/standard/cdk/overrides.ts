@@ -1,22 +1,27 @@
 import {globalStyle} from '../GlobalStyle';
 
+const general:any = {
+    primary : globalStyle.colours.purple
+    
+}
+
 const overrides = {
     accordion: {
-        accentColor: globalStyle.colours.purple, // accordion's accent color theme input
+        accentColor: general.primary, // accordion's accent color theme input
         fontColor: globalStyle.colours.darkGrey // accordion's font color theme input
     },
     button: {
-        baseColor: globalStyle.colours.purple, // button's base color theme input
+        baseColor: general.primary, // button's base color theme input
         hoverBaseColor: globalStyle.colours.black, // button's hover base color theme input
         primaryFontColor: globalStyle.colours.white, // button's primary font color theme input
         primaryHoverFontColor: globalStyle.colours.white, // button's primary hover font color theme input
         secondaryFontColor: globalStyle.colours.black, // button's secondary font color theme input
         secondaryHoverFontColor: globalStyle.colours.black, // button's secondary hover font color theme input
-        textFontColor: globalStyle.colours.purple, // button's text font color theme input
+        textFontColor: general.primary, // button's text font color theme input
         textHoverFontColor: globalStyle.colours.white, // button's text hover font color theme input
     },
     checkbox: {
-        baseColor: globalStyle.colours.purple, // checkboxes base color theme input
+        baseColor: general.primary, // checkboxes base color theme input
         checkColor: globalStyle.colours.white, // checkboxes check color theme input
     },
     chip: {
@@ -25,7 +30,7 @@ const overrides = {
         fontColor: globalStyle.colours.black, // chip's font color theme input
     },
     date: {
-        baseColor: globalStyle.colours.purple, // date's base color theme input
+        baseColor: general.primary, // date's base color theme input
         accentColor: globalStyle.colours.white, // date's accent color theme input
     },
     dropdown: {
@@ -35,7 +40,7 @@ const overrides = {
     footer: {
         baseColor: globalStyle.colours.black, // footer's base color theme input
         fontColor: globalStyle.colours.white, // footer's font color theme input
-        accentColor: globalStyle.colours.purple, // footer's accent color theme input
+        accentColor: general.primary, // footer's accent color theme input
         logo: 'yahooLogo', // footer's logo theme input
     },
     header: {
@@ -73,21 +78,21 @@ const overrides = {
         baseColor: globalStyle.colours.blue, // slider's base color theme input
     },
     spinner: {
-        accentColor: globalStyle.colours.purple, // spinner's accent color theme input
+        accentColor: general.primary, // spinner's accent color theme input
         baseColor: globalStyle.colours.white, // spinner's base color theme input
     },
     switch: {
-        checkedBaseColor: globalStyle.colours.purple, // switch's checked base color theme input
+        checkedBaseColor: general.primary, // switch's checked base color theme input
     },
     table: {
-        baseColor: globalStyle.colours.purple, // table's base color theme input
+        baseColor: general.primary, // table's base color theme input
         fontColor: globalStyle.colours.white, // table's font color theme input
     },
     tabs: {
-        baseColor: globalStyle.colours.purple, // tabs' base color theme input
+        baseColor: general.primary, // tabs' base color theme input
     },
     toggleGroup: {
-        selectedBaseColor: globalStyle.colours.purple, // toggle group's selected base color theme input
+        selectedBaseColor: general.primary, // toggle group's selected base color theme input
         selectedHoverBaseColor: globalStyle.colours.black, // toggle group's selected hover base color theme input
         selectedFontColor: globalStyle.colours.white, // toggle group's selected font color theme input
         selectedHoverFontColor: globalStyle.colours.white, // toggle group's selected hover font color theme input
@@ -97,7 +102,7 @@ const overrides = {
         unselectedHoverFontColor: globalStyle.colours.black, // toggle group's unselected hover font color theme input
     },
     wizard: {
-        baseColor: globalStyle.colours.purple, // wizard's base color theme input
+        baseColor: general.primary, // wizard's base color theme input
         fontColor: globalStyle.colours.white, // wizard's font color theme input
     },
 
