@@ -21,9 +21,3 @@ Disable.args = {
     disabled : true,
     onClick : () => console.log('click')
 };
-
-export const Clickable = Template.bind({});
-Clickable.args = {
-    title: 'Add a fund',
-    disabled : false,
-};
