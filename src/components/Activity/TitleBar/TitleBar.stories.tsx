@@ -1,12 +1,22 @@
-import { Meta } from '@storybook/react';
+import {Meta, Story} from '@storybook/react';
+import TitleBar, {TitleBarProps} from './TitleBar';
 import React from 'react';
-import TitleBar from './TitleBar';
 
 export default {
     title: 'Components/Activity/TitleBar',
     component: TitleBar,
 } as Meta;
 
-export const WithBack = () => <TitleBar/>
-export const WithoutBack = () => <TitleBar/>
-export const WithRightTitle = () => <TitleBar/>
+const Template: Story<TitleBarProps> = (args) => <TitleBar {...args} />;
+
+export const WithBack = Template.bind({});
+WithBack.args = {
+};
+
+export const WithoutBack = Template.bind({});
+WithBack.args = {
+};
+
+export const WithRightTitle = Template.bind({});
+WithBack.args = {
+};
