@@ -19,7 +19,7 @@ const TrainingNikolay = () => {
     let dispatch = useDispatch();
     const addTab = () => {
         setTabId((prevId) => prevId + 1);
-        dispatch(addWindowTabByID({tabId: tabID.toString(), tabType: 'ticket', displayTabLabel: 'Tab '+tabID}));
+        dispatch(addWindowTabByID({tabId: tabID.toString(), tabType: 'ticket', displayTabLabel: 'TabButton '+tabID}));
     }
 
     const onCloseTicketNewWindow = () => {
