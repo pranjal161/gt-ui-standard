@@ -17,16 +17,16 @@ export interface AddButtonProps {
     /**
      * on click callback
      */
-    onClick?: any
+    onClick?: () => void
 }
 
-const AddButton: React.FC<AddButtonProps> = () => (
+const AddButton2: React.FC<AddButtonProps> = () => (
     <div>
         <img src={image} alt={'mock'}/>
     </div>
 )
 
-const AddButton2: React.FC<AddButtonProps> = ({disabled = false, title = '', onClick}: AddButtonProps) => (
+const AddButton: React.FC<AddButtonProps> = ({disabled = false, title = '', onClick}:AddButtonProps) => (
     <DxcButton
         mode="primary"
         label={title}

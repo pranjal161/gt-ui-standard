@@ -3,7 +3,7 @@ import React from 'react';
 import Stepper from 'components/Activity/Stepper/Stepper';
 
 export default {
-    title: 'Example/Stepper',
+    title: 'Components/Activity/Stepper',
     component: Stepper,
 } as Meta;
 

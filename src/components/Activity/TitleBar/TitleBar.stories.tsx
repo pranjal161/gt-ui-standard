@@ -3,7 +3,7 @@ import React from 'react';
 import TitleBar from './TitleBar';
 
 export default {
-    title: 'Example/TitleBar',
+    title: 'Components/Activity/TitleBar',
     component: TitleBar,
 } as Meta;
 

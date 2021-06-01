@@ -1,12 +1,29 @@
-import { Meta } from '@storybook/react';
+import {Meta, Story} from '@storybook/react';
 import React from 'react';
-import AddButton from 'components/AddButton/AddButton';
+import AddButton, {AddButtonProps} from 'components/AddButton/AddButton';
 
 export default {
-    title: 'Example/AddButton',
+    title: 'Components/Buttons/AddButton',
     component: AddButton,
 } as Meta;
 
-export const Normal = () => <AddButton title="Add an item"/>
-export const Disable = () => <AddButton title="Add an item" disabled/>
-export const Clickable = () => <AddButton onClick={() => console.log('click') }/>
+const Template: Story<AddButtonProps> = (args) => <AddButton {...args} />;
+
+export const Normal = Template.bind({});
+Normal.args = {
+    title: 'Add a fund',
+    onClick : () => console.log('click')
+};
+
+export const Disable = Template.bind({});
+Disable.args = {
+    title: 'Add a fund',
+    disabled : true,
+    onClick : () => console.log('click')
+};
+
+export const Clickable = Template.bind({});
+Clickable.args = {
+    title: 'Add a fund',
+    disabled : false,
+};

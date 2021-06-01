@@ -3,7 +3,7 @@ import React from 'react';
 import SideBar from 'components/Activity/SideBar/SideBar';
 
 export default {
-    title: 'Example/SideBar',
+    title: 'Components/Activity/SideBar',
     component: SideBar,
 } as Meta;
 
