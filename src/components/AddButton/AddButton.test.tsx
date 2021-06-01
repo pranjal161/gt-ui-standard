@@ -1,8 +1,7 @@
-import { render, fireEvent} from '@testing-library/react'
+import * as AddButtonStories from './AddButton.stories'
+import { fireEvent, render} from '@testing-library/react'
 import React from 'react';
 import {composeStories} from '@storybook/testing-react';
-
-import * as AddButtonStories from './AddButton.stories'
 
 //👇 composeStories will process all information related to the component (e.g., args)
 const {Normal, Disable} = composeStories(AddButtonStories);

@@ -1,6 +1,6 @@
+import AddButton, {AddButtonProps} from 'components/AddButton/AddButton';
 import {Meta, Story} from '@storybook/react';
 import React from 'react';
-import AddButton, {AddButtonProps} from 'components/AddButton/AddButton';
 
 export default {
     title: 'Components/Buttons/AddButton',
