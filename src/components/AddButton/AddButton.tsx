@@ -25,6 +25,7 @@ const AddButton2: React.FC<AddButtonProps> = () => (
         <img src={image} alt={'mock'}/>
     </div>
 )
+console.log('AddButton2', AddButton2)
 
 const AddButton: React.FC<AddButtonProps> = ({disabled = false, title = '', onClick}:AddButtonProps) => (
     <DxcButton
@@ -34,7 +35,5 @@ const AddButton: React.FC<AddButtonProps> = ({disabled = false, title = '', onCl
         onClick={onClick}
     />
 )
-
-console.log('AddButton2', AddButton2)
 
 export default AddButton;
