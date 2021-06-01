@@ -1,16 +1,45 @@
-import { Meta } from '@storybook/react';
+import {Meta, Story} from '@storybook/react';
 import React from 'react';
-import SideBar from 'components/Activity/SideBar/SideBar';
+import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
 
 export default {
     title: 'Components/Activity/SideBar',
     component: SideBar,
 } as Meta;
 
-export const Normal = () => <SideBar value={0}/>
-export const ShowContract = () => <SideBar value={2}/>
-export const ShowClient = () => <SideBar value={2}/>
-export const OpenInNewWindow = () => <SideBar value={2}/>
-export const OpenInNewTab = () => <SideBar value={2}/>
-export const Expand = () => <SideBar value={2}/>
-export const Closed = () => <SideBar value={2}/>
+const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
+
+export const Normal = Template.bind({});
+Normal.args = {
+    value: 0
+};
+
+export const ShowContract = Template.bind({});
+Normal.args = {
+    value: 2
+};
+
+export const ShowClient = Template.bind({});
+ShowClient.args = {
+    value: 2
+};
+
+export const OpenInNewWindow = Template.bind({});
+OpenInNewWindow.args = {
+    value: 2
+};
+
+export const OpenInNewTab = Template.bind({});
+OpenInNewTab.args = {
+    value: 2
+};
+
+export const Expand = Template.bind({});
+Expand.args = {
+    value: 2
+};
+
+export const Closed = Template.bind({});
+Closed.args = {
+    value:2
+};
