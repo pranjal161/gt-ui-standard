@@ -1,4 +1,4 @@
-import * as resource from 'TestData/resource';
+import * as resource from 'utils/static/data';
 
 import { render, screen } from '@testing-library/react'
 
