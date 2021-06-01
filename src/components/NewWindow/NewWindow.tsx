@@ -20,39 +20,26 @@ import { StyleSheetManager } from 'styled-components';
  * @returns {void} attaches the css from source to destination element
  */
 function copyStyles(sourceDoc: Document, targetDoc: Document) {
-    let sourceStyles = sourceDoc.head.querySelectorAll('style');
 
-    let indexStyledComponents = undefined;
-    // styled-components are inserted in a style tag with data-* attributes
-    // here, we check if they exist and mark the index of the style tag,
-    // so that later, in styleSheets import, it can be skipped and 
-    // be managed with styled-components StyleSheetManager
+    let sourceStyles = sourceDoc.head.querySelectorAll('style');
+    // styled-components are inserted in a style tag with data-* attributes.
+    // Here, we check if they exist and skip importing them
+
     for(let i = 0; i < sourceStyles.length; i++) {
         if(sourceStyles[i].dataset &&
            sourceStyles[i].dataset.styled === 'active') {
-            indexStyledComponents = i;
-            break;
+            // skip import
+        }
+        else {
+            const newStyleEl = sourceDoc.createElement('style');
+            newStyleEl.appendChild(sourceDoc.createTextNode(sourceStyles[i].innerText));
+            targetDoc.head.appendChild(newStyleEl);
         }
     }
 
     for(let i = 0; i < sourceDoc.styleSheets.length; i++) {
-
-        if (sourceDoc.styleSheets[i].cssRules &&
-            indexStyledComponents !== undefined &&
-            i !== indexStyledComponents) { // for <style> elements
-
-            const newStyleEl = sourceDoc.createElement('style');
-
-            Array.from(sourceDoc.styleSheets[i].cssRules).forEach((cssRule) => {
-                // write the text of each rule into the body of the style element
-                newStyleEl.appendChild(sourceDoc.createTextNode(cssRule.cssText));
-            });
-
-            targetDoc.head.appendChild(newStyleEl);
-        } 
-        else if (sourceDoc.styleSheets[i].href) { // for <link> elements loading CSS from a URL
+        if (sourceDoc.styleSheets[i].href) { // for <link> elements loading CSS from a URL
             const newLinkEl = sourceDoc.createElement('link');
-
             newLinkEl.rel = 'stylesheet';
             newLinkEl.href = sourceDoc.styleSheets[i].href!;
             targetDoc.head.appendChild(newLinkEl);
@@ -122,7 +109,7 @@ const NewWindow = ( props : {
     }, []);
 
     useEffect(() => {
-        windowRef['current'].document.body.appendChild(container);
+        windowRef.current.document.body.appendChild(container);
     }, [children]);
 
     return (

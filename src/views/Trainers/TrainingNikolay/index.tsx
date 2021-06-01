@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { addWindowTabByID, closeWindowTabs } from '../../../store/reducers/newWindowReducer';
+import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 
-import NewWindowPortal from '../../../components/NewWindow/NewWindow';
+import NewWindow from '../../../components/NewWindow/NewWindow';
+
+interface PropsType {
+    isOk: boolean;
+}
+
+const NewElement = styled.div`
+    color: ${(props:PropsType) => (props.isOk ? 'green' : 'red')};
+`;
 
 const TrainingNikolay = () => {
     const [tabID, setTabId] = useState(0);
-    let isWindowOpen = useSelector((state:any) => state.popupWindow.isPopupWindowWithTabsOpened);
+    let isWindowOpen = useSelector((state:any) => state.newWindow.isNewWindowWithTabsOpened);
     let dispatch = useDispatch();
     const addTab = () => {
         setTabId((prevId) => prevId + 1);
-        dispatch(addWindowTabByID({tabId: tabID.toString(), displayTabLabel: 'Tab '+tabID}));
+        dispatch(addWindowTabByID({tabId: tabID.toString(), tabType: 'ticket', displayTabLabel: 'TabButton '+tabID}));
     }
 
     const onCloseTicketNewWindow = () => {
@@ -25,14 +34,14 @@ const TrainingNikolay = () => {
             </button>
             {
                 isWindowOpen &&
-                <NewWindowPortal
+                <NewWindow
                     windowMaximized={true}
                     passSetFocus={true}
                     onCloseCallback={onCloseTicketNewWindow}>
-                    <div>
+                    <NewElement isOk={tabID === 1}>
                         number of tabs is: {tabID}
-                    </div>
-                </NewWindowPortal>                
+                    </NewElement>
+                </NewWindow>                
             }
         </>
     )
