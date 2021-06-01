@@ -3,7 +3,7 @@ import Section, {SectionProps} from './Section';
 import React from 'react';
 
 export default {
-    title: 'Components/Common/Surfaces/Section',
+    title: 'Components/Surfaces/Section',
     component: Section,
 } as Meta;
 
