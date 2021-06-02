@@ -1,9 +1,4 @@
-import {globalStyle} from '../GlobalStyle';
-
-const general:any = {
-    primary : globalStyle.colours.purple
-    
-}
+import {globalStyle, general} from '../GlobalStyle';
 
 const overrides = {
     accordion: {

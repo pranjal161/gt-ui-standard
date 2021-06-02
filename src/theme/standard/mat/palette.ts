@@ -1,6 +1,6 @@
-import {globalStyle} from 'theme/standard/GlobalStyle';
+import {general} from 'theme/standard/GlobalStyle';
 
 export const palette = {
-    primary: {main: globalStyle.colours.purple},
+    primary: {main: general.primary},
     secondary: {main: '#FF9800'},
 }

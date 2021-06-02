@@ -34,3 +34,7 @@ export const globalStyle = {
         transparent: 'transparent',
     }
 }
+
+export const general = {
+    primary : '#486581'
+}
