@@ -1,4 +1,8 @@
+import {
+    KeyboardDatePicker, MuiPickersUtilsProvider
+} from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
+import DateFnsUtils from '@date-io/date-fns';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -27,6 +31,24 @@ export default function FormDialog() {
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                 Open form dialog
             </Button>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date picker inline"
+                    value={new Date('2014-08-18T21:11:54')}
+                    onChange={() => console.log('a')}
+                    onFocus={() => console.log('a')}
+                    onBlur={() => console.log('a')}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                    }}
+                />
+            </MuiPickersUtilsProvider>
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                 <DialogContent>
