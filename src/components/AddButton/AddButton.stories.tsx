@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<AddButtonProps> = (args) => <AddButton {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
     title: 'Add a fund',
     withIcon : true,
     onClick : () => console.log('click')
