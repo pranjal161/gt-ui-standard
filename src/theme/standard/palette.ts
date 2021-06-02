@@ -119,4 +119,4 @@ const specific = {
     }
 };
 
-export default { ...palette, ...specific }
+export default {...palette, ...specific}
