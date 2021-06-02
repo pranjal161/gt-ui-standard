@@ -4,6 +4,7 @@
  * @param {linkName} linkName Title of the link which you want to retrieve
  * @returns {link} Href of the linkName provided that is present in the response
  */
+
 import {
     displayCurrency,
     displayDate,
@@ -12,6 +13,7 @@ import {
     displayNumber,
     displayPercent
 } from 'configs/localization';
+
 import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
@@ -115,15 +117,16 @@ export const formatValue = (value: any, style?: string | undefined) => {
         case 'number':
             return displayNumber(value)
 
-        case 'date':
-        case 'dateLong':
+        case 'date' || 'dateLong':
             if (value === '9999-99-99') // Date.max from API
                 return '99/99/9999'
 
             if (value === '0000-00-00') // Date.min from API
                 return '00/00/0000'
 
-            return (style === 'date') ? displayDate(value) : displayLongDate(value)
+            const date = new Date(value);
+            
+            return (style === 'date') ? displayDate(date) : displayLongDate(date)
         default: {
             logErrorByCode('formatValueStyleNotDefined', {style, value})
 
@@ -256,4 +259,24 @@ export const getOneOfFromResponse = (response: any, id: string) => {
     }
 
     return enumItemList;
+}
+
+export const getDescriptionFromOneOf = (value: string, id: string, response: any) => {
+    if (
+        response._options &&
+        response._options.properties &&
+        response._options.properties[id] &&
+        response._options.properties[id]['oneOf']
+    ) {
+        for (let i = 0; i < response._options.properties[id]['oneOf'].length; i++) {
+            if (
+                response._options.properties[id]['oneOf'][i]['enum'][0] ===
+                value
+            ) {
+                value = response._options.properties[id]['oneOf'][i]['title'];
+            }
+        }
+    }
+
+    return value;
 }
