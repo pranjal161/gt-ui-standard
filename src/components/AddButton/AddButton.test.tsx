@@ -4,18 +4,18 @@ import React from 'react';
 import {composeStories} from '@storybook/testing-react';
 
 //👇 composeStories will process all information related to the component (e.g., args)
-const {Normal, Disable} = composeStories(AddButtonStories);
+const {Default, Disable} = composeStories(AddButtonStories);
 
 const title = 'Add a fund'
 
-it('renders normal, title displaying', () => {
-    const {getByText} = render(<Normal />);
+it('renders Default, title displaying', () => {
+    const {getByText} = render(<Default />);
     expect(getByText(title)).toBeInTheDocument()
 });
 
-it('renders normal, clicked', () => {
+it('renders Default, clicked', () => {
     const handleClick = jest.fn()
-    const {getByText} = render(<Normal onClick={handleClick}/>);
+    const {getByText} = render(<Default onClick={handleClick}/>);
     const button = getByText(title)
 
     fireEvent.click(button)

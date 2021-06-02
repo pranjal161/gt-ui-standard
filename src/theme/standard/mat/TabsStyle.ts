@@ -1,12 +1,12 @@
-import {globalStyle} from '../GlobalStyle';
+import palette from 'theme/standard/palette';
 
 export const TabsStyle = {
     root: {
         borderBottom: '1px solid #000000A3',
-        backgroundColor: globalStyle.colours.white,
-        color: globalStyle.colours.purple,
+        backgroundColor: palette.background.paper,
+        color: palette.primary.main,
     },
     indicator: {
-        backgroundColor: globalStyle.colours.purple
+        backgroundColor: palette.primary.main
     },
 }

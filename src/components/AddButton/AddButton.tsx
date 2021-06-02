@@ -21,7 +21,7 @@ export interface AddButtonProps {
     mode?: 'primary' | 'secondary' | 'text';
 
     /**
-     * Add icon
+     * Display to the right the add icon
      */
     withIcon?: boolean;
 
@@ -38,6 +38,11 @@ const AddButton2: React.FC<AddButtonProps> = () => (
 )
 console.log('AddButton2', AddButton2)
 
+/**
+ * Generic Add button, use to add an item of a list
+ * @param {AddButtonProps} props Props of the component.
+ * @returns {React.component} Display the button
+ */
 const AddButton: React.FC<AddButtonProps> = (props: AddButtonProps) => {
     const {
         disabled = false,
