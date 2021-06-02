@@ -9,12 +9,12 @@ export default {
 
 const Template: Story<TabProps> = (args) => <Tab {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
 };
 
 export const withTitleAndSubTitle = Template.bind({});
-Normal.args = {
+Default.args = {
 };
 
 export const Activated = Template.bind({});
