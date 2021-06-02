@@ -1,4 +1,3 @@
-import i18next from 'i18next';
 import previous from 'locales/en/_previous.json'
 
 export const findAndSaveMissingTranslation = (namespace:string, field:string) => {
@@ -31,6 +30,6 @@ export const saveToLocal = (propertyName:any,label:string, translation?:string) 
     if(translation)
         currentValue[field] =translation
     else
-        currentValue[field] = label && i18next.t(label)
+        currentValue[field] = label;
     localStorage.setItem(namespace, JSON.stringify(currentValue))
 }
