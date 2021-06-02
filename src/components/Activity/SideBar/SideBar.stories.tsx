@@ -1,6 +1,6 @@
+import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
 import {Meta, Story} from '@storybook/react';
 import React from 'react';
-import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
 
 export default {
     title: 'Components/Activity/SideBar',
