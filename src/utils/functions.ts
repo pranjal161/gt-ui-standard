@@ -4,6 +4,7 @@
  * @param {linkName} linkName Title of the link which you want to retrieve
  * @returns {link} Href of the linkName provided that is present in the response
  */
+
 import {
     displayCurrency,
     displayDate,
@@ -12,6 +13,7 @@ import {
     displayNumber,
     displayPercent
 } from 'configs/localization';
+
 import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
@@ -256,4 +258,190 @@ export const getOneOfFromResponse = (response: any, id: string) => {
     }
 
     return enumItemList;
+}
+
+/** Check whether a PATCH operation can be performed on the field provided
+ * @param  {any} response provided response
+ * @param  {string} field field which should be checked for edit capability
+ * @returns {boolean} true, if PATCH operation is available for the provided field
+ */
+export const isFieldEditable = (response: any, field: string): boolean => {
+    if (response && response['_options']) {
+        const patchLink = response['_options']['links'].find((item: any) => item.method === 'PATCH');
+        if (!patchLink) {
+            return false;
+        }
+        
+        return !!(patchLink &&
+            patchLink['schema'] &&
+            patchLink['schema']['properties'] &&
+            patchLink['schema']['properties'][field]);
+    }
+    
+    return false;
+
+}
+
+/**Whether the propertyName provided is a required field. 
+ * @param  {any} response provided response
+ * @param  {string} field the field/propertyName which should be checked whether required
+ * @returns {boolean} true, if present in required array in API
+ */
+export const isFieldRequired = (response: any, field: string) => (
+    response && response['_options'] &&
+    response['_options']['required'] &&
+    response['_options']['required'].indexOf(field) !== -1
+)
+
+/**Whether the propertyName provided is available for GET. If avaiable for GET, it should be visible, else not.
+ * @param  {any} response provided response
+ * @param  {string} field the field/propertyName which should be checked for visibility
+ * @returns {boolean} true, if allowed for GET and therefore should be visible on screen
+ */
+export const isFieldVisible = (response: any, field: string): boolean => {
+    if(response && response['_options'] &&
+    response['_options']['properties'] &&
+    response['_options']['properties'][field]) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/** If POST method is allowed on the current href
+ * @param  {any} response provided response 
+ * @returns {boolean} whether the POST operation is available for href
+ */
+export const isFieldCreatable = (response: any): boolean => {
+    if (response && response['_options'] && response['_options']['links']) {
+        const postLink = response['_options']['links'].find((item: any) => item.method === 'POST');
+        if (postLink.isEmpty()) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    return false;
+}
+
+/** If DELETE method is allowed on the current href or response._links.self.href
+ * @param  {any} response provided response 
+ * @returns {boolean} whether the DELETE operation is available for href
+ */
+export const isFieldDeletable = (response: any): boolean => {
+    if (response && response['_options'] && response['_options']['links']) {
+        const deleteLink = response['_options']['links'].find((item: any) => item.method === 'DELETE');
+        if (deleteLink.isEmpty()) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    return false;
+}
+
+export const hasRelInOptions = (response: any, rel: string): boolean => response && response._options && response._options['links'] && response['_options']['links'].find((item: any) => item.rel === rel)
+
+export const hasMethodInOptions = (response: any, method: string): boolean => response && response._options && response._options['links'] && response['_options']['links'].find((item: any) => item.method === method)
+
+/** To check if 'cscaia:save' link is available in _links of the provided response
+ * @param  {any} resource response object
+ * @returns {boolean} whether the link is present or not
+ */
+export const isSaveOperationAvailable = (resource: any): boolean => {
+    if (getLink(resource, 'cscaia:save')) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/** Fetches the title of the resource from _links.self.title
+ * @param  {any} response provided response
+ * @returns {string|null} title of the resource if pr
+ */
+export const getTitle = (response: any): string | null => {
+    if (response &&
+        response._links &&
+        response._links['self'] &&
+        response._links['self'].title) {
+        return response._links['self'].title;
+    }
+    else {
+        return null;
+    }
+}
+
+/** Fetches allowed minlength from API for a property
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName 
+ * @returns {number| null} allowed min Length value
+ */
+export const getMinLength = (response: any, propertyName: string) => {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][propertyName] &&
+        response['_options']['properties'][propertyName].minLength) {
+        return response['_options']['properties'][propertyName].minLength;
+    }
+}
+
+/** Fetches allowed maxlength from API for a property
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName 
+ * @returns {number| null} allowed maxLength value
+ */
+export const getMaxLength = (response: any, propertyName: string) => {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][propertyName] &&
+        response['_options']['properties'][propertyName].maxLength) {
+        return response['_options']['properties'][propertyName].maxLength;
+    }
+}
+
+/** Fetches allowed minimum allowed value from API for a property
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName 
+ * @returns {number| null} allowed minimum value
+ */
+export const getMinValue = (response: any, propertyName: string) => {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][propertyName] &&
+        response['_options']['properties'][propertyName].minimum) {
+        return response['_options']['properties'][propertyName].minimum;
+    }
+}
+
+/** Fetches allowed maximum allowed value from API for a property
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName 
+ * @returns {number| null} allowed maximum value
+ */
+export const getMaxValue = (response: any, propertyName: string) => {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][propertyName] &&
+        response['_options']['properties'][propertyName].maximum) {
+        return response['_options']['properties'][propertyName].maximum;
+    }
+}
+
+/** Returns the type of property 
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName 
+ * @returns {string} type like number, array, string etc
+ */
+export const getPropertyType = (response: any, propertyName: string) => {
+    if (response && response['_options'] &&
+    response['_options']['properties'] &&
+    response['_options']['properties'][propertyName] &&
+    response['_options']['properties'][propertyName].type) {
+        return response['_options']['properties'][propertyName].type;
+    }
 }

@@ -1,15 +1,18 @@
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import {Theme, createStyles, makeStyles} from '@material-ui/core/styles';
 import Button from 'theme/components/material/Button/Button';
 import React from 'react';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
+const useStyles = makeStyles((theme: Theme) => {
+    console.log('theme', theme)
+
+    return createStyles({
+        root: {
+            '& > *': {
+                margin: theme.spacing(1),
+            },
         },
-    },
-}),
-);
+    })
+});
 
 // eslint-disable-next-line require-jsdoc
 export default function Buttons() {

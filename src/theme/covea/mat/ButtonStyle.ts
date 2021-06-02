@@ -1,5 +1,8 @@
-import {globalStyle} from '../GlobalStyle';
+//import {globalStyle} from '../GlobalStyle';
 
+export const ButtonStyle = {}
+
+/*
 export const ButtonStyle = {
     textButton: {
         cursor: 'pointer', '&:hover,&:focus': {
@@ -96,3 +99,4 @@ export const ButtonStyle = {
         }
     }
 }
+*/
