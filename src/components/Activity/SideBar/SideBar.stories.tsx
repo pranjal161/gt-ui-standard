@@ -9,13 +9,13 @@ export default {
 
 const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
     value: 0
 };
 
 export const ShowContract = Template.bind({});
-Normal.args = {
+Default.args = {
     value: 2
 };
 

@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<SectionProps> = (args) => <Section {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
 };
 
 export const WithActions = Template.bind({});

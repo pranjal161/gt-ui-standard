@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<StepperProps> = (args) => <Stepper {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
     currentStep: 0
 };
 
