@@ -1,13 +1,13 @@
-import {globalStyle} from '../GlobalStyle';
+import palette from 'theme/standard/palette';
 
 export const ButtonStyle = {
     textButton: {
         cursor: 'pointer', '&:hover,&:focus': {
-            backgroundColor: globalStyle.colours.black,
-            color: globalStyle.colours.white // FONT COLOUR
+            backgroundColor: palette.black,
+            color: palette.white // FONT COLOUR
         },
-        backgroundColor: globalStyle.colours.transparent, // BUTTON COLOUR
-        color: globalStyle.colours.purple, // FONT COLOUR
+        backgroundColor: 'transparent', // BUTTON COLOUR
+        color: palette.primary.main, // FONT COLOUR
         dark: '#000000',
         contrastText: '#ffffff',
         fontSize: '14px',
@@ -22,9 +22,9 @@ export const ButtonStyle = {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
         '&:disabled': {
-            color: globalStyle.colours.lighterPurple,
+            color: palette.primary.light,
             cursor: 'not-allowed', '&:hover,&:focus': {
-                color: globalStyle.colours.lighterPurple
+                color: palette.primary.light
             }
         }
     },
@@ -32,7 +32,7 @@ export const ButtonStyle = {
         cursor: 'pointer', '&:hover,&:focus': {
             backgroundColor: '#000000'
         },
-        backgroundColor: globalStyle.colours.purple, // BUTTON COLOUR
+        backgroundColor: palette.primary.main, // BUTTON COLOUR
         color: '#ffffff', // FONT COLOUR
         dark: '#000000',
         contrastText: '#ffffff',
@@ -52,11 +52,11 @@ export const ButtonStyle = {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
         '&:disabled': {
-            backgroundColor: globalStyle.colours.lighterPurple,
-            color: globalStyle.colours.white,
+            backgroundColor: palette.primary.light,
+            color: palette.white,
             cursor: 'not-allowed', '&:hover,&:focus': {
-                backgroundColor: globalStyle.colours.lighterPurple,
-                color: globalStyle.colours.white // FONT COLOUR
+                backgroundColor: palette.primary.light,
+                color: palette.white // FONT COLOUR
             }
         }
     },
@@ -85,13 +85,13 @@ export const ButtonStyle = {
             border: '2px solid #000000'
         },
         border: '2px solid',
-        borderColor:globalStyle.colours.lighterPurple,
+        borderColor:palette.primary.main,
         '&:disabled': {
-            borderColor: globalStyle.colours.lighterPurple,
-            color: globalStyle.colours.lightBlack,
+            borderColor: palette.primary.light,
+            color: palette.text.secondary,
             cursor: 'not-allowed', '&:hover,&:focus': {
-                borderColor: globalStyle.colours.lighterPurple,
-                color: globalStyle.colours.lightBlack
+                borderColor: palette.primary.light,
+                color: palette.text.secondary
             }
         }
     }

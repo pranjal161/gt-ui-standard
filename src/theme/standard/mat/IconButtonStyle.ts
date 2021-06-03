@@ -1,13 +1,13 @@
-import {globalStyle} from '../GlobalStyle';
+import palette from 'theme/standard/palette';
 
 export const IconButtonStyle = {
     root: {
-        color: globalStyle.colours.purple,
+        color: palette.icon,
     },
     primaryButton: {
-        color: globalStyle.colours.purple,
+        color: palette.primary.main,
     },
     secondaryButton: {
-        color: globalStyle.colours.darkBlue,
+        color: palette.secondary.main,
     }
 }
