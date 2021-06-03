@@ -46,7 +46,7 @@ Skeleton.args = {
 
 export const Default = Template.bind({});
 Default.args = {
-    navBar:<NavBar/>,
+    navBar:<div>nav</div>,
     content:<Content/>,
     open:false
 };

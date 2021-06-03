@@ -80,9 +80,7 @@ const palette = {
     white,
     primary: {
         contrastText: white,
-        dark: colors.indigo[900],
         main: globalTokens.grey_2,
-        light: colors.indigo[100]
     },
     secondary: {
         contrastText: white,

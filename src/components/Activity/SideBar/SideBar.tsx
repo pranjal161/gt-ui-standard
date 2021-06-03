@@ -38,16 +38,15 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 auto',
         height: '400px',
         width:'fit-content',
-        borderColor: 'red',
-        borderStyle: 'solid'
     },
     navBar: {
         height: '100%',
         display: 'flex',
         flex: '0 0 auto',
-        width:'fit-content',
+        width:'44px',
         overflow: 'hidden',
-        borderColor: theme.palette.border.main
+        borderColor: theme.palette.border.main,
+        borderStyle:'solid'
     },
     content: {
         height: '100%',
