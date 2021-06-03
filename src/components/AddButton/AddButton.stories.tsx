@@ -3,14 +3,14 @@ import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
 export default {
-    title: 'Components/Inputs/AddButton',
+    title: 'Components/Inputs/NavBar',
     component: AddButton,
 } as Meta;
 
 const Template: Story<AddButtonProps> = (args) => <AddButton {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
     title: 'Add a fund',
     withIcon : true,
     onClick : () => console.log('click')

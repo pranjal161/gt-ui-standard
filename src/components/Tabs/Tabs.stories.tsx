@@ -1,5 +1,5 @@
-import Tabs, {TabsProps} from 'components/Tabs/Tabs';
 import {Meta, Story} from '@storybook/react';
+import Tabs, {TabsProps} from 'components/Tabs/Tabs';
 import React from 'react';
 
 export default {
@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<TabsProps> = (args) => <Tabs {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
 };
 
 export const NoTabs = Template.bind({});
@@ -26,13 +26,13 @@ SelectSecondTab.args = {
 };
 
 export const CloseFirstTab = Template.bind({});
-Normal.args = {
+CloseFirstTab.args = {
 };
 
 export const AddATabItsActivated = Template.bind({});
-Normal.args = {
+AddATabItsActivated.args = {
 };
 
 export const AddAnExistingTab = Template.bind({});
-Normal.args = {
+AddAnExistingTab.args = {
 };
