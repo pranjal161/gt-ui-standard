@@ -15,7 +15,7 @@ const reducers = combineReducers(
         firestore: firestoreReducer,
         newWindow: newWindowReducer,
         tickets: ticketReducer,
-        users: userReducer,
+        users: userReducer
     }
 )
 

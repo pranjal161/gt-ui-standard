@@ -43,7 +43,7 @@ const TextField = (props: InputProps) => {
     }
 
     return (
-        <span data-testid={field.id}>
+        <span hidden={field.visible} data-testid={field.id}>
             <DxcInput
                 label={t(propertyName)}
                 size="fillParent"
