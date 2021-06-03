@@ -80,6 +80,7 @@ const palette = {
     white,
     primary: {
         contrastText: white,
+        light: colors.blue['A400'],
         main: globalTokens.grey_2,
     },
     secondary: {

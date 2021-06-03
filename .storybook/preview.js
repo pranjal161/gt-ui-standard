@@ -14,7 +14,7 @@ const providerFn = ({ theme, children }) => {
   return <MatThemeProvider theme={muTheme}>{children}</MatThemeProvider>;
 };
 
-//addDecorator(withThemes(null, [themes.matTheme], { providerFn }));
+addDecorator(withThemes(null, [themes.matTheme], { providerFn }));
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -28,7 +28,8 @@ export const parameters = {
 
 console.log('themingDecorator', themingDecorator)
 
-export const decorators = [
+/*export const decorators = [
   themingDecorator
 ];
 
+*/

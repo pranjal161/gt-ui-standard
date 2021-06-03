@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '0 0 auto',
         width:'44px',
         overflow: 'hidden',
-        borderColor: theme.palette.border.main,
+        borderColor: theme.palette.primary.main,
         borderStyle:'solid'
     },
     content: {
