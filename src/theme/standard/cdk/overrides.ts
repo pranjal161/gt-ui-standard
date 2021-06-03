@@ -1,4 +1,4 @@
-import {globalStyle, general} from '../GlobalStyle';
+import {general, globalStyle} from '../GlobalStyle';
 
 const overrides = {
     accordion: {

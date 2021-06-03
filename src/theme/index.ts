@@ -1,7 +1,7 @@
 /* eslint-disable no-process-env */
+import {palette as paletteCovea, typography as typographyCovea} from './covea/mat'
 import cdkThemeCovea from './covea/cdk/overrides'
 import cdkThemeStd from './standard/cdk/overrides'
-import {palette as paletteCovea, typography as typographyCovea} from './covea/mat'
 import { typography as typographyStd} from './standard/mat'
 
 let matTheme
