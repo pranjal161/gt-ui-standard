@@ -44,7 +44,7 @@ const useValidator = () => {
             min: getMinValue(data, propertyName),
             max: getMaxValue(data, propertyName),
             visible: isFieldVisible(data, propertyName),
-            disabled: isFieldEditable(data, propertyName),
+            disabled: !isFieldEditable(data, propertyName),
             required: isFieldRequired(data, propertyName),
             minLength: getMinLength(data, propertyName),
             maxLength: getMaxLength(data, propertyName),

@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 /**
  * 
  * @param {response} response Response of the HTTP request
@@ -14,6 +15,8 @@ import {
     displayPercent
 } from 'configs/localization';
 
+import { APIConfig } from 'configs/apiConfig';
+import axios from 'axios';
 import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
@@ -465,4 +468,19 @@ export const getDescriptionFromOneOf = (value: string, id: string, response: any
     }
 
     return value;
+}
+
+/** Returns the axios API request 
+ * @param  {Object} payload Object to send in PATCH & POST request
+ * @param  {string} url Resource URL  
+ * @param  {Object} params  Optional parameter pass additional parameter to the request, in case we need change in headers, responseType etc
+ * @param headers
+ * @returns {Promise} 
+ */
+export const APIActions = {
+    
+    get: (url: string, params?: { headers?: any; }) => axios.get(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader })
 }
