@@ -116,6 +116,9 @@ const specific = {
         primaryFontColor: globalTokens.white,
         secondaryFontColor: globalTokens.black,
         textFontColor: globalTokens.white
+    },
+    border:{
+        main:'#D9E2EC'
     }
 };
 
