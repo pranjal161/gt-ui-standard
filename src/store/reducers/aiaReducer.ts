@@ -4,8 +4,8 @@ const initialState = {};
 
 const updateResponse = (newState:any, action:any) => {
     // eslint-disable-next-line array-callback-return
-    Object.keys(action.store).map((baId: any) => {
-        if (baId && baId[action.href]) {
+    Object.keys(action.store).forEach((baId: any) => {
+        if (baId && action.store[baId][action.href]) {
             newState[baId][action.href] = {data:{...action.data}}
         }
         else {
@@ -41,7 +41,7 @@ const AIASlice = createSlice({
             return state;
         },
         aiaPATCHSuccess(state, action) {
-            state = updateResponse(state, action);
+            state = updateResponse(state, action.payload);
         },
         aiaPATCHError(state, action) {
             console.log('Error in BA_PATCH', action);
@@ -66,7 +66,7 @@ const AIASlice = createSlice({
             return state;
         },
         aiaREFRESHSuccess(state, action) {
-            state = updateResponse(state, action)
+            state = updateResponse(state, action.payload)
         },
         aiaREFRESHError(state, action) {
             console.log('Error in BA_REFRESH', action);
@@ -78,9 +78,9 @@ const AIASlice = createSlice({
             return state;
         },
         aiaDELETESuccess(state: any, action: any) {
-            let resources = state[action.baId] ? state[action.baId] : {};
-            delete resources[action.href];
-            state[action.baId] = resources;
+            let resources = state[action.payload.baId] ? state[action.payload.baId] : {};
+            delete resources[action.payload.href];
+            state[action.payload.baId] = resources;
         },
         aiaDELETEError(state, action) {
             console.log('Error in BA_DELETE', action);
