@@ -14,6 +14,7 @@ const providerFn = ({ theme, children }) => {
   return <MatThemeProvider theme={muTheme}>{children}</MatThemeProvider>;
 };
 
+console.log('themes.matTheme', themes.matTheme)
 addDecorator(withThemes(null, [themes.matTheme], { providerFn }));
 
 export const parameters = {
