@@ -1,5 +1,6 @@
-import {Meta, Story} from '@storybook/react';
+import {makeStyles} from '@material-ui/core/styles';
 import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
+import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
 export default {
@@ -9,37 +10,57 @@ export default {
 
 const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
 
+const useStyles = makeStyles((theme) => ({
+    toolBar: {
+        height: '100%',
+        width: '100%',
+        borderColor: 'green',
+        borderStyle: 'dashed'
+    },
+    content: {
+        height: '100%',
+        width: '540px',
+        borderColor: 'green',
+        borderStyle: 'dashed'
+    }
+}));
+
+const NavBar = () => {
+    const classes = useStyles()
+
+    return (<div className={classes.toolBar}>nav</div>)
+}
+
+const Content = () => {
+    const classes = useStyles()
+
+    return (<div className={classes.content}>content</div>)
+}
+
+export const Skeleton = Template.bind({});
+Skeleton.args = {
+    navBar:<NavBar/>,
+    content:<Content/>,
+    open:true,
+};
+
 export const Default = Template.bind({});
 Default.args = {
-    value: 0
-};
-
-export const ShowContract = Template.bind({});
-Default.args = {
-    value: 2
-};
-
-export const ShowClient = Template.bind({});
-ShowClient.args = {
-    value: 2
-};
-
-export const OpenInNewWindow = Template.bind({});
-OpenInNewWindow.args = {
-    value: 2
-};
-
-export const OpenInNewTab = Template.bind({});
-OpenInNewTab.args = {
-    value: 2
+    navBar:<div>nav</div>,
+    content:<Content/>,
+    open:false
 };
 
 export const Expand = Template.bind({});
 Expand.args = {
-    value: 2
+    navBar:<NavBar/>,
+    content:<Content/>,
+    open:true
 };
 
 export const Closed = Template.bind({});
 Closed.args = {
-    value:2
+    navBar:<NavBar/>,
+    content:<Content/>,
+    open:false
 };
