@@ -9,22 +9,8 @@ let cdkTheme
 
 //this is used for initialization of the APP.
 
-// eslint-disable-next-line no-unused-vars
-const components = {
-    MuiTypography: {
-        variants: [
-            {
-                props: {variant: 'display1'},
-                style: {
-                    border: '2px dashed'
-                }
-            }
-        ]
-    }
-}
-
 if (process.env['REACT_APP_CUSTOMER_ID'] === 'standard') {
-    matTheme = {typography: typographyStd, palette: paletteStd, components}
+    matTheme = {typography: typographyStd, palette: paletteStd}
     cdkTheme = cdkThemeStd
 }
 else if (process.env['REACT_APP_CUSTOMER_ID'] === 'covea') {

@@ -3,7 +3,7 @@ import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
 export default {
-    title: 'Components/Inputs/NavBar',
+    title: 'Components/Inputs/AddButton',
     component: AddButton,
 } as Meta;
 
