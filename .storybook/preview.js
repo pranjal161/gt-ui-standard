@@ -1,5 +1,5 @@
 import {ThemeProvider} from '@dxc-technology/halstack-react';
-import {ThemeProvider as MatThemeProvider} from '@material-ui/core';
+import { ThemeProvider as MatThemeProvider } from '@material-ui/core';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {addDecorator} from '@storybook/react';
 import React from 'react';
@@ -25,11 +25,7 @@ export const parameters = {
         },
     },
 }
-
-console.log('themingDecorator', themingDecorator)
-
 /*
 export const decorators = [
     themingDecorator
 ];*/
-
