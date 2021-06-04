@@ -1,4 +1,3 @@
-import * as createPalette from '@material-ui/core/styles/createPalette';
 import React from 'react';
 
 declare module '@material-ui/core/styles/createPalette' {
