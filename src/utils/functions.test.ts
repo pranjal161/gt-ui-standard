@@ -1,6 +1,8 @@
 import 'init/i18n'
+
 import * as functions from './functions';
-import * as staticResources from './static/data';
+import * as staticResources from 'assets/staticData/data';
+
 import {changeLanguageCountry} from 'configs';
 
 changeLanguageCountry('en', 'EN')
