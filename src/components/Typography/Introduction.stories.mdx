@@ -1,0 +1,60 @@
+<!--- Typography.stories.mdx -->
+import {Meta} from '@storybook/addon-docs/blocks';
+
+<Meta
+    title='Typography/Introduction'
+/>
+
+
+# Typography
+Use typography to present your design and content as clearly and efficiently as possible.
+
+> See : https://material-ui.com/components/typography/#typography
+
+
+## In CSS frameworks components
+
+**For Material**, the typography is overrided by a theme.
+> theme.typography
+
+Material components will use correctly the typography according their own rules (size/bold/italic).
+
+**For Cdk**, for now, we can't override the typography, we have only "Open Sans", "sans-serif" fonts.
+
+## Outside CSS frameworks components
+
+Related to the xd Design, we have a list of variant to use : https://xd.adobe.com/view/c8a8aa8e-bcc3-4507-a7c8-b5209c1ae61c-9dfb/variables/
+
+### Project variants
+- titleSection
+- subTitleSection
+- body
+- secondaryBody
+- link
+- tab
+- placeholder
+
+For the moment we can't add these variants to the material variant list : https://material-ui.com/api/typography/
+
+### `<Typo/>` component
+The solution is to use the `<Typo/>` component with our project variants.
+
+> See stories of `<Typo/>`
+
+
+## Specific typography outside variants
+
+As we are not going to create new variants for all the variations of typography, the solution is to use the theme typography is to make the modification locally in your component.
+
+You must use the theme.typography. It is available using material's makeStyle:
+```jsx
+const useStyles = makeStyles((theme) => ({
+    root:{
+        fontFamily: theme.typography.fontFamily,
+        fontSize:'8px',
+        fontStyle:'italic',
+        color: theme.palette.text.primary,
+        fontWeight:'normal',
+        letterSpacing: '0px'
+    }}))
+```

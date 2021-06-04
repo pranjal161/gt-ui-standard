@@ -7,13 +7,13 @@ const overrides = {
     },
     button: {
         baseColor: palette.primary.main, // button's base color theme input
-        hoverBaseColor: palette.button.hoverBaseColor, // button's hover base color theme input
-        primaryFontColor: palette.button.primaryFontColor, // button's primary font color theme input
-        primaryHoverFontColor: palette.button.primaryFontColor, // button's primary hover font color theme input
-        secondaryFontColor: palette.button.secondaryFontColor, // button's secondary font color theme input
-        secondaryHoverFontColor: palette.button.secondaryFontColor, // button's secondary hover font color theme input
+        hoverBaseColor: palette.project.button.hoverBase, // button's hover base color theme input
+        primaryFontColor: palette.project.button.primaryFont, // button's primary font color theme input
+        primaryHoverFontColor: palette.project.button.primaryFont, // button's primary hover font color theme input
+        secondaryFontColor: palette.project.button.secondaryFont, // button's secondary font color theme input
+        secondaryHoverFontColor: palette.project.button.secondaryFont, // button's secondary hover font color theme input
         textFontColor: palette.primary.main, // button's text font color theme input
-        textHoverFontColor: palette.button.textFontColor, // button's text hover font color theme input
+        textHoverFontColor: palette.project.button.textFont, // button's text hover font color theme input
     },
     checkbox: {
         baseColor: palette.secondary.main, // checkbox's base color theme input
