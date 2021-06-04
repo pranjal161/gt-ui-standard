@@ -109,25 +109,39 @@ const palette = {
     text: {
         primary: globalTokens.__grey_1,
         secondary: globalTokens.__grey_2,
-        placeholder: globalTokens.__grey_4, //Added
-        link: colors.blue[600]
     },
-    link: colors.blue[800],
     icon: globalTokens.__grey_2,
     background: {
         default: '#F4F6F8',
         paper: white
     },
-    divider: colors.grey[200]
+    divider: colors.grey[200],
 
 };
-const specific = {
+const project = {
+    tabs: {
+        button: {
+            background: '#FAFBFC',
+            border: '#FAFBFC',
+            color: globalTokens.__grey_3,
+        },
+        activated: {
+            background: globalTokens.__grey_7,
+            color: globalTokens.__grey_1,
+            border:globalTokens.__grey_5,
+        },
+        closeIcon: globalTokens.__grey_1
+    },
     button: {
-        hoverBaseColor: globalTokens.black,
-        primaryFontColor: globalTokens.white,
-        secondaryFontColor: globalTokens.black,
-        textFontColor: globalTokens.white
+        hoverBase: globalTokens.black,
+        primaryFont: globalTokens.white,
+        secondaryFont: globalTokens.black,
+        textFont: globalTokens.white
+    },
+    text: {
+        placeholder: globalTokens.__grey_4,
+        link: globalTokens.__blue_1,
     }
 };
 
-export default {...palette, ...specific}
+export default {...palette, project}

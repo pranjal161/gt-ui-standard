@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     link: {
         fontSize : 14,
-        color:theme.palette.text.link
+        color:theme.palette.project.text.link
     },
     tab: {
         fontSize : 14,
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     placeholder: {
         fontSize : 12,
         fontStyle:'italic',
-        color:theme.palette.text.placeholder
+        color:theme.palette.project.text.placeholder
     },
 }));
 
