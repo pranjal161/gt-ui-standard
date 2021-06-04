@@ -80,9 +80,8 @@ const palette = {
     white,
     primary: {
         contrastText: white,
-        dark: colors.indigo[900],
+        light: colors.blue['A400'],
         main: globalTokens.grey_2,
-        light: colors.indigo[100]
     },
     secondary: {
         contrastText: white,
@@ -116,6 +115,9 @@ const specific = {
         primaryFontColor: globalTokens.white,
         secondaryFontColor: globalTokens.black,
         textFontColor: globalTokens.white
+    },
+    border:{
+        main:'#D9E2EC'
     }
 };
 
