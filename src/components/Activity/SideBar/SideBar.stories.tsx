@@ -1,5 +1,5 @@
-import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
 import {Meta, Story} from '@storybook/react';
+import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
 import React from 'react';
 
 export default {
