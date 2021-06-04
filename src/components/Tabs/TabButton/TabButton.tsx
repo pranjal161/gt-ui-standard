@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
         height: '48px',
         maxWidth: '300px',
         padding: '9px 14px 9px 6px',
-        backgroundColor: '#FAFBFC',
-        color: '#627D98',
+        backgroundColor: theme.palette.project.tabs.button.background,
+        borderColor: theme.palette.project.tabs.button.border,
+        color: theme.palette.project.tabs.button.color,
         borderStyle: 'solid',
         borderWidth: '2px 2px 0px 2px',
-        borderColor: '#FAFBFC ',
         borderRadius: '2px 2px 0px 0px',
         '& > div': {
             display: 'flex',
@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     buttonActivated: {
-        backgroundColor: '#F5F7FA',
-        color: '#102A43',
-        borderColor: '#BCCCDC',
+        backgroundColor: theme.palette.project.tabs.activated.background,
+        borderColor: theme.palette.project.tabs.activated.border,
+        color: theme.palette.project.tabs.activated.color,
         borderRadius: '4px 4px 0px 0px'
     },
     titlesContainer: {
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     },
     buttonCloseIcon: {
         '& > svg': {
-            color: '#102A43'
+            color: theme.palette.project.tabs.closeIcon,
         }
     }
 }))
