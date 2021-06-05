@@ -1,6 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles';
 import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 import SideBar from 'components/SideBar/SideBar';
+import Typo from 'components/Typography/Typo';
 import React, {useState} from 'react';
 
 export interface ActivitySideBarProps {
@@ -69,10 +70,11 @@ const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBar
 
     const Toolbar = () => <SavingToolbar value={nav} onChange={handleNavChange}/>
     const Content = () => <div className={classes.content}>{nav}</div>
+    const Header = () => <Typo variant={'title'} value={'Contract view'} />
 
     return (
         <div className={classes.root}>
-            <SideBar open={open} toolbar={<Toolbar/>} content={<Content/>}/>
+            <SideBar open={open} header={<Header />} toolbar={<Toolbar/>} content={<Content/>}/>
         </div>
     )
 }

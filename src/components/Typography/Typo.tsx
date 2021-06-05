@@ -7,7 +7,7 @@ export interface TypoProps {
     /**
      * Variant to use
      */
-    variant: 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' ;
+    variant: 'title' | 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' ;
 
     /**
      * Value to display
@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.text.primary,
         fontWeight:'normal',
         letterSpacing: '0px'
+    },
+    title: {
+        fontSize : 16,
+        fontWeight:'bold'
     },
     titleSection: {
         fontSize : 16,
