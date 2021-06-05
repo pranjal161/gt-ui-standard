@@ -19,9 +19,8 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 0,
         color: theme.palette.project.sidebar.toolbar.color,
         textDecoration: 'none',
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
     },
-
     itemActivated: {
         color: theme.palette.project.sidebar.toolbar.activatedColor,
         backgroundColor: theme.palette.project.sidebar.toolbar.activatedBackground

@@ -1,6 +1,7 @@
+import {DoubleArrowRightIcon, DoubleArrowLeftIcon} from 'assets/svg';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
-import React from 'react';
 
 export interface SideBarProps {
 
@@ -22,7 +23,7 @@ export interface SideBarProps {
     /**
      * className to add
      */
-    className? : any
+    className?: any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -32,24 +33,36 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flex: '1 0 auto',
         height: '400px',
-        width:'fit-content',
+        width: 'fit-content',
     },
     toolbar: {
         height: '100%',
         display: 'flex',
+        flexDirection:'column',
         flex: '0 0 auto',
-        justifyContent : 'left',
-        width:'44px',
+        justifyContent: 'left',
+        width: '44px',
         overflow: 'hidden',
         borderColor: theme.palette.project.sidebar.toolbar.border,
         borderWidth: 1,
-        borderStyle:'solid'
+        borderStyle: 'solid'
+    },
+    toggle: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: '44px',
+        height: '44px',
+        marginTop: theme.spacing(3),
+        color: theme.palette.project.sidebar.toolbar.color,
+        textDecoration: 'none',
+        backgroundColor: theme.palette.background.paper
     },
     content: {
         height: '100%',
         display: 'flex',
         flex: '1 1 auto',
-        width:'fit-content',
+        width: 'fit-content',
         overflow: 'hidden'
     },
     contentOpen: {
@@ -59,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     contentClose: {
-        display:'none',
+        display: 'none',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -67,18 +80,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SideBar: React.FC<SideBarProps> = ({toolbar, content, open, className=''}: SideBarProps) => {
+const SideBar: React.FC<SideBarProps> = ({toolbar, content, open, className = ''}: SideBarProps) => {
     const classes = useStyles();
+    const [toggle, setToggle] = useState(open)
 
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.toolbar}>
+                <div className={classes.toggle} onClick={() => setToggle((value) => !value)}>
+                    {toggle?<DoubleArrowRightIcon/>:<DoubleArrowLeftIcon/>}
+                </div>
                 {toolbar}
             </div>
             <div
                 className={clsx(classes.content, {
-                    [classes.contentOpen]: open,
-                    [classes.contentClose]: !open,
+                    [classes.contentOpen]: toggle,
+                    [classes.contentClose]: !toggle,
                 })}
             >
                 {content}

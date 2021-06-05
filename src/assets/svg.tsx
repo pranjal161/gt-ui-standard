@@ -38,3 +38,23 @@ export const TicketIcon = makeIcon('M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.
 export const ContractIcon = makeIcon('M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z')
 export const ContactIcon = makeIcon('M13.17,4L18,8.83V20H6V4H13.17 M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2L14,2z M12,14 c1.1,0,2-0.9,2-2c0-1.1-0.9-2-2-2s-2,0.9-2,2C10,13.1,10.9,14,12,14z M16,17.43c0-0.81-0.48-1.53-1.22-1.85 C13.93,15.21,12.99,15,12,15c-0.99,0-1.93,0.21-2.78,0.58C8.48,15.9,8,16.62,8,17.43V18h8V17.43z')
 export const BusinessIcon = makeIcon('M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z')
+export const DoubleArrowRightIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" focusable="false"
+        aria-hidden="true" className="SvgIcon-root">
+        <g>
+            <g>
+                <polygon points="15.5,5 11,5 16,12 11,19 15.5,19 20.5,12"/>
+                <polygon points="8.5,5 4,5 9,12 4,19 8.5,19 13.5,12"/>
+            </g>
+        </g>
+    </svg>)
+export const DoubleArrowLeftIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" focusable="false"
+        aria-hidden="true" className="SvgIcon-root">
+        <g>
+            <g>
+                <polygon points="15.5,5 11,5 16,12 11,19 15.5,19 20.5,12" transform="rotate(180, 12, 12)"/>
+                <polygon points="8.5,5 4,5 9,12 4,19 8.5,19 13.5,12" transform="rotate(180, 12, 12)"/>
+            </g>
+        </g>
+    </svg>)
