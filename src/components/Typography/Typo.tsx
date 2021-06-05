@@ -14,6 +14,11 @@ export interface TypoProps {
      */
     value: any
 
+    /**
+     * className
+     */
+    className?:string
+
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -63,10 +68,10 @@ const useStyles = makeStyles((theme: Theme) => ({
  * @param {TypoProps} props Props of the component.
  * @returns {React.component} Display the typography
  */
-const Typo: React.FC<TypoProps> = ({variant, value}: TypoProps) => {
+const Typo: React.FC<TypoProps> = ({variant, value, className=''}: TypoProps) => {
     const classes:any = useStyles()
 
-    return (<span className={clsx(classes.root, classes[variant])}>{value}</span>)
+    return (<span className={clsx(classes.root, className, classes[variant])}>{value}</span>)
 }
 
 export default Typo;

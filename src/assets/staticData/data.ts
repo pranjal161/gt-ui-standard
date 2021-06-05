@@ -1394,7 +1394,9 @@ export const resource = {
     'contract:signature_date': '2021-05-05',
     'contract:start_date': '2022-05-05',
     'contract:nature_label': null,
-    'contract:product_type': 'multi_risk'
+    'contract:product_type': 'multi_risk',
+    'contract:amount': '1200300.45',
+    'loan_account:total_amount_due' : '45.67'
 };
 
 export const consistentResource = {

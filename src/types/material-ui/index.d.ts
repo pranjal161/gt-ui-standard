@@ -10,6 +10,7 @@ declare module '@material-ui/core/styles/createPalette' {
     }
     interface ProjectText extends TypeText{
         placeholder: React.CSSProperties['color'],
+        label: React.CSSProperties['color'],
         link:React.CSSProperties['color']
     }
 

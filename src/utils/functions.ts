@@ -1,6 +1,6 @@
 /* eslint-disable no-process-env */
 /**
- * 
+ *
  * @param {response} response Response of the HTTP request
  * @param {linkName} linkName Title of the link which you want to retrieve
  * @returns {link} Href of the linkName provided that is present in the response
@@ -15,9 +15,9 @@ import {
     displayPercent
 } from 'configs/localization';
 
-import { APIConfig } from 'configs/apiConfig';
+import {APIConfig} from 'configs/apiConfig';
 import axios from 'axios';
-import {logErrorByCode} from 'utils/system';
+//import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
     if (response &&
@@ -32,7 +32,7 @@ export const getLink = (response: any, linkName: string) => {
 }
 
 /**
- * 
+ *
  * @param {options} options Response of the HTTP request
  * @returns {mergedOptions} Merge multiple oneOf schema objects
  */
@@ -40,15 +40,15 @@ const mergeOptions = (options: any) => {
     let mergedOptions = {};
     if (options.oneOf.length > 1) {
         for (const item of options.oneOf) {
-            mergedOptions = { ...mergedOptions, ...item };
+            mergedOptions = {...mergedOptions, ...item};
         }
     }
-    
+
     return mergedOptions;
 }
 
 /**
- * 
+ *
  * @param {response} response Response of the HTTP request
  * @returns {options} Property Options for Table
  */
@@ -70,7 +70,7 @@ export const getPropertyOptionsFromTable = (response: any) => {
 }
 
 /**
- * 
+ *
  * @param {value} value Value of the field
  * @param {id} id ID of the field whose oneOf should be picked
  * @param {response} response Response of the HTTP request
@@ -98,9 +98,10 @@ export const getDescriptionValue = (value: any, id: string, response: any, type?
  * It's based on locale parametrization
  * @param {any} value Value to format
  * @param {string  | undefined} style Oneof : currency, percent, decimal, date, dateLong
+ * @param {string  | undefined} option extra option, can be the current currency for example
  * @return {string | undefined} formatted value | undefined
  */
-export const formatValue = (value: any, style?: string | undefined) => {
+export const formatValue = (value: any, style?: string | undefined, option?: string) => {
     if (!value)
         return
 
@@ -108,8 +109,11 @@ export const formatValue = (value: any, style?: string | undefined) => {
         return value
 
     switch (style) {
+        case 'text':
+            return value
+
         case 'currency':
-            return displayCurrency(value)
+            return displayCurrency(value, option)
 
         case 'percent':
             return displayPercent(value)
@@ -128,10 +132,10 @@ export const formatValue = (value: any, style?: string | undefined) => {
                 return '00/00/0000'
 
             const date = new Date(value);
-            
+
             return (style === 'date') ? displayDate(date) : displayLongDate(date)
         default: {
-            logErrorByCode('formatValueStyleNotDefined', {style, value})
+            //logErrorByCode('formatValueStyleNotDefined', {style, value})
 
             return value
         }
@@ -139,7 +143,7 @@ export const formatValue = (value: any, style?: string | undefined) => {
 }
 
 /**
- * 
+ *
  * @param {paginateUrl} paginateUrl Url with or without other parameters
  * @param {page} page Current Page Number
  * @param {perPageItems} perPageItems How many items to retrieve in single page
@@ -159,7 +163,7 @@ export const paginationLink = (paginateUrl: string, page: number, perPageItems: 
 }
 
 /**
- * 
+ *
  * @param {response} response Response of the HTTP request
  * @returns {consistency} BOOLEAN if consistent or not
  */
@@ -171,7 +175,7 @@ export const isResponseConsistent = (response: any) => {
 }
 
 /**
- * 
+ *
  * @param {response} response Response of the HTTP request
  * @returns {report} OBJECT - consist of consistency report and error messages if any
  */
@@ -183,7 +187,7 @@ export const getStatusReport = (response: any) => {
 }
 
 /**
- * 
+ *
  * @param {date}date The initial date for which days will be added
  * @param {days} days Number of days that will be added on the initial date
  * @returns {date} The new date
@@ -201,13 +205,13 @@ export function addDays(date: any, days: number) {
  * @returns {*} URL - with Parameters for the search - for eg. persons, tickets, contracts
  */
 export function search(obj: any) {
-    const { searchUrl, name, value } = obj;
+    const {searchUrl, name, value} = obj;
     let url = `${searchUrl}?`;
     let params;
     const nameSelected = value;
-    
+
     if (nameSelected && nameSelected !== '') {
-        
+
         if (nameSelected !== undefined) {
             params = name + '=' + nameSelected;
         }
@@ -219,7 +223,7 @@ export function search(obj: any) {
             return (url + params);
         }
     }
-    
+
     return ''
 }
 
@@ -245,7 +249,7 @@ export const getValues = (array: Array<any>, filterBy: string, matchingValue: st
  */
 export const getOneOfFromResponse = (response: any, id: string) => {
     const enumItemList = [];
-    if(response._options &&
+    if (response._options &&
         response._options.properties &&
         response._options.properties[id] &&
         response._options.properties[id]['oneOf']) {
@@ -256,7 +260,7 @@ export const getOneOfFromResponse = (response: any, id: string) => {
             const isExisting = processedList.filter((array: any) => array.enum === item.enum);
             if (isExisting.length === 0) {
                 processedList.push(item);
-                enumItemList.push({ value: item.enum[0], label: item.title });
+                enumItemList.push({value: item.enum[0], label: item.title});
             }
         }
     }
@@ -275,18 +279,18 @@ export const isFieldEditable = (response: any, field: string): boolean => {
         if (!patchLink) {
             return false;
         }
-        
+
         return !!(patchLink &&
             patchLink['schema'] &&
             patchLink['schema']['properties'] &&
             patchLink['schema']['properties'][field]);
     }
-    
+
     return false;
 
 }
 
-/**Whether the propertyName provided is a required field. 
+/**Whether the propertyName provided is a required field.
  * @param  {any} response provided response
  * @param  {string} field the field/propertyName which should be checked whether required
  * @returns {boolean} true, if present in required array in API
@@ -303,9 +307,9 @@ export const isFieldRequired = (response: any, field: string) => (
  * @returns {boolean} true, if allowed for GET and therefore should be visible on screen
  */
 export const isFieldVisible = (response: any, field: string): boolean => {
-    if(response && response['_options'] &&
-    response['_options']['properties'] &&
-    response['_options']['properties'][field]) {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][field]) {
         return true;
     }
     else {
@@ -314,7 +318,7 @@ export const isFieldVisible = (response: any, field: string): boolean => {
 }
 
 /** If POST method is allowed on the current href
- * @param  {any} response provided response 
+ * @param  {any} response provided response
  * @returns {boolean} whether the POST operation is available for href
  */
 export const isFieldCreatable = (response: any): boolean => {
@@ -323,15 +327,15 @@ export const isFieldCreatable = (response: any): boolean => {
         if (postLink.isEmpty()) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     return false;
 }
 
 /** If DELETE method is allowed on the current href or response._links.self.href
- * @param  {any} response provided response 
+ * @param  {any} response provided response
  * @returns {boolean} whether the DELETE operation is available for href
  */
 export const isFieldDeletable = (response: any): boolean => {
@@ -340,10 +344,10 @@ export const isFieldDeletable = (response: any): boolean => {
         if (deleteLink.isEmpty()) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     return false;
 }
 
@@ -382,7 +386,7 @@ export const getTitle = (response: any): string | null => {
 
 /** Fetches allowed minlength from API for a property
  * @param  {any} response API response provided
- * @param  {string} propertyName concerned propertyName 
+ * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed min Length value
  */
 export const getMinLength = (response: any, propertyName: string) => {
@@ -396,7 +400,7 @@ export const getMinLength = (response: any, propertyName: string) => {
 
 /** Fetches allowed maxlength from API for a property
  * @param  {any} response API response provided
- * @param  {string} propertyName concerned propertyName 
+ * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed maxLength value
  */
 export const getMaxLength = (response: any, propertyName: string) => {
@@ -410,7 +414,7 @@ export const getMaxLength = (response: any, propertyName: string) => {
 
 /** Fetches allowed minimum allowed value from API for a property
  * @param  {any} response API response provided
- * @param  {string} propertyName concerned propertyName 
+ * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed minimum value
  */
 export const getMinValue = (response: any, propertyName: string) => {
@@ -424,7 +428,7 @@ export const getMinValue = (response: any, propertyName: string) => {
 
 /** Fetches allowed maximum allowed value from API for a property
  * @param  {any} response API response provided
- * @param  {string} propertyName concerned propertyName 
+ * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed maximum value
  */
 export const getMaxValue = (response: any, propertyName: string) => {
@@ -436,16 +440,16 @@ export const getMaxValue = (response: any, propertyName: string) => {
     }
 }
 
-/** Returns the type of property 
+/** Returns the type of property
  * @param  {any} response API response provided
- * @param  {string} propertyName concerned propertyName 
+ * @param  {string} propertyName concerned propertyName
  * @returns {string} type like number, array, string etc
  */
 export const getPropertyType = (response: any, propertyName: string) => {
     if (response && response['_options'] &&
-    response['_options']['properties'] &&
-    response['_options']['properties'][propertyName] &&
-    response['_options']['properties'][propertyName].type) {
+        response['_options']['properties'] &&
+        response['_options']['properties'][propertyName] &&
+        response['_options']['properties'][propertyName].type) {
         return response['_options']['properties'][propertyName].type;
     }
 }
@@ -470,17 +474,17 @@ export const getDescriptionFromOneOf = (value: string, id: string, response: any
     return value;
 }
 
-/** Returns the axios API request 
+/** Returns the axios API request
  * @param  {Object} payload Object to send in PATCH & POST request
- * @param  {string} url Resource URL  
+ * @param  {string} url Resource URL
  * @param  {Object} params  Optional parameter pass additional parameter to the request, in case we need change in headers, responseType etc
  * @param headers
- * @returns {Promise} 
+ * @returns {Promise}
  */
 export const APIActions = {
-    
-    get: (url: string, params?: { headers?: any; }) => axios.get(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader })
+
+    get: (url: string, params?: { headers?: any; }) => axios.get(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
+    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
+    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
+    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader})
 }

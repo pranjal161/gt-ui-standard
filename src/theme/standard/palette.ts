@@ -141,6 +141,7 @@ const project = {
     },
     text: {
         placeholder: globalTokens.__grey_4,
+        label: globalTokens.__grey_3,
         link: globalTokens.__blue_1,
     },
     sidebar : {

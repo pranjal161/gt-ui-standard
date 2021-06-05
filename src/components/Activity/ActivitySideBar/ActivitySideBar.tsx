@@ -1,8 +1,9 @@
-import {makeStyles} from '@material-ui/core/styles';
+import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+import React, {useState} from 'react';
 import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 import SideBar from 'components/SideBar/SideBar';
 import Typo from 'components/Typography/Typo';
-import React, {useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface ActivitySideBarProps {
 
@@ -20,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flex: '1 0 auto',
         height: '400px',
-        width:'fit-content',
+        width: 'fit-content',
     },
     navBar: {
         height: '100%',
         display: 'flex',
         flex: '0 0 auto',
-        width:'44px',
+        width: '44px',
         overflow: 'hidden',
         borderColor: theme.palette.primary.main,
         borderStyle:'solid'
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flex: '1 1 auto',
-        width:'300px',
+        width: '330px',
         overflow: 'hidden'
     },
     contentOpen: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     contentClose: {
-        display:'none',
+        display: 'none',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -61,20 +62,32 @@ const items = {
         {display: 'Person 2', id: 'person2'}],
 }
 
+const sectionItems: PanelSectionItem[] = [
+    {id: 'contract:number', styleType:[ 'text']},
+    {id: 'contract:product_identifier', styleType:[ 'text']},
+    {id: 'contract:product_type', styleType:[ 'text']},
+    {id: 'contract:status', styleType:[ 'text']},
+    {id: 'contract:start_date', styleType:[ 'date']},
+    {id: 'contract:amount', styleType:[ 'currency', 'USD']},
+    {id: 'loan_account:total_amount_due', styleType:[ 'percent']}
+]
+
 const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
     const classes = useStyles();
 
     const [nav, setNav] = useState(Object.keys(items)[0])
 
-    const handleNavChange = (value:string) => setNav(value)
+    const handleNavChange = (value: string) => setNav(value)
 
     const Toolbar = () => <SavingToolbar value={nav} onChange={handleNavChange}/>
-    const Content = () => <div className={classes.content}>{nav}</div>
-    const Header = () => <Typo variant={'title'} value={'Contract view'} />
+    const Content = () => <div className={classes.content}>
+        <PanelSection title={'Details'} items={sectionItems}/>
+    </div>
+    const Header = () => <Typo variant={'title'} value={'Contract view'}/>
 
     return (
         <div className={classes.root}>
-            <SideBar open={open} header={<Header />} toolbar={<Toolbar/>} content={<Content/>}/>
+            <SideBar open={open} header={<Header/>} toolbar={<Toolbar/>} content={<Content/>}/>
         </div>
     )
 }
