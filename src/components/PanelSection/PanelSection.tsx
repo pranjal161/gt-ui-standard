@@ -1,6 +1,4 @@
 import {makeStyles} from '@material-ui/core/styles';
-import {resource} from 'assets/staticData/data';
-import LabelInline from 'components/LabelInline/LabelInline';
 import Typo from 'components/Typography/Typo';
 import React from 'react';
 
@@ -27,9 +25,9 @@ export interface PanelSectionProps {
     title?: any,
 
     /**
-     * items to display
+     * content to display
      */
-    items?: PanelSectionItem[]
+    content?: any
 
 }
 
@@ -49,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         borderBottomStyle: 'solid',
         borderBottomColor: theme.palette.project.sidebar.toolbar.border
     },
-    items: {
+    content: {
         paddingTop: theme.spacing(2),
         ' & > * ': {
             marginBottom: theme.spacing(1)
@@ -58,15 +56,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const PanelSection: React.FC<PanelSectionProps> = ({title, items}: PanelSectionProps) => {
+const PanelSection: React.FC<PanelSectionProps> = ({title, content}: PanelSectionProps) => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <Typo className={classes.title} variant={'subTitleSection'} value={title}/>
-            <div className={classes.items}>
-                {items && items.map(
-                    (item) => <LabelInline key={item.id} property={item.id} data={resource} styleType={item.styleType}/>)}
+            <div className={classes.content}>
+                {content}
             </div>
         </div>
     )

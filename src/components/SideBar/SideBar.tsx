@@ -1,4 +1,5 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
+import WithScroll from 'components/WithScroll/WithScroll';
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -39,14 +40,14 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'start',
         flexDirection: 'row',
         flex: '1 0 auto',
-        height: '400px',
+        height: '100%',
         width: 'fit-content',
     },
     toolbar: {
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         flex: '0 0 auto',
+        placeSelf:'stretch',
         justifyContent: 'left',
         width: '44px',
         overflow: 'hidden',
@@ -69,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         margin : theme.spacing(3,4,0,4),
         flexDirection: 'column',
-        alignItems: 'start'
+        alignItems: 'start',
+        height:'-webkit-fill-available'
     },
     divider:{
         borderBottomWidth:2,
@@ -90,11 +92,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     content: {
-        height: '100%',
         display: 'flex',
         flex: '1 1 auto',
         width: 'fit-content',
-        overflow: 'hidden'
     },
     contentOpen: {
         transition: theme.transitions.create('width', {
@@ -140,7 +140,9 @@ const SideBar: React.FC<SideBarProps> = ({toolbar, header='no header', content, 
                 </div>
                 <div
                     className={classes.content}>
-                    {content}
+                    <WithScroll visibleHeight={'600px'}>
+                        {content}
+                    </WithScroll>
                 </div>
             </div>
         </div>

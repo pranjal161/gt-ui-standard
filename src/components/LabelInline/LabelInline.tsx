@@ -20,6 +20,11 @@ export interface LabelInlineProps {
      * Style of the type + option
      */
     styleType?: ['text' | 'currency' | 'percent' | 'decimal' | 'number' | 'date' | 'dateLong', any?]
+
+    /**
+     * classname to add to Root classeName
+     */
+    className?:string
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -76,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {props} props Contains information related to the LabelInline
  * @returns {*} Return the LabelInline
  */
-const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['text']}: LabelInlineProps) => {
+const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['text'], className}: LabelInlineProps) => {
     const classes: any = useStyles();
     const {t} = useTranslation();
 
@@ -98,7 +103,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['
     }
 
     return (
-        <div className={classes.root}>
+        <div className={clsx(classes.root, className)}>
             <div className={classes.label}>
                 {property && t(property)}
             </div>

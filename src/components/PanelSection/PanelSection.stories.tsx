@@ -3,7 +3,7 @@ import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
 export default {
-    title: 'Components/PanelSectionItem',
+    title: 'Components/PanelSection',
     component: PanelSection,
 } as Meta;
 
