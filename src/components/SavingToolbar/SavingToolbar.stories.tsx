@@ -1,4 +1,4 @@
-import SavingToolbar, {SavingToolbarProps} from './SavingToolbar';
+import SavingToolbar, {SavingToolbarProps} from 'components/SavingToolbar/SavingToolbar';
 import {Meta, Story} from '@storybook/react';
 import React from 'react';
 

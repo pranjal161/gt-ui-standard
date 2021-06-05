@@ -1,5 +1,5 @@
 import {makeStyles} from '@material-ui/core/styles';
-import SideBar, {SideBarProps} from 'components/Activity/SideBar/SideBar';
+import SideBar, {SideBarProps} from 'components/SideBar/SideBar';
 import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const NavBar = () => {
+const Toolbar = () => {
     const classes = useStyles()
 
     return (<div className={classes.toolBar}>nav</div>)
@@ -39,28 +39,28 @@ const Content = () => {
 
 export const Skeleton = Template.bind({});
 Skeleton.args = {
-    navBar:<NavBar/>,
+    toolbar:<Toolbar/>,
     content:<Content/>,
     open:true,
 };
 
 export const Default = Template.bind({});
 Default.args = {
-    navBar:<div>nav</div>,
+    toolbar:<div>toolbar</div>,
     content:<Content/>,
     open:false
 };
 
 export const Expand = Template.bind({});
 Expand.args = {
-    navBar:<NavBar/>,
+    toolbar:<Toolbar/>,
     content:<Content/>,
     open:true
 };
 
 export const Closed = Template.bind({});
 Closed.args = {
-    navBar:<NavBar/>,
+    toolbar:<Toolbar/>,
     content:<Content/>,
     open:false
 };

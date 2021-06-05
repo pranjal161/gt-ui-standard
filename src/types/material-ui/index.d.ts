@@ -27,10 +27,20 @@ declare module '@material-ui/core/styles/createPalette' {
         closeIcon : React.CSSProperties['color']
     }
 
+    interface ProjectSideBar {
+        toolbar : {
+            border: React.CSSProperties['color'],
+            color: React.CSSProperties['color'],
+            activatedBackground: React.CSSProperties['color'],
+            activatedColor: React.CSSProperties['color'],
+        }
+    }
+
     interface Project {
         button:ProjectButtonOption;
         text:ProjectText;
         tabs:ProjectTabButton;
+        sidebar:ProjectSideBar;
     }
 
     interface Palette {

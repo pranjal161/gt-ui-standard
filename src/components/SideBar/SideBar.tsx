@@ -10,14 +10,9 @@ export interface SideBarProps {
     open?: boolean
 
     /**
-     * NavBar
+     * toolbar
      */
-    navBar?: any
-
-    /**
-     * Header
-     */
-    header?: any
+    toolbar?: any
 
     /**
      * content
@@ -39,13 +34,15 @@ const useStyles = makeStyles((theme) => ({
         height: '400px',
         width:'fit-content',
     },
-    navBar: {
+    toolbar: {
         height: '100%',
         display: 'flex',
         flex: '0 0 auto',
+        justifyContent : 'left',
         width:'44px',
         overflow: 'hidden',
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.project.sidebar.toolbar.border,
+        borderWidth: 1,
         borderStyle:'solid'
     },
     content: {
@@ -70,13 +67,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SideBar: React.FC<SideBarProps> = ({navBar, content, open, className=''}: SideBarProps) => {
+const SideBar: React.FC<SideBarProps> = ({toolbar, content, open, className=''}: SideBarProps) => {
     const classes = useStyles();
 
     return (
         <div className={clsx(classes.root, className)}>
-            <div className={classes.navBar}>
-                {navBar}
+            <div className={classes.toolbar}>
+                {toolbar}
             </div>
             <div
                 className={clsx(classes.content, {

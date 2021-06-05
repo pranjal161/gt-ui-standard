@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {ContractIcon, PersonSmallIcon} from 'assets/svg';
 import React from 'react';
-import VerticalToolbar from 'components/Activity/SideBar/VerticalToolBar/VerticalToolbar';
+import VerticalToolbar from 'components/VerticalToolBar/VerticalToolbar';
 
 const items = [
     {value: 'contract', display: <ContractIcon size={18}/>},
