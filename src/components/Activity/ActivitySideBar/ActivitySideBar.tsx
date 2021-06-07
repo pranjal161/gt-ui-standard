@@ -100,9 +100,10 @@ const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBar
 
     const Content = () => <div className={classes.content}>
         <PanelSection title={'Details'} content={<FirstSectionContent/>}/>
-        <PanelSection title={'Details'} content={<FirstSectionContent/>}/>
+        <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
+        <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
     </div>
-    const Header = () => <Typo variant={'title'} value={'Contract view'}/>
+    const Header = () => <Typo variant={'title'} value={nav + ' view'}/>
 
     return (
         <div className={classes.root}>

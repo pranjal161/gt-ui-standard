@@ -4,7 +4,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
 export default {
-    title: 'Components/Activity/SideBar',
+    title: 'Components/SideBar',
     component: SideBar,
 } as Meta;
 
@@ -37,18 +37,10 @@ const Content = () => {
     return (<div className={classes.content}>content</div>)
 }
 
-export const Skeleton = Template.bind({});
-Skeleton.args = {
-    toolbar:<Toolbar/>,
-    content:<Content/>,
-    open:true,
-};
-
 export const Default = Template.bind({});
 Default.args = {
-    toolbar:<div>toolbar</div>,
+    toolbar:<Toolbar/>,
     content:<Content/>,
-    open:false
 };
 
 export const Expand = Template.bind({});

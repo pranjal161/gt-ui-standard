@@ -22,9 +22,14 @@ export interface LabelInlineProps {
     styleType?: ['text' | 'currency' | 'percent' | 'decimal' | 'number' | 'date' | 'dateLong', any?]
 
     /**
+     * isLoading
+     */
+    loading?: boolean
+
+    /**
      * classname to add to Root classeName
      */
-    className?:string
+    className?: string
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +50,24 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'left',
         width: '50%',
 
+    },
+    loading: {
+        height:'100%',
+        width: '50%',
+        background: theme.palette.common.white,
+        display: 'flex',
+        alignItems: 'center',
+        lineHeight: '1rem',
+    },
+    loadingItem: {
+        animation: 'glow 1.5s ease-in-out infinite',
+        borderTop: '1px solid #f0f9fb',
+        background: theme.palette.project.skeleton,
+        width: '50%',
+        height:'1rem',
+        color: 'transparent',
+        cursor: 'progress',
+        display: 'inline-block'
     },
     value: {
         color: theme.palette.text.primary,
@@ -81,9 +104,16 @@ const useStyles = makeStyles((theme) => ({
  * @param {props} props Contains information related to the LabelInline
  * @returns {*} Return the LabelInline
  */
-const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['text'], className}: LabelInlineProps) => {
+const LabelInline: React.FC<LabelInlineProps> = ({
+    property,
+    data,
+    loading,
+    styleType = ['text'],
+    className
+}: LabelInlineProps) => {
     const classes: any = useStyles();
     const {t} = useTranslation();
+    const Skeleton = () => <div className={classes.loading}><span className={classes.loadingItem}></span></div>
 
     /**
      * Retrieve description for a given data
@@ -94,7 +124,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['
             let value = getDescriptionFromOneOf(data[property], property, data);
 
             if (styleType)
-                value = formatValue(value, styleType[0],styleType[1] )
+                value = formatValue(value, styleType[0], styleType[1])
 
             return value
         }
@@ -105,10 +135,10 @@ const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.label}>
-                {property && t(property)}
+                {loading ? <Skeleton/> : property && t(property)}
             </div>
             <div className={classes.value}>
-                <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>
+                {loading ? <Skeleton/> : <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>}
             </div>
         </div>
     );

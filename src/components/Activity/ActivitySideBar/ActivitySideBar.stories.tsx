@@ -3,7 +3,7 @@ import {Meta, Story} from '@storybook/react';
 import React from 'react';
 
 export default {
-    title: 'Components/ActivitySideBar',
+    title: 'Components/Activity/ActivitySideBar',
     component: ActivitySideBar,
     decorators: [(story) => <div style={{flex: '1 1 auto', height: '600px'}}>{story()}</div>],
 } as Meta;
@@ -12,6 +12,6 @@ const Template: Story<ActivitySideBarProps> = (args) => <ActivitySideBar {...arg
 
 export const Default = Template.bind({});
 Default.args = {
-    open: true
+    open:true
 };
 

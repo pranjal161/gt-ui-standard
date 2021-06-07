@@ -151,8 +151,9 @@ const project = {
             activatedBackground : globalTokens.__grey_7,
             activatedColor : globalTokens.__purple_99,
         }
+    },
+    skeleton : globalTokens.__grey_4
 
-    }
 };
 
 export default {...palette, project}

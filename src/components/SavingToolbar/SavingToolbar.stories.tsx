@@ -3,7 +3,7 @@ import SavingToolbar, {SavingToolbarProps} from 'components/SavingToolbar/Saving
 import React from 'react';
 
 export default {
-    title: 'Components/SavingToolbar',
+    title: 'Business Components/SavingToolbar',
     component: SavingToolbar,
 } as Meta;
 

@@ -1,3 +1,4 @@
+import {useMediaQuery, useTheme} from '@material-ui/core';
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 import React, {useState} from 'react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
@@ -122,7 +123,10 @@ const SideBar: React.FC<SideBarProps> = ({
     className = ''
 }: SideBarProps) => {
     const classes = useStyles();
-    const [toggle, setToggle] = useState(open)
+    const theme = useTheme()
+    const isLargeMedia = useMediaQuery(theme.breakpoints.up('md'))
+    const defaultOpen = open || isLargeMedia
+    const [toggle, setToggle] = useState(defaultOpen)
 
     return (
         <div className={clsx(classes.root, className)}>
