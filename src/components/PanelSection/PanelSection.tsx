@@ -1,6 +1,6 @@
-import {makeStyles} from '@material-ui/core/styles';
-import Typo from 'components/Typography/Typo';
 import React from 'react';
+import Typo from 'components/Typography/Typo';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface PanelSectionItem {
 

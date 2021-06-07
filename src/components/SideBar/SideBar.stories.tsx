@@ -1,7 +1,7 @@
-import {makeStyles} from '@material-ui/core/styles';
-import SideBar, {SideBarProps} from 'components/SideBar/SideBar';
 import {Meta, Story} from '@storybook/react';
+import SideBar, {SideBarProps} from 'components/SideBar/SideBar';
 import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 
 export default {
     title: 'Components/Activity/SideBar',
@@ -10,16 +10,16 @@ export default {
 
 const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     toolBar: {
         height: '100%',
-        width: '100%',
+        width: '74px',
         borderColor: 'green',
         borderStyle: 'dashed'
     },
     content: {
         height: '100%',
-        width: '540px',
+        width: '600px',
         borderColor: 'green',
         borderStyle: 'dashed'
     }

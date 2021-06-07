@@ -1,6 +1,6 @@
-import LabelInline from 'components/LabelInline/LabelInline';
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import React, {useState} from 'react';
+import LabelInline from 'components/LabelInline/LabelInline';
 import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 import SideBar from 'components/SideBar/SideBar';
 import Typo from 'components/Typography/Typo';
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 auto',
         alignItems: 'stretch',
         width: 'fit-content',
+        height: '100%'
     },
     navBar: {
         height: '100%',
@@ -79,7 +80,6 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'contract:product_type', styleType: ['text']},
     {id: 'contract:status', styleType: ['text']},
     {id: 'contract:start_date', styleType: ['date']},
-    {id: 'contract:amount', styleType: ['currency']},
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 

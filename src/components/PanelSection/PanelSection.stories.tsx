@@ -1,5 +1,5 @@
-import PanelSection, {PanelSectionProps} from 'components/PanelSection/PanelSection';
 import {Meta, Story} from '@storybook/react';
+import PanelSection, {PanelSectionProps} from 'components/PanelSection/PanelSection';
 import React from 'react';
 
 export default {

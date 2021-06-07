@@ -1,9 +1,8 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
-import WithScroll from 'components/WithScroll/WithScroll';
 import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import clsx from 'clsx';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import clsx from 'clsx';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface SideBarProps {
 
@@ -34,6 +33,10 @@ export interface SideBarProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+    '@global': {
+        '*::-webkit-scrollbar': {
+            display: 'none'
+        }},
     root: {
         padding: theme.spacing(0),
         display: 'flex',
@@ -47,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '0 0 auto',
-        placeSelf:'stretch',
+        placeSelf: 'stretch',
         justifyContent: 'left',
-        width: '44px',
+        minWidth: '44px',
         overflow: 'hidden',
         borderColor: theme.palette.project.sidebar.toolbar.border,
         borderWidth: 1,
@@ -59,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        maxWidth: '44px',
         height: '44px',
         marginTop: theme.spacing(3),
         color: theme.palette.project.sidebar.toolbar.color,
@@ -68,15 +70,15 @@ const useStyles = makeStyles((theme) => ({
     },
     headerAndContent: {
         display: 'flex',
-        margin : theme.spacing(3,4,0,4),
+        margin: theme.spacing(3, 4, 0, 4),
         flexDirection: 'column',
         alignItems: 'start',
-        height:'-webkit-fill-available'
+        height: '-webkit-fill-available'
     },
-    divider:{
-        borderBottomWidth:2,
-        borderBottomStyle:'solid',
-        borderBottomColor:theme.palette.project.sidebar.toolbar.border
+    divider: {
+        borderBottomWidth: 2,
+        borderBottomStyle: 'solid',
+        borderBottomColor: theme.palette.project.sidebar.toolbar.border
     },
     header: {
         display: 'flex',
@@ -94,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         display: 'flex',
         flex: '1 1 auto',
+        overflowY:'hidden',
         width: 'fit-content',
     },
     contentOpen: {
@@ -111,7 +114,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SideBar: React.FC<SideBarProps> = ({toolbar, header='no header', content, open, className = ''}: SideBarProps) => {
+const SideBar: React.FC<SideBarProps> = ({
+    toolbar,
+    header = 'no header',
+    content,
+    open,
+    className = ''
+}: SideBarProps) => {
     const classes = useStyles();
     const [toggle, setToggle] = useState(open)
 
@@ -138,11 +147,8 @@ const SideBar: React.FC<SideBarProps> = ({toolbar, header='no header', content, 
                         </IconButton>
                     </div>
                 </div>
-                <div
-                    className={classes.content}>
-                    <WithScroll visibleHeight={'600px'}>
-                        {content}
-                    </WithScroll>
+                <div className={classes.content}>
+                    {content}
                 </div>
             </div>
         </div>

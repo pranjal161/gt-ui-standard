@@ -107,7 +107,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({property, data, styleType = ['
             <div className={classes.label}>
                 {property && t(property)}
             </div>
-            <div className={clsx(classes.value, classes[styleType[0]])}>
+            <div className={classes.value}>
                 <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>
             </div>
         </div>

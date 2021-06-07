@@ -1,7 +1,6 @@
 import previous from 'locales/en/_previous.json'
 
 export const findAndSaveMissingTranslation = (namespace:string, field:string) => {
-    console.log('namespace', namespace,field )
     const allPrevious:any = previous
     const result = allPrevious[field]
     saveToLocal(`${namespace}:${field}`, field, result)
