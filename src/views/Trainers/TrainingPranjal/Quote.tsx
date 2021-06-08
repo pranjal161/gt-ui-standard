@@ -75,21 +75,21 @@ const Quote = () => {
     return (
         <>
             {quoteResponse && quoteResponse.data &&
-                <div className="col-12">
-                    <div className="col-6">
+                <div className="m-2">
+                    <div>
                         <SelectInput
                             data={quoteResponse.data}
                             propertyName="quote:frequency"
                             onChangeMethod={patchFrequency}
                         ></SelectInput>
                     </div>
-                    <div className="col-6">
+                    <div>
                         <TextArea
                             propertyName="quote:description"
                             data={quoteResponse.data}
                         />
                     </div>
-                    <div className="col-6">
+                    <div>
                         <TextField
                             onChangeMethod={ownerUpdate}
                             propertyName="quote_owner:email"
@@ -97,25 +97,26 @@ const Quote = () => {
                             data={owner}
                         />
                     </div>
-                    <div className="col-6">
+                    <div>
                         <DateInput
                             propertyName="quote:contract_start_date"
                             data={quoteResponse.data}
                             onBlurMethod={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
                         />
                     </div>
-                    <DateInput
-                        propertyName="quote_owner:birth_date"
-                        data={owner}
-                    />
-
-                    <div className="col-6">
+                    <div>
+                        <DateInput
+                            propertyName="quote_owner:birth_date"
+                            data={owner}
+                        />
+                    </div>
+                    <div>
                         <Label property="quote:period_cost" data={quoteResponse.data} />
                     </div>
-                    <div className="col-6">
+                    <div>
                         <Label property="quote:frequency" data={quoteResponse.data} />
                     </div>
-                    <div className="col-6">
+                    <div>
                         <Label property="quote:contract_start_date" data={quoteResponse.data} type="date" />
                     </div>
                 </div>

@@ -50,7 +50,7 @@ const Coverages = (props: { risks: string }) => {
                     <div style={{ color: 'red' }} onClick={deleteRisk}>
                         Risk inside Quote :  {riskdata && riskdata._links.self.title}
                     </div>
-                    <div className="col-6">
+                    <div>
                         <SelectInput
                             data={riskdata}
                             propertyName="automobile:registration_type"
