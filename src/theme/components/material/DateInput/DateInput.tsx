@@ -45,7 +45,7 @@ const DateInput = (props: InputProps) => {
     }
 
     return (
-        <span hidden={field.visible} data-testid={propertyName}>
+        <span hidden={!field.visible} data-testid={propertyName}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                     id={field.id}
@@ -56,7 +56,7 @@ const DateInput = (props: InputProps) => {
                     required={field?.required}
                     onBlur={onBlur}
                     onChange={onChange}
-                    onFocus=""
+                    onFocus={() => console.log()}
                 />
             </MuiPickersUtilsProvider>
         </span>
