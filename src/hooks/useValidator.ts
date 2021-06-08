@@ -1,9 +1,11 @@
 import {
+    getErrorMessage,
     getLink,
     getMaxLength,
     getMaxValue,
     getMinLength,
     getMinValue,
+    getOneOfFromResponse,
     getPropertyType,
     isFieldEditable,
     isFieldRequired,
@@ -20,7 +22,14 @@ export interface Field {
         minLength: number,
         maxLength: number,
         value: any,
-        type: any
+        type: any,
+        values: Array<OneofInterface>,
+        error: any
+}
+
+export interface OneofInterface {
+    value: any,
+    label: string
 }
 
 export interface InputProps {
@@ -49,7 +58,9 @@ const useValidator = () => {
             minLength: getMinLength(data, propertyName),
             maxLength: getMaxLength(data, propertyName),
             value: data && data.hasOwnProperty(propertyName) ? data[propertyName] : undefined,
-            type: type? type: getPropertyType(data, propertyName)
+            type: type? type: getPropertyType(data, propertyName),
+            values: getOneOfFromResponse(data, propertyName),
+            error: getErrorMessage(data, propertyName)
         }
         
         return field;

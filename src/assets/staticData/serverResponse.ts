@@ -8,6 +8,7 @@ export const response = {
     },
     'quote:contract_start_date': '2021-06-03',
     'quote:start_date': '2021-06-03',
+    'quote:status': 'draft',
     '_options': {
         'links': [
             {
@@ -24,7 +25,10 @@ export const response = {
                         'quote:contract_start_date': {
                             'format': 'date',
                             'type': 'string'
-                        }
+                        },
+                        'quote:status':{'oneOf':[{'description':'language:en-GB','title':'Not saved','enum':['draft']},
+                            {'description':'language:en-GB','title':'Saved','enum':['in_force']},
+                            {'description':'language:en-GB','title':'Transferred','enum':['transferred']}],'type':'string'},
                     }
                 },
                 'method': 'PATCH',
@@ -35,6 +39,7 @@ export const response = {
             }
         ],
         'properties': {
+            'required': ['quote:product_id','quote:distributor_id','quote:status','quote:contract_start_date'],
             'quote:contract_start_date': {
                 'format': 'date',
                 'type': 'string'
@@ -43,12 +48,16 @@ export const response = {
                 'type': 'string',
                 'maxLength': 20
             },
+            'quote:start_date': {
+                'format': 'date',
+                'type': 'string'
+            },
+            'quote:status':{'oneOf':[{'description':'language:en-GB','title':'Not saved','enum':['draft']},
+                {'description':'language:en-GB','title':'Saved','enum':['in_force']},
+                {'description':'language:en-GB','title':'Transferred','enum':['transferred']}],'type':'string'},
         },
-        'required': [
-            'quote:contract_start_date'
-        ]
-    },
-    'quote:description': null
+        'quote:description': null
+    }
 }
 
 export const disableResponse = {
