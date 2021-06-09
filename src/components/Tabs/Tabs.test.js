@@ -1,3 +1,4 @@
+import { ThemeProvider as MatThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import React, { useRef } from 'react';
 
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import Tabs from './Tabs';
 
 import { findByTestAttr } from '../../test/testUtils';
 import { mount } from 'enzyme';
+import themes from 'theme';
 
 let defaultTabs = ['tabId-1', 'tabId-2', 'tabId-3', 'tabId-4'];
 let defaultSelectedTab = defaultTabs[0];
@@ -60,21 +62,24 @@ SimpleComponent.propTypes = {
 
 const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props };
+    const matMuiTheme = createMuiTheme(themes.matTheme);
 
     return mount(
-        <Tabs {...setupProps} >
-            {
-                defaultTabs.map((tabId) => (
-                    <Tab
-                        key={tabId}
-                        tabId={tabId}
-                        title={tabIDObject[tabId]}
-                        activated={defaultSelectedTab === tabId}>
-                        <SimpleComponent text={tabId} />
-                    </Tab>
-                ))
-            }
-        </Tabs>)
+        <MatThemeProvider theme={matMuiTheme}>
+            <Tabs {...setupProps} >
+                {
+                    defaultTabs.map((tabId) => (
+                        <Tab
+                            key={tabId}
+                            tabId={tabId}
+                            title={tabIDObject[tabId]}
+                            activated={defaultSelectedTab === tabId}>
+                            <SimpleComponent text={tabId} />
+                        </Tab>
+                    ))
+                }
+            </Tabs>
+        </MatThemeProvider>)
 }
 
 describe('test 4 tabs component', () => {

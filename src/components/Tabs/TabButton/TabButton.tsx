@@ -162,7 +162,8 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
                     {
                         onTabClose &&
                         <div className={classes.buttonCloseIcon}
-                            onClick={handleTabClose}>
+                            onClick={handleTabClose}
+                            data-test="tab-close-icon">
                             <CloseIcon/>
                         </div>
                     }
