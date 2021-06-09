@@ -64,20 +64,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-const items = {
-    contract:
-        [
-            {display: 'Contract A', id: 'contractA'},
-            {display: 'Contract B', id: 'contractB'},
-            {display: 'Contract C', id: 'contractC'}],
-    person: [
-        {display: 'Person 1', id: 'person1'},
-        {display: 'Person 2', id: 'person2'}
-    ],
-    ticket:
-        [
-            {display: 'Ticket 1', id: 'ticket1'}],
-}
 
 const sectionItems: PanelSectionItem[] = [
     {id: 'contract:number', styleType: ['text']},
@@ -88,14 +74,8 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
-/*
-const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
+const ContentController = (props: { value: string }) => {
     const classes = useStyles();
-
-    const [nav, setNav] = useState(Object.keys(items)[0])
-
-    const handleNavChange = (value: string) => setNav(value)
-
     const FirstSectionContent = () => <>{sectionItems.map(
         (item) => <LabelInline key={item.id}
             property={item.id}
@@ -103,41 +83,39 @@ const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBar
             styleType={item.styleType}
             className={classes.firstSectionContent}/>)}</>
 
-    const Content = () => <div className={classes.content}>
-        <PanelSection title={'Details'} content={<FirstSectionContent/>}/>
+    const content = <div className={classes.content}>
+        <PanelSection title={props.value} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
     </div>
-    const Header = () => <Typo variant={'title'} value={nav + ' view'}/>
 
-    return (
-        <div className={classes.root}>
-            <SideBar open={open} header={<Header/>} toolbar={<SavingToolbar onChange={handleNavChange}/>} content={<Content/>}/>
-        </div>
-    )
+    return content
 }
-*/
+
+const controller = (value: any) => (<ContentController value={value}/>)
+
+const items = {
+    contract:
+        [
+            {display: 'Contract A', id: 'contractA', controller},
+            {display: 'Contract B', id: 'contractB', controller},
+            {display: 'Contract C', id: 'contractC', controller}],
+    person: [
+        {display: 'Person 1', id: 'person1', controller},
+        {display: 'Person 2', id: 'person2', controller},
+    ],
+    ticket:
+        [
+            {display: 'Ticket 1', id: 'ticket1', controller}]
+}
 
 const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items)
 
-    const FirstSectionContent = () => <>{sectionItems.map(
-        (item) => <LabelInline key={item.id}
-            property={item.id}
-            data={resource}
-            styleType={item.styleType}
-            className={classes.firstSectionContent}/>)}</>
-
-    const Content = () => <div className={classes.content}>
-        <PanelSection title={'Details'} content={<FirstSectionContent/>}/>
-        <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
-        <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
-    </div>
-
     return (
         <div className={classes.root}>
-            <SideBar {...sidebarProps} content={<Content/>}/>
+            <SideBar {...sidebarProps} />
         </div>
     )
 }

@@ -8,14 +8,20 @@ import React, {useState} from 'react';
 interface ItemProp {
 
     /**
+     * id of item
+     */
+    id: string;
+
+    /**
      * text or component to display
      */
     display: any;
 
     /**
-     * id of item
+     * controller for the content
      */
-    id: string;
+    controller: any;
+
 }
 
 interface generateProps {
@@ -82,7 +88,9 @@ export const useSidebar = (items: generateProps) => {
             /></div>}
     </div>)
 
-    return {toolbar, header}
+    const content = currentInstance && currentInstance.controller (currentInstance.id)
+
+    return {toolbar, header, content}
 }
 
 const getIcon = (entityClass: string) => {
