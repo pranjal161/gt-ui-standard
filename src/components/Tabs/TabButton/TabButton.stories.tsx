@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<TabButtonProps> = (args) => <TabButton {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
     activated: true,
     tabId: '1',
     title: 'Normal Title',
@@ -23,13 +23,13 @@ const onCloseEmpty = (props: any) => {
 
 export const withTitleAndSubTitle = Template.bind({});
 withTitleAndSubTitle.args = {
-    ...Normal.args,
+    ...Default.args,
     subTitle: 'Normal Subtitle'
 };
 
 export const Activated = Template.bind({});
 Activated.args = {
-    ...Normal.args,
+    ...Default.args,
     icon: 'ticket',
     onTabClose: onCloseEmpty
 };

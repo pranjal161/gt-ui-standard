@@ -32,7 +32,9 @@ const TabButtonComponent = styled.div`
     border-bottom: unset;
     box-sizing: border-box;
     height: 48px;
-    max-width: 300px;
+    max-width: 350px;
+    min-width: 280px;
+    margin-left: 8px;
     padding: 9px 14px 9px 6px;
     background-color: ${(props: TabButtonContainerProps) => (props.isActive ? '#F5F7FA' : '#FAFBFC')};
     color: ${(props: TabButtonContainerProps) => (props.isActive ? '#102A43' : '#627D98')};
@@ -55,7 +57,7 @@ const TabButtonIcon = styled.div`
 const TabTitlesContainer = styled.div`
     padding-left: 10px;
     flex-grow: 1;
-    line-height: 0.6;
+    line-height: 0.7;
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,7 +70,7 @@ const TabMainTitleContainer = styled.div`
     white-space: nowrap;
     overflow: hidden;
     height: 15px;
-    ${(props: { isSubTitleMissing: boolean }) => (props.isSubTitleMissing ? 'padding-top: 7px;' : '')}
+    ${(props: { isSubTitleMissing: boolean }) => (props.isSubTitleMissing ? 'margin-top: 7px;' : '')}
 
     & > span {
         font-size: ${(props) => (props.isSubTitleMissing ? '13px' : '11px')};
@@ -158,7 +160,8 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
                     {
                         onTabClose &&
                         <TabButtonCloseIcon 
-                            onClick={handleTabClose}>
+                            onClick={handleTabClose}
+                            data-test="tab-close-icon">
                             <CloseIcon />
                         </TabButtonCloseIcon>
                     }
@@ -169,3 +172,8 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
 }
 
 export default TabButton;
+
+/**
+ * Export a memoised version of the component to avoid unnecessary rerenders if no props are changed.
+ */
+export const MemoTabButton = React.memo(TabButton);
