@@ -107,7 +107,7 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
+const ActivitySideBar: React.FC<ActivitySideBarProps> = () => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items)
 

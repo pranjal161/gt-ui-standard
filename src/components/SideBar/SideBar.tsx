@@ -1,6 +1,6 @@
-import {useMediaQuery, useTheme} from '@material-ui/core';
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 import React, {useState} from 'react';
+import {useMediaQuery, useTheme} from '@material-ui/core';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';

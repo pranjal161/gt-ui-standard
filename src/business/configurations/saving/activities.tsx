@@ -1,5 +1,5 @@
-import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 import React from 'react';
+import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 
 const UnsolicitedPayment = () => <div>Unsolicited payment</div>
 

@@ -1,7 +1,7 @@
 import * as SideBarStories from './SideBar.stories'
-import {fireEvent, render} from '@testing-library/react'
 import React from 'react';
 import {composeStories} from '@storybook/testing-react';
+import {render} from '@testing-library/react'
 
 //👇 composeStories will process all information related to the component (e.g., args)
 const {Default, Closed, Expand} = composeStories(SideBarStories);

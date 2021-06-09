@@ -1,7 +1,6 @@
-import {useContext} from 'react';
 import * as aiaReducer from 'store/reducers/aiaReducer';
-
 import baContext from 'context/baContext';
+import {useContext} from 'react';
 import {useDispatch} from 'react-redux';
 
 const useActivity = () => {
@@ -10,7 +9,7 @@ const useActivity = () => {
     const baId: any = context.baId
 
     return {
-        startActivity: (params?: any) => {
+        startActivity: () => {
             dispatch(aiaReducer.aiaBAStart({baId}))
 
             //return getActivityConfiguration({...params, baId})

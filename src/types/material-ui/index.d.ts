@@ -1,5 +1,5 @@
-import {TypeText} from '@material-ui/core/styles/createPalette';
 import React from 'react';
+import {TypeText} from '@material-ui/core/styles/createPalette';
 
 declare module '@material-ui/core/styles/createPalette' {
     interface ProjectButtonOption {
