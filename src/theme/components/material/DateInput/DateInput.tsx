@@ -56,7 +56,7 @@ const DateInput = (props: InputProps) => {
                     required={field?.required}
                     onBlur={onBlur}
                     onChange={onChange}
-                    onFocus=""
+                    onFocus={() => console.log()}
                 />
             </MuiPickersUtilsProvider>
         </span>
