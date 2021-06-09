@@ -1,7 +1,17 @@
-import { colors } from '@material-ui/core';
+import {colors} from '@material-ui/core';
 
 export const globalTokens = {
-    grey_2:'#486581',
+    __grey_1: '#102A43',
+    __grey_2: '#486581',
+    __grey_3: '#627D98',
+    __grey_4: '#829AB1',
+    __grey_5: '#BCCCDC',
+    __grey_6: '#D9E2EC',
+    __grey_7: '#F5F7FA',
+    __blue_1: '#0B69A3',
+    __blue_2: '#2BB0ED',
+    __blue_3: '#5ED0FA',
+    __blue_4: '#B3ECFF',
     black: '#000000',
     lightBlack: '#212121',
     yellow: '#FFED00',
@@ -81,7 +91,7 @@ const palette = {
     primary: {
         contrastText: white,
         dark: colors.indigo[900],
-        main: globalTokens.grey_2,
+        main: globalTokens.__grey_2,
         light: colors.indigo[100]
     },
     secondary: {
@@ -97,26 +107,41 @@ const palette = {
         light: colors.red[400]
     },
     text: {
-        primary: colors.blueGrey[900],
-        secondary: globalTokens.darkGrey,
-        link: colors.blue[600]
+        primary: globalTokens.__grey_1,
+        secondary: globalTokens.__grey_2,
     },
-    link: colors.blue[800],
-    icon: globalTokens.grey_2,
+    icon: globalTokens.__grey_2,
     background: {
         default: '#F4F6F8',
         paper: white
     },
-    divider: colors.grey[200]
+    divider: colors.grey[200],
 
 };
-const specific = {
+const project = {
+    tabs: {
+        button: {
+            background: '#FAFBFC',
+            border: '#FAFBFC',
+            color: globalTokens.__grey_3,
+        },
+        activated: {
+            background: globalTokens.__grey_7,
+            color: globalTokens.__grey_1,
+            border:globalTokens.__grey_5,
+        },
+        closeIcon: globalTokens.__grey_1
+    },
     button: {
-        hoverBaseColor: globalTokens.black,
-        primaryFontColor: globalTokens.white,
-        secondaryFontColor: globalTokens.black,
-        textFontColor: globalTokens.white
+        hoverBase: globalTokens.black,
+        primaryFont: globalTokens.white,
+        secondaryFont: globalTokens.black,
+        textFont: globalTokens.white
+    },
+    text: {
+        placeholder: globalTokens.__grey_4,
+        link: globalTokens.__blue_1,
     }
 };
 
-export default {...palette, ...specific}
+export default {...palette, project}

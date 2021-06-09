@@ -46,7 +46,6 @@ const TextField = (props: InputProps) => {
         <span hidden={!field.visible} data-testid={field.id}>
             <DxcInput
                 label={t(propertyName)}
-                size="fillParent"
                 required={field?.required}
                 disabled={field?.disabled}
                 onChange={onChange}

@@ -15,6 +15,8 @@ import themes from 'theme';
 const store = configureStore()
 const matMuiTheme = createMuiTheme(themes.matTheme)
 
+console.log('matMuiTheme', matMuiTheme)
+
 ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
