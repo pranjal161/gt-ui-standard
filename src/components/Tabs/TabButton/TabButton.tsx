@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: 'unset',
         boxSizing: 'border-box',
         height: '48px',
-        maxWidth: '300px',
+        maxWidth: '350px',
+        minWidth: '280px',
+        marginLeft: '4px',
+        marginRight: '4px',
         padding: '9px 14px 9px 6px',
         backgroundColor: theme.palette.project.tabs.button.background,
         borderColor: theme.palette.project.tabs.button.border,
@@ -52,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     titlesContainer: {
         paddingLeft: '10px',
         flexGrow: 1,
-        lineHeight: '0.6',
+        lineHeight: '0.7',
         textAlign: 'left',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -71,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     noSubTitle: {
-        paddingTop: '7px',
+        marginTop: '7px',
         '& > span': {
             fontSize: '13px'
         }
@@ -159,7 +162,8 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
                     {
                         onTabClose &&
                         <div className={classes.buttonCloseIcon}
-                            onClick={handleTabClose}>
+                            onClick={handleTabClose}
+                            data-test="tab-close-icon">
                             <CloseIcon/>
                         </div>
                     }
@@ -170,3 +174,8 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
 }
 
 export default TabButton;
+
+/**
+ * Export a memoised version of the component to avoid unnecessary rerenders if no props are changed.
+ */
+export const MemoTabButton = React.memo(TabButton);

@@ -4,6 +4,7 @@ import React, { lazy } from 'react';
 
 import AppLayout from 'layouts/AppLayout/AppLayout';
 import AuthLayout from 'layouts/AuthLayout/AuthLayout';
+import ContractSearch from 'views/ContractSearch/ContractSearch';
 import ErrorLayout from 'layouts/ErrorLayout/ErrorLayout';
 import Home from 'views/Home/Home';
 import { Redirect } from 'react-router-dom';
@@ -62,6 +63,12 @@ const routes: any = [
                 name: 'home',
                 exact: true,
                 component: Home
+            },
+            {
+                path: '/ContractSearch',
+                name: 'ContractSearch',
+                exact: true,
+                component: ContractSearch
             },
             {
                 path: '/training',
