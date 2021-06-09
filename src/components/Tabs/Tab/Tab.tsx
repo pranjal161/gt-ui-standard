@@ -1,18 +1,23 @@
 import React from 'react';
-import image from '_sb_mock_images/Tab.png'
-
 export interface TabProps {
-
-    /**
-     * Props1
-     */
-    props1?: any
+    children: any,
+    tabId: string,
+    title: string,
+    subTitle?: string,
+    icon?: string,
+    activated?: boolean
 }
 
-const Tab: React.FC<TabProps> = () => (
-    <div>
-        <img src={image} alt={'mock'}/>
-    </div>
-)
+const Tab = (props: TabProps) => {
+    const { children } = props;
+    
+    return (
+        <>
+            {children}
+        </>
+    );
+}
 
-export default Tab;
+export default Tab; 
+
+export const MemoTab = React.memo(Tab)

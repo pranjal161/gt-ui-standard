@@ -46,7 +46,6 @@ const TextArea = (props: InputProps) => {
         <span hidden={!field.visible} data-testid={field.id}>
             <DxcTextarea
                 label={t(propertyName)}
-                size="fillParent"
                 required={field?.required}
                 disabled={field?.disabled}
                 onChange={onChange}
