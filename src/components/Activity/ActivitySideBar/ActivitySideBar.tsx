@@ -1,10 +1,10 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
-import {useSidebar} from 'hooks/useSidebar';
-import React from 'react';
 import LabelInline from 'components/LabelInline/LabelInline';
+import React from 'react';
 import SideBar from 'components/SideBar/SideBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
+import {useSidebar} from 'hooks/useSidebar';
 
 export interface ActivitySideBarProps {
 
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     firstSectionContent: {
-        paddingTop: theme.spacing(2),
+        paddingTop: theme.spacing(0),
         ' & > * ': {
             marginBottom: theme.spacing(1)
         }
@@ -76,20 +76,18 @@ const sectionItems: PanelSectionItem[] = [
 
 const ContentController = (props: { value: string }) => {
     const classes = useStyles();
-    const FirstSectionContent = () => <>{sectionItems.map(
+    const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
             property={item.id}
             data={resource}
             styleType={item.styleType}
-            className={classes.firstSectionContent}/>)}</>
+        />)}</div>
 
-    const content = <div className={classes.content}>
+    return (<div className={classes.content}>
         <PanelSection title={props.value} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
-    </div>
-
-    return content
+    </div>)
 }
 
 const controller = (value: any) => (<ContentController value={value}/>)

@@ -1,9 +1,9 @@
-import {DxcDropdown} from '@dxc-technology/halstack-react';
-import {makeStyles} from '@material-ui/core/styles';
 import {ContractIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
+import React, {useState} from 'react';
+import {DxcDropdown} from '@dxc-technology/halstack-react';
 import Typo from 'components/Typography/Typo';
 import VerticalToolbar from 'components/VerticalToolBar/VerticalToolbar';
-import React, {useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 
 interface ItemProp {
 
@@ -32,7 +32,7 @@ interface generateProps {
     [item: string]: ItemProp[]
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root:{
     },
     cdkOveride: {
@@ -65,7 +65,7 @@ export const useSidebar = (items: generateProps) => {
     //Generate the toolbar
     const onChangeToolbar = (value: string) => setEntityClass(value)
     const toolbarItems = Object.keys(items).map((item) => ({value: item, display: getIcon(item)}))
-    const toolbar = <VerticalToolbar items={toolbarItems} onChange={onChangeToolbar}/>
+    const toolbar = <VerticalToolbar items={toolbarItems} value={entityClass} onChange={onChangeToolbar}/>
 
     //Generate the header
     const options = items[entityClass].map((entity: any) => ({value: entity.id, label: entity.display}))
