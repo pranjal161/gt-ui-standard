@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     sidebar: {
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        flex: '1 1 auto',
+        placeSelf: 'stretch'
     }
 }));
 
@@ -81,11 +83,9 @@ const TrainingNorbert = () => {
                 Item Two
             </TabPanel>
             <div className={classes.sidebar}>
-            <TabPanel value={value} index={2}>
-
+                <TabPanel value={value} index={2}>
                     <ActivitySideBar/>
-
-            </TabPanel>
+                </TabPanel>
             </div>
         </div>
     );

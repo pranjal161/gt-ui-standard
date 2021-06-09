@@ -1,9 +1,8 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
-import React, {useState} from 'react';
+import {useSidebar} from 'hooks/useSidebar';
+import React from 'react';
 import LabelInline from 'components/LabelInline/LabelInline';
-import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 import SideBar from 'components/SideBar/SideBar';
-import Typo from 'components/Typography/Typo';
 import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
 
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         height: '100%',
         display: 'flex',
-        flexDirection:'column',
+        flexDirection: 'column',
         flex: '0 0 auto',
         width: '330px',
         overflow: 'auto'
@@ -67,11 +66,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 const items = {
     contract:
-        [{display: 'contract A', id: 'contractA'}, {
-            display: 'contract B', id: 'contractB'
-        }, {display: 'contract C', id: 'contractC'}],
-    person: [{display: 'Person 1', id: 'person1'},
-        {display: 'Person 2', id: 'person2'}],
+        [
+            {display: 'Contract A', id: 'contractA'},
+            {display: 'Contract B', id: 'contractB'},
+            {display: 'Contract C', id: 'contractC'}],
+    person: [
+        {display: 'Person 1', id: 'person1'},
+        {display: 'Person 2', id: 'person2'}
+    ],
+    ticket:
+        [
+            {display: 'Ticket 1', id: 'ticket1'}],
 }
 
 const sectionItems: PanelSectionItem[] = [
@@ -83,13 +88,13 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
+/*
 const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
     const classes = useStyles();
 
     const [nav, setNav] = useState(Object.keys(items)[0])
 
     const handleNavChange = (value: string) => setNav(value)
-    const Toolbar = () => <SavingToolbar value={nav} onChange={handleNavChange}/>
 
     const FirstSectionContent = () => <>{sectionItems.map(
         (item) => <LabelInline key={item.id}
@@ -107,7 +112,32 @@ const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBar
 
     return (
         <div className={classes.root}>
-            <SideBar open={open} header={<Header/>} toolbar={<Toolbar/>} content={<Content/>}/>
+            <SideBar open={open} header={<Header/>} toolbar={<SavingToolbar onChange={handleNavChange}/>} content={<Content/>}/>
+        </div>
+    )
+}
+*/
+
+const ActivitySideBar: React.FC<ActivitySideBarProps> = ({open}: ActivitySideBarProps) => {
+    const classes = useStyles();
+    const sidebarProps = useSidebar(items)
+
+    const FirstSectionContent = () => <>{sectionItems.map(
+        (item) => <LabelInline key={item.id}
+            property={item.id}
+            data={resource}
+            styleType={item.styleType}
+            className={classes.firstSectionContent}/>)}</>
+
+    const Content = () => <div className={classes.content}>
+        <PanelSection title={'Details'} content={<FirstSectionContent/>}/>
+        <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
+        <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
+    </div>
+
+    return (
+        <div className={classes.root}>
+            <SideBar {...sidebarProps} content={<Content/>}/>
         </div>
     )
 }

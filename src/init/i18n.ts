@@ -19,7 +19,7 @@ const resources:any = { en, fr, nl };
 const allNamespaces = Object.keys(en).map((namespace) => namespace)
 
 export const options:any = {
-    //Namespace configuration
+    //Namespace configurations
     ns: ['system', 'common', ...allNamespaces], //namespace
     defaultNS: 'common',
 
