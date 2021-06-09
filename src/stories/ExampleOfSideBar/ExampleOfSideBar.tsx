@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '1 1 auto',
         [theme.breakpoints.up('sm')]: {
-            width:'330px',
+            width: '330px',
         },
         overflow: 'auto'
     },
@@ -55,6 +55,7 @@ const sectionItems: PanelSectionItem[] = [
 
 const ContentController = (props: { value: string }) => {
     const classes = useStyles();
+
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
             property={item.id}
@@ -69,7 +70,7 @@ const ContentController = (props: { value: string }) => {
     </div>)
 }
 
-const controller = (value: any) => (<ContentController value={value}/>)
+const controller = (value: any) => <ContentController value={value}/>
 
 const items = {
     contract:
@@ -86,13 +87,13 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = ({open}:ExampleOfSideBarProps) => {
+const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = () => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items)
 
     return (
         <div className={classes.root}>
-            <SideBar {...sidebarProps} open={open} />
+            <SideBar {...sidebarProps} />
         </div>
     )
 }

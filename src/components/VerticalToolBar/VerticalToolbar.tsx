@@ -47,9 +47,9 @@ export interface VerticalToolbarProps {
 
 /**
  * Display the vertical toolbar with icons
- * @param {items} items to display
- * @param {value} current value
- * @param {onChange} callback onChange
+ * @param {any} items to display
+ * @param {string} current value
+ * @param {any} onChange callback onChange
  * @constructor
  */
 const VerticalToolbar: React.FC<VerticalToolbarProps> = ({items, value, onChange}: VerticalToolbarProps) => {
@@ -67,4 +67,4 @@ const VerticalToolbar: React.FC<VerticalToolbarProps> = ({items, value, onChange
     )
 }
 
-export default VerticalToolbar;
+export default React.memo(VerticalToolbar);

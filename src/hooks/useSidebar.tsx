@@ -1,5 +1,5 @@
 import {ContractIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {DxcDropdown} from '@dxc-technology/halstack-react';
 import Typo from 'components/Typography/Typo';
 import VerticalToolbar from 'components/VerticalToolBar/VerticalToolbar';
@@ -33,11 +33,10 @@ interface generateProps {
 }
 
 const useStyles = makeStyles(() => ({
-    root:{
-    },
+    root: {},
     cdkOveride: {
-        height:'30px',
-        overflow:'hidden',
+        height: '30px',
+        overflow: 'hidden',
         marginLeft: '-20px',
         marginTop: '-16px',
     },
@@ -53,6 +52,8 @@ const useStyles = makeStyles(() => ({
 export const useSidebar = (items: generateProps) => {
     const classes = useStyles()
     const [entityClass, setEntityClass] = useState(Object.keys(items)[0])
+    const [open, setOpen]: [any, any] = useState(undefined)
+
     const HeaderTitle = (props: { value: string }) => <Typo variant={'title'} value={props.value}/>
 
     //We have to predefine the select instance for each entityClass
@@ -63,7 +64,11 @@ export const useSidebar = (items: generateProps) => {
     const currentInstance = items[entityClass].find((item) => item.id === entityInstanceSelections[entityClass])
 
     //Generate the toolbar
-    const onChangeToolbar = (value: string) => setEntityClass(value)
+    const onChangeToolbar = useCallback((value: string) => {
+        setEntityClass(value)
+        setOpen(true)
+    },[setEntityClass, setOpen])
+
     const toolbarItems = Object.keys(items).map((item) => ({value: item, display: getIcon(item)}))
     const toolbar = <VerticalToolbar items={toolbarItems} value={entityClass} onChange={onChangeToolbar}/>
 
@@ -74,7 +79,6 @@ export const useSidebar = (items: generateProps) => {
         [entityClass]: selection
     }))
 
-    console.log('currentInstance', currentInstance)
     const header = (<div className={classes.root}>
         {currentInstance && options.length === 1 && <HeaderTitle value={currentInstance.display}/>}
         {currentInstance && options.length > 1 &&
@@ -88,9 +92,12 @@ export const useSidebar = (items: generateProps) => {
             /></div>}
     </div>)
 
-    const content = currentInstance && currentInstance.controller (currentInstance.id)
+    const content = currentInstance && currentInstance.controller(currentInstance.id)
+    const onToggle = useCallback(() => {
+        setOpen((value: any) => !value)
+    }, [setOpen])
 
-    return {toolbar, header, content}
+    return {toolbar, header, content, open, onToggle}
 }
 
 const getIcon = (entityClass: string) => {

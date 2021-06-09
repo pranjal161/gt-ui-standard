@@ -489,7 +489,6 @@ export const APIActions = {
     delete: (url: string, params?: { headers?: any; }) => axios.delete(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader})
 }
 
-
 /** To get error message from Property
  * @param  {any} response API response provided
  * @param  {string} propertyName concerned propertyName

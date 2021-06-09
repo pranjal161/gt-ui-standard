@@ -55,13 +55,14 @@ export const Default = Template.bind({});
 Default.args = {
     toolbar:<Toolbar/>,
     content:<Content/>,
-    header:<Header/>
+    header:<Header/>,
 };
 
 export const Expand = Template.bind({});
 Expand.args = {
     toolbar:<Toolbar/>,
     content:<Content/>,
+    header:<Header/>,
     open:true
 };
 
@@ -69,6 +70,7 @@ export const Closed = Template.bind({});
 Closed.args = {
     toolbar:<Toolbar/>,
     content:<Content/>,
+    header:<Header/>,
     open:false
 };
 

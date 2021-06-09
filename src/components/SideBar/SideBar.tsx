@@ -1,7 +1,6 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
-import React, {useState} from 'react';
-import {useMediaQuery, useTheme} from '@material-ui/core';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -28,6 +27,11 @@ export interface SideBarProps {
     content?: any
 
     /**
+     * onToggle callback
+     */
+    onToggle?: any
+
+    /**
      * className to add
      */
     className?: any
@@ -37,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     '@global': {
         '*::-webkit-scrollbar': {
             display: 'none'
-        }},
+        }
+    },
     root: {
         padding: theme.spacing(0),
         display: 'flex',
@@ -100,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         display: 'flex',
         flex: '1 1 auto',
-        overflowY:'hidden',
+        overflowY: 'hidden',
         width: 'fit-content',
     },
     contentOpen: {
@@ -123,25 +128,25 @@ const SideBar: React.FC<SideBarProps> = ({
     header = 'no header',
     content,
     open,
+    onToggle,
     className = ''
 }: SideBarProps) => {
     const classes = useStyles();
-    const theme = useTheme()
-    const isLargeMedia = useMediaQuery(theme.breakpoints.up('md'))
-    const defaultOpen = open || isLargeMedia
-    const [toggle, setToggle] = useState(defaultOpen)
+    const handleToggle = () => {
+        onToggle && onToggle()
+    }
 
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.toolbar}>
-                <div className={classes.toggle} onClick={() => setToggle((value) => !value)}>
-                    {toggle ? <DoubleArrowRightIcon/> : <DoubleArrowLeftIcon/>}
+                <div className={classes.toggle} onClick={() => handleToggle()}>
+                    {open ? <DoubleArrowRightIcon/> : <DoubleArrowLeftIcon/>}
                 </div>
                 {toolbar}
             </div>
             <div className={clsx(classes.headerAndContent, {
-                [classes.contentOpen]: toggle,
-                [classes.contentClose]: !toggle,
+                [classes.contentOpen]: open,
+                [classes.contentClose]: !open,
             })}>
                 <div className={clsx(classes.header, classes.divider)}>
                     <div className={classes.headerTitle}>{header}</div>
@@ -162,4 +167,4 @@ const SideBar: React.FC<SideBarProps> = ({
     )
 }
 
-export default SideBar;
+export default React.memo(SideBar);
