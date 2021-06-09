@@ -24,11 +24,14 @@ const ContractSearch = () => {
 
     useEffect(() => {
         startActivity();
-        getData(url);
 
         return () => {
             stopActivity()
-        };
+        };           
+    }, [] );
+    
+    useEffect(() => {
+        getData(url)
     }, [url]);
 
     const getData = (url: string) => {
