@@ -1,5 +1,4 @@
 import React from 'react';
-import SavingToolbar from 'components/SavingToolbar/SavingToolbar';
 
 const UnsolicitedPayment = () => <div>Unsolicited payment</div>
 
@@ -21,7 +20,6 @@ export const getConfiguration = (activityCode: ConfigurationParams) => {
             configuration = {
                 controller: UnsolicitedPayment,
                 sidebar: {
-                    props: SavingToolbar,
                     contents: <div>Content</div>
                 }
             }

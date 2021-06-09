@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
 import {useSidebar} from 'hooks/useSidebar';
 
-export interface ActivitySideBarProps {
+export interface ExampleOfSideBarProps {
 
     /**
      * Expand or collapse
@@ -25,37 +25,16 @@ const useStyles = makeStyles((theme) => ({
         width: 'fit-content',
         height: '100%'
     },
-    navBar: {
-        height: '100%',
-        display: 'flex',
-        flex: '0 0 auto',
-        width: '44px',
-        overflow: 'hidden',
-        borderColor: theme.palette.primary.main,
-        borderStyle: 'solid'
-    },
     content: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        flex: '0 0 auto',
-        width: '330px',
+        flex: '1 1 auto',
+        [theme.breakpoints.up('sm')]: {
+            width:'330px',
+        },
         overflow: 'auto'
     },
-    contentOpen: {
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    contentClose: {
-        display: 'none',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-
     firstSectionContent: {
         paddingTop: theme.spacing(0),
         ' & > * ': {
@@ -107,15 +86,15 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ActivitySideBar: React.FC<ActivitySideBarProps> = () => {
+const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = ({open}:ExampleOfSideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items)
 
     return (
         <div className={classes.root}>
-            <SideBar {...sidebarProps} />
+            <SideBar {...sidebarProps} open={open} />
         </div>
     )
 }
 
-export default ActivitySideBar;
+export default ExampleOfSideBar;

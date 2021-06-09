@@ -8,31 +8,31 @@ const {Default, Closed, Expand} = composeStories(SideBarStories);
 
 it('renders Default', () => {
     const {getByText} = render(<Default/>);
-    expect(getByText('nav')).toBeInTheDocument()
+    expect(getByText('Here the toolbar')).toBeInTheDocument()
 });
 
 it('renders closed', () => {
     const {getByText} = render(<Closed/>);
-    expect(getByText('nav')).toBeInTheDocument()
-    expect(getByText('no header')).not.toBeInTheDocument()
-    expect(getByText('content')).not.toBeInTheDocument()
+    expect(getByText('Here the toolbar')).toBeInTheDocument()
+    expect(getByText('Here the header')).not.toBeInTheDocument()
+    expect(getByText('Here the content')).not.toBeInTheDocument()
 });
 
 it('renders open it', () => {
     const {getByText} = render(<Default open={true}/>);
-    expect(getByText('nav')).toBeInTheDocument()
-    expect(getByText('no header')).toBeInTheDocument()
-    expect(getByText('content')).toBeInTheDocument()
+    expect(getByText('Here the toolbar')).toBeInTheDocument()
+    expect(getByText('Here the header')).toBeInTheDocument()
+    expect(getByText('Here the content')).toBeInTheDocument()
 });
 
 it('renders open', () => {
     const {getByText} = render(<Expand/>);
-    expect(getByText('nav')).toBeInTheDocument()
-    expect(getByText('no header')).toBeInTheDocument()
-    expect(getByText('content')).toBeInTheDocument()
+    expect(getByText('Here the toolbar')).toBeInTheDocument()
+    expect(getByText('Here the header')).toBeInTheDocument()
+    expect(getByText('Here the content')).toBeInTheDocument()
 });
 
-it('renders open add header', () => {
-    const {getByText} = render(<Expand header={<div>header</div>}/>);
+it('renders closed and open it', () => {
+    const {getByText} = render(<Closed open={true}/>);
     expect(getByText('header')).toBeInTheDocument()
 });

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     toolbar: {
         display: 'flex',
         flexDirection: 'column',
-        flex: '0 0 auto',
+        flex: '1 1 auto',
         placeSelf: 'stretch',
         justifyContent: 'left',
         minWidth: '44px',
@@ -87,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    headerTitle: {
+        flexGrow: 1
     },
     headerActions: {
         display: 'flex',
@@ -141,7 +144,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 [classes.contentClose]: !toggle,
             })}>
                 <div className={clsx(classes.header, classes.divider)}>
-                    {header}
+                    <div className={classes.headerTitle}>{header}</div>
                     <div className={classes.headerActions}>
                         <IconButton>
                             <OpenInNewWindowIcon size={18}/>
