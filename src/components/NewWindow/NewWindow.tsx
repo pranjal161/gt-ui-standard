@@ -126,3 +126,5 @@ const NewWindow = ( props : {
 }
 
 export default NewWindow;
+
+export const NewWindowMemo = React.memo(NewWindow);
