@@ -168,9 +168,9 @@ export const paginationLink = (paginateUrl: string, page: number, perPageItems: 
  * @returns {consistency} BOOLEAN if consistent or not
  */
 export const isResponseConsistent = (response: any) => {
-    if (response && response.data && response.data._embedded &&
-        response.data._embedded['cscaia:status_report']) {
-        return response.data._embedded['cscaia:status_report'].consistent;
+    if (response && response._embedded &&
+        response._embedded['cscaia:status_report']) {
+        return response._embedded['cscaia:status_report'].consistent;
     }
 }
 
@@ -180,9 +180,9 @@ export const isResponseConsistent = (response: any) => {
  * @returns {report} OBJECT - consist of consistency report and error messages if any
  */
 export const getStatusReport = (response: any) => {
-    if (response && response.data && response.data._embedded &&
-        response.data._embedded['cscaia:status_report']) {
-        return response.data._embedded['cscaia:status_report']
+    if (response && response._embedded &&
+        response._embedded['cscaia:status_report']) {
+        return response._embedded['cscaia:status_report']
     }
 }
 
@@ -249,7 +249,7 @@ export const getValues = (array: Array<any>, filterBy: string, matchingValue: st
  */
 export const getOneOfFromResponse = (response: any, id: string) => {
     const enumItemList = [];
-    if (response._options &&
+    if(response && response._options &&
         response._options.properties &&
         response._options.properties[id] &&
         response._options.properties[id]['oneOf']) {
@@ -487,4 +487,22 @@ export const APIActions = {
     post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
     patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
     delete: (url: string, params?: { headers?: any; }) => axios.delete(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader})
+}
+
+
+/** To get error message from Property
+ * @param  {any} response API response provided
+ * @param  {string} propertyName concerned propertyName
+ * @returns {Obejct} Error message object
+ */
+export const getErrorMessage = (response: any, propertyName: string) => {
+    let report;
+    if (response) {
+        const statusReport = getStatusReport(response);
+        if (statusReport && statusReport.messages && statusReport.messages.length > 0) {
+            report = statusReport.messages.find((message: any) => message.context[0]['propertyNames'][0] === propertyName)
+        }
+    }
+
+    return report
 }

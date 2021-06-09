@@ -1,4 +1,4 @@
-import { ExtensionsIcon, HelpIcon } from 'assets/svg';
+import { ExtensionsIcon, HelpIcon, SearchIcon } from 'assets/svg';
 import React, { useState } from 'react';
 
 import DXCLogo from 'assets/dxc_logo.jpg';
@@ -82,6 +82,12 @@ const NavBar = () => {
                             <IconButton color={'primary'}
                                 onClick={() => goToPage('/training')}>
                                 <ExtensionsIcon />
+                            </IconButton>
+                        </div>
+                        <div title="ContractSearch">
+                            <IconButton color={'primary'}
+                                onClick={() => goToPage('/ContractSearch')}>
+                                <SearchIcon />
                             </IconButton>
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>

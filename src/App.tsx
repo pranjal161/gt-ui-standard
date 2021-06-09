@@ -3,6 +3,7 @@ import './App.css'
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import routes, { applyRoutes } from './routes';
+
 import useDeskAuth from 'hooks/useDeskAuth';
 import useDeskSubscribe from 'hooks/useDeskSubscribe';
 
@@ -31,7 +32,7 @@ function App() {
     }, [signIn])
 
     return (
-        <div data-testid="main_app" className="App">
+        <div data-testid="main_app">
             <Router basename="/">
                 {routeNodes}
 

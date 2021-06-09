@@ -1,6 +1,7 @@
 import { DxcApplicationLayout } from '@dxc-technology/halstack-react';
 import NavBar from 'components/NavBar/NavBar';
 import React from 'react';
+import { WindowTabsContainerMemo } from 'components/WindowTabs/WindowTabsContainer';
 import { applyRoutes } from '../../routes';
 
 const AppLayout = (props: { route: any }) => {
@@ -12,6 +13,7 @@ const AppLayout = (props: { route: any }) => {
                 <DxcApplicationLayout.Header>
                     <div data-testid="header">
                         <NavBar />
+                        <WindowTabsContainerMemo />
                     </div>
                 </DxcApplicationLayout.Header>
                 <DxcApplicationLayout.Main>
