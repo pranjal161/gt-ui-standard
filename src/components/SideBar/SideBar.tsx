@@ -27,14 +27,31 @@ export interface SideBarProps {
     content?: any
 
     /**
+     * value of current object
+     */
+    value?: any
+
+    /**
      * onToggle callback
      */
     onToggle?: any
 
     /**
+     * triggered when Open in new window icon is clicked.
+     * The current value object is passed
+     */
+    onOpenInNewWindow?:any
+
+    /**
+     * triggered when Open in new tab icon is clicked.
+     * The current value object is passed
+     */
+    onOpenInNewTab?:any
+
+    /**
      * className to add
      */
-    className?: any
+    className?: string
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -127,8 +144,11 @@ const SideBar: React.FC<SideBarProps> = ({
     toolbar,
     header = 'no header',
     content,
+    value,
     open,
     onToggle,
+    onOpenInNewWindow,
+    onOpenInNewTab,
     className = ''
 }: SideBarProps) => {
     const classes = useStyles();
@@ -151,10 +171,10 @@ const SideBar: React.FC<SideBarProps> = ({
                 <div className={clsx(classes.header, classes.divider)}>
                     <div className={classes.headerTitle}>{header}</div>
                     <div className={classes.headerActions}>
-                        <IconButton>
+                        <IconButton onClick={() => onOpenInNewWindow && onOpenInNewWindow(value)}>
                             <OpenInNewWindowIcon size={18}/>
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={() => onOpenInNewTab && onOpenInNewTab(value)}>
                             <OpenInNewTabIcon size={18}/>
                         </IconButton>
                     </div>

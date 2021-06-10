@@ -97,7 +97,7 @@ export const useSidebar = (items: generateProps) => {
         setOpen((value: any) => !value)
     }, [setOpen])
 
-    return {toolbar, header, content, open, onToggle}
+    return {toolbar, header, content, open, onToggle, value:currentInstance}
 }
 
 const getIcon = (entityClass: string) => {
