@@ -50,6 +50,7 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'contract:product_type', styleType: ['text']},
     {id: 'contract:status', styleType: ['text']},
     {id: 'contract:start_date', styleType: ['date']},
+    {id: 'contract:amount', styleType: ['currency']},
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
