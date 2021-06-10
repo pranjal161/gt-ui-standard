@@ -11,7 +11,7 @@ import ExampleOfSideBar from './ExampleOfSideBar';
 
 <!--- This is your Story template function, shown here in React -->
 
-export const Template = () => <ExampleOfSideBar />
+export const Template = (args) => <ExampleOfSideBar {...args}/>
 
 # Sidebar in Activity
 This is an example of using the `<Sidebar/>` component in saving activity context.
@@ -26,7 +26,7 @@ The associate code is below
 <Preview >
     <Story name="In saving activity context" args={{
         label: 'In saving activity context'
-    }}>
+    , open:true}}>
         {Template.bind({})}
     </Story>
 </Preview>

@@ -87,13 +87,13 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = () => {
+const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = ({open}:ExampleOfSideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items)
 
     return (
         <div className={classes.root}>
-            <SideBar {...sidebarProps} />
+            <SideBar {...{...sidebarProps, open}} />
         </div>
     )
 }

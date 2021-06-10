@@ -2620,7 +2620,7 @@
     "regenerator-runtime" "^0.13.7"
     "ts-dedent" "^2.0.0"
 
-"@storybook/addon-toolbars@6.2.9":
+"@storybook/addon-toolbars@^6.2.9", "@storybook/addon-toolbars@6.2.9":
   "integrity" "sha512-4WjIofN5npBPNZ8v1UhzPeATB9RnAWRH/y1AVS1HB+zl6Ku92o7aOMqVxs8zR1oSSmtkHh/rcUcpATFKjuofdw=="
   "resolved" "https://registry.npmjs.org/@storybook/addon-toolbars/-/addon-toolbars-6.2.9.tgz"
   "version" "6.2.9"
