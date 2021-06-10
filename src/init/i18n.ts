@@ -18,51 +18,53 @@ const resources:any = { en, fr, nl };
 //Fill an array with the name of all namespaces
 const allNamespaces = Object.keys(en).map((namespace) => namespace)
 
+export const options:any = {
+    //Namespace configurations
+    ns: ['system', 'common', ...allNamespaces], //namespace
+    defaultNS: 'common',
+
+    //Here the ressources to use
+    resources,
+
+    //Save all missing translations into the localstorage
+    saveMissing: true,
+
+    lng: language,
+    //We decide to let it fail (silently) instead displaying a wrong translation
+    fallbackLng: false, // use en if detected lng is not available
+    whitelist: allLanguages,
+
+    keySeparator: false, // we do not use keys in form messages.welcome
+
+    interpolation: {
+        escapeValue: false, // react already safes from xss
+        format: function (value:any, format:any, lng?:any) {
+            if (format === 'uppercase')
+                return value && value.toUpperCase();
+            if (format)
+                return formatValue(value, format);
+            if (isDate(value)) {
+                const langVariable:string = lng ? lng : 'en'
+                const locale = resources[langVariable];
+                console.log('locale',locale);
+                const formatdatee= format ? format : 'M/d/yyyy'
+
+                return formatDate(value, formatdatee, { locale });
+            }
+
+            return value;
+        },
+
+    },
+    react: {
+        useSuspense: true
+    },
+
+}
+
 i18n
     .use(initReactI18next) // passes i18n down to react-i18next
-    .init({
-        //Namespace configuration
-        ns: ['system', 'common', ...allNamespaces], //namespace
-        defaultNS: 'common',
-
-        //Here the ressources to use
-        resources,
-
-        //Save all missing translations into the localstorage
-        saveMissing: true,
-
-        lng: language,
-        //We decide to let it fail (silently) instead displaying a wrong translation
-        fallbackLng: false, // use en if detected lng is not available
-        whitelist: allLanguages,
-
-        keySeparator: false, // we do not use keys in form messages.welcome
-
-        interpolation: {
-            escapeValue: false, // react already safes from xss
-            format: function (value, format, lng) {
-                if (format === 'uppercase')
-                    return value && value.toUpperCase();
-                if (format)
-                    return formatValue(value, format);
-                if (isDate(value)) {
-                    const langVariable:string = lng ? lng : 'en'
-                    const locale = resources[langVariable];
-                    console.log('locale',locale);
-                    const formatdatee= format ? format : 'M/d/yyyy'
-                    
-                    return formatDate(value, formatdatee, { locale });
-                }
-
-                return value;
-            },
-
-        },
-        react: {
-            useSuspense: true
-        },
-
-    });
+    .init(options);
 
 //We save all missing translation into the localstorage
 i18n.on('missingKey', function (language, ns, ident) {

@@ -1,0 +1,65 @@
+<!--- Typography.stories.mdx -->
+
+import { Preview, Meta, Story} from '@storybook/addon-docs/blocks';
+import ExampleOfSideBar from './ExampleOfSideBar';
+
+<Meta
+    title='Examples/Sidebar'
+    component={ExampleOfSideBar}
+    decorators={[(story) => <div style={{flex: '1 1 auto', height: '600px'}}>{story()}</div>]}
+/>
+
+<!--- This is your Story template function, shown here in React -->
+
+export const Template = () => <ExampleOfSideBar />
+
+# Sidebar in Activity
+This is an example of using the `<Sidebar/>` component in saving activity context.
+We give to the **useSidebar** hook the items to display and its return the props to give to the Sidebar component.
+
+The content of each panel are mocked.
+
+Into **id**, we will pass the **href** of the ressource to do the fetch into the controller of the content
+
+The associate code is below
+
+<Preview >
+    <Story name="In saving activity context" args={{
+        label: 'In saving activity context'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Preview>
+
+```jsx
+
+const controller = (value) => (<ContentController value={value}/>)
+
+const items = {
+    contract:
+        [
+            {display: 'Contract A', id: 'contractA', controller},
+            {display: 'Contract B', id: 'contractB', controller},
+            {display: 'Contract C', id: 'contractC', controller}],
+    person: [
+        {display: 'Person 1', id: 'person1', controller},
+        {display: 'Person 2', id: 'person2', controller},
+    ],
+    ticket:
+        [
+            {display: 'Ticket 1', id: 'ticket1', controller}]
+}
+
+const ExampleOfSideBar = ({open}) => {
+    const classes = useStyles();
+    const sidebarProps = useSidebar(items)
+
+    return (
+        <div className={classes.root}>
+            <SideBar {...sidebarProps} open={open} />
+        </div>
+    )
+}
+```
+
+

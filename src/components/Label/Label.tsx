@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
 /**
- * Display a Label
- * @param {props} props Contains information related to the Label
- * @returns {*} Return the Label
+ * Display a LabelInline
+ * @param {props} props Contains information related to the LabelInline
+ * @returns {*} Return the LabelInline
  */
 const Label = (props: { property: string; data: any; type?: string; width?: any }) => {
     const { t } = useTranslation();
