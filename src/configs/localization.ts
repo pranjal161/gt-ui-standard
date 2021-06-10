@@ -1,7 +1,6 @@
 import {format, formatISO} from 'date-fns';
 import date_enEN from 'date-fns/locale/en-US';
 import date_frFR from 'date-fns/locale/fr';
-
 import i18n from 'init/i18n';
 
 const dateLocale:any = {'en-EN':date_enEN, 'fr-FR':date_frFR}

@@ -5,7 +5,7 @@ const date = new Date('2018-09-22T15:00:00')
 describe('Localization', () => {
 
     test('en : display short date', () => {
-        localizationChange('en', 'EN')
+        localizationChange('en', 'US')
         expect(displayDate(date)).toEqual('9/22/2018')
     })
 
@@ -15,7 +15,7 @@ describe('Localization', () => {
     })
 
     test('en : display long date', () => {
-        localizationChange('en', 'EN')
+        localizationChange('en', 'US')
         expect(displayLongDate(date)).toEqual('September 22nd 2018')
     })
 
