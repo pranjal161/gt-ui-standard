@@ -7,12 +7,17 @@ export interface TypoProps {
     /**
      * Variant to use
      */
-    variant: 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' ;
+    variant: 'title' | 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' ;
 
     /**
      * Value to display
      */
     value: any
+
+    /**
+     * className
+     */
+    className?:string
 
 }
 
@@ -22,6 +27,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.text.primary,
         fontWeight:'normal',
         letterSpacing: '0px'
+    },
+    title: {
+        fontSize : 16,
+        fontWeight:'bold'
     },
     titleSection: {
         fontSize : 16,
@@ -59,10 +68,10 @@ const useStyles = makeStyles((theme: Theme) => ({
  * @param {TypoProps} props Props of the component.
  * @returns {React.component} Display the typography
  */
-const Typo: React.FC<TypoProps> = ({variant, value}: TypoProps) => {
+const Typo: React.FC<TypoProps> = ({variant, value, className=''}: TypoProps) => {
     const classes:any = useStyles()
 
-    return (<span className={clsx(classes.root, classes[variant])}>{value}</span>)
+    return (<span className={clsx(classes.root, className, classes[variant])}>{value}</span>)
 }
 
 export default Typo;
