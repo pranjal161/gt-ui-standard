@@ -34,19 +34,19 @@ export interface SideBarProps {
     /**
      * onToggle callback
      */
-    onToggle?: any
+    onToggle?: ()=> void
 
     /**
      * triggered when Open in new window icon is clicked.
      * The current value object is passed
      */
-    onOpenInNewWindow?:any
+    onOpenInNewWindow?:(value:any)=> void
 
     /**
      * triggered when Open in new tab icon is clicked.
      * The current value object is passed
      */
-    onOpenInNewTab?:any
+    onOpenInNewTab?:(value:any)=> void
 
     /**
      * className to add
@@ -159,7 +159,7 @@ const SideBar: React.FC<SideBarProps> = ({
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.toolbar}>
-                <div className={classes.toggle} onClick={() => handleToggle()}>
+                <div className={classes.toggle} onClick={() => handleToggle()} data-testid="sidebarToggle">
                     {open ? <DoubleArrowRightIcon/> : <DoubleArrowLeftIcon/>}
                 </div>
                 {toolbar}
@@ -171,10 +171,10 @@ const SideBar: React.FC<SideBarProps> = ({
                 <div className={clsx(classes.header, classes.divider)}>
                     <div className={classes.headerTitle}>{header}</div>
                     <div className={classes.headerActions}>
-                        <IconButton onClick={() => onOpenInNewWindow && onOpenInNewWindow(value)}>
+                        <IconButton onClick={() => onOpenInNewWindow && onOpenInNewWindow(value)} data-testid="sidebarOpenInNewWindow">
                             <OpenInNewWindowIcon size={18}/>
                         </IconButton>
-                        <IconButton onClick={() => onOpenInNewTab && onOpenInNewTab(value)}>
+                        <IconButton onClick={() => onOpenInNewTab && onOpenInNewTab(value)} data-testid="sidebarOpenInNewTab">
                             <OpenInNewTabIcon size={18}/>
                         </IconButton>
                     </div>
