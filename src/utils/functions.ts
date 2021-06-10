@@ -124,7 +124,8 @@ export const formatValue = (value: any, style?: string | undefined, option?: str
         case 'number':
             return displayNumber(value)
 
-        case 'date' || 'dateLong':
+        case 'date':
+        case 'dateLong':
             if (value === '9999-99-99') // Date.max from API
                 return '99/99/9999'
 
@@ -249,7 +250,7 @@ export const getValues = (array: Array<any>, filterBy: string, matchingValue: st
  */
 export const getOneOfFromResponse = (response: any, id: string) => {
     const enumItemList = [];
-    if(response && response._options &&
+    if (response && response._options &&
         response._options.properties &&
         response._options.properties[id] &&
         response._options.properties[id]['oneOf']) {

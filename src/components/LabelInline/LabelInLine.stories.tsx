@@ -36,7 +36,7 @@ export const Date = Template.bind({});
 Date.args = {
     property:'contract:renewal_date',
     data: contractResponse.resource,
-    styleType:['date']
+    styleType:['dateLong']
 };
 
 export const Enum = Template.bind({});

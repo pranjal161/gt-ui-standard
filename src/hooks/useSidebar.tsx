@@ -30,6 +30,7 @@ interface generateProps {
      * Item list
      */
     [item: string]: ItemProp[]
+
 }
 
 const useStyles = makeStyles(() => ({
@@ -47,12 +48,13 @@ const useStyles = makeStyles(() => ({
  * configure the toolbar, the header and the content
  * Class is the entitytype : 'contract', 'person'
  * @param {generateProps} items Item list
+ * @param {boolean} defaultOpen  default value
  * @return {any} generated props
  */
-export const useSidebar = (items: generateProps) => {
+export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
     const classes = useStyles()
     const [entityClass, setEntityClass] = useState(Object.keys(items)[0])
-    const [open, setOpen]: [any, any] = useState(undefined)
+    const [open, setOpen]: [any, any] = useState(defaultOpen)
 
     const HeaderTitle = (props: { value: string }) => <Typo variant={'title'} value={props.value}/>
 
