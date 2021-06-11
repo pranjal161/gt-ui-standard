@@ -1,5 +1,6 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import WithScroll from 'components/WithScroll/WithScroll';
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
@@ -55,11 +56,6 @@ export interface SideBarProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            display: 'none'
-        }
-    },
     root: {
         padding: theme.spacing(0),
         display: 'flex',
@@ -120,10 +116,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     content: {
-        display: 'flex',
-        flex: '1 1 auto',
-        overflowY: 'hidden',
-        width: 'fit-content',
+        height: '-webkit-fill-available',
+        width: '-webkit-fill-available',
+        overflowY: 'hidden'
     },
     contentOpen: {
         transition: theme.transitions.create('width', {
@@ -140,7 +135,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SideBar: React.FC<SideBarProps> = ({
+/**
+ * Display a Sidebar with
+ *
+ * - toolbar
+ *
+ * - header
+ *
+ * - content
+ *
+ * - icons to open in NewTab and NewWindow
+ *
+ * The logic of toolbar/header/content is not handled by the Sidebar component.
+ *
+ * It can contains anyelse component.
+ *
+ * To have a logic navigation => headers => content, you can use useSidebar hook.
+ *
+ * @param {any} toolbar Instantiate component
+ * @param {any} header  Instantiate component
+ * @param {any} content Instantiate component
+ * @param {any} value Value of the current content, will be passed to the onOpen... callback
+ * @param {boolean} open Default value for open
+ * @param {function} onToggle Callback when the toggle icon is clicked
+ * @param {function} onOpenInNewWindow Callback when the open in new window is clicked
+ * @param {function} onOpenInNewTab Callback when the open in new tab is clicked
+ * @param {string} className className to add with of the root CSS
+ * @constructor
+ */
+export const PureSideBar: React.FC<SideBarProps> = ({
     toolbar,
     header = 'no header',
     content,
@@ -180,11 +203,13 @@ const SideBar: React.FC<SideBarProps> = ({
                     </div>
                 </div>
                 <div className={classes.content}>
-                    {content}
+                    <WithScroll>
+                        {content}
+                    </WithScroll>
                 </div>
             </div>
         </div>
     )
 }
 
-export default React.memo(SideBar);
+export default React.memo(PureSideBar);

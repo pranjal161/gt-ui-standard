@@ -144,4 +144,4 @@ const LabelInline: React.FC<LabelInlineProps> = ({
     );
 };
 
-export default LabelInline;
+export default React.memo(LabelInline);

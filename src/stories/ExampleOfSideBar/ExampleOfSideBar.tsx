@@ -6,15 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
 import {useSidebar} from 'hooks/useSidebar';
 
-export interface ExampleOfSideBarProps {
-
-    /**
-     * Expand or collapse
-     */
-    open?: boolean
-
-}
-
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(0),
@@ -50,6 +41,7 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'contract:product_type', styleType: ['text']},
     {id: 'contract:status', styleType: ['text']},
     {id: 'contract:start_date', styleType: ['date']},
+    {id: 'contract:amount', styleType: ['currency']},
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
@@ -87,9 +79,9 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = () => {
+const ExampleOfSideBar = () => {
     const classes = useStyles();
-    const sidebarProps = useSidebar(items)
+    const sidebarProps = useSidebar(items, true)
 
     return (
         <div className={classes.root}>

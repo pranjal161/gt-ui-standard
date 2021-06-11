@@ -5,7 +5,7 @@ import * as staticResources from 'assets/staticData/data';
 
 import {changeLanguageCountry} from 'configs';
 
-changeLanguageCountry('en', 'EN')
+changeLanguageCountry('en', 'US')
 
 describe('Testing Get Link', () => {
     test('Non existing parameter, Should return null', () => {
