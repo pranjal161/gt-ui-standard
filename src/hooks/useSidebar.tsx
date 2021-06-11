@@ -47,6 +47,7 @@ const useStyles = makeStyles(() => ({
  * Generate the props for the sidebar
  * configure the toolbar, the header and the content
  * Class is the entitytype : 'contract', 'person'
+ * Instance is a specific Contract, person or else
  * @param {generateProps} items Item list
  * @param {boolean} defaultOpen  default value
  * @return {any} generated props
@@ -56,13 +57,11 @@ export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
     const [entityClass, setEntityClass] = useState(Object.keys(items)[0])
     const [open, setOpen]: [any, any] = useState(defaultOpen)
 
-    const HeaderTitle = (props: { value: string }) => <Typo variant={'title'} value={props.value}/>
-
-    //We have to predefine the select instance for each entityClass
+    //We have to predefine the select instance for each entityClass, it will be the first item of each
     const initialState = Object.entries(items).reduce((acc, [key, values]) => ({...acc, [key]: values[0].id}), {})
     //Contains the selected instance per instanceClass
     const [entityInstanceSelections, setEntityInstanceSelections]: [any, any] = useState(initialState)
-    //This is the instance displayed
+    //This is the displayed instance
     const currentInstance = items[entityClass].find((item) => item.id === entityInstanceSelections[entityClass])
 
     //Generate the toolbar
@@ -81,6 +80,7 @@ export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
         [entityClass]: selection
     }))
 
+    const HeaderTitle = (props: { value: string }) => <Typo variant={'title'} value={props.value}/>
     const header = (<div className={classes.root}>
         {currentInstance && options.length === 1 && <HeaderTitle value={currentInstance.display}/>}
         {currentInstance && options.length > 1 &&
@@ -114,6 +114,9 @@ const getIcon = (entityClass: string) => {
         case 'ticket':
             IconComponent = TicketIcon
             break;
+        default:
+            const unKnow = () => <div>?</div>
+            IconComponent = unKnow
     }
 
     return <IconComponent size={18}/>
