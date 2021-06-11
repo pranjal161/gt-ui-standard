@@ -1,15 +1,15 @@
 import {Meta, Story} from '@storybook/react';
-import SideBar, {SideBarProps} from 'components/SideBar/SideBar';
+import {PureSideBar, SideBarProps} from 'components/SideBar/SideBar';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
 export default {
     title: 'Components/SideBar',
-    component: SideBar,
+    component: PureSideBar,
     decorators: [(story) => <div style={{flex: '1 1 auto', height: '600px'}}>{story()}</div>],
 } as Meta;
 
-const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
+const Template: Story<SideBarProps> = (args) => <PureSideBar {...args} />;
 
 const useStyles = makeStyles(() => ({
     toolBar: {

@@ -135,7 +135,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SideBar: React.FC<SideBarProps> = ({
+/**
+ * Display a Sidebar with
+ *
+ * - toolbar
+ *
+ * - header
+ *
+ * - content
+ *
+ * - icons to open in NewTab and NewWindow
+ *
+ * The logic of toolbar/header/content is not handled by the Sidebar component.
+ *
+ * It can contains anyelse component.
+ *
+ * To have a logic navigation => headers => content, you can use useSidebar hook.
+ *
+ * @param {any} toolbar Instantiate component
+ * @param {any} header  Instantiate component
+ * @param {any} content Instantiate component
+ * @param {any} value Value of the current content, will be passed to the onOpen... callback
+ * @param {boolean} open Default value for open
+ * @param {function} onToggle Callback when the toggle icon is clicked
+ * @param {function} onOpenInNewWindow Callback when the open in new window is clicked
+ * @param {function} onOpenInNewTab Callback when the open in new tab is clicked
+ * @param {string} className className to add with of the root CSS
+ * @constructor
+ */
+export const PureSideBar: React.FC<SideBarProps> = ({
     toolbar,
     header = 'no header',
     content,
@@ -184,4 +212,4 @@ const SideBar: React.FC<SideBarProps> = ({
     )
 }
 
-export default React.memo(SideBar);
+export default React.memo(PureSideBar);
