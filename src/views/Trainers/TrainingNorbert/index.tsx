@@ -3,7 +3,7 @@
 import {Theme, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
-import ActivitySideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
+import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
 import FormDialog from 'views/Trainers/TrainingNorbert/FormDialog/FormDialog';
 import Tabs from '../../../theme/components/material/Tabs/Tabs'
 import Tab from '@material-ui/core/Tab';
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: 'flex',
         justifyContent: 'flex-end',
         flex: '1 1 auto',
-        placeSelf: 'stretch'
+        height:'600px',
     }
 }));
 
@@ -84,7 +84,7 @@ const TrainingNorbert = () => {
             </TabPanel>
             <div className={classes.sidebar}>
                 <TabPanel value={value} index={2}>
-                    <ActivitySideBar/>
+                    <ExampleOfSideBar/>
                 </TabPanel>
             </div>
         </div>
