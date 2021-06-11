@@ -1,5 +1,5 @@
 export const resource = {
-    'contract:status_date': '2022-05-05',
+    'contract:status_date': '2021-07-31',
     'duration:renewal_month': 5,
     'contract:end_validity_date': '9999-99-99',
     'contract:proposition_status': null,
@@ -1385,16 +1385,18 @@ export const resource = {
     'contract:product_label': 'Multi risk multi type risk for individuals',
     'duration:renewal_day': 1,
     'contract:status_motive': 'none',
-    'contract:renewal_date': '2022-05-01',
+    'contract:renewal_date': '2022-12-31',
     'total_fees': 0,
     'contract:status': 'not_issued',
     'contract:nature': null,
     'contract:language': 'french',
     'contract:currency_code': 'eur',
-    'contract:signature_date': '2021-05-05',
-    'contract:start_date': '2022-05-05',
+    'contract:signature_date': '2021-07-30',
+    'contract:start_date': '2021-07-31',
     'contract:nature_label': null,
-    'contract:product_type': 'multi_risk'
+    'contract:product_type': 'multi_risk',
+    'contract:amount': '1200300.45',
+    'loan_account:total_amount_due' : '45.67'
 };
 
 export const consistentResource = {
