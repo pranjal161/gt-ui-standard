@@ -57,7 +57,15 @@ export interface SideBarProps {
 const useStyles = makeStyles((theme) => ({
     '@global': {
         '*::-webkit-scrollbar': {
-            display: 'none'
+            width: '2px',
+        },
+        '*::-webkit-scrollbar-thumb': {
+            background: '#97a0af',
+            borderRadius: '2px'
+        },
+        '*::-webkit-scrollbar-track': {
+            background: theme.palette.project.sidebar.toolbar.border,
+            borderRadius: '2px'
         }
     },
     root: {
