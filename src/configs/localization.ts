@@ -1,6 +1,9 @@
 import {format, formatISO} from 'date-fns';
-
+import date_enEN from 'date-fns/locale/en-US';
+import date_frFR from 'date-fns/locale/fr';
 import i18n from 'init/i18n';
+
+const dateLocale:any = {'en-EN':date_enEN, 'fr-FR':date_frFR}
 
 const localizations: any = {
     en: {
@@ -76,8 +79,8 @@ let locale: string
 const setFormat = (lng: string) => (formatt = localizations[lng])
 const setLocale = (lng: string, cntry: string) => (locale = `${lng}-${cntry}`)
 
-export const displayDate = (value: any) => format(value, formatt.date.short);
-export const displayLongDate = (value: any) => format(value, formatt.date.long);
+export const displayDate = (value: any) => format(value, formatt.date.short, {locale:dateLocale[locale]});
+export const displayLongDate = (value: any) => format(value, formatt.date.long, {locale:dateLocale[locale]});
 export const displayCurrency = (value: any, currency?: string) => new Intl.NumberFormat(locale, currency ? {
     ...formatt.currency,
     currency
@@ -90,5 +93,6 @@ export const localizationChange = (lng: string, cntry: string) => {
     // momentChangeLanguage(lng)
     i18n.changeLanguage(lng);
     setLocale(lng, cntry)
+    console.log(lng, cntry)
 }
 export const displayISODate = (timestamp: any) => formatISO(timestamp);

@@ -1,4 +1,4 @@
-import * as HeaderStories from './Header.stories';
+import * as HeaderStories from 'stories/Header.____stories';
 
 import { Meta, Story } from '@storybook/react';
 import { Page, PageProps } from './Page';

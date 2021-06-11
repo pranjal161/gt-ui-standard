@@ -1,5 +1,6 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import WithScroll from 'components/WithScroll/WithScroll';
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
@@ -55,11 +56,6 @@ export interface SideBarProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            display: 'none'
-        }
-    },
     root: {
         padding: theme.spacing(0),
         display: 'flex',
@@ -120,10 +116,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     content: {
-        display: 'flex',
-        flex: '1 1 auto',
-        overflowY: 'hidden',
-        width: 'fit-content',
+        height: '-webkit-fill-available',
+        width: '-webkit-fill-available',
+        overflowY: 'hidden'
     },
     contentOpen: {
         transition: theme.transitions.create('width', {
@@ -180,7 +175,9 @@ const SideBar: React.FC<SideBarProps> = ({
                     </div>
                 </div>
                 <div className={classes.content}>
-                    {content}
+                    <WithScroll>
+                        {content}
+                    </WithScroll>
                 </div>
             </div>
         </div>
