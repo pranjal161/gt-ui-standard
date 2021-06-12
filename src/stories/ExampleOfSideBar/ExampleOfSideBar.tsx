@@ -6,6 +6,16 @@ import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
 import {useSidebar} from 'hooks/useSidebar';
 
+let mockLoading = false
+
+export interface ExampleOfSideBarProps {
+
+    /**
+     * To test loading skeleton
+     */
+    loading:boolean
+}
+
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(0),
@@ -47,12 +57,14 @@ const sectionItems: PanelSectionItem[] = [
 
 const ContentController = (props: { value: string }) => {
     const classes = useStyles();
+    console.log('render ContentController')
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
             property={item.id}
             data={resource}
             styleType={item.styleType}
+            loading={mockLoading}
         />)}</div>
 
     return (<div className={classes.content}>
@@ -79,9 +91,10 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar = () => {
+const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading}:ExampleOfSideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items, true)
+    mockLoading = loading
 
     return (
         <div className={classes.root}>
