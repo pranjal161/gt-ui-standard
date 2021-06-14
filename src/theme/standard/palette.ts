@@ -12,6 +12,7 @@ export const globalTokens = {
     __blue_2: '#2BB0ED',
     __blue_3: '#5ED0FA',
     __blue_4: '#B3ECFF',
+    __purple_99 : '#5F249F',
     black: '#000000',
     lightBlack: '#212121',
     yellow: '#FFED00',
@@ -140,8 +141,19 @@ const project = {
     },
     text: {
         placeholder: globalTokens.__grey_4,
+        label: globalTokens.__grey_3,
         link: globalTokens.__blue_1,
-    }
+    },
+    sidebar : {
+        toolbar:{
+            border : globalTokens.__grey_6,
+            color : globalTokens.__grey_4,
+            activatedBackground : globalTokens.__grey_7,
+            activatedColor : globalTokens.__purple_99,
+        }
+    },
+    skeleton : globalTokens.__grey_4
+
 };
 
 export default {...palette, project}

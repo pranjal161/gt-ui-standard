@@ -1,8 +1,9 @@
 /* eslint-disable */
 
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import {Theme, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
+import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
 import FormDialog from 'views/Trainers/TrainingNorbert/FormDialog/FormDialog';
 import Tabs from '../../../theme/components/material/Tabs/Tabs'
 import Tab from '@material-ui/core/Tab';
@@ -18,7 +19,7 @@ interface TabPanelProps {
 
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -49,6 +50,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
     },
+    sidebar: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flex: '1 1 auto',
+        height:'600px',
+    }
 }));
 
 const TrainingNorbert = () => {
@@ -75,9 +82,11 @@ const TrainingNorbert = () => {
                 <FormDialog/>
                 Item Two
             </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel>
+            <div className={classes.sidebar}>
+                <TabPanel value={value} index={2}>
+                    <ExampleOfSideBar/>
+                </TabPanel>
+            </div>
         </div>
     );
 }
