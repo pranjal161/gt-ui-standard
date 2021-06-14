@@ -50,9 +50,9 @@ export interface DialogProps {
     fullWidth: boolean
 
     /**
-     * List of actions
+     * Actions to display
      */
-    actions?: any[]
+    actions?: any
 }
 
 const useStyles = makeStyles(getComponentStyle('Dialog'));
@@ -74,14 +74,16 @@ const Dialog: React.FC<DialogProps> = ({
     }
 
     return (
-        <MuiDialog onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth} fullWidth={fullWidth}>
+        <MuiDialog onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth}
+            fullWidth={fullWidth}>
             <MuiDialogTitle disableTypography className={classes.titleRoot}>
                 <div>
                     <div className={classes.titleIcon}>{icon}</div>
                     <Typo variant={'dialogTitle'} value={title} className={classes.title}/>
                 </div>
                 {onClose && <IconButton onClick={onClose}>
-                    <CloseIcon/>
+                    <div data-testid={'dialog-btn-close-icon'}>
+                        <CloseIcon/></div>
                 </IconButton>}
             </MuiDialogTitle>
             <MuiDialogContent className={classes.content}>
