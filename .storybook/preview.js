@@ -15,7 +15,7 @@ addDecorator((storyFn, context) => {
 
         import('../src/configs')
             .then((module) => {
-                module.changeLanguageCountry(context.globals.locale, context.globals.locale.toUpperCase())
+                module.changeLanguageCountry(context.globals.locale.language, context.globals.locale.country)
             });
 
     }, [context.globals.locale])
@@ -57,8 +57,8 @@ export const globalTypes = {
         toolbar: {
             icon: 'globe',
             items: [
-                {value: 'en', right: '🇺🇸', title: 'English'},
-                {value: 'fr', right: '🇫🇷', title: 'Français'}],
+                {value: {language:'en', country:'US'}, right: '🇺🇸', title: 'English'},
+                {value: {language:'fr', country:'FR'}, right: '🇫🇷', title: 'Français'}],
         },
     },
 };

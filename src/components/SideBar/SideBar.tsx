@@ -179,6 +179,8 @@ export const PureSideBar: React.FC<SideBarProps> = ({
         onToggle && onToggle()
     }
 
+    console.log('PureSideBar Render')
+
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.toolbar}>

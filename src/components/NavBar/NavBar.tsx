@@ -1,17 +1,20 @@
+import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
 import { ExtensionsIcon, HelpIcon, SearchIcon } from 'assets/svg';
 import React, { useState } from 'react';
-
 import DXCLogo from 'assets/dxc_logo.jpg';
-import { DxcHeader } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import { MainNavContainer } from './StyledNavBar';
+import SecondaryTabs from './SecondaryTabs';
+import Typo from 'components/Typography/Typo';
 import {changeLanguageCountry} from 'configs';
 import en from 'assets/gb.jpg';
 import fr from 'assets/fr.jpg';
 import nl from 'assets/nl.jpg';
 import { useHistory } from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 const NavBar = () => {
+    const {t} = useTranslation()
     const history = useHistory();
     const [lang, setLang] = useState<string>('en');
 
@@ -45,7 +48,7 @@ const NavBar = () => {
             setLangIcon(currentLang.iconSrc);
         }
         // if (value !== applicationContext.language) {
-        //     applicationContext.changeLang(value);
+        //     applicationContext.changeLang(value);<
         // }
     };
 
@@ -57,8 +60,7 @@ const NavBar = () => {
         <>
             <MainNavContainer>
                 <MainNavContainer.NavRow
-                    align="center"
-                    height="3.5rem">
+                    align="center">
                     <MainNavContainer.LogoImg 
                         src={DXCLogo} 
                         alt="DXC Logo"
@@ -91,6 +93,19 @@ const NavBar = () => {
                             </IconButton>
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>
+                </MainNavContainer.NavRow>
+                <MainNavContainer.NavRow>
+                    <MainNavContainer.NavTabs>
+                        <DxcTabs
+                            tabs={[
+                                {label: <Typo variant={'tab'} value={t('common:myTicketsTab')} />},
+                                {label: <Typo variant={'tab'} value={t('common:myBasketsTab')} />},
+                            ]}>
+                        </DxcTabs>
+                    </MainNavContainer.NavTabs>
+                    <MainNavContainer.SecondaryTabs>
+                        <SecondaryTabs />
+                    </MainNavContainer.SecondaryTabs>
                 </MainNavContainer.NavRow>
             </MainNavContainer>
         </>
