@@ -1,18 +1,20 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-interface addWindowTabActionInt {
+export interface addWindowTabActionInt {
     tabId: string,
     tabType: string,
-    displayTabLabel: string
+    displayTabLabel: string,
+    displayTabSmallLabel?: string
 }
 
-interface selectedWindowTabInt {
+export interface selectedWindowTabInt {
     id: string
 }
 
-interface windowTabsObjsInt {
+export interface windowTabsObjsInt {
     [key: string]: {
-        label: string,
+        title: string,
+        subTitle?: string,
         type: string
     }
 }
@@ -43,8 +45,13 @@ const newWindowSlice = createSlice({
             if(!state.isNewWindowWithTabsOpened)
                 state.isNewWindowWithTabsOpened = true;
             state.selectedWindowTab.id = action.payload.tabId;
+            let secLabel: string | undefined;
+            if(action.payload.displayTabSmallLabel) {
+                secLabel = action.payload.displayTabSmallLabel
+            }
             state.windowTabsIDs[action.payload.tabId] = { 
-                label: action.payload.displayTabLabel,
+                title: action.payload.displayTabLabel,
+                subTitle: secLabel,
                 type: action.payload.tabType
             };
         },

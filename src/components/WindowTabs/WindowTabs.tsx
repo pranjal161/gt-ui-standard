@@ -7,6 +7,7 @@ import Tabs from '../../components/Tabs/Tabs';
 
 const SimpleComponent = React.memo((props: {id: string}) => {
     const { id } = props;
+    console.log('SimpleComponent render:')
 
     return(
         <div>
@@ -51,8 +52,8 @@ const WindowTabs = React.memo((props: {setWindowFocus?: Function}) => {
                         key={tabId}
                         tabId={tabId}
                         activated = {selectedWindowTabID === tabId}
-                        title={windowTabsIDObject[tabId].label}
-                        subTitle="asdfasdf asdfrghtjhtyjkyu dsfgdfg"
+                        title={windowTabsIDObject[tabId].title}
+                        subTitle={windowTabsIDObject[tabId].subTitle}
                         icon={windowTabsIDObject[tabId].tabType}>
                         <SimpleComponent id={tabId} />
                     </Tab>
