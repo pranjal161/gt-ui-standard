@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     titlesContainer: {
         paddingLeft: '10px',
         flexGrow: 1,
-        lineHeight: '0.7',
         textAlign: 'left',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -74,7 +73,8 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     noSubTitle: {
-        marginTop: '7px',
+        height: '18px',
+        marginTop: '5px',
         '& > span': {
             fontSize: '13px'
         }
