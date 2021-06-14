@@ -13,7 +13,7 @@ export interface ExampleOfSideBarProps {
     /**
      * To test loading skeleton
      */
-    loading:boolean
+    loading?:boolean
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +91,7 @@ const items = {
             {display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading}:ExampleOfSideBarProps) => {
+const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading=false}:ExampleOfSideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items, true)
     mockLoading = loading

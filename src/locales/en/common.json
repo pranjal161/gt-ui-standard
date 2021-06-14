@@ -2,6 +2,8 @@
   "test_date": "The current date is {{date, dateLong}}",
   "test_uppercase": "{{text, uppercase}} just uppercased",
   "test_currency": "Amount of {{value, currency}}",
+  "myTicketsTab": "MY TICKETS",
+  "myBasketsTab": "BASKETS",
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
   "_SEARCH_TICKET": "Search Ticket",
