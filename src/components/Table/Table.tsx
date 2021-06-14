@@ -7,7 +7,13 @@ import { getDescriptionValue } from 'utils/functions';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
-const Table = (props: { url: string; columnId: any[]; showPaginator: boolean }) => {
+interface TableProps {
+    url: string,
+    columnId: Array<any>
+    showPaginator: Boolean
+}
+
+const Table = (props: TableProps) => {
     const [tableData, setTableData] = useState<undefined | any>();
     const { t } = useTranslation();
     // const [totalItems, changeTotalItems] = useState(0);
@@ -37,7 +43,7 @@ const Table = (props: { url: string; columnId: any[]; showPaginator: boolean }) 
 
     const TableCell = (props: { key: any; row?: any; column?: any; }) => {
 
-        const { row, column, key } = props;
+        const { key, row, column } = props;
         if (column.label === '_ACTIONS') {
             return (
                 <td key={key}>
