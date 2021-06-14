@@ -24,7 +24,7 @@ const NavBar = () => {
         },
         {
             value: 'en',
-            label: 'EN',
+            label: 'US',
             iconSrc: en,
         },
         {
