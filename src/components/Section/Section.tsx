@@ -4,6 +4,10 @@ import React from 'react';
 
 export interface SectionProps {
 
+    /**
+     * props to define and describe
+     */
+
     title: string;
     actions?: any;
     icon: any;
