@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { APIConfig } from 'configs/apiConfig';
 import ContractTable from 'components/ContractTable/ContractTable';
 import useActivity from 'hooks/useActivity';
-import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 import withActivity from 'hocs/withActivity';
 
@@ -15,8 +14,6 @@ const ContractSearch = () => {
     const { startActivity, stopActivity } = useActivity();
     const [url, setURL] = useState(urlContract);
     const [contractNumber, setContractNumber] = useState('');
-    const [contractData, setContractData] = useState();
-    const { fetch } = useAia();
 
     const onContractNumberChange = (updatedValue: string) => {
         setContractNumber(updatedValue.toUpperCase());
@@ -28,23 +25,7 @@ const ContractSearch = () => {
         return () => {
             stopActivity()
         };           
-    }, [] );
-    
-    useEffect(() => {
-        getData(url)
-    }, [url]);
-
-    const getData = (url: string) => {
-        fetch(url).then((response: any) => {
-            let result = JSON.parse(JSON.stringify(response.data));
-            if (response && result['_links']['item']) {
-                if (!Array.isArray(result['_links']['item'])) {
-                    result['_links']['item'] = [result['_links']['item']]
-                }
-                setContractData(result);
-            }
-        });
-    };
+    }, []);
 
     const searchContract = () => {
         const searchURL = APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5';
@@ -86,8 +67,8 @@ const ContractSearch = () => {
                             margin="xxsmall"
                         />
                     </div>
-                    {contractData &&
-                        <ContractTable contractData={contractData} showPreview={true} />
+                    {url &&
+                        <ContractTable url={url} />
                     }
                 </div>
 
