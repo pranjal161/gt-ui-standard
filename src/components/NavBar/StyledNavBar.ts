@@ -8,6 +8,7 @@ interface NavRowProps {
 
 const MainNavContainer = styled.div`
     width: 100%;
+    height: 128px;
     background-color: white;
 
     &::after {
@@ -35,8 +36,9 @@ MainNavContainer.LogoImg = styled.img.attrs((props) => ({
     alt: props.alt,
     title: props.title
 }))`
-    max-height: 32px;
+    max-height: 50px;
     margin-left: 2rem;
+    margin-top: 14px;
     cursor: pointer;
 `;
 
@@ -60,6 +62,18 @@ MainNavContainer.SecondaryViewButtonsContainer = styled.div`
     justify-content: flex-end;
     align-items: center;
     min-width: 200px;
+`;
+
+MainNavContainer.NavTabs = styled.div`
+    margin-top: 16px;
+`;
+
+MainNavContainer.SecondaryTabs = styled.div`
+    height: 64px;
+    margin-left: 2rem;
+    display: flex;
+    flex-grow: 1;
+    align-items: flex-end;
 `;
 
 export { MainNavContainer }; 

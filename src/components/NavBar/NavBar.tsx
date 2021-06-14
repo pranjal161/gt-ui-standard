@@ -2,9 +2,10 @@ import { ExtensionsIcon, HelpIcon, SearchIcon } from 'assets/svg';
 import React, { useState } from 'react';
 
 import DXCLogo from 'assets/dxc_logo.jpg';
-import { DxcHeader } from '@dxc-technology/halstack-react';
+import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import { MainNavContainer } from './StyledNavBar';
+import SecondaryTabs from './SecondaryTabs';
 import {changeLanguageCountry} from 'configs';
 import en from 'assets/gb.jpg';
 import fr from 'assets/fr.jpg';
@@ -57,8 +58,7 @@ const NavBar = () => {
         <>
             <MainNavContainer>
                 <MainNavContainer.NavRow
-                    align="center"
-                    height="3.5rem">
+                    align="center">
                     <MainNavContainer.LogoImg 
                         src={DXCLogo} 
                         alt="DXC Logo"
@@ -91,6 +91,20 @@ const NavBar = () => {
                             </IconButton>
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>
+                </MainNavContainer.NavRow>
+                <MainNavContainer.NavRow>
+                    <MainNavContainer.NavTabs>
+                        <DxcTabs
+                            tabs={[
+                                {label: 'MY TICKETS'},
+                                {label: 'BASKETS'},
+                                {label: 'SEARCH'}
+                            ]}>
+                        </DxcTabs>
+                    </MainNavContainer.NavTabs>
+                    <MainNavContainer.SecondaryTabs>
+                        <SecondaryTabs />
+                    </MainNavContainer.SecondaryTabs>
                 </MainNavContainer.NavRow>
             </MainNavContainer>
         </>

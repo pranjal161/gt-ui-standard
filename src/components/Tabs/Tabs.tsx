@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg'
 
 import { MemoTabButton } from './TabButton/TabButton';// TabButton,
 
@@ -13,13 +14,26 @@ const TabsMainContainer = styled.div`
 
 const TabsButtonsContainer = styled.div`
     display: flex;
+    flex-wrap: nowrap;
     border-bottom: 2px solid #D9D9D9;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow: hidden;
+    scroll-behavior: smooth;
 
     &::-webkit-scrollbar {
         display: none;
     }
+`;
+
+const TabsButtonsScroller = styled.div<{isLeft: boolean}>`
+    padding-top: 12px;
+    height: 48px;
+    opacity: 0.6;
+    background-color: white;
+    vertical-align: middle;
+    text-align: center;
+    position: absolute;
+    display: none;
+    ${(props) => (props.isLeft ? 'left: 0;' : 'right: 0;')}
 `;
 
 export interface TabsProps {
@@ -75,11 +89,40 @@ const Tabs = (props: TabsProps) => {
         onTabClose = null
     } = props;
     const [activeTab, setActiveTab] = useState(children ? children[0].props.tabId : null);
+    const mainDivRef = useRef<HTMLDivElement>(null);
+    const scrollDivRef = useRef<HTMLDivElement>(null);
+    const scrollLeftArrowRef = useRef<HTMLDivElement>(null);
+    const scrollRightArrowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if(activeTabId)
             setActiveTab(activeTabId);
     }, [activeTabId]);
+
+    useEffect(() => {
+        console.log('Tabs children number changed:');
+        let containerWidth = mainDivRef.current?.offsetWidth;
+        let scrollWidth = scrollDivRef.current?.scrollWidth;
+        console.log('Tabs children mainDivRef width: '+containerWidth);
+        console.log('Tabs children scrollDivRef width: '+scrollWidth);
+        if(scrollWidth && containerWidth) {
+            if(scrollWidth > containerWidth) {
+                let scrollLeft = scrollDivRef.current?.scrollLeft;
+                console.log('Tabs children scrollDivRef scrollLeft: '+scrollLeft);
+                if(scrollLeft !== undefined) {
+                    console.log('Tabs children scrollLeft if: '+scrollLeft);
+                    if(scrollWidth > (scrollLeft! + containerWidth + 10)) {
+                        console.log('Tabs children display right arrow');
+                        scrollRightArrowRef.current!.style.display = 'block';
+                    }
+                    if(scrollLeft > 10) {
+                        console.log('Tabs children display left arrow');
+                        scrollLeftArrowRef.current!.style.display = 'block';
+                    }
+                }
+            }
+        }
+    }, [children.length]);
 
     /**
      * This function handles what happens when the user clicks on a tab. 
@@ -109,6 +152,22 @@ const Tabs = (props: TabsProps) => {
             onTabClose(tabId);
     }, [onTabClose]);
 
+    const scrollHandler = (scrollOffset:number) => {
+        console.log('Tabs scrollHandler called:');
+        if(scrollDivRef.current) {
+            scrollDivRef.current.scrollLeft += scrollOffset;
+            console.log('Tabs scrollHandler change scrollLeft:');
+            if(scrollDivRef.current.scrollLeft < 30) {
+                scrollLeftArrowRef.current!.style.display = 'none';
+            }
+            if((scrollDivRef.current.scrollLeft + mainDivRef.current!.offsetWidth + 30) > scrollDivRef.current!.scrollWidth) {
+                scrollRightArrowRef.current!.style.display = 'none';
+            }
+        }
+    }
+
+    console.log('Tabs render:');
+
     /**
      * The return (render for a React functional component) function handles the display of the component.
      * It uses a styled component to display the tab buttons as MemoTabButton React components.
@@ -116,9 +175,18 @@ const Tabs = (props: TabsProps) => {
      * It uses children.map for the child component Tab to get the data it needs for renderz, and uses a key that is unique - 
      * the tabId props, to make use of the React optimization engine to avoid rerenders of a component more than what is necessary.
      */
+
     return (
-        <TabsMainContainer>
-            <TabsButtonsContainer>
+        <TabsMainContainer
+            ref={mainDivRef}>
+            <TabsButtonsContainer
+                ref={scrollDivRef}>
+                <TabsButtonsScroller
+                    onClick={() => scrollHandler(-20)}
+                    isLeft={true}
+                    ref={scrollLeftArrowRef}>
+                    <LeftChevronIcon />
+                </TabsButtonsScroller>
                 {
                     children ?
                         children.map((child: any) => (
@@ -135,6 +203,12 @@ const Tabs = (props: TabsProps) => {
                         ) :
                         null
                 }
+                <TabsButtonsScroller
+                    onClick={() => scrollHandler(20)}
+                    isLeft={false}
+                    ref={scrollRightArrowRef}>
+                    <RightChevronIcon />
+                </TabsButtonsScroller>
             </TabsButtonsContainer>
             {
                 !children ?
