@@ -1,8 +1,8 @@
-import { DxcTable } from '@dxc-technology/halstack-react';
 import { EyeIcon } from 'assets/svg';
 import React from 'react';
-import { getDescriptionValue } from 'utils/functions';
-import { useTranslation } from 'react-i18next';
+import Table from 'components/Table/Table';
+
+// import { useHistory } from 'react-router';
 
 /**
  * Display contract information in a Table
@@ -10,73 +10,28 @@ import { useTranslation } from 'react-i18next';
  * @returns {*} Return information of the contract in a Table
  */
 const ContractTable = (props: any) => {
-    const { t } = useTranslation();
 
-    /**
-     * Redirection to a contract
-     * @param {item} item Resource that representing a contract
-     * @returns {void} Return the link to the contract
-     */
+    const contractColumns = [
+        { label: 'contract:number', property: 'contract:number' },
+        { label: 'contract:status', property: 'contract:status' },
+        { label: '_OWNER_NAME', property: ['person:display_id', 'organization:display_id'] },
+        { label: 'membership:display_id', property: 'membership:display_id' },
+        { label: '_ACTIONS', actions: [
+            { icon: <EyeIcon />, method: (row: any) => goToContract(row) }] },
+    ];
+
+    const goToContract = (row: any) => {
+        // const title = item.summary['contract:number'] + '/' + item.summary['contract:product_label']
+        // openInNewTab(item.href, title, 'contract')
+        console.log(row);
+        // history.push('/viewTab')
+    }
 
     return (
         <>
-            {props.contractData && props.contractData._links && props.contractData._links.item ? (
-                <>
-                    <DxcTable>
-                        <thead>
-                            <tr>
-                                <th>{t('contract:number')}</th>
-                                <th>{t('contract:status')}</th>
-                                <th>{t('_OWNER_NAME')}</th>
-                                <th>{t('membership:display_id')}</th>
-                                <th>{t('_ACTIONS')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {props.contractData._links.item.map((row: { [x: string]: { [x: string]: any } }, i: number) => (
-                                <tr key={i}>
-                                    <td>{row['summary']['contract:number']}</td>
-                                    <td>
-                                        {getDescriptionValue(
-                                            row['summary']['contract:status'],
-                                            'contract:status',
-                                            props.contractData,
-                                        )}
-                                    </td>
-                                    <td>
-                                        {row['summary']['person:display_id']
-                                            ? row['summary']['person:display_id']
-                                            : row['summary']['organization:display_id']}
-                                    </td>
-                                    <td>{row['summary']['membership:display_id']}</td>
-                                    {props.showPreview &&
-                                    <td>
-                                        <EyeIcon />
-                                    </td>
-                                    }
-                                </tr>
-                            ))}
-                        </tbody>
-                    </DxcTable>
-                </>
-            ) : (
-                <DxcTable>
-                    <thead>
-                        <tr>
-                            <th>{t('_CONTRACT_NUMBER')}</th>
-                            <th>{t('_OWNER_NAME')}</th>
-                            <th>{t('_RISK_DATA')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colSpan={12}>{t('_NO_RECORDS_FOUND')}</td>
-                        </tr>
-                    </tbody>
-                </DxcTable>
-            )}
+            <Table columnId={contractColumns} url={props.url} showPaginator={true} />
         </>
     );
 };
 
-export default ContractTable;
+export default React.memo(ContractTable);
