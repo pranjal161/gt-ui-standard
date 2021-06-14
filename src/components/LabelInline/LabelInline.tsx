@@ -52,22 +52,27 @@ const useStyles = makeStyles((theme) => ({
 
     },
     loading: {
-        height:'100%',
-        width: '50%',
+        height: '100%',
+        width: '100%',
         background: theme.palette.common.white,
         display: 'flex',
         alignItems: 'center',
         lineHeight: '1rem',
     },
     loadingItem: {
-        animation: 'glow 1.5s ease-in-out infinite',
+        animation: '$glow 1.5s ease-in-out infinite',
         borderTop: '1px solid #f0f9fb',
-        background: theme.palette.project.skeleton,
-        width: '50%',
-        height:'1rem',
+        background: '#eee',
+        height: '1rem',
         color: 'transparent',
         cursor: 'progress',
         display: 'inline-block'
+    },
+    loadingItemLabel: {
+        width: () => 50 + Math.floor(Math.random() * 45) + '%',
+    },
+    loadingItemValue: {
+        width: () => 50 + Math.floor(Math.random() * 45) + '%',
     },
     value: {
         color: theme.palette.text.primary,
@@ -97,6 +102,15 @@ const useStyles = makeStyles((theme) => ({
     dateLong: {
         textAlign: 'left'
     },
+    '@keyframes glow': {
+        '0%': {},
+        '100%': {
+            opacity: 1
+        },
+        '50%': {
+            opacity: 0.5
+        }
+    },
 }));
 
 /**
@@ -113,7 +127,8 @@ const LabelInline: React.FC<LabelInlineProps> = ({
 }: LabelInlineProps) => {
     const classes: any = useStyles();
     const {t} = useTranslation();
-    const Skeleton = () => <div className={classes.loading}><span className={classes.loadingItem}></span></div>
+    const SkeletonLabel = () => <div className={classes.loading}><span className={clsx(classes.loadingItem, classes.loadingItemLabel)}></span></div>
+    const SkeletonValue = () => <div className={classes.loading}><span className={clsx(classes.loadingItem, classes.loadingItemValue)}></span></div>
 
     /**
      * Retrieve description for a given data
@@ -135,10 +150,10 @@ const LabelInline: React.FC<LabelInlineProps> = ({
     return (
         <div className={clsx(classes.root, className)}>
             <div className={classes.label}>
-                {loading ? <Skeleton/> : property && t(property)}
+                {loading ? <SkeletonLabel/> : property && t(property)}
             </div>
             <div className={classes.value}>
-                {loading ? <Skeleton/> : <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>}
+                {loading ? <SkeletonValue/> : <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>}
             </div>
         </div>
     );
