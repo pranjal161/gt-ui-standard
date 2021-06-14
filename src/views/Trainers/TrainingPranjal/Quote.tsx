@@ -2,6 +2,8 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 
+import { AddBoxIcon } from 'assets/svg';
+import Button from 'components/Button/Button';
 import Coverages from './Coverages';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import Label from 'components/Label/Label';
@@ -124,6 +126,9 @@ const Quote = () => {
             {risksUrl &&
                 <Coverages risks={risksUrl} />
             }
+            <div>
+                <Button onClick={() => console.log('test button')} Icon={AddBoxIcon} title="Test Button" ></Button>
+            </div>
         </>
     )
 }

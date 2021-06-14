@@ -1,18 +1,20 @@
-import AddButton, {AddButtonProps} from 'components/AddButton/AddButton';
+import Button, {ButtonProps} from 'components/Button/Button';
 import {Meta, Story} from '@storybook/react';
+
+import {AddBoxIcon} from 'assets/svg';
 import React from 'react';
 
 export default {
-    title: 'Components/Inputs/AddButton',
-    component: AddButton,
+    title: 'Components/Inputs/Button',
+    component: Button,
 } as Meta;
 
-const Template: Story<AddButtonProps> = (args) => <AddButton {...args} />;
+const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
     title: 'Add a fund',
-    withIcon : true,
+    Icon : AddBoxIcon,
     onClick : () => console.log('click')
 };
 
@@ -20,24 +22,24 @@ export const Disable = Template.bind({});
 Disable.args = {
     title: 'Add a fund',
     disabled : true,
-    withIcon : true,
+    Icon : AddBoxIcon,
     onClick : () => console.log('click')
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
-    withIcon : true,
+    Icon : AddBoxIcon,
     onClick : () => console.log('click')
 };
 
 export const SecondaryIconOnly = Template.bind({});
 SecondaryIconOnly.args = {
-    withIcon : true,
+    Icon : AddBoxIcon,
     mode: 'secondary'
 };
 
 export const TextIconOnly = Template.bind({});
 TextIconOnly.args = {
-    withIcon : true,
+    Icon : AddBoxIcon,
     mode: 'text'
 };
