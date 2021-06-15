@@ -90,7 +90,10 @@ const Activity = () => {
                     <div ref={contentRef} className={classes.content}>
                         <WithScroll>
                             <div className="col-12">
-                                <Section title="General Information" icon={<PaymentIcon/>}/>
+                                <Section title="General Information" icon={<PaymentIcon/>}>
+                                    TEST 1
+                                    TEst 2
+                                </Section>
                             </div>
                             <div className="col-12">
                                 <Section title="Payment" icon={<PaymentIcon/>} actions={
