@@ -80,7 +80,7 @@ def addStagesInstallCustom() {
 
         sh '''
             echo 'Check code quality using ESLint'
-            npm run lint
+            npm run lint-local
         '''
     }
 
