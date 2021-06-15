@@ -1,5 +1,5 @@
+import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg'
 
 import { MemoTabButton } from './TabButton/TabButton';// TabButton,
 
