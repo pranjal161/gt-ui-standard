@@ -1,8 +1,8 @@
+import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
 import { ExtensionsIcon, HelpIcon, SearchIcon } from 'assets/svg';
 import React, { useState } from 'react';
 
 import DXCLogo from 'assets/dxc_logo.jpg';
-import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import { MainNavContainer } from './StyledNavBar';
 import SecondaryTabs from './SecondaryTabs';
