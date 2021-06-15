@@ -40,7 +40,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
         title = '',
         onClick,
         mode = 'primary',
-        Icon
+        Icon,
     } = props
 
     // eslint-disable-next-line react/display-name
