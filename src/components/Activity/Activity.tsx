@@ -5,24 +5,23 @@ import clsx from 'clsx';
 
 import Button from 'components/Button/Button';
 import WithScroll from 'components/WithScroll/WithScroll';
-import React, {useRef} from 'react';
+import baContext from 'context/baContext';
+import withActivity from 'hocs/withActivity';
+import useActivity from 'hooks/useActivity';
+import useAia from 'hooks/useAia';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Section from 'components/Section/Section';
+import {useSelector} from 'react-redux';
 import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
+import {getLink} from 'utils/functions';
 import TitleBar from './TitleBar/TitleBar';
 
-//export interface ActivityProps {}
-
-/**
- * props to define and describe
- */
-// prop1: any
-//}
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4),
-        display:'flex',
-        flexDirection:'column',
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: '#F2F5F7'
     },
     header: {
@@ -69,15 +68,60 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const Activity = () => {
+
+export interface ActivityProps {
+
+    /**
+     * code of the activity
+     */
+    activityCode: any
+
+    /**
+     * hRef of the activity to Post
+     */
+    hRef: string
+
+    /**
+     * API action type
+     */
+    action: string
+
+    title?: string
+}
+
+
+const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:ActivityProps) => {
+    const {startActivity, stopActivity} = useActivity()
+    const aia:any = useAia()
+
+    const context = useContext(baContext);
+    const baId: string = context.baId ? context.baId : '';
+    const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
+
     const contentRef = useRef(null)
     const sidebarRef = useRef(null)
     const classes: any = useStyles({contentRef, sidebarRef})
 
+    console.log('response', response)
+
+    useEffect(() => {
+        startActivity();
+
+        /**
+         * Do the main call
+         *
+         */
+        aia[action](hRef)
+
+        return () => {
+            stopActivity()
+        }
+    }, [])
+
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <TitleBar title={'02/06/2021 - Unsolicited Payment - IUP000000475'}/>
+                <TitleBar title={title}/>
             </div>
             <div className={classes.body}>
                 <div className={classes.bodyLeft}>
@@ -98,26 +142,26 @@ const Activity = () => {
                             <div className="col-12">
                                 <Section title="Payment" icon={<PaymentIcon/>} actions={
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>}/>
+                                            title="Test Button"/>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
+                                                mode={'secondary'}
+                                                title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
+                                                title="Test Button"/>
                                     </div>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
+                                                mode={'secondary'}
+                                                title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
+                                                title="Test Button"/>
                                     </div>}/>
 
                             </div>
@@ -125,20 +169,20 @@ const Activity = () => {
                                 <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
+                                                mode={'secondary'}
+                                                title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
+                                                title="Test Button"/>
                                     </div>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
+                                                mode={'secondary'}
+                                                title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
+                                                title="Test Button"/>
                                     </div>}/>
                             </div>
                         </WithScroll>
