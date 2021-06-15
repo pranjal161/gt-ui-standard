@@ -35,7 +35,7 @@ const IconButton = (props: any) => {
     }
     else {
         return (
-            <IconButtonMat {...rest} classes={muiClasses} className={className}>
+            <IconButtonMat {...rest} classes={muiClasses} className={className} color={color}>
                 {children}
             </IconButtonMat>
         );
