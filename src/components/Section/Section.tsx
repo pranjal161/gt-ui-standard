@@ -14,8 +14,15 @@ export interface SectionProps {
      */
     icon?: any;
 
+    /**
+     * List of actions
+     */
     actions?: any;
-    content?: any;
+
+    /**
+     * Content to display
+     */
+    children?: any;
 }
 
 /**
@@ -32,17 +39,14 @@ const useStyles = makeStyles((theme) => ({
         flexDirection:'column',
         flex: '1 1 auto',
         borderRadius: '6px 6px 0px 0px',
-
     },
     header: {
         boxShadow: `0px 1px 0px ${theme.palette.project.sidebar.toolbar.border}`,
-
         flex: '1 1 auto',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingBlock: theme.spacing(2)
-
     },
     iconTitle: {
         display:'inline-flex',
@@ -51,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
         '& > *': {
             marginRight: theme.spacing(2)
-
         },
     },
     icon: {
@@ -77,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Section = (props: SectionProps) => {
     const classes = useStyles()
-    const {title, icon, actions, content} = props;
+    const {title, icon, actions, children} = props;
 
     return (
         <div className={classes.root}>
@@ -91,10 +94,9 @@ const Section = (props: SectionProps) => {
                 </div>
             </div>
             <div className={classes.content}>
-                {content}
+                {children}
             </div>
         </div>
-
     )
 }
 
