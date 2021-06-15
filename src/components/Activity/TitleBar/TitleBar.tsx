@@ -1,5 +1,4 @@
 import React from 'react';
-import image from '_sb_mock_images/Title.png'
 
 export interface TitleBarProps {
 
@@ -11,7 +10,7 @@ export interface TitleBarProps {
 
 const TitleBar: React.FC<TitleBarProps> = () => (
     <div>
-        <img src={image} alt={'mock'}/>
+        Titlebar
     </div>
 )
 
