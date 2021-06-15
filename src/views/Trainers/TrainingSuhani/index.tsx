@@ -1,6 +1,8 @@
+import Activity from 'components/Activity/Activity';
 import React from 'react';
 
 const TrainingSuhani = () => (
-    <h1>Suhani</h1>
-);
+    <Activity></Activity>
+)
+
 export default TrainingSuhani;
