@@ -4,7 +4,8 @@ import {AddBoxIcon, DistributorIcon, PaymentIcon} from 'assets/svg';
 import clsx from 'clsx';
 
 import Button from 'components/Button/Button';
-import React from 'react';
+import WithScroll from 'components/WithScroll/WithScroll';
+import React, {useRef} from 'react';
 import Section from 'components/Section/Section';
 import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
 import TitleBar from './TitleBar/TitleBar';
@@ -45,18 +46,31 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         minWidth: '44px'
     },
-    content: {
-        '& > *': {
-            marginBottom: theme.spacing(2)
+    content: ({contentRef}: any) => {
+        const {offsetTop} = contentRef && contentRef.current || {offsetTop: ''}
+
+        return {
+            height: `calc(100vh - ${offsetTop}px - 80px)`, // Footer to remove
+            overflowY: 'hidden',
+            '& > * > div': {
+                marginBottom: theme.spacing(2)
+            }
         }
     },
-    sidebar: {
-        backgroundColor: theme.palette.background.paper
+    sidebar: ({sidebarRef}: any) => {
+        const {offsetTop} = sidebarRef && sidebarRef.current || {offsetTop: ''}
+
+        return {
+            height: `calc(100vh - ${offsetTop}px - 80px)`, // Footer to remove
+            backgroundColor: theme.palette.background.paper
+        }
     }
 }))
 
 const Activity = () => {
-    const classes: any = useStyles()
+    const contentRef = useRef(null)
+    const sidebarRef = useRef(null)
+    const classes: any = useStyles({contentRef, sidebarRef})
 
     return (
         <div className={classes.root}>
@@ -64,34 +78,68 @@ const Activity = () => {
                 <div className={classes.bodyLeft}>
 
                     <div className="col-12">
-                        <TitleBar></TitleBar>
+                        <TitleBar title={'02/06/2021 - Unsolicited Payment - IUP000000475'}></TitleBar>
                     </div>
                     <div className={classes.header}>
                         <div>---------Date effect input-------</div>
                         <div>------------------------------------Stepper------------------------------------</div>
                     </div>
 
-                    <div className={classes.content}>
-                        <div className="col-12">
-                            <Section title="General Information" icon={<PaymentIcon/>}/>
-                        </div>
-                        <div className="col-12">
-                            <Section title="Payment" icon={<PaymentIcon/>} actions={
-                                <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                        title="Test Button"></Button>}/>
-                        </div>
-                        <div className="col-12">
-                            <Section title="Distributor Management" icon={<DistributorIcon/>} actions={
-                                <div>
+                    <div ref={contentRef} className={classes.content}>
+                        <WithScroll>
+                            <div className="col-12">
+                                <Section title="General Information" icon={<PaymentIcon/>}/>
+                            </div>
+                            <div className="col-12">
+                                <Section title="Payment" icon={<PaymentIcon/>} actions={
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                            title="Test Button"></Button>
-                                    <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                            title="Test Button"></Button>
-                                </div>}/>
-                        </div>
+                                            title="Test Button"></Button>}/>
+                            </div>
+                            <div className="col-12">
+                                <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
+                                    <div>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                mode={'secondary'}
+                                                title="Secondary"></Button>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                title="Test Button"></Button>
+                                    </div>}/>
+                            </div>
+                            <div className="col-12">
+                                <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
+                                    <div>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                mode={'secondary'}
+                                                title="Secondary"></Button>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                title="Test Button"></Button>
+                                    </div>}/>
+
+                            </div>
+                            <div className="col-12">
+                                <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
+                                    <div>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                mode={'secondary'}
+                                                title="Secondary"></Button>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                title="Test Button"></Button>
+                                    </div>}/>
+                            </div>
+                            <div className="col-12">
+                                <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
+                                    <div>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                mode={'secondary'}
+                                                title="Secondary"></Button>
+                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
+                                                title="Test Button"></Button>
+                                    </div>}/>
+                            </div>
+                        </WithScroll>
                     </div>
                 </div>
-                <div className={clsx(classes.bodyRight, classes.sidebar)}>
+                <div ref={sidebarRef} className={clsx(classes.bodyRight, classes.sidebar)}>
                     <ExampleOfSideBar/>
                 </div>
             </div>
