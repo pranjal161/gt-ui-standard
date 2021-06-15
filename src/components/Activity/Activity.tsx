@@ -21,6 +21,8 @@ import TitleBar from './TitleBar/TitleBar';
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4),
+        display:'flex',
+        flexDirection:'column',
         backgroundColor: '#F2F5F7'
     },
     header: {
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
         const {offsetTop} = contentRef && contentRef.current || {offsetTop: ''}
 
         return {
-            height: `calc(100vh - ${offsetTop}px - 80px)`, // Footer to remove
+            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
             overflowY: 'hidden',
             '& > * > div': {
                 marginBottom: theme.spacing(2)
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
         const {offsetTop} = sidebarRef && sidebarRef.current || {offsetTop: ''}
 
         return {
-            height: `calc(100vh - ${offsetTop}px - 80px)`, // Footer to remove
+            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
             backgroundColor: theme.palette.background.paper
         }
     }
@@ -74,12 +76,12 @@ const Activity = () => {
 
     return (
         <div className={classes.root}>
+            <div className="col-12">
+                <TitleBar title={'02/06/2021 - Unsolicited Payment - IUP000000475'}/>
+            </div>
             <div className={classes.body}>
                 <div className={classes.bodyLeft}>
 
-                    <div className="col-12">
-                        <TitleBar title={'02/06/2021 - Unsolicited Payment - IUP000000475'}></TitleBar>
-                    </div>
                     <div className={classes.header}>
                         <div>---------Date effect input-------</div>
                         <div>------------------------------------Stepper------------------------------------</div>
@@ -93,26 +95,26 @@ const Activity = () => {
                             <div className="col-12">
                                 <Section title="Payment" icon={<PaymentIcon/>} actions={
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                            title="Test Button"></Button>}/>
+    title="Test Button"/>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"></Button>
+    mode={'secondary'}
+    title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"></Button>
+    title="Test Button"/>
                                     </div>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"></Button>
+    mode={'secondary'}
+    title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"></Button>
+    title="Test Button"/>
                                     </div>}/>
 
                             </div>
@@ -120,20 +122,20 @@ const Activity = () => {
                                 <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"></Button>
+    mode={'secondary'}
+    title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"></Button>
+    title="Test Button"/>
                                     </div>}/>
                             </div>
                             <div className="col-12">
                                 <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
                                     <div>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"></Button>
+    mode={'secondary'}
+    title="Secondary"/>
                                         <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"></Button>
+    title="Test Button"/>
                                     </div>}/>
                             </div>
                         </WithScroll>

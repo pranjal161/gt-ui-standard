@@ -57,7 +57,6 @@ const sectionItems: PanelSectionItem[] = [
 
 const ContentController = (props: { value: string }) => {
     const classes = useStyles();
-    console.log('render ContentController')
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}

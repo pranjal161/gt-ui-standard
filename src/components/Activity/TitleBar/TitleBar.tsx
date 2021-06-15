@@ -1,7 +1,7 @@
-import {makeStyles} from '@material-ui/core/styles';
+import IconButton from 'theme/components/material/IconButton/IconButton';
 import {LeftChevronIcon} from 'assets/svg';
 import React from 'react';
-import IconButton from 'theme/components/material/IconButton/IconButton';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface TitleBarProps {
 
