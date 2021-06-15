@@ -1,6 +1,6 @@
+import React, { useCallback, useEffect } from 'react';
 import { removeSecondaryTabByID, setSelectedSecondaryTabByID } from '../../store/reducers/secondaryTabsReducer';
 
-import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 

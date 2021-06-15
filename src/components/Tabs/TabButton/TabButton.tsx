@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
     noSubTitle: {
         height: '18px',
-        marginTop: '5px',
+        marginTop: '7px',
         '& > span': {
             fontSize: '13px'
         }
