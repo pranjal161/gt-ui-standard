@@ -90,7 +90,7 @@ const SideBar = ({mainEntityHRef}: any) => {
     if (mainEntitySummary) {
 
         items.contract = [{
-            display: t('common:contractNumberTitle', {number: mainEntityResponse.data['contract:number']}),
+            display: t('common:contractNumberTitle', {value: mainEntityResponse.data['contract:number']}),
             id: mainEntitySummary.href,
             controller: contractController
         }]
@@ -108,7 +108,7 @@ const SideBar = ({mainEntityHRef}: any) => {
         personList = rolePartiesResponse.data._links.item
             .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
             .map((item: any) => {
-                const display = item.summary['person:display_id'].split(' - ')[0]
+                const display = t('common:clientTitle', {value : item.summary['person:display_id'].split(' - ')[0]})
 
                 return {display, id: item.href, controller: personController}
             })
