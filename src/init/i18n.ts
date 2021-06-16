@@ -9,11 +9,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import isDate from 'date-fns/isDate';
 import { logErrorByMessage } from 'utils/system';
-import nl from 'locales/nl'
 
 //ressources has to be loaded according allLanguages
 //The format of the ressource has to be : { #language# : #namespace# : translationObject }
-const resources:any = { en, fr, nl };
+const resources:any = { en, fr };
 
 //Fill an array with the name of all namespaces
 const allNamespaces = Object.keys(en).map((namespace) => namespace)
