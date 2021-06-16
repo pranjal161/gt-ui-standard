@@ -107,7 +107,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     headerTitle: {
-        flexGrow: 1
+        flexGrow: 1,
+        //minWidth:'300px'
     },
     headerActions: {
         display: 'flex',
