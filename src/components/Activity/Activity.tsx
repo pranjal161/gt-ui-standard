@@ -1,17 +1,11 @@
 /* eslint-disable */
 import {makeStyles} from '@material-ui/core/styles';
-import {AddBoxIcon, DistributorIcon, PaymentIcon} from 'assets/svg';
-import clsx from 'clsx';
-
-import Button from 'components/Button/Button';
-import WithScroll from 'components/WithScroll/WithScroll';
 import baContext from 'context/baContext';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import Section from 'components/Section/Section';
+import useConfigurations from 'hooks/useConfigurations';
+import React, {useContext, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
 import TitleBar from './TitleBar/TitleBar';
 
 
@@ -38,29 +32,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'stretch',
         height: '100%'
     },
-    bodyLeft: {
-        flex: '1 1 auto',
-        marginRight: theme.spacing(4)
-    },
-    bodyRight: {
-        minWidth: '44px'
-    },
-    content: ({contentOffsetTop=''}: any) => {
-        return {
-            height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
-            overflowY: 'hidden',
-            '& > * > div': {
-                marginBottom: theme.spacing(2)
-            }
-        }
-    },
-    sidebar: ({sideBarOffsetTop=''}: any) => {
 
-        return {
-            height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
-            backgroundColor: theme.palette.background.paper
-        }
-    }
 }))
 
 
@@ -93,25 +65,12 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
     const baId: string = context.baId ? context.baId : '';
     const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
 
-    const [contentOffsetTop, setContentOffsetTop] = useState()
-    const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
+    const classes: any = useStyles()
+    const {getActivityConf} = useConfigurations()
 
-    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop})
-
-    const handleContentOffsetTop = useCallback((node) => {
-        if (node !== null) {
-            setContentOffsetTop(node.offsetTop);
-        }
-    }, []);
-
-    const handleSideBarOffsetTop = useCallback((node) => {
-        if (node !== null) {
-            setSideBarOffsetTop(node.offsetTop);
-        }
-    }, []);
+    const configurations = getActivityConf({activityCode}) // activityCode can also be store in redux
 
     console.log('response', response)
-    console.log('activityCode', activityCode)
 
     useEffect(() => {
         startActivity();
@@ -127,79 +86,16 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
         }
     }, [])
 
+    const ActivityConf = configurations.skeleton
+    const HeaderConf = configurations.header
+
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <TitleBar title={title}/>
+                <HeaderConf title={title}/>
             </div>
-            <div className={classes.body}>
-                <div className={classes.bodyLeft}>
-
-                    <div className={classes.header}>
-                        <div>---------Date effect input-------</div>
-                        <div>------------------------------------Stepper------------------------------------</div>
-                    </div>
-
-                    <div ref={handleContentOffsetTop} className={classes.content}>
-                        <WithScroll>
-                            <div className="col-12">
-                                <Section title="General Information" icon={<PaymentIcon/>}>
-                                    TEST 1
-                                    TEst 2
-                                </Section>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Payment" icon={<PaymentIcon/>} actions={
-                                    <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                            title="Test Button"/>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"/>
-                                    </div>}/>
-
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                mode={'secondary'}
-                                                title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                                                title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                        </WithScroll>
-                    </div>
-                </div>
-                <div ref={handleSideBarOffsetTop} className={clsx(classes.bodyRight, classes.sidebar)}>
-                    <ExampleOfSideBar/>
-                </div>
+            <div className={classes.root}>
+                <ActivityConf data={response} activityCode={activityCode}/>
             </div>
         </div>
     )
