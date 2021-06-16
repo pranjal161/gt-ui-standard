@@ -11,12 +11,23 @@ const Template: Story<TitleBarProps> = (args) => <TitleBar {...args} />;
 
 export const WithBack = Template.bind({});
 WithBack.args = {
+    title:'Hello world',
+    onBack: () => {
+        console.log('onBack')
+    }
 };
 
 export const WithoutBack = Template.bind({});
-WithBack.args = {
+WithoutBack.args = {
+    title:'Hello world',
+    onBack: undefined
 };
 
 export const WithRightTitle = Template.bind({});
-WithBack.args = {
+WithRightTitle.args = {
+    title:'Hello world',
+    onBack: () => {
+        console.log('onBack')
+    },
+    rightTitle:'Right Title'
 };

@@ -8,12 +8,12 @@ export interface TitleBarProps {
     /**
      * Title
      */
-    title?: any
+    title?: string
 
     /**
      * rightTitle
      */
-    rightTitle?: any
+    rightTitle?: string
 
     /**
      * On back callback
@@ -27,7 +27,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: theme.spacing(1, 1, 1, 2)
+        padding: theme.spacing(1, 2, 1, 2),
+        height:'54px'
+    },
+    iconTitle: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        '& > *': {
+            marginRight: theme.spacing(2)
+        }
     },
     title: {
         fontFamily: theme.typography.fontFamily,
@@ -35,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.contrastText
     },
     backIcon: {
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(2),
+        color: theme.palette.primary.contrastText
     },
     rightTitle: {
         fontFamily: theme.typography.fontFamily,
@@ -49,10 +59,11 @@ const TitleBar: React.FC<TitleBarProps> = ({title, rightTitle, onBack}: TitleBar
 
     return (
         <div className={classes.root}>
-            <div>
-                {onBack && <div className={classes.backIcon}><IconButton onClick={() => onBack && onBack()}>
-                    <LeftChevronIcon size={32}/>
-                </IconButton></div>}
+            <div className={classes.iconTitle}>
+                {onBack && <div className={classes.backIcon}>
+                    <IconButton color={'inherit'} onClick={() => onBack && onBack()} size={'small'}>
+                        <LeftChevronIcon size={32}/>
+                    </IconButton></div>}
 
                 <div className={classes.title}>
                     {title}
