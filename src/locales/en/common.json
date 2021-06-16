@@ -4,6 +4,7 @@
   "test_currency": "Amount of {{value, currency}}",
   "myTicketsTab": "MY TICKETS",
   "myBasketsTab": "BASKETS",
+  "contractNumberTitle": "Contract N° {{number}}",
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
   "_SEARCH_TICKET": "Search Ticket",

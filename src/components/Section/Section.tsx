@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         justifyContent:'center',
         marginInline: theme.spacing(2),
-        '& > * > div': {
+        '& > * ': {
             marginLeft: theme.spacing(2)
         },
     },
@@ -87,7 +87,7 @@ const Section = (props: SectionProps) => {
             <div className={classes.header}>
                 <div className={classes.iconTitle}>
                     { icon && <div className={classes.icon}>{icon}</div>}
-                    <Typo variant={'title'} value={title}></Typo>
+                    <Typo variant={'title'} value={title}/>
                 </div>
                 <div className={classes.actions}>
                     {actions}

@@ -35,24 +35,25 @@ export interface SideBarProps {
     /**
      * onToggle callback
      */
-    onToggle?: ()=> void
+    onToggle?: () => void
 
     /**
      * triggered when Open in new window icon is clicked.
      * The current value object is passed
      */
-    onOpenInNewWindow?:(value:any)=> void
+    onOpenInNewWindow?: (value: any) => void
 
     /**
      * triggered when Open in new tab icon is clicked.
      * The current value object is passed
      */
-    onOpenInNewTab?:(value:any)=> void
+    onOpenInNewTab?: (value: any) => void
 
     /**
      * className to add
      */
     className?: string
+
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +93,8 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 4, 0, 4),
         flexDirection: 'column',
         alignItems: 'start',
-        height: '-webkit-fill-available'
+        height: '-webkit-fill-available',
+        maxWidth:'-webkit-max-content'
     },
     divider: {
         borderBottomWidth: 2,
@@ -105,9 +107,11 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-between',
+        paddingBottom:theme.spacing(1)
     },
     headerTitle: {
         flexGrow: 1,
+        width:'70%'
         //minWidth:'300px'
     },
     headerActions: {
@@ -152,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
  * It can contains anyelse component.
  *
  * To have a logic navigation => headers => content, you can use useSidebar hook.
- *
+ * @param {any} props props
  * @param {any} toolbar Instantiate component
  * @param {any} header  Instantiate component
  * @param {any} content Instantiate component
@@ -164,17 +168,18 @@ const useStyles = makeStyles((theme) => ({
  * @param {string} className className to add with of the root CSS
  * @constructor
  */
-export const PureSideBar: React.FC<SideBarProps> = ({
-    toolbar,
-    header = 'no header',
-    content,
-    value,
-    open,
-    onToggle,
-    onOpenInNewWindow,
-    onOpenInNewTab,
-    className = ''
-}: SideBarProps) => {
+export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
+    const {
+        toolbar,
+        header = 'no header',
+        content,
+        value,
+        open,
+        onToggle,
+        onOpenInNewWindow,
+        onOpenInNewTab,
+        className = '',
+    } = props
     const classes = useStyles();
     const handleToggle = () => {
         onToggle && onToggle()
@@ -195,10 +200,12 @@ export const PureSideBar: React.FC<SideBarProps> = ({
                 <div className={clsx(classes.header, classes.divider)}>
                     <div className={classes.headerTitle}>{header}</div>
                     <div className={classes.headerActions}>
-                        <IconButton onClick={() => onOpenInNewWindow && onOpenInNewWindow(value)} data-testid="sidebarOpenInNewWindow">
+                        <IconButton onClick={() => onOpenInNewWindow && onOpenInNewWindow(value)}
+                            data-testid="sidebarOpenInNewWindow">
                             <OpenInNewWindowIcon size={18}/>
                         </IconButton>
-                        <IconButton onClick={() => onOpenInNewTab && onOpenInNewTab(value)} data-testid="sidebarOpenInNewTab">
+                        <IconButton onClick={() => onOpenInNewTab && onOpenInNewTab(value)}
+                            data-testid="sidebarOpenInNewTab">
                             <OpenInNewTabIcon size={18}/>
                         </IconButton>
                     </div>

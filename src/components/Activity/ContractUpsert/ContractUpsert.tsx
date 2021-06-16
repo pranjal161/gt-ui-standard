@@ -1,11 +1,11 @@
-import {makeStyles} from '@material-ui/core/styles';
 import {AddBoxIcon, DistributorIcon, PaymentIcon} from 'assets/svg';
-import clsx from 'clsx';
+import React, {useCallback, useState} from 'react';
 import Button from 'components/Button/Button';
 import Section from 'components/Section/Section';
 import WithScroll from 'components/WithScroll/WithScroll';
+import clsx from 'clsx';
+import {makeStyles} from '@material-ui/core/styles';
 import useConfigurations from 'hooks/useConfigurations';
-import React, {useCallback, useState} from 'react';
 
 export interface ContractUpsertProps {
 
@@ -97,44 +97,44 @@ const ContractUpsert:React.FC<ContractUpsertProps> = (props:any) => {
                         </div>
                         <div className="col-12">
                             <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
-                                <div>
+                                <>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         mode={'secondary'}
                                         title="Secondary"/>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         title="Test Button"/>
-                                </div>}/>
+                                </>}/>
                         </div>
                         <div className="col-12">
                             <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
-                                <div>
+                                <>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         mode={'secondary'}
                                         title="Secondary"/>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         title="Test Button"/>
-                                </div>}/>
+                                </>}/>
 
                         </div>
                         <div className="col-12">
                             <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
-                                <div>
+                                <>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         mode={'secondary'}
                                         title="Secondary"/>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         title="Test Button"/>
-                                </div>}/>
+                                </>}/>
                         </div>
                         <div className="col-12">
                             <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
-                                <div>
+                                <>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         mode={'secondary'}
                                         title="Secondary"/>
                                     <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
                                         title="Test Button"/>
-                                </div>}/>
+                                </>}/>
                         </div>
                     </WithScroll>
                 </div>

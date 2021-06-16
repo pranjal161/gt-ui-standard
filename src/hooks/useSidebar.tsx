@@ -91,7 +91,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
         <div className={classes.cdkOveride}>
             <DxcDropdown
                 label={<HeaderTitle value={currentInstance.display}/>}
-                size={'fitContent'}
+                size={'fillParent'}
                 options={options}
                 value={currentInstance.id}
                 onSelectOption={onChangeEntityInstanceSelections}

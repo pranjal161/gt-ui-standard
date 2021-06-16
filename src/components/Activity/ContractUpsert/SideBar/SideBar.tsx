@@ -1,11 +1,12 @@
+import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+import GlobalSideBar from 'components/SideBar/SideBar';
+import LabelInline from 'components/LabelInline/LabelInline';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
-import LabelInline from 'components/LabelInline/LabelInline';
-import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
-import React from 'react';
-import GlobalSideBar from 'components/SideBar/SideBar';
+import {useTranslation} from 'react-i18next';
 
 export interface ExampleOfSideBarProps {
 
@@ -34,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: '330px',
         },
+        [theme.breakpoints.down('md')]: {
+            width: 'fit-content',
+        },
         //overflow: 'auto'
     },
     firstSectionContent: {
@@ -42,9 +46,7 @@ const useStyles = makeStyles((theme) => ({
             marginBottom: theme.spacing(1)
         }
     },
-    section:{
-
-    }
+    section: {}
 
 }));
 
@@ -58,7 +60,7 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
-const ContentController = (props: { value: string }) => {
+const ContentController = ( { value }:any) => {
     const classes = useStyles();
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
@@ -69,7 +71,7 @@ const ContentController = (props: { value: string }) => {
         />)}</div>
 
     return (<div className={classes.controllerContent}>
-        <PanelSection className={classes.section} title={props.value} content={<FirstSectionContent/>}/>
+        <PanelSection className={classes.section} title={'Details 1'} content={<FirstSectionContent/>}/>
         <PanelSection className={classes.section} title={'Details 2'} content={<FirstSectionContent/>}/>
         <PanelSection className={classes.section} title={'Details 3'} content={<FirstSectionContent/>}/>
     </div>)
@@ -80,21 +82,36 @@ const contractController = (value: any) => <ContentController value={value}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
     const classes = useStyles();
+    const {t} = useTranslation()
     const mainEntityResponse = useResponse(mainEntityHRef)
-    let items:any = {}
+    let items: any = {}
 
-    const mainEntitySummary =mainEntityResponse && mainEntityResponse.data._links.self
-    if (mainEntitySummary)
-        items.contract = [{display:mainEntitySummary.title.split(':')[0], id:mainEntitySummary.href, controller:contractController}]
+    const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
+    if (mainEntitySummary) {
+
+        items.contract = [{
+            display: t('common:contractNumberTitle', {number: mainEntityResponse.data['contract:number']}),
+            id: mainEntitySummary.href,
+            controller: contractController
+        }]
+    }
 
     //Get role parties linked to the contract
     //Todo : do we have to put such API parsing in functions ?
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
-    let personList = [{display:'Loading', id:'not_defined', controller:personController}]
-    if (rolePartiesResponse && rolePartiesResponse.data._count > 0){
-        personList = rolePartiesResponse.data._links.item.map((item:any, index:number) => ({display:item.title, id:item.href, controller:personController}))
+    console.log('rolePartiesResponse', rolePartiesResponse)
+
+    let personList = [{display: 'Loading', id: 'not_defined', controller: personController}]
+    if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
+        personList = rolePartiesResponse.data._links.item
+            .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
+            .map((item: any) => {
+                const display = item.summary['person:display_id'].split(' - ')[0]
+
+                return {display, id: item.href, controller: personController}
+            })
     }
 
     items.person = personList
