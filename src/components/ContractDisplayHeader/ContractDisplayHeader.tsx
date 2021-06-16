@@ -1,12 +1,9 @@
+import { MaterialEye, NotificationBellAdd } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import { Bell } from 'assets/svg';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Dropdown from './DropDown/DropDown';
 import React from 'react';
-import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
-import { globalTokens } from 'theme/standard/palette';
+import { getActivities } from 'utils/functions';
 
 export interface ContractDisplayHeaderProps {
 
@@ -36,7 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     infoLeft: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: 40,
+        boxSizing: 'border-box',
     },
     infoRight: {
         display: 'flex',
@@ -47,11 +46,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.contrastText,
         margin: '0',
         marginRight: '15px',
-        fontWeight: 600
-    },
-    button: {
-        textTransform: 'none',
-        color: theme.palette.primary.contrastText,
+        fontWeight: 600,
+        fontSize: 20,
     },
     pictureSlot: {
         height: 40,
@@ -60,12 +56,25 @@ const useStyles = makeStyles((theme: Theme) => ({
         borderRadius: '8px',
         marginRight: '15px'
     },
-    dropDown: {
+    iconContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: globalTokens.__grey_1,
-        borderRadius: 4
+        '& > svg': {
+            fill: theme.palette.primary.contrastText,
+            marginRight: 25
+        }
+    },
+    titleContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: 40,
+        boxSizing: 'border-box',
+        '& :first-child': {
+            fontWeight: 300,
+            fontSize: 12,
+        }
     }
 }));
 
@@ -81,52 +90,34 @@ const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: Cont
         response
     } = props
 
+    const [activities, setActivities] = React.useState([{ href: 'empty', name: 'No operations available' }]);
+
     React.useEffect(() => {
-        console.log(response['_links']['item'])
-    })
+        let formatResponse = getActivities(response);
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = (element: string) => {
-        console.log(element)
-        setAnchorEl(null);
-    };
+        if (formatResponse) {
+            setActivities(formatResponse);
+        }
+    }, [])
 
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
                 <div className={classes.infoLeft}>
                     <div className={classes.pictureSlot}></div>
-                    <p className={classes.title}>{title}</p>
+                    <div className={classes.titleContainer}>
+                        <p className={classes.title}>{title}</p>
+                        <p className={classes.title}>Contract view</p>
+                    </div>
                 </div>
-
                 <div className={classes.infoRight}>
-                    <div>
-                        <Bell size={30}/>
+                    <div className={classes.iconContainer}>
+                        <MaterialEye size={25} />
+                        <NotificationBellAdd size={25} />
                     </div>
-                    <div className={classes.dropDown}>
-                        <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                            Activities
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            {response['_links']['item'].map((keyName: any, i: number) => (
-                                <MenuItem key={i} onClick={() => handleClose(response['_links']['item'][i]['href'])}>{capitalizeFirstLetterAndRemove_(response['_links']['item'][i]['name'])}</MenuItem>
-                            ))}
-                        </Menu>
-                    </div>
+                    <Dropdown activities={activities} />
                 </div>
             </div>
-
         </div>
     )
 }

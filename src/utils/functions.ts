@@ -508,32 +508,25 @@ export const getErrorMessage = (response: any, propertyName: string) => {
     return report
 }
 
-// /** To get activities list from contract
-//  * @param  {any} response API response provided from {root}/contracts/{contractID}/operations
-//  * @returns {Object} activities list Object
-//  */
-// export const getActivities = (response: any) => {
-//     try{
-//         const activities = {...response['_links']['item']};
-
-//         let newValue = {};
-
-//         Object.keys(activities).map((keyName) => {
-//             if(keyName === 'name'){
-//                 newValue = {...newValue, keyName: activities[keyName]}
-//             } 
-//         })
-
-//         return activities
-//     }
-//     catch(error){
-//         return error;
-//     }
-// }
-
 /** To capitalize the first letter and replace '_' with ' ' of a string
  * @param  {string} element the element that you want to capitalize the first letter 
  * @returns {string} Same string but with the first letter in Uppercase
  */
 export const capitalizeFirstLetterAndRemove_ = (element: string) => element.charAt(0).toUpperCase() + element.slice(1).replaceAll('_', ' ');
 
+/** To get activities list for a contract
+ * @param  {any} response API response provided from {root}/contract/{contractId}/operations
+ * @returns {Object} List of the operation available for the current contract, or null if no operation available
+ */
+export const getActivities = (response: any) => {
+    let activities: any;
+    if (response && response?._links?.item.length >= 1) {
+        activities = [];
+        response['_links']['item'].map((item: any, key: number) => (activities[key] = {...item}));
+    }
+    else{
+        activities = null;
+    }
+    
+    return activities;
+}

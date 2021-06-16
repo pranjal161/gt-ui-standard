@@ -2,7 +2,7 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import ContractDisplayHeader from 'components/ContractDisplayHeader/ContractDisplayHeader';
 import React from 'react';
-import { contractOperations } from 'assets/staticData/data';
+import { contractOperations, } from 'assets/staticData/data';
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -18,9 +18,8 @@ const TrainingMaxime = () => {
         <>
             <h2>.</h2>
             <div className={classes.container}>
-                <ContractDisplayHeader title={'Contract view'} response={contractOperations} />
+                <ContractDisplayHeader title={'Contract number: PCMR000381'} response={contractOperations} />
             </div>
-
         </>
     )
 }
