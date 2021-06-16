@@ -1,4 +1,4 @@
-FROM node:10.0-alpine
+FROM node:12-alpine
 
 RUN apk add --update git bash curl
 
