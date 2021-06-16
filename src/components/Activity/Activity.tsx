@@ -6,14 +6,12 @@ import clsx from 'clsx';
 import Button from 'components/Button/Button';
 import WithScroll from 'components/WithScroll/WithScroll';
 import baContext from 'context/baContext';
-import withActivity from 'hocs/withActivity';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import Section from 'components/Section/Section';
 import {useSelector} from 'react-redux';
 import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
-import {getLink} from 'utils/functions';
 import TitleBar from './TitleBar/TitleBar';
 
 
@@ -47,22 +45,19 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         minWidth: '44px'
     },
-    content: ({contentRef}: any) => {
-        const {offsetTop} = contentRef && contentRef.current || {offsetTop: ''}
-
+    content: ({contentOffsetTop=''}: any) => {
         return {
-            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
+            height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
             overflowY: 'hidden',
             '& > * > div': {
                 marginBottom: theme.spacing(2)
             }
         }
     },
-    sidebar: ({sidebarRef}: any) => {
-        const {offsetTop} = sidebarRef && sidebarRef.current || {offsetTop: ''}
+    sidebar: ({sideBarOffsetTop=''}: any) => {
 
         return {
-            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
+            height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
             backgroundColor: theme.palette.background.paper
         }
     }
@@ -98,11 +93,25 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
     const baId: string = context.baId ? context.baId : '';
     const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
 
-    const contentRef = useRef(null)
-    const sidebarRef = useRef(null)
-    const classes: any = useStyles({contentRef, sidebarRef})
+    const [contentOffsetTop, setContentOffsetTop] = useState()
+    const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
+
+    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop})
+
+    const handleContentOffsetTop = useCallback((node) => {
+        if (node !== null) {
+            setContentOffsetTop(node.offsetTop);
+        }
+    }, []);
+
+    const handleSideBarOffsetTop = useCallback((node) => {
+        if (node !== null) {
+            setSideBarOffsetTop(node.offsetTop);
+        }
+    }, []);
 
     console.log('response', response)
+    console.log('activityCode', activityCode)
 
     useEffect(() => {
         startActivity();
@@ -131,7 +140,7 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
                         <div>------------------------------------Stepper------------------------------------</div>
                     </div>
 
-                    <div ref={contentRef} className={classes.content}>
+                    <div ref={handleContentOffsetTop} className={classes.content}>
                         <WithScroll>
                             <div className="col-12">
                                 <Section title="General Information" icon={<PaymentIcon/>}>
@@ -188,7 +197,7 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
                         </WithScroll>
                     </div>
                 </div>
-                <div ref={sidebarRef} className={clsx(classes.bodyRight, classes.sidebar)}>
+                <div ref={handleSideBarOffsetTop} className={clsx(classes.bodyRight, classes.sidebar)}>
                     <ExampleOfSideBar/>
                 </div>
             </div>
