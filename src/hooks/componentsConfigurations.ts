@@ -1,21 +1,21 @@
 import ContractUpsert from 'components/Activity/ContractUpsert/ContractUpsert';
+import SideBarOfContractUpsert from 'components/Activity/ContractUpsert/SideBar/SideBar';
 import ContractView from 'components/Activity/ContractView/ContractView';
-import TitleBar from 'components/Activity/TitleBar/TitleBar';
-import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
+import TitleBarOfContractUpsert from 'components/Activity/ContractUpsert/Header/Header';
 
 export const configs:any = {
     contract_view : {
         activity : {
             skeleton : ContractView,
-            header : TitleBar,
-            sidebar : ExampleOfSideBar
+            header : TitleBarOfContractUpsert,
+            sidebar : SideBarOfContractUpsert,
         }
     },
     unsolicited_payment : {
         activity : {
             skeleton : ContractUpsert,
-            header : TitleBar,
-            sidebar : ExampleOfSideBar
+            header : TitleBarOfContractUpsert,
+            sidebar : SideBarOfContractUpsert,
         }
     }
 }

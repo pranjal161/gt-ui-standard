@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {makeStyles} from '@material-ui/core/styles';
 import baContext from 'context/baContext';
 import useActivity from 'hooks/useActivity';
@@ -6,8 +5,6 @@ import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import React, {useContext, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import TitleBar from './TitleBar/TitleBar';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,13 +32,17 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-
 export interface ActivityProps {
 
     /**
      * code of the activity
      */
     activityCode: any
+
+    /**
+     * hRef of the main entity
+     */
+    mainEntityHRef: string
 
     /**
      * hRef of the activity to Post
@@ -56,8 +57,8 @@ export interface ActivityProps {
     title?: string
 }
 
-
-const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:ActivityProps) => {
+const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
+    const {action, hRef, title} = props
     const {startActivity, stopActivity} = useActivity()
     const aia:any = useAia()
 
@@ -68,7 +69,7 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
     const classes: any = useStyles()
     const {getActivityConf} = useConfigurations()
 
-    const configurations = getActivityConf({activityCode}) // activityCode can also be store in redux
+    const configurations = getActivityConf(props) // activityCode can also be store in redux
 
     console.log('response', response)
 
@@ -86,16 +87,16 @@ const Activity:React.FC<ActivityProps> = ({activityCode, action, hRef, title}:Ac
         }
     }, [])
 
-    const ActivityConf = configurations.skeleton
+    const SkeletonConf = configurations.skeleton
     const HeaderConf = configurations.header
 
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <HeaderConf title={title}/>
+                <HeaderConf title={title} {...props}/>
             </div>
             <div className={classes.root}>
-                <ActivityConf data={response} activityCode={activityCode}/>
+                <SkeletonConf data={response} {...props}/>
             </div>
         </div>
     )

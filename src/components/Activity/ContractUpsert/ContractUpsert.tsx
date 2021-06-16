@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractUpsert:React.FC<ContractUpsertProps> = ({activityCode}:ContractUpsertProps) => {
+const ContractUpsert:React.FC<ContractUpsertProps> = (props:any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {getActivityConf} = useConfigurations()
@@ -69,7 +69,7 @@ const ContractUpsert:React.FC<ContractUpsertProps> = ({activityCode}:ContractUps
         }
     }, []);
 
-    const configurations = getActivityConf({activityCode})
+    const configurations = getActivityConf(props)
 
     const SideBarConf = configurations.sidebar
     
@@ -140,7 +140,7 @@ const ContractUpsert:React.FC<ContractUpsertProps> = ({activityCode}:ContractUps
                 </div>
             </div>
             <div ref={handleSideBarOffsetTop} className={clsx(classes.bodyRight, classes.sidebar)}>
-                <SideBarConf/>
+                <SideBarConf {...props}/>
             </div>
         </div>
     );
