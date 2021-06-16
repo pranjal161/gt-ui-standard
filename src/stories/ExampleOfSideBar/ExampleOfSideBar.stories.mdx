@@ -11,7 +11,7 @@ import ExampleOfSideBar from './ExampleOfSideBar';
 
 <!--- This is your Story template function, shown here in React -->
 
-export const Template = (args) => <ExampleOfSideBar />
+export const Template = (args) => <ExampleOfSideBar {...args}/>
 
 # Sidebar in Activity
 This is an example of using the `<Sidebar/>` component in saving activity context.
@@ -24,7 +24,7 @@ Into **id**, we will pass the **href** of the ressource to do the fetch into the
 The associate code is below
 
 <Preview >
-    <Story name="Saving activity" parameters ={{controls: {hideNoControlsWarning: true}}}>
+    <Story name="Saving activity">
         {Template.bind({})}
     </Story>
 </Preview>

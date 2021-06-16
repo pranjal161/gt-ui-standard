@@ -7,7 +7,7 @@ export interface TypoProps {
     /**
      * Variant to use
      */
-    variant: 'title' | 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' ;
+    variant: 'title' | 'titleSection' | 'subTitleSection' | 'body' | 'secondaryBody' | 'link' | 'tab' | 'placeholder' | 'dialogTitle' ;
 
     /**
      * Value to display
@@ -61,6 +61,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontStyle:'italic',
         color:theme.palette.project.text.placeholder
     },
+    dialogTitle:{
+        fontSize : 34,
+        textAlign: 'left',
+        letterSpacing:'1.05px',
+        color:theme.palette.common.black
+    }
 }));
 
 /**

@@ -84,7 +84,7 @@ const TrainingNorbert = () => {
             </TabPanel>
             <div className={classes.sidebar}>
                 <TabPanel value={value} index={2}>
-                    <ExampleOfSideBar/>
+                    <ExampleOfSideBar />
                 </TabPanel>
             </div>
         </div>

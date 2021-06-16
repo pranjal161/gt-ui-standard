@@ -1,7 +1,7 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 import IconButton from 'theme/components/material/IconButton/IconButton';
-import WithScroll from 'components/WithScroll/WithScroll';
 import React from 'react';
+import WithScroll from 'components/WithScroll/WithScroll';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 

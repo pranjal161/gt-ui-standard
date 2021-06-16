@@ -1,4 +1,6 @@
 import React from 'react';
+import SampleContract from '../SampleContract/SampleContract';
+import SampleTicket from '../SampleTicket/SampleTicket';
 
 /**
  * Used to select a React component to display data based on its type. 
@@ -9,21 +11,17 @@ import React from 'react';
  * @param {string} props.tabId - The id of the object the user wants to fetch data for. Can be the Id of a ticket, href for contract, etc
  * @param {string} props.type - The type of object the user wants to display data for: ticket, contract and client, for now.
  */
-const TabViewType = (props: { tabId: string, type: string }) => {
-    const { tabId, type } = props;
+const TabViewType = (props: { tabId: string, type: string, contractURL?: string }) => {
+    const { tabId, type, contractURL = undefined } = props;
     console.log('TabViewType render')
 
     return (
         <>
             {
                 (type === 'ticket') ? 
-                    <div>
-                        Ticket view component for id={tabId}
-                    </div> : 
+                    <SampleTicket ticketId={tabId} /> : 
                     (type === 'contract') ? 
-                        <div>
-                            Contract view component for id={tabId}
-                        </div> : 
+                        <SampleContract contractURL={contractURL!} /> : 
                         (type === 'client') ? 
                             <div>
                                 Client view component for id={tabId}
