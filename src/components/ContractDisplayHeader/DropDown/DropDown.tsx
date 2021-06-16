@@ -5,10 +5,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
-import { globalTokens } from 'theme/standard/palette';
+import { useTranslation } from 'react-i18next';
 
+// import { globalTokens } from 'theme/standard/palette';
 export interface DropDownProps {
-    
+
     /**
      * Activities
      */
@@ -19,23 +20,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     button: {
         textTransform: 'none',
         color: theme.palette.primary.contrastText,
+        fontWeight: 400
     },
     dropDown: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: globalTokens.__grey_1,
+        backgroundColor: theme.palette.text.primary,
         borderRadius: 4
-    }
+    },
 }));
 
 /**
- * Generic contract header, use to display contract name and activities launcher
+ * Dropdown to display activities list available
  * @param {DropDownProps} props Props of the component.
- * @returns {React.component} Display the contract header
+ * @returns {React.component} Display the dropdown for activities
  */
 const DropDown: React.FC<DropDownProps> = (props: DropDownProps) => {
     const classes = useStyles();
+    const { t } = useTranslation();
     const {
         activities
     } = props
@@ -47,14 +50,14 @@ const DropDown: React.FC<DropDownProps> = (props: DropDownProps) => {
     };
 
     const handleClose = (element: string) => {
-        console.log(element)
+        console.log(element);
         setAnchorEl(null);
     };
 
     return (
         <div className={classes.dropDown}>
-            <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Activities
+            <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} data-testid="button-activities">
+                {t('operation:activities')}
             </Button>
             <Menu
                 id="simple-menu"

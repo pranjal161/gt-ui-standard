@@ -2,8 +2,10 @@ import { MaterialEye, NotificationBellAdd } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import Dropdown from './DropDown/DropDown';
+import HeaderInformation from './HeaderInformation/HeaderInformation';
 import React from 'react';
 import { getActivities } from 'utils/functions';
+import { useTranslation } from 'react-i18next';
 
 export interface ContractDisplayHeaderProps {
 
@@ -30,31 +32,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-    infoLeft: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: 40,
-        boxSizing: 'border-box',
-    },
     infoRight: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
-    },
-    title: {
-        color: theme.palette.primary.contrastText,
-        margin: '0',
-        marginRight: '15px',
-        fontWeight: 600,
-        fontSize: 20,
-    },
-    pictureSlot: {
-        height: 40,
-        width: 40,
-        backgroundColor: theme.palette.text.primary,
-        borderRadius: '8px',
-        marginRight: '15px'
     },
     iconContainer: {
         display: 'flex',
@@ -63,17 +44,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         '& > svg': {
             fill: theme.palette.primary.contrastText,
             marginRight: 25
-        }
-    },
-    titleContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        height: 40,
-        boxSizing: 'border-box',
-        '& :first-child': {
-            fontWeight: 300,
-            fontSize: 12,
         }
     }
 }));
@@ -85,12 +55,14 @@ const useStyles = makeStyles((theme: Theme) => ({
  */
 const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: ContractDisplayHeaderProps) => {
     const classes = useStyles();
+    const { t } = useTranslation();
+
     const {
-        title,
+        title = 'Default title',
         response
     } = props
 
-    const [activities, setActivities] = React.useState([{ href: 'empty', name: 'No operations available' }]);
+    const [activities, setActivities] = React.useState([{ href: null, name: t('operation:operation_empty_list') }]);
 
     React.useEffect(() => {
         let formatResponse = getActivities(response);
@@ -103,13 +75,7 @@ const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: Cont
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
-                <div className={classes.infoLeft}>
-                    <div className={classes.pictureSlot}></div>
-                    <div className={classes.titleContainer}>
-                        <p className={classes.title}>{title}</p>
-                        <p className={classes.title}>Contract view</p>
-                    </div>
-                </div>
+                <HeaderInformation title={title} />
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
                         <MaterialEye size={25} />
