@@ -1,4 +1,4 @@
-import { DxcButton } from '@dxc-technology/halstack-react'
+import {DxcButton} from '@dxc-technology/halstack-react'
 import React from 'react';
 
 export interface ButtonProps {
@@ -21,7 +21,7 @@ export interface ButtonProps {
     /**
      * Icon to display
      */
-     Icon?: any ;
+    Icon?: any;
 
     /**
      * on click callback
@@ -44,7 +44,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     } = props
 
     // eslint-disable-next-line react/display-name
-    const extraProps = Icon && { icon: () => <Icon />, iconPosition: 'after' } || {}
+    const extraProps = Icon && {icon: () => <Icon/>, iconPosition: 'after'} || {}
 
     return (
         <DxcButton
