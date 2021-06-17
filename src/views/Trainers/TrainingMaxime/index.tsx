@@ -14,12 +14,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 const TrainingMaxime = () => {
     const classes = useStyles();
 
+    const [activityUrl, setActivityUrl] = React.useState('');
+
     return (
         <>
             <h2>.</h2>
             <div className={classes.container}>
-                <ContractDisplayHeader title={'Contract number: PCMR000381'} response={contractOperations} />
+                <ContractDisplayHeader title={'Contract number: PCMR000381'} response={contractOperations} setActivityUrl={setActivityUrl}/>
             </div>
+            <h3>{activityUrl}</h3>
         </>
     )
 }

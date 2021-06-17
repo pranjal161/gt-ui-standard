@@ -1,7 +1,7 @@
 import { MaterialEye, NotificationBellAdd } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Dropdown from './DropDown/DropDown';
+import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
 import React from 'react';
 import { getActivities } from 'utils/functions';
@@ -18,6 +18,11 @@ export interface ContractDisplayHeaderProps {
      * Response
      */
     response?: any;
+
+    /**
+     * SetActivityUrl
+     */
+     setActivityUrl?: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -43,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: 'center',
         '& > svg': {
             fill: theme.palette.primary.contrastText,
-            marginRight: 25
+            marginRight: theme.spacing(3)
         }
     }
 }));
@@ -59,7 +64,8 @@ const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: Cont
 
     const {
         title = 'Default title',
-        response
+        response,
+        setActivityUrl
     } = props
 
     const [activities, setActivities] = React.useState([{ href: null, name: t('operation:operation_empty_list') }]);
@@ -81,7 +87,7 @@ const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: Cont
                         <MaterialEye size={25} />
                         <NotificationBellAdd size={25} />
                     </div>
-                    <Dropdown activities={activities} />
+                    <ActivitiesList activities={activities} setActivityUrl={setActivityUrl} />
                 </div>
             </div>
         </div>

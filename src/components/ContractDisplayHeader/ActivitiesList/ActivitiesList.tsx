@@ -8,12 +8,17 @@ import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
 // import { globalTokens } from 'theme/standard/palette';
-export interface DropDownProps {
+export interface ActivitiesListProps {
 
     /**
      * Activities
      */
     activities?: any;
+
+    /**
+     * SetActivityUrl
+     */
+    setActivityUrl?: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.contrastText,
         fontWeight: 400
     },
-    dropDown: {
+    ActivitiesList: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -32,15 +37,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 /**
- * Dropdown to display activities list available
- * @param {DropDownProps} props Props of the component.
- * @returns {React.component} Display the dropdown for activities
+ * ActivitiesList to display activities list available
+ * @param {ActivitiesListProps} props Props of the component.
+ * @returns {React.component} Display the ActivitiesList for activities
  */
-const DropDown: React.FC<DropDownProps> = (props: DropDownProps) => {
+const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
     const {
-        activities
+        activities,
+        setActivityUrl
     } = props
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -49,13 +55,20 @@ const DropDown: React.FC<DropDownProps> = (props: DropDownProps) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (element: string) => {
-        console.log(element);
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleChoice = (event: React.MouseEvent<EventTarget>, element: string) => {
+        if (setActivityUrl) {
+            setActivityUrl(element)
+            console.log(element);
+        }
         setAnchorEl(null);
     };
 
     return (
-        <div className={classes.dropDown}>
+        <div className={classes.ActivitiesList}>
             <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} data-testid="button-activities">
                 {t('operation:activities')}
             </Button>
@@ -69,11 +82,11 @@ const DropDown: React.FC<DropDownProps> = (props: DropDownProps) => {
                 {
                     activities &&
                     activities.map((item: any, key: number) => (
-                        <MenuItem key={key} onClick={() => handleClose(activities[key].href)}>{capitalizeFirstLetterAndRemove_(activities[key].name)}</MenuItem>))
+                        <MenuItem key={key} onClick={(event) => handleChoice(event, item.href) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
                 }
             </Menu>
         </div>
     )
 }
 
-export default DropDown;
+export default ActivitiesList;

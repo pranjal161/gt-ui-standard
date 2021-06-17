@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     title: {
         color: theme.palette.primary.contrastText,
         margin: '0',
-        marginRight: '15px',
+        marginRight: theme.spacing(2),
         fontWeight: 600,
         fontSize: 20,
     },
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: 40,
         backgroundColor: theme.palette.text.primary,
         borderRadius: '8px',
-        marginRight: '15px'
+        marginRight: theme.spacing(2)
     },
     titleContainer: {
         display: 'flex',
