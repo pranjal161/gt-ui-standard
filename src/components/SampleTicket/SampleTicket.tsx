@@ -5,7 +5,6 @@ const SampleTicket = (props: {ticketId: string}) => {
     const { ticketId } = props;
     const { getOneShallow } = useDeskTickets();
     const selectedTicket = getOneShallow(ticketId);
-    console.log('TicketSample render:')
 
     return (
         <>

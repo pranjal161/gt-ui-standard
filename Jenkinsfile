@@ -24,7 +24,7 @@ configData = null
  */
 def cloneAndLoadAssurePipeline() {
     configData = readYaml file: 'conf.yml'
-    
+
     // Set up git
     def cred = ValuesUtils.getVariable(configData, 'gitHubCredential')
     def mail = ValuesUtils.getVariable(configData, 'gitEmail')
@@ -60,7 +60,7 @@ node {
     cloneAndLoadAssurePipeline()
 }
 
-def addStagesESLint() {
+def addStagesInstallCustom() {
 
     stage('Code Quality ESLint') {
         sh '''
@@ -85,9 +85,86 @@ def addStagesESLint() {
     }
 }
 
-// Add custom stages
-def functions = [:]
-functions['install'] = ['skip': false, 'func': this.&addStagesESLint]
+def addStagesBuildCustom() {
 
-//functions = [:]
-pipelineRunner(functions, pipelineUtils)
+    stage('Build Storybook') {
+        sh '''
+            echo 'Build Storybook Documentation'
+            npm run build-storybook
+        '''
+    }
+}
+
+def addStagesDeployCustom() {
+
+    stage('Downloading bundle') {
+        if (env.BRANCH_NAME == 'development') {
+            withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'DIAAS-AWS-CLI',
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]]) {
+                withAWS(role:'arn:aws:iam::665158502186:role/ISS_DIAAS_PowerUser'){
+                    sh '''
+                        rm -rf ui-package/react-standard
+                        aws s3 cp s3://dev.eu.standard.project/omnichannel/react-standard/ ./ui-package/react-standard/ --recursive
+                    '''
+                }
+            }
+        }
+    }
+
+    stage ('Zipping Artifact All') {
+        if (env.BRANCH_NAME == 'development') {
+            sh '''
+                rm -rf omnichannel-standard-ui.zip
+                mkdir -p ui-package/react-standard
+                cp -r ./build/* ./ui-package/react-standard/
+                cp -r ./ui-package omnichannel-standard-ui-dev
+            '''
+            zip zipFile: 'omnichannel-standard-ui.zip', archive: false, dir: 'ui-package'
+        }
+    }
+
+    stage('Upload Artifact All') {
+        if (env.BRANCH_NAME == 'development') {
+            withCredentials([usernamePassword(credentialsId:'diaas-rw', passwordVariable:'ARTIF_PASSWORD', usernameVariable:'ARTIF_USER')]) {
+                sh '''
+                    curl -u${ARTIF_USER}:${ARTIF_PASSWORD} -T ./omnichannel-standard-ui.zip "https://artifactory.csc.com/artifactory/diaas-generic/graphtalk-launcher/${BRANCH_NAME}/graphtalk-launcher-bundle.${BRANCH_NAME}.zip"
+                '''
+            }
+        }
+    }
+
+    stage('Push Artifact React') {
+        if (env.BRANCH_NAME == 'development') {
+            withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'DIAAS-AWS-CLI',
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]]) {
+                withAWS(role:'arn:aws:iam::665158502186:role/ISS_DIAAS_PowerUser'){
+                    sh '''
+                        aws s3 rm s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
+                        aws s3 cp ./ui-package/react-standard/ s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
+                        aws s3 ls s3://dev.eu.standard.project/omnichannel/react-standard --recursive --human-readable --summarize
+                    '''
+                }
+            }
+        }
+    }
+}
+
+// Add custom stages
+def stagesMap = [:]
+stagesMap['install'] = ['skip': false, 'func': this.&addStagesInstallCustom]
+stagesMap['build'] = ['skip': false, 'func': this.&addStagesBuildCustom]
+stagesMap['upload'] = ['skip': false, 'func': this.&addStagesDeployCustom]
+
+// Stages to skip
+stagesMap['codequality'] = ['skip': true]
+stagesMap['customDeploy'] = ['skip': true]
+
+pipelineRunner(stagesMap, pipelineUtils, 'docker/Dockerfile')
