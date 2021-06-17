@@ -53,7 +53,9 @@ const TabView = () => {
                                         key={tabId}
                                         tabId={tabId}
                                         type={availableTabsObject[tabId].type}
-                                        href={availableTabsObject[tabId].href} />
+                                        href={availableTabsObject[tabId].href}
+                                        activityProps={availableTabsObject[tabId].activityProps}
+                                    />
                                 </div>
                             ))
                         }

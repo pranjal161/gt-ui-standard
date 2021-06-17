@@ -5,7 +5,8 @@ export interface addWindowTabActionInt {
     tabType: string,
     displayTabLabel: string,
     displayTabSmallLabel?: string,
-    href?: string
+    href?: string,
+    activityProps?:any
 }
 
 export interface selectedWindowTabInt {
@@ -17,7 +18,8 @@ export interface windowTabsObjsInt {
         title: string,
         subTitle?: string,
         href?: string,
-        type: string
+        type: string,
+        activityProps?:any
     }
 }
 
@@ -61,7 +63,8 @@ const newWindowSlice = createSlice({
                 title: action.payload.displayTabLabel,
                 subTitle: secLabel,
                 type: action.payload.tabType,
-                href: URL
+                href: URL,
+                activityProps:action.payload.activityProps
             };
         },
         removeWindowTabByID(state, action: PayloadAction<string>) {

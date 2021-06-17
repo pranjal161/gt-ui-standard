@@ -1,12 +1,13 @@
-import { OpenInNewTabIcon, OpenInNewWindowIcon, PencilIcon } from 'assets/svg';
+import {OpenInNewTabIcon, OpenInNewWindowIcon, PencilIcon} from 'assets/svg';
+import useTabs from 'hooks/useTabs';
 
 import React from 'react';
 import Table from 'components/Table/Table';
-import { addSecondaryTabByID } from 'store/reducers/secondaryTabsReducer';
-import { addWindowTabByID } from 'store/reducers/newWindowReducer';
+import {addSecondaryTabByID} from 'store/reducers/secondaryTabsReducer';
+import {addWindowTabByID} from 'store/reducers/newWindowReducer';
 import useAia from 'hooks/useAia';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 // import { useHistory } from 'react-router';
 
@@ -17,19 +18,20 @@ import { useHistory } from 'react-router-dom';
  */
 const ContractTable = (props: any) => {
     let dispatch = useDispatch();
+    const {openNewTab} = useTabs()
     const history = useHistory();
-    const { fetch } = useAia();
+    const {fetch} = useAia();
 
     const contractColumns = [
-        { label: 'contract:number', property: 'contract:number' },
-        { label: 'contract:status', property: 'contract:status' },
-        { label: '_OWNER_NAME', property: ['person:display_id', 'organization:display_id'] },
-        { label: 'membership:display_id', property: 'membership:display_id' },
+        {label: 'contract:number', property: 'contract:number'},
+        {label: 'contract:status', property: 'contract:status'},
+        {label: '_OWNER_NAME', property: ['person:display_id', 'organization:display_id']},
+        {label: 'membership:display_id', property: 'membership:display_id'},
         {
             label: '_ACTIONS', actions: [
-                { icon: <PencilIcon />, method: (row: any) => launchUnsolPayment(row) },
-                { icon: <OpenInNewTabIcon />, method: (row: any) => openTicketInNewTab(row) },
-                { icon: <OpenInNewWindowIcon />, method: (row: any) => openTicketInNewWindow(row) }
+                {icon: <PencilIcon/>, method: (row: any) => launchUnsolPayment(row)},
+                {icon: <OpenInNewTabIcon/>, method: (row: any) => openTicketInNewTab(row)},
+                {icon: <OpenInNewWindowIcon/>, method: (row: any) => openTicketInNewWindow(row)}
             ]
         },
     ];
@@ -56,20 +58,24 @@ const ContractTable = (props: any) => {
     }
 
     const openTicketInNewTab = (row: any) => {
-        dispatch(addSecondaryTabByID({
-            tabId: row.summary['contract:number'],
-            tabType: 'contract',
-            displayTabLabel: 'Contract N° ' + row.summary['contract:number'],
-            displayTabSmallLabel: row.summary['contract:product_label'],
-            href: row.href
-        }));
+        openNewTab({
+            id: row.summary['contract:number'],
+            title: '',
+            subTitle: row.summary['contract:product_label'],
+            hRef: row.href,
+            type: 'contract_view',
+            activityProps: {
+                activityCode: 'contract_view',
+                hRef: row.href, mainEntityHRef: row.href
+            }
+        })
         history.push('/viewTab');
     }
 
     const openTicketInNewWindow = (row: any) => {
         dispatch(addWindowTabByID({
             tabId: row.summary['contract:number'],
-            tabType: 'contract',
+            tabType: 'contract_view',
             displayTabLabel: 'Contract N° ' + row.summary['contract:number'],
             displayTabSmallLabel: row.summary['contract:product_label'],
             href: row.href
@@ -78,7 +84,7 @@ const ContractTable = (props: any) => {
 
     return (
         <>
-            <Table columnId={contractColumns} url={props.url} showPaginator={true} />
+            <Table columnId={contractColumns} url={props.url} showPaginator={true}/>
         </>
     );
 };

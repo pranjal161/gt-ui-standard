@@ -3,6 +3,7 @@ import baContext from 'context/baContext';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
+import useTabs from 'hooks/useTabs';
 import React, {useContext, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -57,10 +58,10 @@ export interface ActivityProps {
     title?: string
 }
 
-const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
+const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {action, hRef, title} = props
     const {startActivity, stopActivity} = useActivity()
-    const aia:any = useAia()
+    const aia: any = useAia()
 
     const context = useContext(baContext);
     const baId: string = context.baId ? context.baId : '';
@@ -71,7 +72,9 @@ const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
 
     const configurations = getActivityConf(props) // activityCode can also be store in redux
 
+    const {openNewTab} = useTabs()
     console.log('response', response)
+    console.log('Activity props', props)
 
     useEffect(() => {
         startActivity();
@@ -90,10 +93,27 @@ const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
     const SkeletonConf = configurations.skeleton
     const HeaderConf = configurations.header
 
+    const onLaunchActivity = (operation: any) => {
+        openNewTab({
+            id: operation.href,
+            type: 'contract_operation',
+            hRef: operation.href,
+            title: operation.title,
+            subTitle: operation.title,
+            activityProps:{
+                activityCode : operation.name,
+                hRef:operation.href,
+                mainEntityHRef : props.hRef,
+            }
+        })
+    }
+
+    console.log('props', props)
+
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <HeaderConf title={title} {...props}/>
+                <HeaderConf title={title} {...props} onLaunchActivity={onLaunchActivity}/>
             </div>
             <div className={classes.root}>
                 <SkeletonConf data={response} {...props}/>
