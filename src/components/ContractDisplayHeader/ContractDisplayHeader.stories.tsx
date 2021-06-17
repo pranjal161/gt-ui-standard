@@ -12,9 +12,11 @@ export default {
 const Template: Story<ContractDisplayHeaderProps> = (args) => <ContractDisplayHeader {...args} />;
 
 export const Default = Template.bind({});
+const setActivityUrl = () => null;
 Default.args = {
     title: 'Contract number: ID12345678',
     response: contractOperations,
+    setActivityUrl: setActivityUrl
 };
 
 export const WrongResponseProps = Template.bind({});
