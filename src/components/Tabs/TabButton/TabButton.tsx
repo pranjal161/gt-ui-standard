@@ -1,7 +1,7 @@
 import {BusinessIcon, CloseIcon, ContactIcon, ContractIcon, TicketIcon} from 'assets/svg';
 import React from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export interface TabButtonProps {
 

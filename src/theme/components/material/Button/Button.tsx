@@ -30,7 +30,7 @@ const Button = (props: any) => {
     console.log(muiClasses, cls )
 
     return (
-        <ButtonMat {...rest} classes={muiClasses} className={cls}>
+        <ButtonMat classes={muiClasses} className={cls} {...rest}>
             {children}
         </ButtonMat>
     );

@@ -76,3 +76,10 @@ export const History = makeIcon('M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3
 export const CrossIcon = makeIcon('M10 1.6a8.4 8.4 0 100 16.8 8.4 8.4 0 000-16.8zm4.789 11.461L13.06 14.79 10 11.729l-3.061 3.06L5.21 13.06 8.272 10 5.211 6.939 6.94 5.211 10 8.271l3.061-3.061 1.729 1.729L11.728 10l3.061 3.061z')
 export const RightActiveArrow = makeIcon('M11.293 17.293l1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z')
 export const PencilIcon = makeIcon('M8.707 19.707L18 10.414 13.586 6l-9.293 9.293a1.003 1.003 0 00-.263.464L3 21l5.242-1.03c.176-.044.337-.135.465-.263zM21 7.414a2 2 0 000-2.828L19.414 3a2 2 0 00-2.828 0L15 4.586 19.414 9 21 7.414z')
+export const MoreVert = makeIcon('M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z')
+export const CircleFull = () => (
+    <svg className="SvgIcon-root" viewBox="0 0 24 24" height="24px" width="24px">
+        <circle cx="12" cy="12" r="8">
+        </circle>
+    </svg>
+);
