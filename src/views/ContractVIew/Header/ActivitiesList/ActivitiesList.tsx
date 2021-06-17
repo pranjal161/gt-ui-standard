@@ -1,6 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import Button from 'theme/components/material/Button/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
@@ -16,9 +16,9 @@ export interface ActivitiesListProps {
     activities?: any;
 
     /**
-     * SetActivityUrl
+     * OnLaunchActivity
      */
-    setActivityUrl?: Function;
+    onLaunchActivity?: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,7 +46,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     const { t } = useTranslation();
     const {
         activities,
-        setActivityUrl
+        onLaunchActivity
     } = props
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -59,10 +59,18 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
         setAnchorEl(null);
     };
 
-    const handleChoice = (event: React.MouseEvent<EventTarget>, element: string) => {
-        if (setActivityUrl) {
-            setActivityUrl(element)
-            console.log(element);
+    const handleChoice = (event: React.MouseEvent<EventTarget>, href: string, name: string) => {
+        if (onLaunchActivity && href) {
+
+            const response = {
+                href: href,
+                name: name,
+                // contractHref: href.split('/operations')
+                contractHref: href.substring(0, href.indexOf('/operations'))
+            }
+
+            onLaunchActivity(response)
+            console.log(response);
         }
         setAnchorEl(null);
     };
@@ -82,7 +90,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
                 {
                     activities &&
                     activities.map((item: any, key: number) => (
-                        <MenuItem key={key} onClick={(event) => handleChoice(event, item.href) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
+                        <MenuItem key={key} onClick={(event) => handleChoice(event, item.href, item.name) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
                 }
             </Menu>
         </div>

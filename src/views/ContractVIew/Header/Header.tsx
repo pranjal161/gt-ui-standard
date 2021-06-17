@@ -7,7 +7,7 @@ import React from 'react';
 import { getActivities } from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
-export interface ContractDisplayHeaderProps {
+export interface HeaderProps {
 
     /**
      * Title
@@ -20,15 +20,15 @@ export interface ContractDisplayHeaderProps {
     response?: any;
 
     /**
-     * SetActivityUrl
+     * OnLaunchActivity
      */
-     setActivityUrl?: Function;
+     onLaunchActivity?: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
         backgroundColor: theme.palette.primary.main,
-        padding: '14px 32px',
+        padding: theme.spacing(2, 4),
         maxHeight: '70px',
         borderRadius: '8px 8px 0px 0px',
     },
@@ -55,17 +55,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * Generic contract header, use to display contract name and activities launcher
- * @param {ContractDisplayHeaderProps} props Props of the component.
+ * @param {HeaderProps} props Props of the component.
  * @returns {React.component} Display the contract header
  */
-const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: ContractDisplayHeaderProps) => {
+const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
 
     const {
         title = 'Default title',
         response,
-        setActivityUrl
+        onLaunchActivity
     } = props
 
     const [activities, setActivities] = React.useState([{ href: null, name: t('operation:operation_empty_list') }]);
@@ -84,14 +84,14 @@ const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: Cont
                 <HeaderInformation title={title} />
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
-                        <MaterialEye size={25} />
-                        <NotificationBellAdd size={25} />
+                        <MaterialEye size={24} />
+                        <NotificationBellAdd size={24} />
                     </div>
-                    <ActivitiesList activities={activities} setActivityUrl={setActivityUrl} />
+                    <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity} />
                 </div>
             </div>
         </div>
     )
 }
 
-export default ContractDisplayHeader;
+export default Header;

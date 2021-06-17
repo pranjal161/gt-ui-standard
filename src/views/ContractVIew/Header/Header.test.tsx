@@ -1,4 +1,4 @@
-import * as ContractHeaderBarStories from './ContractDisplayHeader.stories';
+import * as ContractHeaderBarStories from './Header.stories';
 
 import { fireEvent, render, screen } from '@testing-library/react'
 
@@ -16,10 +16,13 @@ describe('Renders Default', () => {
     it('Activities displaying', () => {
         const component = render(<Default />);
         const button = screen.getByTestId('button-activities');
+        const item = component.getByText('Create amendment');
 
-
+        expect(item).not.toBeVisible();
         fireEvent.click(button);
-        expect(component.getByText('Create amendment')).toBeInTheDocument();
+        expect(item).toBeVisible();
+        fireEvent.click(item);
+        expect(item).not.toBeVisible();
     });
 })
 
@@ -31,12 +34,17 @@ describe('Renders WrongResponseProps', () => {
     });
 
     it('Activities displaying', () => {
+        
+
         const component = render(<WrongResponseProps />);
         const button = screen.getByTestId('button-activities');
 
-
+        expect(component.getByText('Operation empty list')).not.toBeVisible();
         fireEvent.click(button);
-        expect(component.getByText('Operation empty list')).toBeInTheDocument();
+        const item = component.getByText('Operation empty list');
+        expect(item).toBeInTheDocument();
+        fireEvent.click(item);
+        expect(item).not.toBeVisible();
     });
 })
 
