@@ -1,6 +1,7 @@
 import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
-import { ExtensionsIcon, HelpIcon, SearchIcon } from 'assets/svg';
+import { AddIcon, CircleFull, ExtensionsIcon, HelpIcon, History, MoreVert, SearchIcon } from 'assets/svg';
 import React, { useState } from 'react';
+import Button from 'theme/components/material/Button/Button';
 import DXCLogo from 'assets/dxc_logo.jpg';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import { MainNavContainer } from './StyledNavBar';
@@ -9,8 +10,19 @@ import Typo from 'components/Typography/Typo';
 import {changeLanguageCountry} from 'configs';
 import en from 'assets/gb.jpg';
 import fr from 'assets/fr.jpg';
+import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+
+const useStyles = makeStyles((theme) => ({
+    button: {
+        minHeight: '37px',
+        marginRight: theme.spacing(4)
+    },
+    label: {
+        fontSize: '12px'
+    }
+}));
 
 const NavBar = () => {
     const {t} = useTranslation()
@@ -32,6 +44,8 @@ const NavBar = () => {
 
     const currentLang: any = langs.find((item) => item.value === lang)
     const [langIcon, setLangIcon] = useState(currentLang.iconSrc);
+
+    const classes = useStyles();
 
     const changeLang = (value: string) => {
         // // to check refresh
@@ -84,6 +98,32 @@ const NavBar = () => {
                             <IconButton color={'primary'}
                                 onClick={() => goToPage('/ContractSearch')}>
                                 <SearchIcon />
+                            </IconButton>
+                        </div>
+                        <Button 
+                            color="secondary"
+                            variant="outlined"
+                            classes={{root: classes.button, label: classes.label}}>
+                            OPEN MY NEXT TICKET
+                        </Button>
+                        <div title="Add">
+                            <IconButton color={'primary'}>
+                                <AddIcon />
+                            </IconButton>
+                        </div>
+                        <div title="Go back">
+                            <IconButton color={'primary'}>
+                                <History />
+                            </IconButton>
+                        </div>
+                        <div title="More">
+                            <IconButton color={'primary'}>
+                                <MoreVert />
+                            </IconButton>
+                        </div>
+                        <div title="Button">
+                            <IconButton color={'primary'}>
+                                <CircleFull />
                             </IconButton>
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>

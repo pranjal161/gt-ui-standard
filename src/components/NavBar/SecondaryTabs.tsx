@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     tabsButtonsScroller: {
-        paddingTop: '12px',
+        paddingTop: theme.spacing(0.75),
         height: '48px',
         opacity: '0.6',
         backgroundColor: 'white',
