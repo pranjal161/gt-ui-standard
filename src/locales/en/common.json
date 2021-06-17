@@ -95,5 +95,8 @@
   "van": "Van",
   "warning": "Warning",
   "WORK_PARKING_DETAILS": "Work parking details",
-  "_VIEWS": "Status"
+  "_VIEWS": "Status",
+  "_INFORMATION_SHEET": "Information Sheet",
+  "_INVESTMENT_SPLIT": "Investment Split",
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
 }

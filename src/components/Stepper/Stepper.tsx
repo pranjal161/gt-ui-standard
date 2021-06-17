@@ -1,6 +1,6 @@
 import { Bell, LeftArrow, RightArrow, ThreeDots } from 'assets/svg';
 import { DxcDialog, DxcWizard } from '@dxc-technology/halstack-react';
-import {Theme, makeStyles} from '@material-ui/core/styles';
+import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import ActivitySteps from './component/ActivitySteps/ActivitySteps';
 import IconButton from 'theme/components/material/IconButton/IconButton';
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const useStyles = makeStyles<Theme, Props>((theme: Theme) => ({
-    stepper:{
+    stepper: {
         display: 'flex',
         width: '100%',
         justifyContent: 'center',
@@ -38,6 +38,13 @@ const useStyles = makeStyles<Theme, Props>((theme: Theme) => ({
             '&:first-child button': {
                 marginLeft: 20
             },
+            '& button': {
+                '& > div > div': {
+                    width: '2rem !important',
+                    height: '2rem !important'
+                }
+            },
+            '& p' : { fontSize: '70% !important'}
         },
         '& button': {
             '& + div': {
@@ -64,7 +71,7 @@ const useStyles = makeStyles<Theme, Props>((theme: Theme) => ({
             border: `1px solid ${theme.palette.text.primary}`,
             padding: 0,
             borderRadius: 5,
-    
+
             '& svg': {
                 fill: theme.palette.text.primary,
                 width: 28,
@@ -117,7 +124,12 @@ export interface StepProps {
     /**
      * if step is validated and incorrect
      */
-    error?: boolean
+    error?: boolean,
+
+    /**
+     * if step is validated and incorrect
+     */
+    component?: any
 }
 
 export interface StepperProps {
@@ -125,12 +137,12 @@ export interface StepperProps {
     /**
      * Number of steps visible at a time
      */
-    showStepsAtATime: number, 
+    showStepsAtATime: number,
 
     /**
      * Steps Array
      */
-    steps: Array<StepProps>, 
+    steps: Array<StepProps>,
 
     /**
      * Active Step - Step Count starts from 0
@@ -179,7 +191,7 @@ const Stepper = (props: StepperProps) => {
 
     const getFilteredSteps = (value: boolean) => {
         const filteredsteps = steps && steps.filter((array: any) => array['required'] === value);
-        
+
         return filteredsteps;
     }
 
@@ -196,7 +208,7 @@ const Stepper = (props: StepperProps) => {
             setRequiredSteps(mainsteps);
             const optionalsteps = getFilteredSteps(false);
             const updatedMainsteps = renderSteps(mainsteps);
-            setUpdatedSteps({optional: optionalsteps, stepper: updatedMainsteps });
+            setUpdatedSteps({ optional: optionalsteps, stepper: updatedMainsteps });
         }
     }, [steps, currentStep])
 
@@ -212,21 +224,21 @@ const Stepper = (props: StepperProps) => {
     }, [currentStep])
 
     const renderSteps = (mainsteps: Array<{}>) => {
-        let counter = -1;
+        let counter = 0;
         const updatedSteps: any = mainsteps.map((step: any) => {
             if (step.error) step.valid = !step.error;
             if (step.fullfilled) step.valid = step.fullfilled;
             if (step.required) counter = counter + 1;
             step.description = `${counter}/${mainsteps.length}`;
-            if (counter < currentStep) step.iconSrc = PencilIcon;
-            if (counter === currentStep) {
+            if (counter+1 < currentStep) step.iconSrc = PencilIcon;
+            if (counter+1 === currentStep) {
                 step.disabled = false;
                 step.active = true;
             }
 
             return step;
         });
-        
+
         return updatedSteps;
     }
 
@@ -254,7 +266,7 @@ const Stepper = (props: StepperProps) => {
 
             return opt;
         });
-        
+
         return updateOptionsStep[stepIndex];
     }
 
@@ -281,7 +293,7 @@ const Stepper = (props: StepperProps) => {
                 stepper = updateStep['stepper'];
                 stepper.splice(currentActiveStep + 1, 0, optionalStep);
             }
-            setUpdatedSteps({...updateStep, stepper: stepper});
+            setUpdatedSteps({ ...updateStep, stepper: stepper });
             const childrens = scrollSection.current.children[0].children;
             const toBeAdded = isAvailableInStepper ? isAvailableInStepper : currentActiveStep + 1;
             const addedStep = childrens[toBeAdded + 1];
@@ -306,10 +318,10 @@ const Stepper = (props: StepperProps) => {
     }
 
     return (<>
-        <div className={`mt-5 ${classes.stepper}`}>
+        <div className={classes.stepper}>
             <div className={classes.arrow}>
                 <IconButton
-                    disabled={leftDisable} 
+                    disabled={leftDisable}
                     onClick={slideLeft}>
                     <LeftArrow />
                 </IconButton>
@@ -323,7 +335,7 @@ const Stepper = (props: StepperProps) => {
             </div>
             <div className={classes.arrow}>
                 <IconButton
-                    disabled={rightDisable} 
+                    disabled={rightDisable}
                     onClick={slideRight}>
                     <RightArrow />
                 </IconButton>

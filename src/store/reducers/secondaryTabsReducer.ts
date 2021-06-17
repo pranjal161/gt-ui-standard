@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { 
+import {
     addWindowTabActionInt as addSecondaryTabActionInt,
     windowTabsObjsInt as secondaryTabsObjsInt,
     selectedWindowTabInt as selectedSecondaryTabInt
@@ -40,14 +40,14 @@ const secondaryTabsSlice = createSlice({
                 secLabel = action.payload.displayTabSmallLabel
             }
             if(action.payload.displayTabSmallLabel) {
-                contractURL = action.payload.contractURL;
+                contractURL = action.payload.href;
             }
             
             state.secondaryTabsIDs[action.payload.tabId] = { 
                 title: action.payload.displayTabLabel,
                 subTitle: secLabel,
                 type: action.payload.tabType,
-                contractURL: contractURL
+                href: contractURL
             };
         },
         removeSecondaryTabByID(state, action: PayloadAction<string>) {
