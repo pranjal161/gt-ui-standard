@@ -1,28 +1,16 @@
-/* eslint-disable */
 import {makeStyles} from '@material-ui/core/styles';
-import {AddBoxIcon, DistributorIcon, PaymentIcon} from 'assets/svg';
-import clsx from 'clsx';
-
-import Button from 'components/Button/Button';
-import WithScroll from 'components/WithScroll/WithScroll';
-import React, {useRef} from 'react';
-import Section from 'components/Section/Section';
-import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
-import TitleBar from './TitleBar/TitleBar';
-
-//export interface ActivityProps {}
-
-/**
- * props to define and describe
- */
-// prop1: any
-//}
+import baContext from 'context/baContext';
+import useActivity from 'hooks/useActivity';
+import useAia from 'hooks/useAia';
+import useConfigurations from 'hooks/useConfigurations';
+import React, {useContext, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4),
-        display:'flex',
-        flexDirection:'column',
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: '#F2F5F7'
     },
     header: {
@@ -41,112 +29,74 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'stretch',
         height: '100%'
     },
-    bodyLeft: {
-        flex: '1 1 auto',
-        marginRight: theme.spacing(4)
-    },
-    bodyRight: {
-        minWidth: '44px'
-    },
-    content: ({contentRef}: any) => {
-        const {offsetTop} = contentRef && contentRef.current || {offsetTop: ''}
 
-        return {
-            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
-            overflowY: 'hidden',
-            '& > * > div': {
-                marginBottom: theme.spacing(2)
-            }
-        }
-    },
-    sidebar: ({sidebarRef}: any) => {
-        const {offsetTop} = sidebarRef && sidebarRef.current || {offsetTop: ''}
-
-        return {
-            height: `calc(100vh - ${offsetTop}px - 100px)`, // Footer to remove
-            backgroundColor: theme.palette.background.paper
-        }
-    }
 }))
 
-const Activity = () => {
-    const contentRef = useRef(null)
-    const sidebarRef = useRef(null)
-    const classes: any = useStyles({contentRef, sidebarRef})
+export interface ActivityProps {
+
+    /**
+     * code of the activity
+     */
+    activityCode: any
+
+    /**
+     * hRef of the main entity
+     */
+    mainEntityHRef: string
+
+    /**
+     * hRef of the activity to Post
+     */
+    hRef: string
+
+    /**
+     * API action type
+     */
+    action: string
+
+    title?: string
+}
+
+const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
+    const {action, hRef, title} = props
+    const {startActivity, stopActivity} = useActivity()
+    const aia:any = useAia()
+
+    const context = useContext(baContext);
+    const baId: string = context.baId ? context.baId : '';
+    const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
+
+    const classes: any = useStyles()
+    const {getActivityConf} = useConfigurations()
+
+    const configurations = getActivityConf(props) // activityCode can also be store in redux
+
+    console.log('response', response)
+
+    useEffect(() => {
+        startActivity();
+
+        /**
+         * Do the main call
+         *
+         */
+        aia[action](hRef)
+
+        return () => {
+            stopActivity()
+        }
+    }, [])
+
+    const SkeletonConf = configurations.skeleton
+    const HeaderConf = configurations.header
 
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <TitleBar title={'02/06/2021 - Unsolicited Payment - IUP000000475'}/>
+                <HeaderConf title={title} {...props}/>
             </div>
-            <div className={classes.body}>
-                <div className={classes.bodyLeft}>
-
-                    <div className={classes.header}>
-                        <div>---------Date effect input-------</div>
-                        <div>------------------------------------Stepper------------------------------------</div>
-                    </div>
-
-                    <div ref={contentRef} className={classes.content}>
-                        <WithScroll>
-                            <div className="col-12">
-                                <Section title="General Information" icon={<PaymentIcon/>}>
-                                    TEST 1
-                                    TEst 2
-                                </Section>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Payment" icon={<PaymentIcon/>} actions={
-                                    <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 1" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 2" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
-                                    </div>}/>
-
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 3" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                            <div className="col-12">
-                                <Section title="Distributor Management 4" icon={<DistributorIcon/>} actions={
-                                    <div>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    mode={'secondary'}
-    title="Secondary"/>
-                                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-    title="Test Button"/>
-                                    </div>}/>
-                            </div>
-                        </WithScroll>
-                    </div>
-                </div>
-                <div ref={sidebarRef} className={clsx(classes.bodyRight, classes.sidebar)}>
-                    <ExampleOfSideBar/>
-                </div>
+            <div className={classes.root}>
+                <SkeletonConf data={response} {...props}/>
             </div>
         </div>
     )
