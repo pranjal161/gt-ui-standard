@@ -60,13 +60,13 @@ const ContractTable = (props: any) => {
     const openTicketInNewTab = (row: any) => {
         openNewTab({
             id: row.summary['contract:number'],
-            title: '',
             subTitle: row.summary['contract:product_label'],
-            hRef: row.href,
-            type: 'contract_view',
             activityProps: {
+                title:row.title,
+                entityType: 'contract',
                 activityCode: 'contract_view',
-                hRef: row.href, mainEntityHRef: row.href
+                hRef: row.href,
+                mainEntityHRef: row.href
             }
         })
         history.push('/viewTab');

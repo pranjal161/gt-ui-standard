@@ -5,11 +5,12 @@ import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useTabs from 'hooks/useTabs';
 import React, {useContext, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(4),
+        padding: theme.spacing(4,4,0,4),
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#F2F5F7'
@@ -41,27 +42,33 @@ export interface ActivityProps {
     activityCode: any
 
     /**
-     * hRef of the main entity
+     * Can be ticket, contract, person, claims,
      */
-    mainEntityHRef: string
+    entityType:string
 
     /**
-     * hRef of the activity to Post
+     * hRef of the entity
      */
     hRef: string
 
     /**
-     * API action type
+     * title
      */
-    action: string
+    title: string
 
-    title?: string
+    /**
+     * hRef of the main entity
+     */
+    mainEntityHRef: string
+
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
-    const {action, hRef, title} = props
+    const {hRef} = props
     const {startActivity, stopActivity} = useActivity()
     const aia: any = useAia()
+
+    const {t} = useTranslation()
 
     const context = useContext(baContext);
     const baId: string = context.baId ? context.baId : '';
@@ -71,36 +78,32 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {getActivityConf} = useConfigurations()
 
     const configurations = getActivityConf(props) // activityCode can also be store in redux
-
     const {openNewTab} = useTabs()
-    console.log('response', response)
-    console.log('Activity props', props)
 
     useEffect(() => {
         startActivity();
 
         /**
-         * Do the main call
+         * Main API call
          *
          */
-        aia[action](hRef)
+        aia.fetch(hRef)
 
         return () => {
             stopActivity()
         }
     }, [])
 
-    const SkeletonConf = configurations.skeleton
-    const HeaderConf = configurations.header
+    const SkeletonConf = configurations && configurations.skeleton
+    const HeaderConf = configurations && configurations.header
 
-    const onLaunchActivity = (operation: any) => {
+    const onLaunchActivity = (operation: any, entityType:string) => {
         openNewTab({
             id: operation.href,
-            type: 'contract_operation',
-            hRef: operation.href,
-            title: operation.title,
-            subTitle: operation.title,
+            subTitle: t('common:businessActivityLabel'),
             activityProps:{
+                title:operation.title,
+                entityType,
                 activityCode : operation.name,
                 hRef:operation.href,
                 mainEntityHRef : props.hRef,
@@ -108,15 +111,13 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
         })
     }
 
-    console.log('props', props)
-
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <HeaderConf title={title} {...props} onLaunchActivity={onLaunchActivity}/>
+                {HeaderConf && <HeaderConf {...props} onLaunchActivity={onLaunchActivity}/>}
             </div>
-            <div className={classes.root}>
-                <SkeletonConf data={response} {...props}/>
+            <div className={classes.skeleton}>
+                {SkeletonConf && <SkeletonConf data={response} {...props}/> }
             </div>
         </div>
     )

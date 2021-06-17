@@ -1,6 +1,7 @@
 import {MaterialEye, NotificationBellAdd} from 'assets/svg';
 import {Theme, makeStyles} from '@material-ui/core/styles';
 import useResponse from 'hooks/useResponse';
+import IconButton from 'theme/components/material/IconButton/IconButton';
 
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
@@ -23,7 +24,7 @@ export interface HeaderProps {
     /**
      * onLaunchActivity
      */
-    onLaunchActivity?: Function;
+    onLaunchActivity?: any;
 
     /**
      * hRef
@@ -41,17 +42,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     informationContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '-5px'
     },
     infoRight: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+
     iconContainer: {
+        color: theme.palette.primary.contrastText,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginRight: theme.spacing(2),
         '& > svg': {
             fill: theme.palette.primary.contrastText,
             marginRight: theme.spacing(3)
@@ -88,17 +93,15 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             setActivities(formatResponse);
         }
     }, [responseOperations])
-
-    console.log('render')
-
+    
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
                 <HeaderInformation title={title}/>
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
-                        <MaterialEye size={24}/>
-                        <NotificationBellAdd size={24}/>
+                        <IconButton color={'inherit'}> <MaterialEye/></IconButton>
+                        <IconButton color={'inherit'}><NotificationBellAdd/></IconButton>
                     </div>
                     <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity}/>
                 </div>

@@ -62,8 +62,8 @@ const HeaderInformation: React.FC<HeaderInformationProps> = (props: HeaderInform
         <div className={classes.informationContainer}>
             <div className={classes.pictureSlot} />
             <div className={classes.titleContainer}>
-                <p className={classes.title}>{title}</p>
                 <p className={classes.title}>{t('common:contractViewLabel')}</p>
+                <p className={classes.title}>{title}</p>
             </div>
         </div>
     )

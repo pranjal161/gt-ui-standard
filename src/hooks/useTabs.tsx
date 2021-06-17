@@ -1,3 +1,4 @@
+import {ActivityProps} from 'components/Activity/Activity';
 import {useTranslation} from 'react-i18next';
 import {addSecondaryTabByID} from 'store/reducers/secondaryTabsReducer';
 import {addWindowTabByID} from 'store/reducers/newWindowReducer';
@@ -12,29 +13,14 @@ export interface openNewTabProps {
     id: string
 
     /**
-     * Type of tab to display
-     */
-    type : string
-
-    /**
-     * Title
-     */
-    title: string
-
-    /**
      * SubTitle
      */
     subTitle?: string
 
     /**
-     * hRef of entity to display or execute
-     */
-    hRef?: string
-
-    /**
      * activityProps
      */
-    activityProps?:any
+    activityProps:ActivityProps
 }
 
 const useTabs = () => {
@@ -42,25 +28,25 @@ const useTabs = () => {
     const {t} = useTranslation()
     const history = useHistory();
 
-    const openNewTab = ({id, type, hRef, subTitle, title, activityProps }:openNewTabProps) => {
+    const openNewTab = ({id, subTitle, activityProps }:openNewTabProps) => {
         dispatch(addSecondaryTabByID({
             tabId: id,
-            tabType: type,
-            displayTabLabel: t(`common:${type}`, {value:id, activity:activityProps.activityCode}),
+            tabType: activityProps.entityType,
+            displayTabLabel: t(`common:${activityProps.activityCode}Tab`, {value:id, activity:activityProps.activityCode}),
             displayTabSmallLabel: subTitle,
-            href: hRef,
+            href: activityProps.hRef,
             activityProps: activityProps
         }));
         history.push('/viewTab');
     }
 
-    const openNewTabInSecondaryWindow = ({id, type, hRef, subTitle, title, activityProps }:openNewTabProps) => {
+    const openNewTabInSecondaryWindow = ({id, subTitle, activityProps }:openNewTabProps) => {
         dispatch(addWindowTabByID({
             tabId: id,
-            tabType: type,
-            displayTabLabel:t(`common:${type}`, {value:id, activity:activityProps.activityCode}),
+            tabType: activityProps.entityType,
+            displayTabLabel: t(`common:${activityProps.activityCode}Tab`, {value:id, activity:activityProps.activityCode}),
             displayTabSmallLabel: subTitle,
-            href: hRef,
+            href: activityProps.hRef,
             activityProps: activityProps
         }));
         history.push('/viewTab');

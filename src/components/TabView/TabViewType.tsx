@@ -11,25 +11,23 @@ import SampleTicket from '../SampleTicket/SampleTicket';
  * @param {string} props.tabId - The id of the object the user wants to fetch data for. Can be the Id of a ticket, href for contract, etc
  * @param {string} props.type - The type of object the user wants to display data for: ticket, contract and client, for now.
  */
-const TabViewType = (props: { tabId: string, type: string, href?: string, activityProps?: any }) => {
-    const {tabId, type, href = undefined} = props;
+const TabViewType = (props: { tabId: string, href?: string, activityProps?: any }) => {
+    const {tabId, href = undefined} = props;
     console.log('TabViewType render')
 
     let component
-    switch (type) {
-        case 'ticket_View':
-        case 'ticket_operation':
+    let mode
+    switch (props.activityProps.entityType) {
+        case 'ticket':
             component = <SampleTicket ticketId={tabId}/>
             break;
-        case 'contract_view':
-            component = <ActivityContainer mode={'view'} {...{...props.activityProps, href}}/>
+        case 'contract':
+            mode = (props.activityProps.activityCode === 'contract_view') ? 'view': 'update'
+            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
             break;
-        case 'contract_operation':
-            component = <ActivityContainer mode={'update'} {...{...props.activityProps, href}}/>
-            break;
-        case 'person_view':
-        case 'person_operation':
-            break;
+        case 'person':
+            mode = (props.activityProps.activityCode === 'person_view') ? 'view': 'update'
+            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
 
     }
 

@@ -61,7 +61,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
 
     const handleChoice = (event: React.MouseEvent<EventTarget>, operationDetail: any) => {
         if (onLaunchActivity) {
-            onLaunchActivity(operationDetail)
+            onLaunchActivity(operationDetail, 'contract')
         }
         setAnchorEl(null);
     };
