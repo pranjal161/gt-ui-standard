@@ -2764,7 +2764,7 @@
     "@storybook/semver" "^7.3.2"
     "@storybook/theming" "6.2.9"
     "@storybook/ui" "6.2.9"
-    "@types/node" "^14.0.10"
+    "@types/node" "^16.3.0"
     "@types/webpack" "^4.41.26"
     "autoprefixer" "^9.8.6"
     "babel-loader" "^8.2.2"
@@ -2992,7 +2992,7 @@
     "@storybook/semver" "^7.3.2"
     "@types/glob-base" "^0.3.0"
     "@types/micromatch" "^4.0.1"
-    "@types/node" "^14.0.10"
+    "@types/node" "^16.3.0"
     "@types/pretty-hrtime" "^1.0.0"
     "babel-loader" "^8.2.2"
     "babel-plugin-macros" "^3.0.1"
@@ -3046,7 +3046,7 @@
     "@storybook/semver" "^7.3.2"
     "@storybook/theming" "6.2.9"
     "@storybook/ui" "6.2.9"
-    "@types/node" "^14.0.10"
+    "@types/node" "^16.3.0"
     "@types/node-fetch" "^2.5.7"
     "@types/pretty-hrtime" "^1.0.0"
     "@types/webpack" "^4.41.26"
@@ -3666,10 +3666,10 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-15.0.1.tgz"
   "version" "15.0.1"
 
-"@types/node@^14.0.10":
+"@types/node@^16.3.0":
   "integrity" "sha512-3pwDJjp1PWacPTpH0LcfhgjvurQvrZFBrC6xxjaUEZ7ifUtT32jtjPxEMMblpqd2Mvx+k8haqQJLQxolyGN/cQ=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.43.tgz"
-  "version" "14.14.43"
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.3.0.tgz"
+  "version" "16.3.0"
 
 "@types/normalize-package-data@^2.4.0":
   "integrity" "sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA=="

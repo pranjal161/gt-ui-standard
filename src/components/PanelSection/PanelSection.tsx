@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 import Typo from 'components/Typography/Typo';
 import {makeStyles} from '@material-ui/core/styles';
@@ -29,6 +30,11 @@ export interface PanelSectionProps {
      */
     content?: any
 
+    /**
+     * Classname
+     */
+    className?:string
+
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         textAlign: 'start',
+        overflowWrap: 'break-word',
         marginTop: theme.spacing(4),
         paddingBottom: theme.spacing(2),
         borderBottomWidth: 2,
@@ -56,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const PanelSection: React.FC<PanelSectionProps> = ({title, content}: PanelSectionProps) => {
+const PanelSection: React.FC<PanelSectionProps> = ({title, content, className}: PanelSectionProps) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={clsx(classes.root, className)}>
             <Typo className={classes.title} variant={'subTitleSection'} value={title}/>
             <div className={classes.content}>
                 {content}

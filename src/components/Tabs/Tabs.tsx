@@ -1,40 +1,44 @@
 import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { MemoTabButton } from './TabButton/TabButton';// TabButton,
+import { MemoTabButton } from './TabButton/TabButton';
+import { makeStyles } from '@material-ui/core/styles';
 
-import styled from 'styled-components';
+const useStyles = makeStyles((theme) => ({
+    tabsMainContainer: {
+        width: '100%',
+        height: '100%',
+        margin: '0',
+        padding: '0'
+    },
+    tabsButtonsContainer: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        borderBottom: '2px solid #D9D9D9',
+        overflow: 'hidden',
+        scrollBehavior: 'smooth',
 
-const TabsMainContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-`;
-
-const TabsButtonsContainer = styled.div`
-    display: flex;
-    flex-wrap: nowrap;
-    border-bottom: 2px solid #D9D9D9;
-    overflow: hidden;
-    scroll-behavior: smooth;
-
-    &::-webkit-scrollbar {
-        display: none;
+        '&::-webkit-scrollbar': {
+            display: 'none'
+        }
+    },
+    tabsButtonsScroller: {
+        paddingTop: '12px',
+        height: '48px',
+        opacity: '0.6',
+        backgroundColor: 'white',
+        verticalAlign: 'middle',
+        textAlign: 'center',
+        position: 'absolute',
+        display: 'none'
+    },
+    tabsButtonsScrollerLeft: {
+        left: '0'
+    },
+    tabsButtonsScrollerRight: {
+        right: '0'
     }
-`;
-
-const TabsButtonsScroller = styled.div<{isLeft: boolean}>`
-    padding-top: 12px;
-    height: 48px;
-    opacity: 0.6;
-    background-color: white;
-    vertical-align: middle;
-    text-align: center;
-    position: absolute;
-    display: none;
-    ${(props) => (props.isLeft ? 'left: 0;' : 'right: 0;')}
-`;
+}));
 
 export interface TabsProps {
     children: any,
@@ -88,40 +92,64 @@ const Tabs = (props: TabsProps) => {
         onTabChange = null, 
         onTabClose = null
     } = props;
+
+    const classes = useStyles();
     const [activeTab, setActiveTab] = useState(children ? children[0].props.tabId : null);
     const mainDivRef = useRef<HTMLDivElement>(null);
     const scrollDivRef = useRef<HTMLDivElement>(null);
     const scrollLeftArrowRef = useRef<HTMLDivElement>(null);
     const scrollRightArrowRef = useRef<HTMLDivElement>(null);
 
+    /**
+     * handles show and hide of side scrolling arrows
+     * @returns {void} uses references
+     */
+    function reAdjust(): void {
+        console.log('Tabs reAdjust:');
+        let containerWidth = mainDivRef.current?.offsetWidth;
+        let scrollWidth = scrollDivRef.current?.scrollWidth;
+
+        if(scrollWidth && containerWidth) {
+            if(scrollWidth > containerWidth) {
+                let scrollLeft = scrollDivRef.current?.scrollLeft;
+                if(scrollLeft !== undefined) {
+                    if(scrollWidth > (scrollLeft! + containerWidth)) {
+                        scrollRightArrowRef.current!.style.display = 'block';
+                    }
+                    else {
+                        scrollRightArrowRef.current!.style.display = 'none';
+                    }
+
+                    if(scrollLeft > 0) {
+                        scrollLeftArrowRef.current!.style.display = 'block';
+                    }
+                }
+            }
+            else {
+                scrollLeftArrowRef.current!.style.display = 'none';
+                scrollRightArrowRef.current!.style.display = 'none';
+            }
+        }
+    }
+
     useEffect(() => {
         if(activeTabId)
             setActiveTab(activeTabId);
     }, [activeTabId]);
 
+    // I use a timer for new window, as it cannot get a handle for the popup window easily
     useEffect(() => {
-        console.log('Tabs children number changed:');
-        let containerWidth = mainDivRef.current?.offsetWidth;
-        let scrollWidth = scrollDivRef.current?.scrollWidth;
-        console.log('Tabs children mainDivRef width: '+containerWidth);
-        console.log('Tabs children scrollDivRef width: '+scrollWidth);
-        if(scrollWidth && containerWidth) {
-            if(scrollWidth > containerWidth) {
-                let scrollLeft = scrollDivRef.current?.scrollLeft;
-                console.log('Tabs children scrollDivRef scrollLeft: '+scrollLeft);
-                if(scrollLeft !== undefined) {
-                    console.log('Tabs children scrollLeft if: '+scrollLeft);
-                    if(scrollWidth > (scrollLeft! + containerWidth + 10)) {
-                        console.log('Tabs children display right arrow');
-                        scrollRightArrowRef.current!.style.display = 'block';
-                    }
-                    if(scrollLeft > 10) {
-                        console.log('Tabs children display left arrow');
-                        scrollLeftArrowRef.current!.style.display = 'block';
-                    }
-                }
-            }
+        const intervalId = setInterval(() => {
+            reAdjust();
+        }, 1000);
+
+        return () => {
+            clearInterval(intervalId);
         }
+    }, []);
+
+    useEffect(() => {
+        reAdjust();
     }, [children.length]);
 
     /**
@@ -156,12 +184,19 @@ const Tabs = (props: TabsProps) => {
         console.log('Tabs scrollHandler called:');
         if(scrollDivRef.current) {
             scrollDivRef.current.scrollLeft += scrollOffset;
-            console.log('Tabs scrollHandler change scrollLeft:');
-            if(scrollDivRef.current.scrollLeft < 30) {
+
+            if(scrollDivRef.current.scrollLeft + scrollOffset <= 0) {
                 scrollLeftArrowRef.current!.style.display = 'none';
             }
-            if((scrollDivRef.current.scrollLeft + mainDivRef.current!.offsetWidth + 30) > scrollDivRef.current!.scrollWidth) {
+            else {
+                scrollLeftArrowRef.current!.style.display = 'block';
+            }
+
+            if((scrollDivRef.current.scrollLeft + mainDivRef.current!.offsetWidth + scrollOffset) >= scrollDivRef.current!.scrollWidth) {
                 scrollRightArrowRef.current!.style.display = 'none';
+            }
+            else {
+                scrollRightArrowRef.current!.style.display = 'block';
             }
         }
     }
@@ -170,23 +205,25 @@ const Tabs = (props: TabsProps) => {
 
     /**
      * The return (render for a React functional component) function handles the display of the component.
-     * It uses a styled component to display the tab buttons as MemoTabButton React components.
+     * It uses a makeStyles component to display the tab buttons as MemoTabButton React components.
      * It displays tab content in a div element, which is hidden for all tabIds that are not the active tab Id.
      * It uses children.map for the child component Tab to get the data it needs for renderz, and uses a key that is unique - 
      * the tabId props, to make use of the React optimization engine to avoid rerenders of a component more than what is necessary.
      */
 
     return (
-        <TabsMainContainer
+        <div 
+            className={classes.tabsMainContainer}
             ref={mainDivRef}>
-            <TabsButtonsContainer
+            <div
+                className={classes.tabsButtonsContainer}
                 ref={scrollDivRef}>
-                <TabsButtonsScroller
+                <div
+                    className={classes.tabsButtonsScroller+' '+classes.tabsButtonsScrollerLeft}
                     onClick={() => scrollHandler(-20)}
-                    isLeft={true}
                     ref={scrollLeftArrowRef}>
                     <LeftChevronIcon />
-                </TabsButtonsScroller>
+                </div>
                 {
                     children ?
                         children.map((child: any) => (
@@ -198,18 +235,18 @@ const Tabs = (props: TabsProps) => {
                                 subTitle={child.props.subTitle}
                                 icon={child.props.icon}
                                 onTabClick={handleTabChange}
-                                onTabClose={handleTabClose}
+                                onTabClose={(activeTabId && onTabClose) ? handleTabClose : undefined}
                             />)
                         ) :
                         null
                 }
-                <TabsButtonsScroller
+                <div
+                    className={classes.tabsButtonsScroller+' '+classes.tabsButtonsScrollerRight}
                     onClick={() => scrollHandler(20)}
-                    isLeft={false}
                     ref={scrollRightArrowRef}>
                     <RightChevronIcon />
-                </TabsButtonsScroller>
-            </TabsButtonsContainer>
+                </div>
+            </div>
             {
                 !children ?
                     'No tabbed content to display' :
@@ -232,7 +269,7 @@ const Tabs = (props: TabsProps) => {
                                 null
                         ))
             }
-        </TabsMainContainer>
+        </div>
     );
 }
 

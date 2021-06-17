@@ -1,17 +1,28 @@
-import { DxcBox, DxcHeading } from '@dxc-technology/halstack-react';
-
 import React from 'react';
+import Typo from 'components/Typography/Typo';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface SectionProps {
 
     /**
-     * props to define and describe
+     * Title
      */
+    title?: string;
 
-    title: string;
+    /**
+     * Icon to put beside the Title
+     */
+    icon?: any;
+
+    /**
+     * List of actions
+     */
     actions?: any;
-    icon: any;
-    content?: any;
+
+    /**
+     * Content to display
+     */
+    children?: any;
 }
 
 /**
@@ -21,26 +32,71 @@ export interface SectionProps {
  * @constructor
  */
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        flexDirection:'column',
+        flex: '1 1 auto',
+        borderRadius: '6px 6px 0px 0px',
+    },
+    header: {
+        boxShadow: `0px 1px 0px ${theme.palette.project.sidebar.toolbar.border}`,
+        flex: '1 1 auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBlock: theme.spacing(2)
+    },
+    iconTitle: {
+        display:'inline-flex',
+        alignItems:'center',
+        marginLeft: theme.spacing(2),
+        color: theme.palette.text.primary,
+        '& > *': {
+            marginRight: theme.spacing(2)
+        },
+    },
+    icon: {
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius: '25px',
+        width:'32px',
+        height:'32px',
+        background: `${theme.palette.project.tabs.activated.border} 0% 0% no-repeat padding-box`
+    },
+    actions: {
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        marginInline: theme.spacing(2),
+        '& > * ': {
+            marginLeft: theme.spacing(2)
+        },
+    },
+    content:{margin: theme.spacing(2),}
+}))
+
 const Section = (props: SectionProps) => {
-    const { title, icon, actions, content } = props;
+    const classes = useStyles()
+    const {title, icon, actions, children} = props;
 
     return (
-        <>
-            <DxcBox size="fillParent" display="block" margin="small">
-                <div className="col-12">
-                    <div className="col-8 d-inline-flex p-2">
-                        <span>{icon}</span>
-                        <DxcHeading level={5} weight="light" text={title} />
-                    </div>
-                    <div className="col-4 d-inline-flex justify-content-end p-2">
-                        {actions}
-                    </div>
+        <div className={classes.root}>
+            <div className={classes.header}>
+                <div className={classes.iconTitle}>
+                    { icon && <div className={classes.icon}>{icon}</div>}
+                    <Typo variant={'title'} value={title}/>
                 </div>
-                <div className="col-12 p-2">
-                    {content}
+                <div className={classes.actions}>
+                    {actions}
                 </div>
-            </DxcBox>
-        </>
+            </div>
+            <div className={classes.content}>
+                {children}
+            </div>
+        </div>
     )
 }
 

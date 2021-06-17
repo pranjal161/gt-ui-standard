@@ -1,4 +1,4 @@
-import { DxcApplicationLayout, DxcFooter, DxcHeader } from '@dxc-technology/halstack-react';
+import { DxcApplicationLayout, DxcHeader } from '@dxc-technology/halstack-react';
 
 import React from 'react';
 import { applyRoutes } from '../../routes';
@@ -15,11 +15,6 @@ const AuthLayout = (props: { route: any }) => (
                 {applyRoutes(props.route.routes)}
             </div>
         </DxcApplicationLayout.Main>
-        <DxcApplicationLayout.Footer>
-            <div data-testid="footer">
-                <DxcFooter />
-            </div>
-        </DxcApplicationLayout.Footer>
     </DxcApplicationLayout>
 
 )

@@ -31,10 +31,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '1 1 auto',
-        [theme.breakpoints.up('sm')]: {
-            width: '330px',
-        },
-        overflow: 'auto'
+        overflow: 'auto',
+        width: '330px',
     },
     firstSectionContent: {
         paddingTop: theme.spacing(0),
@@ -57,7 +55,6 @@ const sectionItems: PanelSectionItem[] = [
 
 const ContentController = (props: { value: string }) => {
     const classes = useStyles();
-    console.log('render ContentController')
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
