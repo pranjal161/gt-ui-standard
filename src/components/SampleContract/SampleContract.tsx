@@ -5,8 +5,6 @@ const SampleContract = (props: {contractURL: string}) => {
     const { contractURL } = props;
     const [contractData, setData] = useState<undefined | any>();
 
-    console.log('SampleContract render: ');
-
     useEffect(() => {
         getData(contractURL);
     }, [contractURL]);
