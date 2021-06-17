@@ -1,8 +1,10 @@
-import { EyeIcon, OpenInNewTabIcon, OpenInNewWindowIcon } from 'assets/svg';
+import { OpenInNewTabIcon, OpenInNewWindowIcon, PencilIcon } from 'assets/svg';
+
 import React from 'react';
 import Table from 'components/Table/Table';
 import { addSecondaryTabByID } from 'store/reducers/secondaryTabsReducer';
 import { addWindowTabByID } from 'store/reducers/newWindowReducer';
+import useAia from 'hooks/useAia';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -16,44 +18,61 @@ import { useHistory } from 'react-router-dom';
 const ContractTable = (props: any) => {
     let dispatch = useDispatch();
     const history = useHistory();
+    const { fetch } = useAia();
 
     const contractColumns = [
         { label: 'contract:number', property: 'contract:number' },
         { label: 'contract:status', property: 'contract:status' },
         { label: '_OWNER_NAME', property: ['person:display_id', 'organization:display_id'] },
         { label: 'membership:display_id', property: 'membership:display_id' },
-        { label: '_ACTIONS', actions: [
-            { icon: <EyeIcon />, method: (row: any) => goToContract(row) },
-            { icon: <OpenInNewTabIcon />, method: (row: any) => openTicketInNewTab(row)},
-            { icon: <OpenInNewWindowIcon />, method: (row: any) => openTicketInNewWindow(row)}
-        ]},
+        {
+            label: '_ACTIONS', actions: [
+                { icon: <PencilIcon />, method: (row: any) => launchUnsolPayment(row) },
+                { icon: <OpenInNewTabIcon />, method: (row: any) => openTicketInNewTab(row) },
+                { icon: <OpenInNewWindowIcon />, method: (row: any) => openTicketInNewWindow(row) }
+            ]
+        },
     ];
 
-    const goToContract = (row: any) => {
-        // const title = item.summary['contract:number'] + '/' + item.summary['contract:product_label']
-        // openInNewTab(item.href, title, 'contract')
-        console.log(row);
-        // history.push('/viewTab')
+    const launchUnsolPayment = (row: any) => {
+
+        const operationUrl = row.href + '/operations';
+        fetch(operationUrl).then((operationRes: any) => {
+            if (operationRes && operationRes.data._links && operationRes.data._links['item']) {
+                const operationItem = operationRes.data._links['item'];
+                const payment = operationItem.find((item: { name: string }) => item.name === 'unsolicited_payment');
+                if (payment && payment.href) {
+                    dispatch(addSecondaryTabByID({
+                        tabId: row.summary['contract:number'],
+                        tabType: 'unsolicited_payment',
+                        displayTabLabel: 'Unsolicited Payment',
+                        displayTabSmallLabel: 'Contract N° ' + row.summary['contract:number'],
+                        href: payment.href
+                    }));
+                    history.push('/viewTab');
+                }
+            }
+        })
     }
 
     const openTicketInNewTab = (row: any) => {
         dispatch(addSecondaryTabByID({
-            tabId: row.summary['contract:number'], 
-            tabType: 'contract', 
-            displayTabLabel: 'Contract N° '+row.summary['contract:number'],
+            tabId: row.summary['contract:number'],
+            tabType: 'contract',
+            displayTabLabel: 'Contract N° ' + row.summary['contract:number'],
             displayTabSmallLabel: row.summary['contract:product_label'],
-            contractURL: row.href
+            href: row.href
         }));
         history.push('/viewTab');
     }
 
     const openTicketInNewWindow = (row: any) => {
         dispatch(addWindowTabByID({
-            tabId: row.summary['contract:number'], 
-            tabType: 'contract', 
-            displayTabLabel: 'Contract N° '+row.summary['contract:number'],
+            tabId: row.summary['contract:number'],
+            tabType: 'contract',
+            displayTabLabel: 'Contract N° ' + row.summary['contract:number'],
             displayTabSmallLabel: row.summary['contract:product_label'],
-            contractURL: row.href
+            href: row.href
         }));
     }
 

@@ -83,9 +83,12 @@ def addStagesInstallCustom() {
             npm run lint
         '''
     }
+}
+
+def addStagesBuildCustom() {
 
     stage('Build Storybook') {
-            sh '''
+        sh '''
             echo 'Build Storybook Documentation'
             npm run build-storybook
         '''
@@ -157,6 +160,7 @@ def addStagesDeployCustom() {
 // Add custom stages
 def stagesMap = [:]
 stagesMap['install'] = ['skip': false, 'func': this.&addStagesInstallCustom]
+stagesMap['build'] = ['skip': false, 'func': this.&addStagesBuildCustom]
 stagesMap['upload'] = ['skip': false, 'func': this.&addStagesDeployCustom]
 
 // Stages to skip
