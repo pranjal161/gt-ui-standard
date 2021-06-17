@@ -94,7 +94,8 @@ const NavBar = () => {
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>
                 </MainNavContainer.NavRow>
-                <MainNavContainer.NavRow>
+                <MainNavContainer.NavRow
+                    justify="flex-start">
                     <MainNavContainer.NavTabs>
                         <DxcTabs
                             tabs={[

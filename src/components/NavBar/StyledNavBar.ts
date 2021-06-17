@@ -66,13 +66,17 @@ MainNavContainer.SecondaryViewButtonsContainer = styled.div`
 
 MainNavContainer.NavTabs = styled.div`
     margin-top: 16px;
+    min-width: 210px;
 `;
 
 MainNavContainer.SecondaryTabs = styled.div`
-    height: 64px;
     margin-left: 2rem;
     display: flex;
     flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 20px;
+    flex-wrap: nowrap;
+    overflow: hidden;
     align-items: flex-end;
 `;
 

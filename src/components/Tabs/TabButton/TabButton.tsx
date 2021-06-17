@@ -1,7 +1,7 @@
 import {BusinessIcon, CloseIcon, ContactIcon, ContractIcon, TicketIcon} from 'assets/svg';
 import React from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export interface TabButtonProps {
 
@@ -61,39 +61,33 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
         height: '28px'
     },
+    titlesContainerCenter: {
+        display: 'flex',
+        alignItems: 'center'
+    },
     mainTitle: {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         height: '15px',
-        '& > span': {
-            fontFamily: theme.typography.fontFamily,
-            fontSize: '11px'
-        },
+        fontFamily: theme.typography.fontFamily,
+        fontSize: '11px',
         fontWeight: 'bold'
     },
     noSubTitle: {
         height: '18px',
-        marginTop: '7px',
-        '& > span': {
-            fontSize: '13px'
-        }
-
+        fontSize: '13px'
     },
     subTitle: {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         height: '13px',
-
-        '& > span': {
-            fontFamily: theme.typography.fontFamily,
-            fontSize: '9px'
-        }
+        fontFamily: theme.typography.fontFamily,
+        fontSize: '9px'
     },
     buttonIcon: {
-        width: '20px',
-        height: '24px',
+        width: '24px'
     },
     buttonCloseIcon: {
         '& > svg': {
@@ -148,15 +142,15 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
 
                         </div>
                     }
-                    <div className={classes.titlesContainer}>
+                    <div className={clsx(classes.titlesContainer, {[classes.titlesContainerCenter]: !props.subTitle})}>
                         {
                             subTitle &&
                             <div className={classes.subTitle}>
-                                <span>{subTitle}</span>
+                                {subTitle}
                             </div>
                         }
                         <div className={clsx(classes.mainTitle, {[classes.noSubTitle]: !props.subTitle})}>
-                            <span>{title}</span>
+                            {title}
                         </div>
                     </div>
                     {
