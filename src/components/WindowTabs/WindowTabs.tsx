@@ -2,16 +2,29 @@ import React, { useCallback } from 'react';
 import { closeWindowTabs, removeWindowTabByID, setSelectedWindowTabByID } from '../../store/reducers/newWindowReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
+import SampleContract from '../SampleContract/SampleContract';
+import SampleTicket from '../SampleTicket/SampleTicket';
 import Tab from '../../components/Tabs/Tab/Tab';
 import Tabs from '../../components/Tabs/Tabs';
 
-const SimpleComponent = React.memo((props: {id: string}) => {
-    const { id } = props;
-    console.log('SimpleComponent render:')
+const SimpleComponent = React.memo((props: {tabId: string, type: string, contractURL?: string}) => {
+    const { tabId, type, contractURL = undefined } = props;
 
     return(
         <div>
-            Tab content for tab ID: {id}
+            {
+                (type === 'ticket') ? 
+                    <SampleTicket ticketId={tabId} /> : 
+                    (type === 'contract') ? 
+                        <SampleContract contractURL={contractURL!} /> : 
+                        (type === 'client') ? 
+                            <div>
+                                Client view component for id={tabId}
+                            </div> : 
+                            <div>
+                                No content defined for data type: {type}
+                            </div>
+            }
         </div>
     );
 });
@@ -54,8 +67,11 @@ const WindowTabs = React.memo((props: {setWindowFocus?: Function}) => {
                         activated = {selectedWindowTabID === tabId}
                         title={windowTabsIDObject[tabId].title}
                         subTitle={windowTabsIDObject[tabId].subTitle}
-                        icon={windowTabsIDObject[tabId].tabType}>
-                        <SimpleComponent id={tabId} />
+                        icon={windowTabsIDObject[tabId].type}>
+                        <SimpleComponent 
+                            tabId={tabId} 
+                            type={windowTabsIDObject[tabId].type}
+                            contractURL={windowTabsIDObject[tabId].contractURL} />
                     </Tab>
                 ))
             }

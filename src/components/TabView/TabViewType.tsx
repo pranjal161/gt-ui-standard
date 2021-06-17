@@ -1,4 +1,7 @@
 import React from 'react';
+import SampleContract from '../SampleContract/SampleContract';
+import SampleTicket from '../SampleTicket/SampleTicket';
+import UnsolicitedPaymentActivity from 'views/UnsolicitedPaymentActivity/UnsolicitedPaymentActivity';
 
 /**
  * Used to select a React component to display data based on its type. 
@@ -9,28 +12,26 @@ import React from 'react';
  * @param {string} props.tabId - The id of the object the user wants to fetch data for. Can be the Id of a ticket, href for contract, etc
  * @param {string} props.type - The type of object the user wants to display data for: ticket, contract and client, for now.
  */
-const TabViewType = (props: { tabId: string, type: string }) => {
-    const { tabId, type } = props;
+const TabViewType = (props: { tabId: string, type: string, href?: string }) => {
+    const { tabId, type, href = undefined } = props;
     console.log('TabViewType render')
 
     return (
         <>
             {
-                (type === 'ticket') ? 
-                    <div>
-                        Ticket view component for id={tabId}
-                    </div> : 
-                    (type === 'contract') ? 
-                        <div>
-                            Contract view component for id={tabId}
-                        </div> : 
-                        (type === 'client') ? 
+                (type === 'ticket') ?
+                    <SampleTicket ticketId={tabId} /> :
+                    (type === 'contract') ?
+                        <SampleContract contractURL={href!} /> :
+                        (type === 'client') ?
                             <div>
                                 Client view component for id={tabId}
-                            </div> : 
-                            <div>
-                                No content defined for data type: {type}
-                            </div>
+                            </div> :
+                            (type === 'unsolicited_payment') ?
+                                <UnsolicitedPaymentActivity operationUrl={href!} /> :
+                                <div>
+                                    No content defined for data type: {type}
+                                </div>
             }
         </>
     );

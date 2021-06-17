@@ -4,6 +4,8 @@
   "test_currency": "Amount of {{value, currency}}",
   "myTicketsTab": "MY TICKETS",
   "myBasketsTab": "BASKETS",
+  "contractNumberTitle": "Contract N° {{value}}",
+  "clientTitle": "Client {{value}}",
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
   "_SEARCH_TICKET": "Search Ticket",
@@ -93,5 +95,8 @@
   "van": "Van",
   "warning": "Warning",
   "WORK_PARKING_DETAILS": "Work parking details",
-  "_VIEWS": "Status"
+  "_VIEWS": "Status",
+  "_INFORMATION_SHEET": "Information Sheet",
+  "_INVESTMENT_SPLIT": "Investment Split",
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
 }

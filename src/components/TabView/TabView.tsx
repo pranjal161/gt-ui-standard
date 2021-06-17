@@ -27,7 +27,6 @@ const TabView = () => {
      * shallowEqual functions like the previous Redux connect mapStateToProps way of settign up a store in a React component.
      */
     const availableTabsObject: any = useSelector((state:any) => state.secondaryTabs.secondaryTabsIDs, shallowEqual);
-    console.log('TabView availableTabsObject: ', availableTabsObject);
     const availableTabsByIDArray: any[] = Object.keys(availableTabsObject);
     let displayDefault = true;
 
@@ -53,7 +52,8 @@ const TabView = () => {
                                     <MemoTabViewType 
                                         key={tabId}
                                         tabId={tabId}
-                                        type={availableTabsObject[tabId].type} />
+                                        type={availableTabsObject[tabId].type}
+                                        href={availableTabsObject[tabId].href} />
                                 </div>
                             ))
                         }
