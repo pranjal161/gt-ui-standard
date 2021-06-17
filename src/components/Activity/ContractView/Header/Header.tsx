@@ -1,13 +1,14 @@
-import { MaterialEye, NotificationBellAdd } from 'assets/svg';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import {MaterialEye, NotificationBellAdd} from 'assets/svg';
+import {Theme, makeStyles} from '@material-ui/core/styles';
+import useResponse from 'hooks/useResponse';
 
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
-import React from 'react';
-import { getActivities } from 'utils/functions';
-import { useTranslation } from 'react-i18next';
+import React, {useEffect} from 'react';
+import {getActivities} from 'utils/functions';
+import {useTranslation} from 'react-i18next';
 
-export interface ContractDisplayHeaderProps {
+export interface HeaderProps {
 
     /**
      * Title
@@ -20,9 +21,14 @@ export interface ContractDisplayHeaderProps {
     response?: any;
 
     /**
-     * SetActivityUrl
+     * onLaunchActivity
      */
-     setActivityUrl?: Function;
+    onLaunchActivity?: Function;
+
+    /**
+     * hRef
+     */
+    hRef: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,43 +61,50 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * Generic contract header, use to display contract name and activities launcher
- * @param {ContractDisplayHeaderProps} props Props of the component.
+ * @param {HeaderProps} props Props of the component.
  * @returns {React.component} Display the contract header
  */
-const ContractDisplayHeader: React.FC<ContractDisplayHeaderProps> = (props: ContractDisplayHeaderProps) => {
+const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+    const response = useResponse(props.hRef)
+    const [operationHRef, setOperationHRef]: [any, any] = React.useState();
+    const responseOperations = useResponse(operationHRef)
 
     const {
         title = 'Default title',
-        response,
-        setActivityUrl
+        onLaunchActivity
     } = props
 
-    const [activities, setActivities] = React.useState([{ href: null, name: t('operation:operation_empty_list') }]);
+    const [activities, setActivities] = React.useState([{href: null, name: t('operation:operation_empty_list')}]);
 
-    React.useEffect(() => {
-        let formatResponse = getActivities(response);
+    if (response && !operationHRef) {
+        setOperationHRef(response.data._links['cscaia:operations'].href)
+    }
 
+    useEffect(() => {
+        let formatResponse = getActivities(responseOperations);
         if (formatResponse) {
             setActivities(formatResponse);
         }
-    }, [])
+    }, [responseOperations])
+
+    console.log('render')
 
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
-                <HeaderInformation title={title} />
+                <HeaderInformation title={title}/>
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
-                        <MaterialEye size={25} />
-                        <NotificationBellAdd size={25} />
+                        <MaterialEye size={25}/>
+                        <NotificationBellAdd size={25}/>
                     </div>
-                    <ActivitiesList activities={activities} setActivityUrl={setActivityUrl} />
+                    <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity}/>
                 </div>
             </div>
         </div>
     )
 }
 
-export default ContractDisplayHeader;
+export default Header;

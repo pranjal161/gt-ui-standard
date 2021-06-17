@@ -16,9 +16,9 @@ export interface ActivitiesListProps {
     activities?: any;
 
     /**
-     * SetActivityUrl
+     * onLaunchActivity
      */
-    setActivityUrl?: Function;
+    onLaunchActivity?: any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,7 +46,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     const { t } = useTranslation();
     const {
         activities,
-        setActivityUrl
+        onLaunchActivity
     } = props
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -60,9 +60,8 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     };
 
     const handleChoice = (event: React.MouseEvent<EventTarget>, element: string) => {
-        if (setActivityUrl) {
-            setActivityUrl(element)
-            console.log(element);
+        if (onLaunchActivity) {
+            onLaunchActivity(element)
         }
         setAnchorEl(null);
     };
@@ -82,7 +81,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
                 {
                     activities &&
                     activities.map((item: any, key: number) => (
-                        <MenuItem key={key} onClick={(event) => handleChoice(event, item.href) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
+                        <MenuItem key={key} onClick={(event) => handleChoice(event, item) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
                 }
             </Menu>
         </div>

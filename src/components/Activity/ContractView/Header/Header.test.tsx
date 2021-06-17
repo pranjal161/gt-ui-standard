@@ -1,4 +1,4 @@
-import * as ContractHeaderBarStories from './ContractDisplayHeader.stories';
+import * as ContractHeaderBarStories from './Header.stories';
 
 import { fireEvent, render, screen } from '@testing-library/react'
 
