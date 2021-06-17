@@ -1,12 +1,12 @@
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useContext, useEffect} from 'react';
 import baContext from 'context/baContext';
+import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
-import useTabs from 'hooks/useTabs';
-import React, {useContext, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
+import useTabs from 'hooks/useTabs';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {

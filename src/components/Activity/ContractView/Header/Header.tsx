@@ -1,12 +1,11 @@
 import {MaterialEye, NotificationBellAdd} from 'assets/svg';
+import React, {useEffect} from 'react';
 import {Theme, makeStyles} from '@material-ui/core/styles';
-import useResponse from 'hooks/useResponse';
-import IconButton from 'theme/components/material/IconButton/IconButton';
-
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
-import React, {useEffect} from 'react';
+import IconButton from 'theme/components/material/IconButton/IconButton';
 import {getActivities} from 'utils/functions';
+import useResponse from 'hooks/useResponse';
 import {useTranslation} from 'react-i18next';
 
 export interface HeaderProps {

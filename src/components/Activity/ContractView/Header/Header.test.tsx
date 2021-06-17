@@ -17,12 +17,10 @@ describe('Renders Default', () => {
         const component = render(<Default />);
         const button = screen.getByTestId('button-activities');
 
-
         fireEvent.click(button);
         expect(component.getByText('Create amendment')).toBeInTheDocument();
     });
 })
-
 
 describe('Renders WrongResponseProps', () => {
     it('title displaying', () => {
@@ -34,15 +32,8 @@ describe('Renders WrongResponseProps', () => {
         const component = render(<WrongResponseProps />);
         const button = screen.getByTestId('button-activities');
 
-
         fireEvent.click(button);
         expect(component.getByText('Operation empty list')).toBeInTheDocument();
     });
 })
-
-
-
-
-
-
 
