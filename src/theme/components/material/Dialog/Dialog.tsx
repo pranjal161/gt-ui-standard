@@ -4,6 +4,7 @@ import {
     DialogContent as MuiDialogContent,
     DialogTitle as MuiDialogTitle,
 } from '@material-ui/core';
+
 import {CloseIcon} from 'assets/svg';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import React from 'react';
