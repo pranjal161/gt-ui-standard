@@ -1,47 +1,105 @@
-import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+import {makeStyles} from '@material-ui/core/styles';
+import baContext from 'context/baContext';
+import useActivity from 'hooks/useActivity';
+import useAia from 'hooks/useAia';
+import useConfigurations from 'hooks/useConfigurations';
+import React, {useContext, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
-import Button from 'components/Button/Button';
-import React from 'react';
-import Section from 'components/Section/Section';
-import TitleBar from './TitleBar/TitleBar';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: theme.spacing(4),
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#F2F5F7'
+    },
+    header: {
+        display: 'flex',
+        alignContent: 'center',
+        justifyItems: 'left',
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(3),
+        '& > *': {
+            marginRight: theme.spacing(2)
+        }
+    },
+    body: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        height: '100%'
+    },
 
-//export interface ActivityProps {}
+}))
 
-/**
- * props to define and describe
- */
-// prop1: any
-//}
+export interface ActivityProps {
 
-const Activity = () => (
-    <>
-        <div className="col-12">
-            <TitleBar></TitleBar>
-        </div>
-        <div>
-            Stepper
-        </div>
-        <div className="d-flex">
-            <div className="col-8 p-1">
-                <div className="col-12">
-                    <Section title="General Information" icon={<PaymentIcon />} />
-                </div>
-                <div className="col-12">
-                    <Section title="Payment" icon={<PaymentIcon />} actions={
-                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon} title="Test Button" ></Button>} />
-                </div>
-                <div className="col-12">
-                    <Section title="Distributor Management" icon={<DistributorIcon />} actions={
-                        <Button onClick={() => console.log('test button')} Icon={AddBoxIcon} title="Test Button" ></Button>} />
-                </div>
+    /**
+     * code of the activity
+     */
+    activityCode: any
 
+    /**
+     * hRef of the main entity
+     */
+    mainEntityHRef: string
+
+    /**
+     * hRef of the activity to Post
+     */
+    hRef: string
+
+    /**
+     * API action type
+     */
+    action: string
+
+    title?: string
+}
+
+const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
+    const {action, hRef, title} = props
+    const {startActivity, stopActivity} = useActivity()
+    const aia:any = useAia()
+
+    const context = useContext(baContext);
+    const baId: string = context.baId ? context.baId : '';
+    const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
+
+    const classes: any = useStyles()
+    const {getActivityConf} = useConfigurations()
+
+    const configurations = getActivityConf(props) // activityCode can also be store in redux
+
+    console.log('response', response)
+
+    useEffect(() => {
+        startActivity();
+
+        /**
+         * Do the main call
+         *
+         */
+        aia[action](hRef)
+
+        return () => {
+            stopActivity()
+        }
+    }, [])
+
+    const SkeletonConf = configurations.skeleton
+    const HeaderConf = configurations.header
+
+    return (
+        <div className={classes.root}>
+            <div className="col-12">
+                <HeaderConf title={title} {...props}/>
             </div>
-
-            <div className="col-4">
-                SideNav
+            <div className={classes.root}>
+                <SkeletonConf data={response} {...props}/>
             </div>
         </div>
-    </>
-)
+    )
+}
 
 export default Activity;

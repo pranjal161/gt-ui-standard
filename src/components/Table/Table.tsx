@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import Paginator from 'components/Paginator/Paginator';
 import { StyledHoverRow } from 'styles/global-style';
 import { getDescriptionValue } from 'utils/functions';
 import useAia from 'hooks/useAia';
@@ -16,23 +17,23 @@ interface TableProps {
 const Table = (props: TableProps) => {
     const [tableData, setTableData] = useState<undefined | any>();
     const { t } = useTranslation();
-    // const [totalItems, changeTotalItems] = useState(0);
+    const [totalItems, changeTotalItems] = useState(0);
     const { fetch } = useAia();
 
     useEffect(() => {
-        getData();
+        getData(props.url);
     }, [props.url]);
 
-    const getData = () => {
-        fetch(props.url).then((response: any) => {
+    const getData = (link: string) => {
+        fetch(link).then((response: any) => {
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
                 if (!Array.isArray(result.data['_links']['item'])) {
                     result.data['_links']['item'] = [result.data['_links']['item']];
                 }
-                //const count = response && response.data && response.data._count;
+                const count = response && response.data && response.data._count;
                 setTableData(result.data);
-                //changeTotalItems(count === '500+' ? 500 : count);
+                changeTotalItems(count === '500+' ? 500 : count);
                 // setshowPaginator(props.showPaginator);
             }
             else {
@@ -105,6 +106,9 @@ const Table = (props: TableProps) => {
                             ))}
                         </tbody>
                     </DxcTable>
+                    {props.showPaginator && (
+                        <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
+                    )}
                     {/* {totalItems && (
                         <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
                     )} */}

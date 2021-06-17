@@ -1,7 +1,10 @@
 {
+"activities": "Activities",
 "amount": "Gross amount",
+"contract_title": "Contract view",
 "identifier": "Identifier",
 "net_amount": "Net amount",
+"operation_empty_list": "No operation available",
 "start_date": "Effective date",
 "status_date": "Status date",
 "status_label": "Status"}

@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme) => ({
             borderRadius: '2px'
         },
         '*::-webkit-scrollbar-track': {
-            background: theme.palette.project.sidebar.toolbar.border,
+            //background: theme.palette.project.sidebar.toolbar.border,
             borderRadius: '2px'
         }
     },
-    root: {
+    rootScroll: {
         placeSelf: 'stretch',
         height: '100%',
         overflowY: 'scroll',
@@ -41,7 +41,7 @@ const WithScroll: React.FC<WithScrollProps> = ({children}: WithScrollProps) => {
     const classes = useStyles()
 
     return (
-        <div className={classes.root}>
+        <div className={classes.rootScroll}>
             {children}
         </div>
     )

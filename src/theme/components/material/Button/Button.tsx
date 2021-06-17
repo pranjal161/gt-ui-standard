@@ -27,7 +27,6 @@ const Button = (props: any) => {
             cls = className ? className : classes.secondaryButton;
         }
     }
-    console.log(muiClasses, cls )
 
     return (
         <ButtonMat classes={muiClasses} className={cls} {...rest}>

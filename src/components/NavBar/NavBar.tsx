@@ -11,7 +11,6 @@ import {changeLanguageCountry} from 'configs';
 import en from 'assets/gb.jpg';
 import fr from 'assets/fr.jpg';
 import { makeStyles } from '@material-ui/core/styles';
-import nl from 'assets/nl.jpg';
 import { useHistory } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -40,11 +39,6 @@ const NavBar = () => {
             value: 'en',
             label: 'US',
             iconSrc: en,
-        },
-        {
-            value: 'nl',
-            label: 'NL',
-            iconSrc: nl,
         },
     ];
 
@@ -134,7 +128,8 @@ const NavBar = () => {
                         </div>
                     </MainNavContainer.SecondaryViewButtonsContainer>
                 </MainNavContainer.NavRow>
-                <MainNavContainer.NavRow>
+                <MainNavContainer.NavRow
+                    justify="flex-start">
                     <MainNavContainer.NavTabs>
                         <DxcTabs
                             tabs={[
