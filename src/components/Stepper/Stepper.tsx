@@ -110,6 +110,11 @@ export interface StepProps {
     fullfilled: boolean,
 
     /**
+     * if step is disabled
+     */
+    disabled?: boolean,
+
+    /**
      * if step is validated and incorrect
      */
     error?: boolean
@@ -130,7 +135,7 @@ export interface StepperProps {
     /**
      * Active Step - Step Count starts from 0
      */
-    currentStep?: number,
+    currentStep: number,
 
     /**
      * On step click
@@ -140,7 +145,6 @@ export interface StepperProps {
 
 const Stepper = (props: StepperProps) => {
     const { showStepsAtATime, steps, currentStep, onChange } = props;
-    const activeStep = currentStep ? currentStep : 0;
     const scrollSection: any = React.createRef();
     const [leftDisable, setLeftDisable] = React.useState(true);
     const [rightDisable, setRightDisable] = React.useState(true);
@@ -148,7 +152,7 @@ const Stepper = (props: StepperProps) => {
     const [isDialogVisible, setDialogVisible] = React.useState(false);
     const [requiredSteps, setRequiredSteps] = React.useState([{}]);
     const [updateStep, setUpdatedSteps] = React.useState({ optional: [{}], stepper: [{}]});
-    const [currentActiveStep, setActiveStep] = React.useState(activeStep); 
+    const [currentActiveStep, setActiveStep] = React.useState(currentStep); 
     const classes:any = useStyles({ width: 100/showStepsAtATime });
 
     const openCloseModal = () => {
@@ -194,19 +198,32 @@ const Stepper = (props: StepperProps) => {
             const updatedMainsteps = renderSteps(mainsteps);
             setUpdatedSteps({optional: optionalsteps, stepper: updatedMainsteps });
         }
-    }, [steps])
+    }, [steps, currentStep])
+
+    React.useEffect(() => {
+        setActiveStep(currentStep); 
+        if (scrollSection && scrollSection.current) {
+            const childrens = scrollSection.current.children[0].children;
+            const addedStep = childrens[currentStep];
+            if (addedStep) {
+                addedStep.scrollIntoView();
+            }
+        }
+    }, [currentStep])
 
     const renderSteps = (mainsteps: Array<{}>) => {
-        let counter = 0;
+        let counter = -1;
         const updatedSteps: any = mainsteps.map((step: any) => {
             if (step.error) step.valid = !step.error;
             if (step.fullfilled) step.valid = step.fullfilled;
             if (step.required) counter = counter + 1;
             step.description = `${counter}/${mainsteps.length}`;
-            if (counter < currentActiveStep + 1) step.iconSrc = PencilIcon;
-            if (counter > currentActiveStep + 1) step.disabled = true;
-            if (counter === currentActiveStep + 1) step.active = true;
-            
+            if (counter < currentStep) step.iconSrc = PencilIcon;
+            if (counter === currentStep) {
+                step.disabled = false;
+                step.active = true;
+            }
+
             return step;
         });
         
@@ -241,9 +258,9 @@ const Stepper = (props: StepperProps) => {
         return updateOptionsStep[stepIndex];
     }
 
-    const removeActiveStep = (array: Array<any>) => {
-        const removeActiveStep = array.map((array: any) => { 
-            const icon = array.hasOwnProperty('iconSrc') ? OptInactive : null;
+    const removeActiveStep = (array: Array<any>, index?: number) => {
+        const removeActiveStep = array.map((array: any, inx: number) => { 
+            let icon = index && index === inx && (array.iconsrc === OptInactive || array.iconSrc === OptActive) ? OptActive : index && index !== inx && (array.iconsrc === OptInactive || array.iconSrc === OptActive) ? OptInactive : array.iconSrc ? array.iconSrc : null;
             
             return array['active'] ? {...array, active: false, iconSrc: icon} : {...array, iconSrc: icon}
         });
@@ -257,8 +274,7 @@ const Stepper = (props: StepperProps) => {
             scrollSection.current.scrollLeft = 0;
             let stepper;
             if (isAvailableInStepper) {
-                stepper = removeActiveStep(updateStep['stepper']);
-                stepper[isAvailableInStepper + 1]['iconSrc'] = OptActive;
+                stepper = removeActiveStep(updateStep['stepper'], isAvailableInStepper);
                 stepper[isAvailableInStepper + 1]['active'] = true;
             }
             else {

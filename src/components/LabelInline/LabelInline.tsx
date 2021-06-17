@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         textAlign: 'left',
         width: '50%',
+        overflowWrap: 'break-word',
 
     },
     loading: {
@@ -80,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         textAlign: 'left',
         width: '50%',
+        overflowWrap: 'break-word',
     },
     text: {
         textAlign: 'left'
