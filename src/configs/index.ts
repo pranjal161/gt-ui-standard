@@ -5,7 +5,7 @@ import {localizationChange} from 'configs/localization';
 export let language: string
 export let country: string
 
-export const allLanguages = ['en', 'fr', 'nl']
+export const allLanguages = ['en', 'fr']
 
 export const changeLanguageCountry = (lng?: string, cntry?: string) => {
     if (lng) {

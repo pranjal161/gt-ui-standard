@@ -36,11 +36,15 @@ interface generateProps {
 const useStyles = makeStyles(() => ({
     root: {},
     cdkOveride: {
-        height: '30px',
+        height: '36px',
         overflow: 'hidden',
         marginLeft: '-20px',
-        marginTop: '-16px',
+        marginTop: '-10px',
     },
+    headerTitle: {
+        maxWidth:'300px',
+        overflowWrap: 'break-word',
+    }
 }))
 
 /**
@@ -52,7 +56,7 @@ const useStyles = makeStyles(() => ({
  * @param {boolean} defaultOpen  default value
  * @return {any} generated props
  */
-export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
+export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
     const classes = useStyles()
     const [entityClass, setEntityClass] = useState(Object.keys(items)[0])
     const [open, setOpen]: [any, any] = useState(defaultOpen)
@@ -62,13 +66,13 @@ export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
     //Contains the selected instance per instanceClass
     const [entityInstanceSelections, setEntityInstanceSelections]: [any, any] = useState(initialState)
     //This is the displayed instance
-    const currentInstance = items[entityClass].find((item) => item.id === entityInstanceSelections[entityClass])
+    const currentInstance = items[entityClass].find((item) => item.id === entityInstanceSelections[entityClass]) || items[entityClass][0]
 
     //Generate the toolbar
     const onChangeToolbar = useCallback((value: string) => {
         setEntityClass(value)
         setOpen(true)
-    },[setEntityClass, setOpen])
+    }, [setEntityClass, setOpen])
 
     const toolbarItems = Object.keys(items).map((item) => ({value: item, display: getIcon(item)}))
     const toolbar = <VerticalToolbar items={toolbarItems} value={entityClass} onChange={onChangeToolbar}/>
@@ -80,14 +84,14 @@ export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
         [entityClass]: selection
     }))
 
-    const HeaderTitle = (props: { value: string }) => <Typo variant={'title'} value={props.value}/>
+    const HeaderTitle = (props: { value: string }) => <Typo className={classes.headerTitle} variant={'title'} value={props.value}/>
     const header = (<div className={classes.root}>
         {currentInstance && options.length === 1 && <HeaderTitle value={currentInstance.display}/>}
         {currentInstance && options.length > 1 &&
         <div className={classes.cdkOveride}>
             <DxcDropdown
                 label={<HeaderTitle value={currentInstance.display}/>}
-                size={'fitContent'}
+                size={'fillParent'}
                 options={options}
                 value={currentInstance.id}
                 onSelectOption={onChangeEntityInstanceSelections}
@@ -99,7 +103,7 @@ export const useSidebar = (items:generateProps, defaultOpen:boolean) => {
         setOpen((value: any) => !value)
     }, [setOpen])
 
-    return {toolbar, header, content, open, onToggle, value:currentInstance}
+    return {toolbar, header, content, open, onToggle, value: currentInstance}
 }
 
 const getIcon = (entityClass: string) => {
