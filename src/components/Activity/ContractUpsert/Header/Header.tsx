@@ -3,7 +3,7 @@ import {LeftChevronIcon} from 'assets/svg';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
-export interface TitleBarProps {
+export interface HeaderProps {
 
     /**
      * Title
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const TitleBar: React.FC<TitleBarProps> = ({title, rightTitle, onBack}: TitleBarProps) => {
+const Header: React.FC<HeaderProps> = ({title, rightTitle, onBack}: HeaderProps) => {
     const classes = useStyles()
 
     return (
@@ -75,4 +75,4 @@ const TitleBar: React.FC<TitleBarProps> = ({title, rightTitle, onBack}: TitleBar
         </div>)
 }
 
-export default TitleBar;
+export default Header;

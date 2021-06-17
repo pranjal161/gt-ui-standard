@@ -31,10 +31,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '1 1 auto',
-        [theme.breakpoints.up('sm')]: {
-            width: '330px',
-        },
-        overflow: 'auto'
+        overflow: 'auto',
+        width: '330px',
     },
     firstSectionContent: {
         paddingTop: theme.spacing(0),
