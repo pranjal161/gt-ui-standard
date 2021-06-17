@@ -1,14 +1,12 @@
-import { DxcButton, DxcInput, DxcSelect } from '@dxc-technology/halstack-react';
-import { FilterIcon, PencilIcon } from 'assets/svg';
+import { DxcButton, DxcCheckbox, DxcInput, DxcSelect } from '@dxc-technology/halstack-react';
+import { FilterIcon, PencilIcon, SearchIcon } from 'assets/svg';
 
-import Checkbox from './Checkbox/Checkbox';
 import Dialog from 'theme/components/material/Dialog/Dialog';
 import React from 'react';
+import Table from 'components/Table/Table';
 import Typo from 'components/Typography/Typo';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
-
-// import Button from 'theme/components/material/Button/Button';
 
 // OnClick on button "Modify" it should patch the new person as payer / return
 // Patch while the component is called
@@ -28,9 +26,28 @@ const TrainingQuentin = () => {
     const classes = useStyles();
 
     const [isVisible, setIsVisible] = React.useState(true);
-    const [isFiltersVisible, setIsFiltersVisible] = React.useState(true);
+    const [isFiltersVisible, setIsFiltersVisible] = React.useState(false);
     const [isChecked, setIsChecked] = React.useState(false);
-    const [searchValues] = React.useState([]);
+    const [isSearching, setIsSearching] = React.useState<boolean>(false);
+    const [filters, setFilters] = React.useState({});
+
+    const [clientNum, setClientNum] = React.useState('');
+    const [countryCode, setCountryCode] = React.useState('');
+    // const [type, setType] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [identifier, setIdentifier] = React.useState('');
+    const [identifierValue, setIdentifierValue] = React.useState('');
+    const [postCode, setPostCode] = React.useState('');
+    const [searchKey, setSearchKey] = React.useState('');
+
+    const inputHandleChange = (setValue: Function) => (inputName: string) => (newValue: string) => {
+        setValue(newValue);
+        setFilters({
+            ...filters,
+            [inputName]: newValue 
+        });
+    }
 
     const onFiltersVisibilityChange = () => {
         setIsFiltersVisible(!isFiltersVisible);
@@ -40,13 +57,39 @@ const TrainingQuentin = () => {
         setIsVisible(!isVisible);
     }
 
+    const onSearchingChange = () => {
+        setIsSearching(!isSearching);
+    }
+
     const onCheckboxChange = () => {
         setIsChecked(!isChecked);
     }
 
-    const getPersons = async () => {
+    const generateRequestFilters = (filters: any) => {
+        if (Object.keys(filters).length === 0) {
+            return
+        }
+        else {
+            let strFilters = '?';
+
+            Object.keys(filters).forEach((key: string) => {
+                strFilters += `${key}=${filters[key]}*`;
+
+                if (Object.keys(filters).indexOf(key) !== Object.keys(filters).length) {
+                    strFilters += '&';
+                }
+            });
+
+            return strFilters;
+        }
+    }
+
+    const getPersons = async (filters: any) => {
         try {
-            const res = await axios.get('http://20.33.40.147:13111/csc/insurance/persons?person:client_number=PRSN0000708', header);
+            onSearchingChange();
+            const fields = generateRequestFilters(filters);
+            // const res = await axios.get('http://20.33.40.147:13111/csc/insurance/persons?person:client_number=PRSN0000708', header);
+            const res = await axios.get(`http://20.33.40.147:13111/csc/insurance/persons${fields}`, header);
             console.log({res});
         }
         
@@ -54,16 +97,31 @@ const TrainingQuentin = () => {
             console.log({err});
         }
     }
+    
+    const patchContract = async (contract: string) => {
+        try {
+            const res = await axios.put(`http://20.33.40.147:13111/csc/insurance/contracts/${contract}/party_roles/`, {} , header)
+            console.log({res});
+        }
+        catch (err) {
+            console.log({err});
+        }
+    }
+
+    const showDialog = async () => {
+        await patchContract('ID-W4Fb6FApI');
+        setIsVisible(false);
+    }
 
     const DialogActions = () => (
         <>
-            <DxcButton mode="text" label="Cancel" onClick={() => setIsVisible(false)} />
+            <DxcButton mode="text" label="Cancel" onClick={() => showDialog()} />
             <DxcButton mode="secondary" label="Create" />
 
             {
-                searchValues.length > 0 ? 
+                isSearching ? 
                     <DxcButton mode="primary" label="Modify" /> 
-                    : <DxcButton mode="primary" label="Search" onClick={() => getPersons()} />
+                    : <DxcButton mode="primary" label="Search" onClick={() => getPersons(filters)} />
             }
 
             {/* <Button mode="text" title="Cancel" onClick={() => setIsVisible(false)} />
@@ -80,17 +138,17 @@ const TrainingQuentin = () => {
             <Typo variant="title" value="Search party" />
             <div className={classes.filters}>
                 <div className={classes.filterColumn}>
-                    <DxcInput label="Client number" size="fillParent" />
-                    <DxcInput label="Last Name / Legal Name" />
+                    <DxcInput value={clientNum} className={classes.input} label="Client number" size="fillParent" onChange={inputHandleChange(setClientNum)('person:client_number')} />
+                    <DxcInput value={lastName} className={classes.input} label="Last Name / Legal Name" onChange={inputHandleChange(setLastName)('person:last_name')} />
                 </div>
 
                 <div className={classes.filterColumn}>
-                    <DxcSelect label="Country" />
-                    <DxcInput label="First Name / Trade Name"/>
+                    <DxcInput value={countryCode} className={classes.input} label="Country code" onChange={inputHandleChange(setCountryCode)('person:reference_country_code')} />
+                    <DxcInput value={firstName} label="First Name / Trade Name" onChange={inputHandleChange(setFirstName)('person:first_name')}/>
                 </div>
 
                 <div className={classes.filterColumn}>
-                    <DxcSelect label="Type" />
+                    {/* <DxcSelect className={classes.input} label="Type" onChange={inputHandleChange('type')} /> */}
                     <DxcButton mode="secondary" label="Advanced Filters" icon={<FilterIcon size={30} />} iconPosition="after" onClick={onFiltersVisibilityChange} />
                 </div>
             </div>
@@ -104,22 +162,23 @@ const TrainingQuentin = () => {
                             <div className={classes.advFilters}>
                                 <div className={classes.advFilterColumn}>
                                     <div className={classes.advFilterColumnRow}>
-                                        <DxcSelect label="Identifier" size="medium" />
-                                        <DxcInput label="Identifier value"/>
+                                        <DxcSelect value={identifier} className={classes.input} label="Identifier" size="medium" onChange={setIdentifier} />
+                                        <DxcInput value={identifierValue} className={classes.input} label="Identifier value" suffixIcon={<SearchIcon size={30} /> } onChange={inputHandleChange(setIdentifierValue)('identifier_value')} />
                                     </div>
-                                    <DxcInput label="Postcode" />
+                                    <DxcInput value={postCode} label="Postcode" onChange={inputHandleChange(setPostCode)('person:postal_code')} />
                                 </div>
                                 
                                 <div className={classes.advFilterColumn}>
-                                    <DxcInput label="Search key" size="large" />
-                                    <Checkbox checked={isChecked} label="Phonetic" labelPosition="after" onChange={onCheckboxChange} />
+                                    <DxcInput value={searchKey} className={classes.input} label="Search key" size="large" onChange={inputHandleChange(setSearchKey)('searchKey')} />
+                                    <DxcCheckbox checked={isChecked} label="Phonetic" labelPosition="after" onChange={onCheckboxChange} />
                                 </div>
                             </div>
                         </div>
 
                         {
-                            searchValues.length > 0 &&
+                            isSearching &&
                                 <>
+                                    <Table url="#" columnId={[]} showPaginator={true} />
                                 </>
                         }
                     </>
@@ -127,18 +186,12 @@ const TrainingQuentin = () => {
         </>
     );
 
-    const Icon = () => (
-        <div className={classes.icon}>
-            <PencilIcon size={30}/>
-        </div>
-    );
-
     return (
         <>
             <DxcButton label="Click me" onClick={onVisibilityChange} />
 
             <Dialog 
-                icon={<Icon />}
+                icon={<PencilIcon size={30}/>}
                 title="Edit payer"
                 content={<DialogContent />}
                 open={isVisible}
@@ -157,6 +210,10 @@ const useStyles = makeStyles({
         flexDirection: 'column',
     },
 
+    input: {
+        maxWidth: '191px'
+    },
+
     header: {
         display: 'flex',
         flexDirection: 'column',
@@ -169,12 +226,6 @@ const useStyles = makeStyles({
         alignItems: 'center',
         justifyContent: 'flex-start',
         marginBottom: 20
-    },
-
-    icon: {
-        '& > *': {
-            fill: '#102A43'
-        }
     },
 
     content: {
@@ -190,17 +241,21 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 40,
-        marginTop: 10
+        marginBottom: 30,
+        marginTop: 10,
+        
+        '&:nth-last-child()': {
+            paddingBottom: 0,
+        },
     },
     
     filterColumn: {
         minHeight: 125,
-        minWidth: 180,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: 5,
     },
 
     advFiltersContainer: {
@@ -213,7 +268,10 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
-        marginTop: 10
+        marginTop: 10,
+        '& > .cQqUvF': {
+            width: 491
+        }
     },
 
     advFilterColumn: {
@@ -223,11 +281,10 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         alignItems: 'left',
         justifyContent: 'space-between',
-        
-        '& > .hYARPo > .MuiIconButton-label > svg, .bypHNL': {
-            fill: 'black !important'
+
+        '& > .bKZdgH': {
+            marginBottom: 16
         }
-        
     },
 
     advFilterColumnRow: {
@@ -235,7 +292,12 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         justifyContent: 'center',
         '& > .bGwLMU': {
-            width: 100
+            marginRight: 10,
+            width: 191
+        },
+
+        '& > .bKZdgH': {
+            paddingTop: 1
         }
     },
 

@@ -1,5 +1,4 @@
 export * from './ButtonStyle'
-export * from './CheckboxStyle'
 export * from './DialogStyle'
 export * from './IconButtonStyle'
 export * from './TabsStyle'
