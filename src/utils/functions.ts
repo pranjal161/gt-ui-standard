@@ -15,8 +15,9 @@ import {
     displayPercent
 } from 'configs/localization';
 
-import {APIConfig} from 'configs/apiConfig';
+import { APIConfig } from 'configs/apiConfig';
 import axios from 'axios';
+
 //import {logErrorByCode} from 'utils/system';
 
 export const getLink = (response: any, linkName: string) => {
@@ -40,7 +41,7 @@ const mergeOptions = (options: any) => {
     let mergedOptions = {};
     if (options.oneOf.length > 1) {
         for (const item of options.oneOf) {
-            mergedOptions = {...mergedOptions, ...item};
+            mergedOptions = { ...mergedOptions, ...item };
         }
     }
 
@@ -206,7 +207,7 @@ export function addDays(date: any, days: number) {
  * @returns {*} URL - with Parameters for the search - for eg. persons, tickets, contracts
  */
 export function search(obj: any) {
-    const {searchUrl, name, value} = obj;
+    const { searchUrl, name, value } = obj;
     let url = `${searchUrl}?`;
     let params;
     const nameSelected = value;
@@ -261,7 +262,7 @@ export const getOneOfFromResponse = (response: any, id: string) => {
             const isExisting = processedList.filter((array: any) => array.enum === item.enum);
             if (isExisting.length === 0) {
                 processedList.push(item);
-                enumItemList.push({value: item.enum[0], label: item.title});
+                enumItemList.push({ value: item.enum[0], label: item.title });
             }
         }
     }
@@ -484,10 +485,10 @@ export const getDescriptionFromOneOf = (value: string, id: string, response: any
  */
 export const APIActions = {
 
-    get: (url: string, params?: { headers?: any; }) => axios.get(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
-    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
-    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader}),
-    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, {headers: params && params.headers ? params.headers : APIConfig.defaultHeader})
+    get: (url: string, params?: { headers?: any; }) => axios.get(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
+    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader })
 }
 
 /** To get error message from Property
@@ -505,4 +506,32 @@ export const getErrorMessage = (response: any, propertyName: string) => {
     }
 
     return report
+}
+
+/** To capitalize the first letter and replace '_' with ' ' of a string
+ * @param  {string} element the element that you want to capitalize the first letter 
+ * @returns {string} Same string but with the first letter in Uppercase
+ */
+export const capitalizeFirstLetterAndRemove_ = (element: string) => {
+    let format = element.charAt(0).toUpperCase() + element.slice(1);
+    format = format.replace(/_/g, ' ');
+
+    return format;
+}
+
+/** To get activities list for a contract
+ * @param  {any} response API response provided from {root}/contract/{contractId}/operations
+ * @returns {Object} List of the operation available for the current contract, or null if no operation available
+ */
+export const getActivities = (response: any) => {
+    let activities: any;
+    if (response && response?._links?.item.length >= 1) {
+        activities = [];
+        response['_links']['item'].map((item: any, key: number) => (activities[key] = { ...item }));
+    }
+    else {
+        activities = null;
+    }
+
+    return activities;
 }
