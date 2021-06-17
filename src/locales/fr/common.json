@@ -13,6 +13,9 @@
   "person_operationTab": "$({{activity}}) : {{value}}",
   "contract_view" : "Espace contrat",
   "unsolicited_payment" : "Versement libre",
+  "activities": "Activités",
+  "contractViewLabel": "Espace contrat",
+  "operationEmptyList": "Aucune activité disponible",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",

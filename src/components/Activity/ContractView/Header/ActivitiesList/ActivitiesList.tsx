@@ -1,6 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import Button from 'theme/components/material/Button/Button'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
@@ -59,9 +59,9 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
         setAnchorEl(null);
     };
 
-    const handleChoice = (event: React.MouseEvent<EventTarget>, element: string) => {
+    const handleChoice = (event: React.MouseEvent<EventTarget>, operationDetail: any) => {
         if (onLaunchActivity) {
-            onLaunchActivity(element)
+            onLaunchActivity(operationDetail)
         }
         setAnchorEl(null);
     };
@@ -69,7 +69,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     return (
         <div className={classes.ActivitiesList}>
             <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} data-testid="button-activities">
-                {t('operation:activities')}
+                {t('common:activities')}
             </Button>
             <Menu
                 id="simple-menu"

@@ -34,7 +34,7 @@ export interface HeaderProps {
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
         backgroundColor: theme.palette.primary.main,
-        padding: '14px 32px',
+        padding: theme.spacing(2, 4),
         maxHeight: '70px',
         borderRadius: '8px 8px 0px 0px',
     },
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         onLaunchActivity
     } = props
 
-    const [activities, setActivities] = React.useState([{href: null, name: t('operation:operation_empty_list')}]);
+    const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
 
     if (response && !operationHRef) {
         setOperationHRef(response.data._links['cscaia:operations'].href)
@@ -97,8 +97,8 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                 <HeaderInformation title={title}/>
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
-                        <MaterialEye size={25}/>
-                        <NotificationBellAdd size={25}/>
+                        <MaterialEye size={24}/>
+                        <NotificationBellAdd size={24}/>
                     </div>
                     <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity}/>
                 </div>
