@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const TrainingMaxime = () => {
     const classes = useStyles();
-    const [activityUrl, onLaunchActivity] = React.useState('');
+    const [activityUrl, onLaunchActivity]:[any, any] = React.useState({});
 
     return (
         <>
@@ -21,8 +21,7 @@ const TrainingMaxime = () => {
             <div className={classes.container}>
                 <Header title={'Contract number: PCMR000381'} response={contractOperations} onLaunchActivity={onLaunchActivity} hRef={''}/>
             </div>
-            <h3>{activityUrl?.href}</h3>
-            <h3>{activityUrl?.contractHref}</h3>
+            <h3>{activityUrl.hRef}</h3>
         </>
     )
 }
