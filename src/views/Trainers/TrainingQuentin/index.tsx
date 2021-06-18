@@ -9,23 +9,19 @@ const TrainingQuentin = () => {
 
     const classes = useStyles();
 
-    const [isVisible, setIsVisible] = React.useState(true);
-    const [value, setValue] = React.useState<any>('');
-
-    React.useEffect(() => {
-        console.log({value});
-    }, [value])
+    const [isVisible, setIsVisible] = React.useState(false);
+    const [person, setPerson] = React.useState<any>(JSON.stringify({}));
 
     return (
         <div className={classes.training}>
             <DxcButton label="Click me" onClick={() => setIsVisible(true)} />
 
-            <p>{value}</p>
+            <p>{person}</p>
 
             <EditPayer
                 isVisible={isVisible}
                 setIsVisible={setIsVisible}
-                onChange={(value: any) => setValue(JSON.stringify(value))}
+                onChange={(person: any) => setPerson(JSON.stringify(person))}
             />
             
         </div>
