@@ -1,7 +1,10 @@
 export const DialogStyle = {
     root: {
+
+        zIndex: '2500 !important',
+
         '& .MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthMd.MuiDialog-paperFullWidth.MuiPaper-elevation24.MuiPaper-rounded': {
-            maxHeight: 666,
+            maxHeight: 800,
         },
 
         '& .MuiDialog-paperWidthMd': {

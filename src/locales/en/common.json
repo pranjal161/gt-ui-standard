@@ -124,5 +124,7 @@
   "create": "Create",
   "modify": "Modify",
   "cancel": "Cancel",
-  "city": "City"
+  "city": "City",
+  "_NO_RECORDS_FOUND": "No records found ..",
+  "_SEARCH_IN_PROGRESS": "Searching data .."
 }
