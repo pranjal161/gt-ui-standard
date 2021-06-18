@@ -15,11 +15,11 @@ export const Default = Template.bind({});
 const onLaunchActivity = () => null;
 Default.args = {
     title: 'Contract number: ID12345678',
-    response: contractOperations,
+    hRef:'contractOperations',
     onLaunchActivity: onLaunchActivity
 };
 
 export const WrongResponseProps = Template.bind({});
 WrongResponseProps.args = {
-    response: 'empty',
+    hRef:'',
 };

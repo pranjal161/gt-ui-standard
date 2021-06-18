@@ -16,11 +16,6 @@ export interface HeaderProps {
     title?: string
 
     /**
-     * Response
-     */
-    response?: any;
-
-    /**
      * onLaunchActivity
      */
     onLaunchActivity?: any;
