@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import Stepper, { StepProps } from 'components/Stepper/Stepper';
 
+import Button from 'components/Button/Button';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
@@ -99,8 +100,8 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
 
     const SideBarConf = configurations.sidebar;
 
-    const previousStep = (index: number) => {
-        const step = index < 0 ? 0 : index;
+    const nextStep = (index: number) => {
+        const step = index >= steps.length ? steps.length - 1 : index;
         setCurrentStep(step);
     }
 
@@ -111,7 +112,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                 <div className={classes.header}>
                     <div>---------Date effect input-------</div>
                     <div>
-                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={() => previousStep(currentStep - 1)} />
+                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={(index: number) => setCurrentStep(index)} />
                     </div>
 
                 </div>
@@ -127,10 +128,9 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                             </>
                         ))
                         }
-
+                        <div style={{float: 'right'}}><Button onClick={() => nextStep(currentStep + 1)} title="_NEXT_BUTTON" /></div>
                     </WithScroll>
                 </div>
-
             </div>
             <div ref={handleSideBarOffsetTop} className={clsx(classes.bodyRight, classes.sidebar)}>
                 <SideBarConf {...props} />
