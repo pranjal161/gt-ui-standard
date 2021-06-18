@@ -122,6 +122,7 @@ def addStagesDeployCustom() {
                 rm -rf omnichannel-standard-ui.zip
                 mkdir -p ui-package/react-standard
                 cp -r ./build/* ./ui-package/react-standard/
+                cp -r ./storybook-static/* ./ui-package/react-standard-storybook/
                 cp -r ./ui-package omnichannel-standard-ui-dev
             '''
             zip zipFile: 'omnichannel-standard-ui.zip', archive: false, dir: 'ui-package'
