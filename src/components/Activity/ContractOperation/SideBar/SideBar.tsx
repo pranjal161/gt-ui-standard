@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 1 auto',
         width: 'fit-content',
         [theme.breakpoints.up('sm')]: {
-            width: '330px',
+            width: '100%',
         },
         [theme.breakpoints.down('md')]: {
             width: 'fit-content',
@@ -82,7 +82,6 @@ const personController = (value: any) => <ContentController value={value}/>
 const contractController = (value: any) => <ContentController value={value}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
-    const classes = useStyles();
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
@@ -138,9 +137,9 @@ const SideBar = ({mainEntityHRef}: any) => {
     }
 
     return (
-        <div className={classes.root}>
-            <GlobalSideBar {...sidebarProps} onOpenInNewTab={onOpenInNewTab} onOpenInNewWindow={onOpenInNewWindow}/>
-        </div>
+        <>
+            <GlobalSideBar {...sidebarProps} />
+        </>
     )
 }
 
