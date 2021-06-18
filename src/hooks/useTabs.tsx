@@ -29,12 +29,12 @@ const useTabs = () => {
     const {t} = useTranslation()
     const history = useHistory();
 
-    const openNewTab = ({id, subTitle, activityProps}: openNewTabProps) => {
+    const openNewTab = ({subTitle, activityProps}: openNewTabProps) => {
         dispatch(addSecondaryTabByID({
-            tabId: id,
+            tabId: activityProps.hRef,
             tabType: activityProps.entityType,
             displayTabLabel: t(`common:${activityProps.activityCode}Tab`, {
-                value: id,
+                value: activityProps.title,
                 activity: activityProps.activityCode
             }),
             displayTabSmallLabel: subTitle,
@@ -44,12 +44,12 @@ const useTabs = () => {
         history.push('/viewTab');
     }
 
-    const openNewTabInSecondaryWindow = ({id, subTitle, activityProps}: openNewTabProps) => {
+    const openNewTabInSecondaryWindow = ({subTitle, activityProps}: openNewTabProps) => {
         dispatch(addWindowTabByID({
-            tabId: id,
+            tabId: activityProps.hRef,
             tabType: activityProps.entityType,
             displayTabLabel: t(`common:${activityProps.activityCode}Tab`, {
-                value: id,
+                value: activityProps.title,
                 activity: activityProps.activityCode
             }),
             displayTabSmallLabel: subTitle,
@@ -74,15 +74,15 @@ const useTabs = () => {
     /**
      * Map contract API response based on data part
      */
-    const forContract = useCallback((data: any) => ({
-        id: data.summary['contract:number'],
-        subTitle: data.summary['contract:product_label'],
+    const forContract = useCallback(({title, hRef }:any) => ({
+        id:hRef,
+        subTitle: t('common:contractViewLabel'),
         activityProps: {
-            title: data.summary.title,
+            title,
             entityType: 'contract',
             activityCode: 'contract_view',
-            hRef: data.href,
-            mainEntityHRef: data.href
+            hRef,
+            mainEntityHRef: hRef
         }
     }), [])
 

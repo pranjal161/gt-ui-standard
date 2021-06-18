@@ -90,32 +90,39 @@ const SideBar = ({mainEntityHRef}: any) => {
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
 
+        const title = mainEntityResponse.data['contract:number']
         items.contract = [{
-            display: t('common:contractNumberTitle', {value: mainEntityResponse.data['contract:number']}),
+            title,
+            display:t('common:contractNumberTitle', {value: title}),
             id: mainEntitySummary.href,
+            hRef:mainEntitySummary.href,
             entityType: 'contract',
-            data: mainEntityResponse.data,
             controller: contractController,
         }]
     }
+    else
+        //This is a workaround for the initial state and to have contract define by default
+        items.contract = [{title: 'Loading', id: 'not_defined', controller: contractController}]
 
     //Get role parties linked to the contract
     //Todo : do we have to put such API parsing in functions ?
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
-    let personList = [{display: 'Loading', id: 'not_defined', controller: personController}]
+    let personList = [{title: 'Loading', id: 'not_defined', controller: personController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
             .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
             .map((item: any) => {
-                const display = t('common:clientTitle', {value: item.summary['person:display_id'].split(' - ')[0]})
+
+                const title = item.summary['person:display_id'].split(' - ')[0]
 
                 return {
-                    display,
+                    title,
+                    display: t('common:clientTitle', {value: title}),
                     id: item.href,
+                    hRef:item.href,
                     entityType: 'person',
-                    data: item,
                     controller: personController
                 }
             })
@@ -126,19 +133,19 @@ const SideBar = ({mainEntityHRef}: any) => {
     const sidebarProps = useSidebar(items, true)
 
     const onOpenInNewTab = (item:any) => {
-        console.log('item.data', item.data)
+        console.log('item', item)
         if (item.entityType === 'contract')
-            openNewTab(forContract(item.data))
+            openNewTab(forContract(item))
     }
 
     const onOpenInNewWindow = (item:any) => {
         if (item.entityType === 'contract')
-            openNewTabInSecondaryWindow(forContract(item.data))
+            openNewTabInSecondaryWindow(forContract(item))
     }
 
     return (
         <>
-            <GlobalSideBar {...sidebarProps} />
+            <GlobalSideBar {...sidebarProps} {...{onOpenInNewTab, onOpenInNewWindow}} />
         </>
     )
 }

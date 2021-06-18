@@ -47,12 +47,13 @@ const ContractTable = (props: any) => {
         })
     }
 
-    const openTicketInNewTab = (contractResponse: any) => {
-        openNewTab(forContract(contractResponse))
+    const openTicketInNewTab = (contract: any) => {
+        console.log('contract', contract)
+        openNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
-    const openTicketInNewWindow = (contractResponse: any) => {
-        openNewTab(forContract(contractResponse))
+    const openTicketInNewWindow = (contract: any) => {
+        openTicketInNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
     return (

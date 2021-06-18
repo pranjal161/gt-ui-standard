@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Stepper, { StepProps } from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
+import {useTranslation} from 'react-i18next';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
+    const {t} = useTranslation()
     const { getActivityConf } = useConfigurations()
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
@@ -69,7 +71,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const steps = [
         {
             id: 0,
-            label: '_UNSOLICITED_PAYMENT',
+            label: t('common:_UNSOLICITED_PAYMENT'),
             required: true,
             fullfilled: true,
             error: true,
@@ -77,7 +79,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
         },
         {
             id: 1,
-            label: '_INVESTMENT_SPLIT',
+            label: t('common:_INVESTMENT_SPLIT'),
             required: true,
             fullfilled: true,
             error: true,
@@ -85,7 +87,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
         },
         {
             id: 2,
-            label: '_INFORMATION_SHEET',
+            label: t('common:_INFORMATION_SHEET'),
             required: true,
             fullfilled: true,
             error: true,

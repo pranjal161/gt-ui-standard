@@ -13,9 +13,14 @@ interface ItemProp {
     id: string;
 
     /**
-     * text or component to display
+     * title of the entity, it's not displayed
      */
-    display: any;
+    title: any;
+
+    /**
+     * Displayed title
+     */
+    display : string;
 
     /**
      * controller for the content
