@@ -91,6 +91,7 @@ def addStagesBuildCustom() {
         sh '''
             echo 'Build Storybook Documentation'
             npm run build-storybook
+            ls
         '''
     }
 }
@@ -149,7 +150,7 @@ def addStagesDeployCustom() {
                     sh '''
                         aws s3 rm s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
                         aws s3 cp ./ui-package/react-standard/ s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
-                        aws s3 ls ./ --recursive --human-readable --summarize
+                        aws s3 ls s3://dev.eu.standard.project/omnichannel --recursive --human-readable --summarize
                         aws s3 ls s3://dev.eu.standard.project/omnichannel/react-standard --recursive --human-readable --summarize
                     '''
                 }
