@@ -4347,106 +4347,108 @@ export const contractResponse = {
     }
 };
 
-export const contractOperations = { 
-    '_count': 5,
-    '_links': { 
-        'item': [
-            { 
-                'summary': null,
-                'name': 'create_claim_declaration',
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/create_claim_declaration', 
-                'title': 'create_claim_declaration' 
-            }, 
-            { 
-                'summary': null, 
-                'name': 'change_status', 
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/change_status', 
-                'title': 'change_status' 
-            }, 
-            { 
-                'summary': null, 
-                'name': 'create_amendment', 
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/create_amendment', 
-                'title': 'create_amendment' 
+export const contractOperations = {
+    'data': {
+        '_count': 5,
+        '_links': {
+            'item': [
+                {
+                    'summary': null,
+                    'name': 'create_claim_declaration',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/create_claim_declaration',
+                    'title': 'create_claim_declaration'
+                },
+                {
+                    'summary': null,
+                    'name': 'change_status',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/change_status',
+                    'title': 'change_status'
+                },
+                {
+                    'summary': null,
+                    'name': 'create_amendment',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/create_amendment',
+                    'title': 'create_amendment'
+                },
+                {
+                    'summary': null,
+                    'name': 'update_scheduled_payment',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/update_scheduled_payment',
+                    'title': 'update_scheduled_payment'
+                },
+                {
+                    'summary': null,
+                    'name': 'request_scheduled_payment',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/request_scheduled_payment',
+                    'title': 'request_scheduled_payment'
+                }
+            ],
+            'self': {
+                'name': 'Opération',
+                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations',
+                'title': 'Opération'
             },
-            { 
-                'summary': null, 
-                'name': 'update_scheduled_payment', 
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/update_scheduled_payment', 
-                'title': 'update_scheduled_payment' 
-            }, 
-            { 
-                'summary': null, 
-                'name': 'request_scheduled_payment', 
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations/request_scheduled_payment', 
-                'title': 'request_scheduled_payment' 
+            'up': {
+                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu'
+            },
+            'cscrel:item-type': {
+                'href': 'http://20.33.40.147:13111/csc/insurance/schemas/CH-XzE0ODA0-HC/operationDocument'
+            },
+            'type': [
+                {
+                    'href': 'http://20.33.40.147:13111/csc/insurance/schemas/system/factory'
+                },
+                {
+                    'href': 'http://20.33.40.147:13111/csc/insurance/schemas/contracts/operationCollection'
+                }
+            ],
+            'first': {
+                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations?_num=20'
             }
-        ], 
-        'self': { 
-            'name': 'Opération', 
-            'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations', 
-            'title': 'Opération' 
-        }, 
-        'up': { 
-            'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu' 
-        }, 
-        'cscrel:item-type': { 
-            'href': 'http://20.33.40.147:13111/csc/insurance/schemas/CH-XzE0ODA0-HC/operationDocument' 
-        }, 
-        'type': [
-            { 
-                'href': 'http://20.33.40.147:13111/csc/insurance/schemas/system/factory' 
-            }, 
-            { 
-                'href': 'http://20.33.40.147:13111/csc/insurance/schemas/contracts/operationCollection' 
-            }
-        ], 
-        'first': {
-            'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations?_num=20' 
-        } 
-    }, 
-    '_options': { 
-        'links': [
-            { 
-                'schema': { 
-                    'properties': { 
-                        '_count': { 
-                            'type': 'integer', 
-                            'minimum': 500 
-                        }, 
-                        '_start': { 
-                            'type': 
-                            'integer', 
-                            'minimum': 0 
-                        }, 
-                        '_embed': { 
-                            'oneOf': [
-                                { 'const': 'none' }, 
-                                { 'type': 'array', 'items': { 'type': 'string' } }
-                            ] 
-                        }, 
-                        '_options': { 
-                            'type': 'boolean' 
-                        }, 
-                        '_num': { 
-                            'type': 'integer', 
-                            'minimum': 20 
-                        }, 
-                        '_sort': { 
-                            'type': 'array', 
-                            'items': { 
-                                'type': 'string' 
-                            } 
-                        } 
-                    } 
-                }, 
-                'method': 'GET', 
-                'rel': 'search', 
-                'mediaType': 'application/vnd.hal+json', 
-                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations', 
-                'title': 'Rechercher Opération  par des critères' 
-            }
-        ], 
-        'title': 'Opération interactions de collections' 
-    } 
+        },
+        '_options': {
+            'links': [
+                {
+                    'schema': {
+                        'properties': {
+                            '_count': {
+                                'type': 'integer',
+                                'minimum': 500
+                            },
+                            '_start': {
+                                'type':
+                                    'integer',
+                                'minimum': 0
+                            },
+                            '_embed': {
+                                'oneOf': [
+                                    {'const': 'none'},
+                                    {'type': 'array', 'items': {'type': 'string'}}
+                                ]
+                            },
+                            '_options': {
+                                'type': 'boolean'
+                            },
+                            '_num': {
+                                'type': 'integer',
+                                'minimum': 20
+                            },
+                            '_sort': {
+                                'type': 'array',
+                                'items': {
+                                    'type': 'string'
+                                }
+                            }
+                        }
+                    },
+                    'method': 'GET',
+                    'rel': 'search',
+                    'mediaType': 'application/vnd.hal+json',
+                    'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu/operations',
+                    'title': 'Rechercher Opération  par des critères'
+                }
+            ],
+            'title': 'Opération interactions de collections'
+        }
+    }
 }
