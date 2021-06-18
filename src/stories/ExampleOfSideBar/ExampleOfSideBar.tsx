@@ -1,4 +1,5 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+
 import LabelInline from 'components/LabelInline/LabelInline';
 import React from 'react';
 import SideBar from 'components/SideBar/SideBar';
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '1 1 auto',
         overflow: 'auto',
-        width: '330px',
+        width: '100%',
     },
     firstSectionContent: {
         paddingTop: theme.spacing(0),

@@ -1,4 +1,5 @@
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
+
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import React from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
@@ -90,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
     },
     headerAndContent: {
         display: 'flex',
-        margin: theme.spacing(3, 4, 0, 4),
+        margin: '5% 0 0 5%',
         flexDirection: 'column',
         alignItems: 'start',
         height: '-webkit-fill-available',

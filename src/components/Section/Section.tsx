@@ -1,6 +1,6 @@
 import React from 'react';
 import Typo from 'components/Typography/Typo';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export interface SectionProps {
 
@@ -83,13 +83,13 @@ const Section = (props: SectionProps) => {
     const {title, icon, actions, children} = props;
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} data-testid="section-root">
             <div className={classes.header}>
                 <div className={classes.iconTitle}>
-                    { icon && <div className={classes.icon}>{icon}</div>}
+                    { icon && <div className={classes.icon} data-testid="icon-class">{icon}</div>}
                     <Typo variant={'title'} value={title}/>
                 </div>
-                <div className={classes.actions}>
+                <div className={classes.actions} data-testid="actions">
                     {actions}
                 </div>
             </div>

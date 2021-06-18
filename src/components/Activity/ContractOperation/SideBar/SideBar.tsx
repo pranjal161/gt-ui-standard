@@ -1,4 +1,5 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
 import React from 'react';
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 1 auto',
         width: 'fit-content',
         [theme.breakpoints.up('sm')]: {
-            width: '330px',
+            width: '100%',
         },
         [theme.breakpoints.down('md')]: {
             width: 'fit-content',
@@ -81,7 +82,6 @@ const personController = (value: any) => <ContentController value={value}/>
 const contractController = (value: any) => <ContentController value={value}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
-    const classes = useStyles();
     const {t} = useTranslation()
     const mainEntityResponse = useResponse(mainEntityHRef)
     let items: any = {}
@@ -101,8 +101,6 @@ const SideBar = ({mainEntityHRef}: any) => {
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
-    console.log('rolePartiesResponse', rolePartiesResponse)
-
     let personList = [{display: 'Loading', id: 'not_defined', controller: personController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
@@ -119,9 +117,9 @@ const SideBar = ({mainEntityHRef}: any) => {
     const sidebarProps = useSidebar(items, true)
 
     return (
-        <div className={classes.root}>
+        <>
             <GlobalSideBar {...sidebarProps} />
-        </div>
+        </>
     )
 }
 

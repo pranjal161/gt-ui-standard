@@ -91,6 +91,7 @@ def addStagesBuildCustom() {
         sh '''
             echo 'Build Storybook Documentation'
             npm run build-storybook
+            ls
         '''
     }
 }
@@ -108,7 +109,9 @@ def addStagesDeployCustom() {
                 withAWS(role:'arn:aws:iam::665158502186:role/ISS_DIAAS_PowerUser'){
                     sh '''
                         rm -rf ui-package/react-standard
+                        rm -rf ui-package/react-standard-storybook
                         aws s3 cp s3://dev.eu.standard.project/omnichannel/react-standard/ ./ui-package/react-standard/ --recursive
+                        aws s3 cp s3://dev.eu.standard.project/omnichannel/react-standard-storybook/ ./ui-package/react-standard-storybook/ --recursive
                     '''
                 }
             }
@@ -120,7 +123,9 @@ def addStagesDeployCustom() {
             sh '''
                 rm -rf omnichannel-standard-ui.zip
                 mkdir -p ui-package/react-standard
+                mkdir -p ui-package/react-standard-storybook
                 cp -r ./build/* ./ui-package/react-standard/
+                cp -r ./storybook-static/* ./ui-package/react-standard-storybook/
                 cp -r ./ui-package omnichannel-standard-ui-dev
             '''
             zip zipFile: 'omnichannel-standard-ui.zip', archive: false, dir: 'ui-package'
@@ -148,8 +153,11 @@ def addStagesDeployCustom() {
                 withAWS(role:'arn:aws:iam::665158502186:role/ISS_DIAAS_PowerUser'){
                     sh '''
                         aws s3 rm s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
+                        aws s3 rm s3://dev.eu.standard.project/omnichannel/react-standard-storybook/ --recursive
                         aws s3 cp ./ui-package/react-standard/ s3://dev.eu.standard.project/omnichannel/react-standard/ --recursive
                         aws s3 ls s3://dev.eu.standard.project/omnichannel/react-standard --recursive --human-readable --summarize
+                        aws s3 cp ./ui-package/react-standard-storybook/ s3://dev.eu.standard.project/omnichannel/react-standard-storybook/ --recursive
+                        aws s3 ls s3://dev.eu.standard.project/omnichannel/react-standard-storybook --recursive --human-readable --summarize
                     '''
                 }
             }
