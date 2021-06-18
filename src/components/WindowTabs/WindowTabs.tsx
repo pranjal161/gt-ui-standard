@@ -9,7 +9,6 @@ import Tabs from '../../components/Tabs/Tabs';
 
 const SimpleComponent = React.memo((props: {tabId: string, type: string, contractURL?: string}) => {
     const { tabId, type, contractURL = undefined } = props;
-    console.log('SimpleComponent render:');
 
     return(
         <div>
@@ -38,7 +37,6 @@ const WindowTabs = React.memo((props: {setWindowFocus?: Function}) => {
     let selectedWindowTabID = useSelector((state:any) => state.newWindow.selectedWindowTab.id);
     let dispatch = useDispatch();
     let windowTabIDsArray = Object.keys(windowTabsIDObject);
-    console.log('WindowTabs windowTabsIDObject: ', windowTabsIDObject);
 
     const closeWindowTab = useCallback((tabId: string) => {
         if(windowTabIDsArray.length === 1) {

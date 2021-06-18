@@ -53,7 +53,7 @@ const TabView = () => {
                                         key={tabId}
                                         tabId={tabId}
                                         type={availableTabsObject[tabId].type}
-                                        contractURL={availableTabsObject[tabId].contractURL} />
+                                        href={availableTabsObject[tabId].href} />
                                 </div>
                             ))
                         }

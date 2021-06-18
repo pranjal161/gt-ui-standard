@@ -1,13 +1,13 @@
 import {Meta, Story} from '@storybook/react';
-import TitleBar, {TitleBarProps} from './TitleBar';
+import Header, {HeaderProps} from 'components/Activity/ContractUpsert/Header/Header';
 import React from 'react';
 
 export default {
-    title: 'Components/Activity/TitleBar',
-    component: TitleBar,
+    title: 'Components/Activity/Header',
+    component: Header,
 } as Meta;
 
-const Template: Story<TitleBarProps> = (args) => <TitleBar {...args} />;
+const Template: Story<HeaderProps> = (args) => <Header {...args} />;
 
 export const WithBack = Template.bind({});
 WithBack.args = {
