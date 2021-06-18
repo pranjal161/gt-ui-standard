@@ -2,7 +2,6 @@ import Header, { HeaderProps } from './Header';
 import { Meta, Story } from '@storybook/react';
 
 import React from 'react';
-import { contractOperations, } from 'assets/staticData/data';
 
 export default {
     title: 'Components/Activity/ContractHeaderBar',

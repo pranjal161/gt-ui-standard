@@ -26,7 +26,6 @@ describe('Renders Default', () => {
     });
 })
 
-
 describe('Renders WrongResponseProps', () => {
     it('title displaying', () => {
         const component = render(<WrongResponseProps />);
@@ -34,7 +33,6 @@ describe('Renders WrongResponseProps', () => {
     });
 
     it('Activities displaying', () => {
-        
 
         const component = render(<WrongResponseProps />);
         const button = screen.getByTestId('button-activities');
@@ -47,10 +45,4 @@ describe('Renders WrongResponseProps', () => {
         expect(item).not.toBeVisible();
     });
 })
-
-
-
-
-
-
 
