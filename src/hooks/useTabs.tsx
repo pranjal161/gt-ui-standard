@@ -1,9 +1,9 @@
 import {ActivityProps} from 'components/Activity/Activity';
-import {useTranslation} from 'react-i18next';
 import {addSecondaryTabByID} from 'store/reducers/secondaryTabsReducer';
 import {addWindowTabByID} from 'store/reducers/newWindowReducer';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 export interface openNewTabProps {
 

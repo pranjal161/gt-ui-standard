@@ -1,12 +1,10 @@
 import {MaterialEye, NotificationBellAdd} from 'assets/svg';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Theme, makeStyles} from '@material-ui/core/styles';
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
 import IconButton from 'theme/components/material/IconButton/IconButton';
-import {getActivities} from 'utils/functions';
 import useResponse from 'hooks/useResponse';
-import {useTranslation} from 'react-i18next';
 
 export interface HeaderProps {
 
@@ -65,29 +63,18 @@ const useStyles = makeStyles((theme: Theme) => ({
  */
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
-    const {t} = useTranslation();
     const response = useResponse(props.hRef)
     const [operationHRef, setOperationHRef]: [any, any] = React.useState();
-    const responseOperations = useResponse(operationHRef)
 
     const {
         title = 'Default title',
         onLaunchActivity
     } = props
 
-    const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
-
     if (response && !operationHRef) {
         setOperationHRef(response.data._links['cscaia:operations'].href)
     }
 
-    useEffect(() => {
-        let formatResponse = getActivities(responseOperations);
-        if (formatResponse) {
-            setActivities(formatResponse);
-        }
-    }, [responseOperations])
-    
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
@@ -97,11 +84,11 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                         <IconButton color={'inherit'}> <MaterialEye/></IconButton>
                         <IconButton color={'inherit'}><NotificationBellAdd/></IconButton>
                     </div>
-                    <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity}/>
+                    <ActivitiesList hRef={operationHRef} onLaunchActivity={onLaunchActivity}/>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Header;
+export default React.memo(Header);

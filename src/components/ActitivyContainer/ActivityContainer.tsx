@@ -32,9 +32,11 @@ export interface ActivityContainerProps {
     extraProps: any
 
     title?:string
+
+    children?:any
 }
 
-const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title}: ActivityContainerProps) => {
+const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title, children}: ActivityContainerProps) => {
     const { post } = useAia()
     const [activityHRef, setActivityHRef]:[any, any] = useState(undefined);
 
@@ -58,7 +60,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
             });
 
         }
-        else if (mode === 'view') {
+        else if (mode === 'view' || mode === 'storybook') {
             //nothing to do the fetch will be done in the activity
             setActivityHRef(hRef)
         }
@@ -67,7 +69,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
     return (
         <>
             {activityHRef &&
-            <WithActivity {...propsActivity}> <Activity {...propsActivity}></Activity></WithActivity>}
+            <WithActivity {...propsActivity}> <Activity {...propsActivity}>{children}</Activity></WithActivity>}
         </>
     )
 }

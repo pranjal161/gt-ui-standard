@@ -1,19 +1,20 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
+import useResponse from 'hooks/useResponse';
 
 import Button from 'theme/components/material/Button/Button'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import React from 'react';
-import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
+import React, {useEffect} from 'react';
+import {capitalizeFirstLetterAndRemove_, getActivities} from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
 // import { globalTokens } from 'theme/standard/palette';
 export interface ActivitiesListProps {
 
     /**
-     * Activities
+     * hRef of activities/operations
      */
-    activities?: any;
+    hRef?: any;
 
     /**
      * onLaunchActivity
@@ -45,9 +46,17 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     const classes = useStyles();
     const { t } = useTranslation();
     const {
-        activities,
         onLaunchActivity
     } = props
+    const response = useResponse(props.hRef)
+    const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
+
+    useEffect(() => {
+        let formatResponse = getActivities(response);
+        if (formatResponse) {
+            setActivities(formatResponse);
+        }
+    }, [response])
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -88,4 +97,4 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     )
 }
 
-export default ActivitiesList;
+export default React.memo(ActivitiesList);

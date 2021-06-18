@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import baContext from 'context/baContext';
 import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
@@ -97,7 +97,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const SkeletonConf = configurations && configurations.skeleton
     const HeaderConf = configurations && configurations.header
 
-    const onLaunchActivity = (operation: any, entityType:string) => {
+    const onLaunchActivity = useCallback((operation: any, entityType:string) => {
         openNewTab({
             id: operation.href,
             subTitle: t('common:businessActivityLabel'),
@@ -109,7 +109,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
                 mainEntityHRef : props.hRef,
             }
         })
-    }
+    },[openNewTab])
 
     return (
         <div className={classes.root}>
