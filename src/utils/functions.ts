@@ -16,7 +16,7 @@ import {
 } from 'configs/localization';
 
 import { APIConfig } from 'configs/apiConfig';
-import axios from 'axios';
+import axios from './axios';
 
 //import {logErrorByCode} from 'utils/system';
 

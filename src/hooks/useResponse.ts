@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {useContext, useEffect} from 'react';
 import baContext from 'context/baContext';
 import useAia from 'hooks/useAia';
@@ -12,7 +13,7 @@ const useResponse = (hRef:string) => {
         if (!hRef)
             return
         fetch(hRef)
-    }, [hRef])
+    }, [hRef, fetch])
 
     return useSelector((state:any) => hRef && state.aia[baId] && state.aia[baId][hRef]);
 }
