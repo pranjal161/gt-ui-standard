@@ -1,12 +1,14 @@
-import Header, { HeaderProps } from 'views/ContractVIew/Header/Header';
-import { Meta, Story } from '@storybook/react';
+import 'mocks/mockAxiosCalls'
+import {WithReduxActivity} from 'utils/storyBooks';
+import Header, {HeaderProps} from './Header';
+import {Meta, Story} from '@storybook/react';
 
 import React from 'react';
-import { contractOperations, } from 'assets/staticData/data';
 
 export default {
     title: 'Components/Activity/ContractHeaderBar',
     component: Header,
+    decorators: [(Story: any) => <WithReduxActivity><Story/></WithReduxActivity>]
 } as Meta;
 
 const Template: Story<HeaderProps> = (args) => <Header {...args} />;
@@ -14,12 +16,12 @@ const Template: Story<HeaderProps> = (args) => <Header {...args} />;
 export const Default = Template.bind({});
 const onLaunchActivity = () => null;
 Default.args = {
-    title: 'Contract number: ID12345678',
-    response: contractOperations,
+    title: 'Contract number: ID12345678910',
+    hRef: 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FHtW',
     onLaunchActivity: onLaunchActivity
 };
 
 export const WrongResponseProps = Template.bind({});
 WrongResponseProps.args = {
-    response: 'empty',
+    hRef: '',
 };

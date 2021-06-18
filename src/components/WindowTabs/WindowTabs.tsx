@@ -1,33 +1,36 @@
-import React, { useCallback } from 'react';
-import { closeWindowTabs, removeWindowTabByID, setSelectedWindowTabByID } from '../../store/reducers/newWindowReducer';
+import { closeWindowTabs, removeWindowTabByID, setSelectedWindowTabByID } from 'store/reducers/newWindowReducer';
 import { useDispatch, useSelector } from 'react-redux';
-
-import SampleContract from '../SampleContract/SampleContract';
+import React, { useCallback } from 'react';
+import ActivityContainer from 'components/ActitivyContainer/ActivityContainer';
 import SampleTicket from '../SampleTicket/SampleTicket';
-import Tab from '../../components/Tabs/Tab/Tab';
-import Tabs from '../../components/Tabs/Tabs';
+import Tab from 'components/Tabs/Tab/Tab';
+import Tabs from 'components/Tabs/Tabs';
 
-const SimpleComponent = React.memo((props: {tabId: string, type: string, contractURL?: string}) => {
-    const { tabId, type, contractURL = undefined } = props;
+const SimpleComponent = React.memo((props: { tabId: string, href?: string, activityProps?: any }) => {
+    const {tabId, href = undefined} = props;
 
-    return(
-        <div>
-            {
-                (type === 'ticket') ? 
-                    <SampleTicket ticketId={tabId} /> : 
-                    (type === 'contract') ? 
-                        <SampleContract contractURL={contractURL!} /> : 
-                        (type === 'client') ? 
-                            <div>
-                                Client view component for id={tabId}
-                            </div> : 
-                            <div>
-                                No content defined for data type: {type}
-                            </div>
-            }
-        </div>
+    let component
+    let mode
+    switch (props.activityProps.entityType) {
+        case 'ticket':
+            component = <SampleTicket ticketId={tabId}/>
+            break;
+        case 'contract':
+            mode = (props.activityProps.activityCode === 'contract_view') ? 'view': 'update'
+            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
+            break;
+        case 'person':
+            mode = (props.activityProps.activityCode === 'person_view') ? 'view': 'update'
+            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
+
+    }
+
+    return (
+        <>
+            {component}
+        </>
     );
-});
+})
 
 SimpleComponent.displayName = 'SimpleComponent';
 
@@ -68,10 +71,12 @@ const WindowTabs = React.memo((props: {setWindowFocus?: Function}) => {
                         title={windowTabsIDObject[tabId].title}
                         subTitle={windowTabsIDObject[tabId].subTitle}
                         icon={windowTabsIDObject[tabId].type}>
-                        <SimpleComponent 
-                            tabId={tabId} 
-                            type={windowTabsIDObject[tabId].type}
-                            contractURL={windowTabsIDObject[tabId].contractURL} />
+                        <SimpleComponent
+                            key={tabId}
+                            tabId={tabId}
+                            href={windowTabsIDObject[tabId].href}
+                            activityProps={windowTabsIDObject[tabId].activityProps}
+                        />
                     </Tab>
                 ))
             }
