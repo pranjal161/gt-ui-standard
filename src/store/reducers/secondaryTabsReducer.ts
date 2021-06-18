@@ -47,7 +47,8 @@ const secondaryTabsSlice = createSlice({
                 title: action.payload.displayTabLabel,
                 subTitle: secLabel,
                 type: action.payload.tabType,
-                href: contractURL
+                href: contractURL,
+                activityProps:action.payload.activityProps
             };
         },
         removeSecondaryTabByID(state, action: PayloadAction<string>) {

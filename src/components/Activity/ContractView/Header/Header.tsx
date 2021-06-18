@@ -1,11 +1,10 @@
-import { MaterialEye, NotificationBellAdd } from 'assets/svg';
-import { Theme, makeStyles } from '@material-ui/core/styles';
-
+import {MaterialEye, NotificationBellAdd} from 'assets/svg';
+import React from 'react';
+import {Theme, makeStyles} from '@material-ui/core/styles';
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
-import React from 'react';
-import { getActivities } from 'utils/functions';
-import { useTranslation } from 'react-i18next';
+import IconButton from 'theme/components/material/IconButton/IconButton';
+import useResponse from 'hooks/useResponse';
 
 export interface HeaderProps {
 
@@ -15,14 +14,14 @@ export interface HeaderProps {
     title?: string
 
     /**
-     * Response
+     * onLaunchActivity
      */
-    response?: any;
+    onLaunchActivity?: any;
 
     /**
-     * OnLaunchActivity
+     * hRef
      */
-     onLaunchActivity?: Function;
+    hRef: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,17 +34,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     informationContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '-5px'
     },
     infoRight: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+
     iconContainer: {
+        color: theme.palette.primary.contrastText,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginRight: theme.spacing(2),
         '& > svg': {
             fill: theme.palette.primary.contrastText,
             marginRight: theme.spacing(3)
@@ -60,38 +63,32 @@ const useStyles = makeStyles((theme: Theme) => ({
  */
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const response = useResponse(props.hRef)
+    const [operationHRef, setOperationHRef]: [any, any] = React.useState();
 
     const {
         title = 'Default title',
-        response,
         onLaunchActivity
     } = props
 
-    const [activities, setActivities] = React.useState([{ href: null, name: t('operation:operation_empty_list') }]);
-
-    React.useEffect(() => {
-        let formatResponse = getActivities(response);
-
-        if (formatResponse) {
-            setActivities(formatResponse);
-        }
-    }, [])
+    if (response && !operationHRef) {
+        setOperationHRef(response.data._links['cscaia:operations'].href)
+    }
 
     return (
         <div className={classes.container}>
             <div className={classes.informationContainer}>
-                <HeaderInformation title={title} />
+                <HeaderInformation title={title}/>
                 <div className={classes.infoRight}>
                     <div className={classes.iconContainer}>
-                        <MaterialEye size={24} />
-                        <NotificationBellAdd size={24} />
+                        <IconButton color={'inherit'}> <MaterialEye/></IconButton>
+                        <IconButton color={'inherit'}><NotificationBellAdd/></IconButton>
                     </div>
-                    <ActivitiesList activities={activities} onLaunchActivity={onLaunchActivity} />
+                    <ActivitiesList hRef={operationHRef} onLaunchActivity={onLaunchActivity}/>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Header;
+export default React.memo(Header);

@@ -1,36 +1,19 @@
 import { OpenInNewTabIcon, OpenInNewWindowIcon } from 'assets/svg';
-
 import React from 'react';
-
-import { addSecondaryTabByID } from 'store/reducers/secondaryTabsReducer';
-import { addWindowTabByID } from 'store/reducers/newWindowReducer';
 import useDeskTickets from 'hooks/useDeskTickets';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import useTabs from 'hooks/useTabs';
 
 const Home = () => {
     const {getAll} = useDeskTickets();
     const tickets = getAll();
-    let dispatch = useDispatch();
-    const history = useHistory();
+    const {openNewTab, openNewTabInSecondaryWindow} = useTabs()
 
     const openTicketInNewTab = (tabId: string, subTitle: string) => {
-        dispatch(addSecondaryTabByID({
-            tabId: tabId, 
-            tabType: 'ticket', 
-            displayTabLabel: 'Ticket N° '+tabId,
-            displayTabSmallLabel: subTitle
-        }));
-        history.push('/viewTab');
+        openNewTab({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', hRef:tabId, mainEntityHRef:tabId}})
     }
 
     const openTicketInNewWindow = (tabId: string, subTitle: string) => {
-        dispatch(addWindowTabByID({
-            tabId: tabId, 
-            tabType: 'ticket', 
-            displayTabLabel: 'Ticket N° '+tabId,
-            displayTabSmallLabel: subTitle
-        }));
+        openNewTabInSecondaryWindow({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', hRef:tabId, mainEntityHRef:tabId}})
     }
 
     return (<div data-testid="home-component" className="text-align-center">

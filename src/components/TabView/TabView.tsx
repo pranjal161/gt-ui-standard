@@ -37,29 +37,30 @@ const TabView = () => {
     }
 
     return (
-        <div>
+        <>
             {
                 displayDefault ? 
                     <div>
                         Content not yet defined
                     </div> : 
-                    <div>
+                    <>
                         {
                             availableTabsByIDArray.map((tabId) => (
-                                <div 
+                                <div
                                     key={tabId} 
                                     style={(tabId === selectedTabId) ? {} : {display: 'none'}}>
                                     <MemoTabViewType 
                                         key={tabId}
                                         tabId={tabId}
-                                        type={availableTabsObject[tabId].type}
-                                        href={availableTabsObject[tabId].href} />
+                                        href={availableTabsObject[tabId].href}
+                                        activityProps={availableTabsObject[tabId].activityProps}
+                                    />
                                 </div>
                             ))
                         }
-                    </div>
+                    </>
             }
-        </div>
+        </>
     );
 }
 
