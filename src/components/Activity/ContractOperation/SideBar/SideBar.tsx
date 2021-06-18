@@ -1,6 +1,7 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
+import useTabs from 'hooks/useTabs';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {resource} from 'assets/staticData/data';
@@ -60,7 +61,7 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
-const ContentController = ( { value }:any) => {
+const ContentController = ({value}: any) => {
     const classes = useStyles();
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
@@ -83,6 +84,7 @@ const contractController = (value: any) => <ContentController value={value}/>
 const SideBar = ({mainEntityHRef}: any) => {
     const classes = useStyles();
     const {t} = useTranslation()
+    const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
     let items: any = {}
 
@@ -92,7 +94,9 @@ const SideBar = ({mainEntityHRef}: any) => {
         items.contract = [{
             display: t('common:contractNumberTitle', {value: mainEntityResponse.data['contract:number']}),
             id: mainEntitySummary.href,
-            controller: contractController
+            entityType: 'contract',
+            data: mainEntityResponse.data,
+            controller: contractController,
         }]
     }
 
@@ -106,9 +110,15 @@ const SideBar = ({mainEntityHRef}: any) => {
         personList = rolePartiesResponse.data._links.item
             .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
             .map((item: any) => {
-                const display = t('common:clientTitle', {value : item.summary['person:display_id'].split(' - ')[0]})
+                const display = t('common:clientTitle', {value: item.summary['person:display_id'].split(' - ')[0]})
 
-                return {display, id: item.href, controller: personController}
+                return {
+                    display,
+                    id: item.href,
+                    entityType: 'person',
+                    data: item,
+                    controller: personController
+                }
             })
     }
 
@@ -116,9 +126,20 @@ const SideBar = ({mainEntityHRef}: any) => {
 
     const sidebarProps = useSidebar(items, true)
 
+    const onOpenInNewTab = (item:any) => {
+        console.log('item.data', item.data)
+        if (item.entityType === 'contract')
+            openNewTab(forContract(item.data))
+    }
+
+    const onOpenInNewWindow = (item:any) => {
+        if (item.entityType === 'contract')
+            openNewTabInSecondaryWindow(forContract(item.data))
+    }
+
     return (
         <div className={classes.root}>
-            <GlobalSideBar {...sidebarProps} />
+            <GlobalSideBar {...sidebarProps} onOpenInNewTab={onOpenInNewTab} onOpenInNewWindow={onOpenInNewWindow}/>
         </div>
     )
 }
