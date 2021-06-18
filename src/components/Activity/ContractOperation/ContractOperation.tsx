@@ -10,6 +10,7 @@ import WithScroll from 'components/WithScroll/WithScroll';
 import { makeStyles } from '@material-ui/core/styles';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
+import { useSelector } from 'react-redux';
 
 export interface ContractUpsertProps {
 
@@ -57,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
 const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const { getActivityConf } = useConfigurations()
+    const { getActivityConf } = useConfigurations();
+    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
     const activityResponse = useResponse(props.hRef);
@@ -137,7 +139,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                     </WithScroll>
                 </div>
             </div>
-            <div ref={handleSideBarOffsetTop} className={`${classes.bodyRight + ' ' + classes.sidebar}`}>
+            <div ref={handleSideBarOffsetTop} className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}`: `${classes.bodyRight + ' ' + classes.sidebar}`}>
                 <SideBarConf {...props} />
             </div>
         </div>
