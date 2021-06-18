@@ -1,15 +1,8 @@
 import {OpenInNewTabIcon, OpenInNewWindowIcon, PencilIcon} from 'assets/svg';
-import useTabs from 'hooks/useTabs';
-
 import React from 'react';
 import Table from 'components/Table/Table';
-import {addSecondaryTabByID} from 'store/reducers/secondaryTabsReducer';
-import {addWindowTabByID} from 'store/reducers/newWindowReducer';
 import useAia from 'hooks/useAia';
-import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
-
-// import { useHistory } from 'react-router';
+import useTabs from 'hooks/useTabs';
 
 /**
  * Display contract information in a Table
@@ -17,9 +10,7 @@ import {useHistory} from 'react-router-dom';
  * @returns {*} Return information of the contract in a Table
  */
 const ContractTable = (props: any) => {
-    let dispatch = useDispatch();
-    const {openNewTab} = useTabs()
-    const history = useHistory();
+    const {openNewTab, openNewTabInSecondaryWindow} = useTabs()
     const {fetch} = useAia();
 
     const contractColumns = [
@@ -44,14 +35,13 @@ const ContractTable = (props: any) => {
                 const operationItem = operationRes.data._links['item'];
                 const payment = operationItem.find((item: { name: string }) => item.name === 'unsolicited_payment');
                 if (payment && payment.href) {
-                    dispatch(addSecondaryTabByID({
-                        tabId: row.summary['contract:number'],
-                        tabType: 'unsolicited_payment',
-                        displayTabLabel: 'Unsolicited Payment',
-                        displayTabSmallLabel: 'Contract N° ' + row.summary['contract:number'],
-                        href: payment.href
-                    }));
-                    history.push('/viewTab');
+                    openTicketInNewTab({
+                        title:row.title,
+                        entityType: 'contract',
+                        activityCode: 'unsolicited_payment',
+                        hRef: row.href,
+                        mainEntityHRef: row.href
+                    });
                 }
             }
         })
@@ -69,17 +59,20 @@ const ContractTable = (props: any) => {
                 mainEntityHRef: row.href
             }
         })
-        history.push('/viewTab');
     }
 
     const openTicketInNewWindow = (row: any) => {
-        dispatch(addWindowTabByID({
-            tabId: row.summary['contract:number'],
-            tabType: 'contract_view',
-            displayTabLabel: 'Contract N° ' + row.summary['contract:number'],
-            displayTabSmallLabel: row.summary['contract:product_label'],
-            href: row.href
-        }));
+        openNewTabInSecondaryWindow({
+            id: row.summary['contract:number'],
+            subTitle: row.summary['contract:product_label'],
+            activityProps: {
+                title:row.title,
+                entityType: 'contract',
+                activityCode: 'contract_view',
+                hRef: row.href,
+                mainEntityHRef: row.href
+            }
+        })
     }
 
     return (
