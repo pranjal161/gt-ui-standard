@@ -8,21 +8,40 @@ import { getDescriptionValue } from 'utils/functions';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
+type Action = {
+    icon: any
+    method: Function,
+}
+
+type Column = {
+    label: string,
+    actions?: Array<Action>,
+    property: Array<any>,
+    type?: any
+}
+
 interface TableProps {
     url: string,
     columnId: Array<any>
-    showPaginator: Boolean
+    showPaginator: Boolean,
+    onChange?: Function
 }
 
-const Table = (props: TableProps) => {
+interface TableCellProps {
+    key?: any,
+    row?: any,
+    column: Column
+}
+
+const Table = ({ url, columnId, showPaginator, onChange }: TableProps) => {
     const [tableData, setTableData] = useState<undefined | any>();
     const { t } = useTranslation();
     const [totalItems, changeTotalItems] = useState(0);
     const { fetch } = useAia();
 
     useEffect(() => {
-        getData(props.url);
-    }, [props.url]);
+        getData(url);
+    }, [url]);
 
     const getData = (link: string) => {
         fetch(link).then((response: any) => {
@@ -42,21 +61,22 @@ const Table = (props: TableProps) => {
         });
     };
 
-    const TableCell = (props: { key: any; row?: any; column?: any; }) => {
+    const TableCell = ({ key, row, column }: TableCellProps) => {
 
-        const { key, row, column } = props;
         if (column.label === '_ACTIONS') {
             return (
                 <td key={key}>
                     <div className="d-inline-flex">
-                        {column.actions.map((action: { method: any; icon: any }, index: number) => (
-                            <span key={index}>
-                                <IconButton color={'primary'}
-                                    onClick={() => action.method(row)}>
-                                    {action.icon}
-                                </IconButton>
-                            </span>
-                        ))}
+                        {
+                            column.actions && column.actions.map((action: { method: any; icon: any }, index: number) => (
+                                <span key={index}>
+                                    <IconButton color={'primary'}
+                                        onClick={() => action.method(row)}>
+                                        {action.icon}
+                                    </IconButton>
+                                </span>
+                            ))
+                        }
                     </div>
                 </td>
             )
@@ -71,17 +91,17 @@ const Table = (props: TableProps) => {
         else {
             return (
                 <td key={key}>
-                    {getDescriptionValue(
-                        row['summary'][column.property],
-                        column.property,
-                        tableData,
-                        column.type,
-                    )}
+                    {
+                        getDescriptionValue(
+                            row['summary'][column?.property],
+                            column?.property,
+                            tableData,
+                            column.type)
+                    }
                 </td>
             )
         }
 
-        return null;
     }
 
     return (
@@ -91,24 +111,31 @@ const Table = (props: TableProps) => {
                     <DxcTable>
                         <thead>
                             <tr>
-                                {props.columnId.map((columnItem, index) => (
-                                    <th key={columnItem.label + index}>{t(columnItem['label'])}</th>
-                                ))}
+                                {
+                                    columnId.map((columnItem, index) => (
+                                        <th key={columnItem.label + index}>{t(columnItem['label'])}</th>
+                                    ))
+                                }
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData._links.item.map((row: any, index: number) => (
-                                <StyledHoverRow key={'tr' + index}>
-                                    {props.columnId.map((columnItem) => (
-                                        <TableCell row={row} column={columnItem} key={'tr' + columnItem.label + index} />
-                                    ))}
-                                </StyledHoverRow>
-                            ))}
+                            {
+                                tableData._links.item.map((row: any, index: number) => (
+                                    <StyledHoverRow key={'tr' + index}>
+                                        {columnId.map((columnItem) => (
+                                            <TableCell row={row} column={columnItem} key={'tr' + columnItem.label + index} />
+                                        ))}
+                                    </StyledHoverRow>
+                                ))
+                            }
                         </tbody>
                     </DxcTable>
-                    {props.showPaginator && (
-                        <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
-                    )}
+                    {
+                        showPaginator && (
+                            <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
+                        )
+                    }
+
                     {/* {totalItems && (
                         <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
                     )} */}
@@ -116,11 +143,13 @@ const Table = (props: TableProps) => {
             ) : (
                 <DxcTable>
                     <tr>
-                        {props.columnId.map((columnItem) => (
-                            <th key={columnItem['label']}>
-                                {t(columnItem['label'])}
-                            </th>
-                        ))}
+                        {
+                            columnId.map((columnItem) => (
+                                <th key={columnItem['label']}>
+                                    {t(columnItem['label'])}
+                                </th>
+                            ))
+                        }
                     </tr>
                     <tr>
                         <td colSpan={12}>{t('_NO_RECORDS_FOUND')}</td>

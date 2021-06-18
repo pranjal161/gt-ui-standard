@@ -1,9 +1,22 @@
 export const DialogStyle = {
+    root: {
+        '& .MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthMd.MuiDialog-paperFullWidth.MuiPaper-elevation24.MuiPaper-rounded': {
+            maxHeight: 666,
+        },
+
+        '& .MuiDialog-paperWidthMd': {
+            maxWidth: 1150
+        }
+    },
     titleRoot: {
         display: 'inline-flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '16px',
+        padding: '32px',
+        '& > div' : {
+            display: 'inline-flex',
+            alignItems: 'center'
+        }
     },
     titleIcon: {
         '& > *': {
@@ -20,7 +33,6 @@ export const DialogStyle = {
             paddingRight: '65px'
         }},
     content:{
-        marginTop:'16px',
-        marginBottom:'16px',
+        padding: '0 32px',
     }
 }
