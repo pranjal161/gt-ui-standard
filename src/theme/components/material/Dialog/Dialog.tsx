@@ -75,7 +75,7 @@ const Dialog: React.FC<DialogProps> = ({
     }
 
     return (
-        <MuiDialog onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth}
+        <MuiDialog className={classes.root} onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth}
             fullWidth={fullWidth}>
             <MuiDialogTitle disableTypography className={classes.titleRoot}>
                 <div>
@@ -90,6 +90,7 @@ const Dialog: React.FC<DialogProps> = ({
             <MuiDialogContent className={classes.content}>
                 {content}
             </MuiDialogContent>
+            
             <MuiDialogActions className={classes.actions}>
                 {actions}
             </MuiDialogActions>
