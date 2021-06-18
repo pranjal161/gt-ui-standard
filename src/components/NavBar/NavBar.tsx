@@ -1,7 +1,5 @@
 import { AddIcon, CircleFull, ExtensionsIcon, HelpIcon, History, MoreVert, SearchIcon } from 'assets/svg';
 import { DxcHeader, DxcTabs } from '@dxc-technology/halstack-react';
-import { AddIcon, CircleFull, ExtensionsIcon, HelpIcon, History, MoreVert, SearchIcon } from 'assets/svg';
-
 import React, { useState } from 'react';
 import Button from 'theme/components/material/Button/Button';
 import DXCLogo from 'assets/dxc_logo.jpg';
