@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractUpsert: React.FC<ContractUpsertProps> = (props: any) => {
+const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const { getActivityConf } = useConfigurations()
@@ -139,4 +139,4 @@ const ContractUpsert: React.FC<ContractUpsertProps> = (props: any) => {
     );
 }
 
-export default ContractUpsert;
+export default ContractOperation;

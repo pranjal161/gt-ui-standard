@@ -1,5 +1,5 @@
+import Header, {HeaderProps} from 'components/Activity/ContractOperation/Header/Header';
 import {Meta, Story} from '@storybook/react';
-import Header, {HeaderProps} from 'components/Activity/ContractUpsert/Header/Header';
 import React from 'react';
 
 export default {

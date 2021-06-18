@@ -1,24 +1,25 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
+import useResponse from 'hooks/useResponse';
 
-import Button from 'theme/components/material/Button/Button';
+import Button from 'theme/components/material/Button/Button'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import React from 'react';
-import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
+import React, {useEffect} from 'react';
+import {capitalizeFirstLetterAndRemove_, getActivities} from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
 // import { globalTokens } from 'theme/standard/palette';
 export interface ActivitiesListProps {
 
     /**
-     * Activities
+     * hRef of activities/operations
      */
-    activities?: any;
+    hRef?: any;
 
     /**
-     * OnLaunchActivity
+     * onLaunchActivity
      */
-    onLaunchActivity?: Function;
+    onLaunchActivity?: any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -45,9 +46,17 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     const classes = useStyles();
     const { t } = useTranslation();
     const {
-        activities,
         onLaunchActivity
     } = props
+    const response = useResponse(props.hRef)
+    const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
+
+    useEffect(() => {
+        let formatResponse = getActivities(response);
+        if (formatResponse) {
+            setActivities(formatResponse);
+        }
+    }, [response])
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -59,18 +68,9 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
         setAnchorEl(null);
     };
 
-    const handleChoice = (event: React.MouseEvent<EventTarget>, href: string, name: string) => {
-        if (onLaunchActivity && href) {
-
-            const response = {
-                href: href,
-                name: name,
-                // contractHref: href.split('/operations')
-                contractHref: href.substring(0, href.indexOf('/operations'))
-            }
-
-            onLaunchActivity(response)
-            console.log(response);
+    const handleChoice = (event: React.MouseEvent<EventTarget>, operationDetail: any) => {
+        if (onLaunchActivity) {
+            onLaunchActivity(operationDetail, 'contract')
         }
         setAnchorEl(null);
     };
@@ -78,7 +78,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     return (
         <div className={classes.ActivitiesList}>
             <Button className={classes.button} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} data-testid="button-activities">
-                {t('operation:activities')}
+                {t('common:activities')}
             </Button>
             <Menu
                 id="simple-menu"
@@ -90,11 +90,11 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
                 {
                     activities &&
                     activities.map((item: any, key: number) => (
-                        <MenuItem key={key} onClick={(event) => handleChoice(event, item.href, item.name) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
+                        <MenuItem key={key} onClick={(event) => handleChoice(event, item) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
                 }
             </Menu>
         </div>
     )
 }
 
-export default ActivitiesList;
+export default React.memo(ActivitiesList);
