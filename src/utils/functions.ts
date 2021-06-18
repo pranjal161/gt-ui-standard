@@ -525,9 +525,9 @@ export const capitalizeFirstLetterAndRemove_ = (element: string) => {
  */
 export const getActivities = (response: any) => {
     let activities: any;
-    if (response && response?._links?.item.length >= 1) {
+    if (response && response?.data._links?.item.length >= 1) {
         activities = [];
-        response['_links']['item'].map((item: any, key: number) => (activities[key] = { ...item }));
+        response.data['_links']['item'].map((item: any, key: number) => (activities[key] = { ...item }));
     }
     else {
         activities = null;

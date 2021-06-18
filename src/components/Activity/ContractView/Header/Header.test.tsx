@@ -16,13 +16,9 @@ describe('Renders Default', () => {
     it('Activities displaying', () => {
         const component = render(<Default />);
         const button = screen.getByTestId('button-activities');
-        const item = component.getByText('Create amendment');
 
-        expect(item).not.toBeVisible();
         fireEvent.click(button);
-        expect(item).toBeVisible();
-        fireEvent.click(item);
-        expect(item).not.toBeVisible();
+        expect(component.getByText('Create amendment')).toBeInTheDocument();
     });
 })
 
@@ -33,16 +29,11 @@ describe('Renders WrongResponseProps', () => {
     });
 
     it('Activities displaying', () => {
-
         const component = render(<WrongResponseProps />);
         const button = screen.getByTestId('button-activities');
 
-        expect(component.getByText('Operation empty list')).not.toBeVisible();
         fireEvent.click(button);
-        const item = component.getByText('Operation empty list');
-        expect(item).toBeInTheDocument();
-        fireEvent.click(item);
-        expect(item).not.toBeVisible();
+        expect(component.getByText('Operation empty list')).toBeInTheDocument();
     });
 })
 

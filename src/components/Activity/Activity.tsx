@@ -1,14 +1,16 @@
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useContext, useEffect} from 'react';
 import baContext from 'context/baContext';
+import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
-import React, {useContext, useEffect} from 'react';
 import {useSelector} from 'react-redux';
+import useTabs from 'hooks/useTabs';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(4),
+        padding: theme.spacing(4,4,0,4),
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#F2F5F7'
@@ -40,27 +42,33 @@ export interface ActivityProps {
     activityCode: any
 
     /**
-     * hRef of the main entity
+     * Can be ticket, contract, person, claims,
      */
-    mainEntityHRef: string
+    entityType:string
 
     /**
-     * hRef of the activity to Post
+     * hRef of the entity
      */
     hRef: string
 
     /**
-     * API action type
+     * title
      */
-    action: string
+    title: string
 
-    title?: string
+    /**
+     * hRef of the main entity
+     */
+    mainEntityHRef: string
+
 }
 
-const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
-    const {action, hRef, title} = props
+const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
+    const {hRef} = props
     const {startActivity, stopActivity} = useActivity()
-    const aia:any = useAia()
+    const aia: any = useAia()
+
+    const {t} = useTranslation()
 
     const context = useContext(baContext);
     const baId: string = context.baId ? context.baId : '';
@@ -70,33 +78,46 @@ const Activity:React.FC<ActivityProps> = (props:ActivityProps) => {
     const {getActivityConf} = useConfigurations()
 
     const configurations = getActivityConf(props) // activityCode can also be store in redux
-
-    console.log('response', response)
+    const {openNewTab} = useTabs()
 
     useEffect(() => {
         startActivity();
 
         /**
-         * Do the main call
+         * Main API call
          *
          */
-        aia[action](hRef)
+        aia.fetch(hRef)
 
         return () => {
             stopActivity()
         }
     }, [])
 
-    const SkeletonConf = configurations.skeleton
-    const HeaderConf = configurations.header
+    const SkeletonConf = configurations && configurations.skeleton
+    const HeaderConf = configurations && configurations.header
+
+    const onLaunchActivity = (operation: any, entityType:string) => {
+        openNewTab({
+            id: operation.href,
+            subTitle: t('common:businessActivityLabel'),
+            activityProps:{
+                title:operation.title,
+                entityType,
+                activityCode : operation.name,
+                hRef:operation.href,
+                mainEntityHRef : props.hRef,
+            }
+        })
+    }
 
     return (
         <div className={classes.root}>
             <div className="col-12">
-                <HeaderConf title={title} {...props}/>
+                {HeaderConf && <HeaderConf {...props} onLaunchActivity={onLaunchActivity}/>}
             </div>
-            <div className={classes.root}>
-                <SkeletonConf data={response} {...props}/>
+            <div className={classes.skeleton}>
+                {SkeletonConf && <SkeletonConf data={response} {...props}/> }
             </div>
         </div>
     )

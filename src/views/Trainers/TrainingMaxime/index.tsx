@@ -1,8 +1,7 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Header from 'views/ContractVIew/Header/Header';
+import Header from 'components/Activity/ContractView/Header/Header';
 import React from 'react';
-import { contractOperations, } from 'assets/staticData/data';
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -13,25 +12,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const TrainingMaxime = () => {
     const classes = useStyles();
-
-    const [activityUrl, setActivityUrl] = React.useState({
-        href: '',
-        name: '',
-        contractHref: ''
-    });
-
-    const onLaunchActivity = (element: any) => {
-        setActivityUrl(element)
-    }
+    const [activityUrl, onLaunchActivity]:[any, any] = React.useState({});
 
     return (
         <>
             <h2>.</h2>
             <div className={classes.container}>
-                <Header title={'Contract number: PCMR000381'} response={contractOperations} onLaunchActivity={onLaunchActivity}/>
+                <Header title={'Contract number: PCMR000381'} hRef={ 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FHtW'} onLaunchActivity={onLaunchActivity}/>
             </div>
-            <h3>{activityUrl?.href}</h3>
-            <h3>{activityUrl?.contractHref}</h3>
+            <h3>{activityUrl.hRef}</h3>
         </>
     )
 }

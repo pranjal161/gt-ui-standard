@@ -101,8 +101,6 @@ const SideBar = ({mainEntityHRef}: any) => {
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
-    console.log('rolePartiesResponse', rolePartiesResponse)
-
     let personList = [{display: 'Loading', id: 'not_defined', controller: personController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
