@@ -109,6 +109,12 @@ const routes: any = [
                         component: Trainers.TrainingJeenal
                     },
                     {
+                        path: '/training/maxime',
+                        name: 'trainingMaxime',
+                        exact: true,
+                        component: Trainers.TrainingMaxime
+                    },
+                    {
                         path: '/training/nikolay',
                         name: 'trainingNikolay',
                         exact: true,
