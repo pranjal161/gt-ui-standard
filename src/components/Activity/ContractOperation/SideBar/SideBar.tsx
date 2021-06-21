@@ -3,55 +3,28 @@ import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
 import useTabs from 'hooks/useTabs';
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {resource} from 'assets/staticData/data';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import {useTranslation} from 'react-i18next';
 
-export interface ExampleOfSideBarProps {
+const ContentList = ({items, data}: any) => items.map(
+    (item: any) => <LabelInline key={item.id}
+        property={item.id}
+        data={data}
+        loading={!data}
+        styleType={item.styleType}
+    />)
 
-    /**
-     * To test loading skeleton
-     */
-    loading?: boolean
+/*************** For contract *******************/
+
+const ContractPreview = ({hRef}: any) => {
+    const response = useResponse(hRef)
+    console.log('response', response)
+
+    return <ContractGeneralSection key={'general'} hRef={hRef}/>
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(0),
-        display: 'flex',
-        flexDirection: 'row',
-        flex: '1 0 auto',
-        alignItems: 'stretch',
-        width: 'fit-content',
-        height: '100%'
-    },
-    controllerContent: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        flex: '1 1 auto',
-        width: 'fit-content',
-        [theme.breakpoints.up('sm')]: {
-            width: '100%',
-        },
-        [theme.breakpoints.down('md')]: {
-            width: 'fit-content',
-        },
-        //overflow: 'auto'
-    },
-    firstSectionContent: {
-        paddingTop: theme.spacing(0),
-        ' & > * ': {
-            marginBottom: theme.spacing(1)
-        }
-    },
-    section: {}
-
-}));
-
-const sectionItems: PanelSectionItem[] = [
+const contractGeneralItems: PanelSectionItem[] = [
     {id: 'contract:number', styleType: ['text']},
     {id: 'contract:product_identifier', styleType: ['text']},
     {id: 'contract:product_type', styleType: ['text']},
@@ -60,25 +33,27 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'contract:amount', styleType: ['currency']},
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
+const ContractGeneralSection = ({hRef}: any) => {
+    const response = useResponse(hRef)
 
-const ContentController = ({value}: any) => {
-    const classes = useStyles();
-
-    const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
-        (item) => <LabelInline key={item.id}
-            property={item.id}
-            data={resource}
-            styleType={item.styleType}
-        />)}</div>
-
-    return (<div className={classes.controllerContent}>
-        <PanelSection className={classes.section} title={'Details 1'} content={<FirstSectionContent/>}/>
-        <PanelSection className={classes.section} title={'Details 2'} content={<FirstSectionContent/>}/>
-        <PanelSection className={classes.section} title={'Details 3'} content={<FirstSectionContent/>}/>
-    </div>)
+    return <PanelSection title={'Detail'}
+        content={<ContentList items={contractGeneralItems} data={response && response.data}/>}/>
 }
 
-const personItems: PanelSectionItem[] = [
+/*************** For Person *******************/
+
+const PersonPreview = ({hRef}: any) => {
+    const response = useResponse(hRef)
+    const hRefBankAccount = response && response.data._links['person:preferred_bank_account'].href
+
+    return (
+        <>
+            <PersonGeneralSection key={'general'} hRef={hRef}/>,
+            <PreferredBankAccount key={'preferred_bank'} hRef={hRefBankAccount}/>
+        </>)
+}
+
+const personGeneralItems: PanelSectionItem[] = [
     {id: 'person:gender', styleType: ['text']},
     {id: 'person:first_name', styleType: ['text']},
     {id: 'person:last_name', styleType: ['text']},
@@ -87,36 +62,36 @@ const personItems: PanelSectionItem[] = [
     {id: 'person:professional_status', styleType: ['text']},
     {id: 'person:language', styleType: ['text']},
 ]
-
-const PersonController = ( { hRef }:any) => {
-    const classes = useStyles();
+const PersonGeneralSection = ({hRef}: any) => {
     const response = useResponse(hRef)
-    const FirstSectionContent = () => <div className={classes.firstSectionContent}>{personItems.map(
-        (item) => <LabelInline key={item.id}
-            property={item.id}
-            data={response && response.data}
-            styleType={item.styleType}
-        />)}</div>
 
-    console.log('PersonController Render, hRef : ', hRef, 'response :', response)
-
-    return (<div className={classes.controllerContent}>
-        <PanelSection className={classes.section} title={'Details 1'} content={<FirstSectionContent/>}/>
-    </div>)
+    return <PanelSection title={'Detail'}
+        content={<ContentList items={personGeneralItems} data={response && response.data}/>}/>
 }
 
-const RoleController = ({hRef}:any) => {
+/*************** For Preferred bank accoubt *******************/
+
+const preferredBankAccount: PanelSectionItem[] = [
+    {id: 'bank_account:account_details', styleType: ['text']},
+    {id: 'bank_account:account_holder_name', styleType: ['text']},
+    {id: 'bank_account:i_b_a_n', styleType: ['text']},
+]
+const PreferredBankAccount = ({hRef}: any) => {
     const response = useResponse(hRef)
-    const personHRef= response && response.data._links['party_role:person'].href
 
-    console.log('RoleController Render, hRef : ', hRef, 'response :', response)
-
-    return (<PersonController hRef={personHRef}/>)
+    return <PanelSection title={'Preferred bank account'}
+        content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
 }
 
-const personController = (value: any) => <ContentController value={value}/>
+const RoleController = ({hRef}: any) => {
+    const response = useResponse(hRef)
+    const personHRef = response && response.data._links['party_role:person'].href
+
+    return (<PersonPreview hRef={personHRef}/>)
+}
+
 const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController = ({props}: any) => <ContentController {...props}/>
+const contractController = (value: any) => <ContractPreview hRef={value.id}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
     const {t} = useTranslation()
@@ -130,9 +105,9 @@ const SideBar = ({mainEntityHRef}: any) => {
         const title = mainEntityResponse.data['contract:number']
         items.contract = [{
             title,
-            display:t('common:contractNumberTitle', {value: title}),
+            display: t('common:contractNumberTitle', {value: title}),
             id: mainEntitySummary.href,
-            hRef:mainEntitySummary.href,
+            hRef: mainEntitySummary.href,
             entityType: 'contract',
             controller: contractController,
         }]
@@ -146,7 +121,7 @@ const SideBar = ({mainEntityHRef}: any) => {
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
-    let personList = [{title: 'Loading', id: 'not_defined', controller: personController}]
+    let personList = [{title: 'Loading', id: 'not_defined', controller: roleController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
             .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
@@ -158,7 +133,7 @@ const SideBar = ({mainEntityHRef}: any) => {
                     title,
                     display: t('common:clientTitle', {value: title}),
                     id: item.href,
-                    hRef:item.href,
+                    hRef: item.href,
                     entityType: 'person',
                     controller: roleController
                 }
@@ -169,13 +144,13 @@ const SideBar = ({mainEntityHRef}: any) => {
 
     const sidebarProps = useSidebar(items, true)
 
-    const onOpenInNewTab = (item:any) => {
+    const onOpenInNewTab = (item: any) => {
         console.log('item', item)
         if (item.entityType === 'contract')
             openNewTab(forContract(item))
     }
 
-    const onOpenInNewWindow = (item:any) => {
+    const onOpenInNewWindow = (item: any) => {
         if (item.entityType === 'contract')
             openNewTabInSecondaryWindow(forContract(item))
     }
