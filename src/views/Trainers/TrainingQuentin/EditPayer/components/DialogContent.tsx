@@ -11,25 +11,25 @@ import { personsColumns } from '../personColumns';
 import { useTranslation } from 'react-i18next';
 
 interface DialogContentProps {
-    filters: any,
+
+    /**
+     * Function called when a filter and/or a row is selected.
+     */
     onChange: Function,
-    isVisible: boolean,
+
+    /**
+     * The url where data will be get when there is a filter.
+     */
     url: string
 }
 
-const DialogContent = ({onChange, isVisible, url}: DialogContentProps) => {
+const DialogContent = ({onChange, url}: DialogContentProps) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const [isFiltersVisible, setIsFiltersVisible] = React.useState(false);
     const [filters, setFilters] = React.useState<any>({});
     const [isChecked, setIsChecked] = React.useState(false);
     const [selectedRow, setSelectedRow] = React.useState<any>({});
-    
-    /* React.useEffect(() => {
-        const obj = {filters: {...filters}, selectedRow: {...selectedRow}};
-        console.log('Content :', obj);
-        onChange(obj);
-    }, [filters, selectedRow]) */
 
     React.useEffect(() => {
         onChange({filters, selectedRow});
@@ -64,7 +64,6 @@ const DialogContent = ({onChange, isVisible, url}: DialogContentProps) => {
     }
 
     const selectRow = (val: any) => {
-        console.log('Selected row :', val);
         setSelectedRow(val)
     }
 
@@ -116,10 +115,10 @@ const DialogContent = ({onChange, isVisible, url}: DialogContentProps) => {
             }
             
             {
-                isVisible &&
+                url &&
                     <>
                         <div className={classes.table}>
-                            <Table url={url} columnId={personsColumns} showPaginator={true} itemsByPage={5} onChange={(person: any) => selectRow(person)} />
+                            <Table url={url} columnId={personsColumns} showPaginator={true} itemsByPage={5} onRowSelected={(row: any) => selectRow(row)} selectable={true} />
                         </div>
                     </>
             }
@@ -233,9 +232,9 @@ const useStyles = makeStyles({
     },
 
     table: {
-        '& > .ewkDoX th': {
+        '& > table[class="ewkDoX"] > th': {
             backgroundColor: `${globalTokens.__grey_5} !important`
-        }
+        },
     },
 
     actions: {

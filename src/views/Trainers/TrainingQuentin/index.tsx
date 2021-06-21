@@ -16,7 +16,7 @@ const TrainingQuentin = () => {
         <div className={classes.training}>
             <DxcButton label="Click me" onClick={() => setIsVisible(true)} />
 
-            <p>{person}</p>
+            <p><b>Selected person :</b> {person}</p>
 
             <EditPayer
                 isVisible={isVisible}

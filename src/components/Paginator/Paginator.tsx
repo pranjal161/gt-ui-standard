@@ -33,12 +33,6 @@ const Paginator = (props: PaginatorProps) => {
     const first = data && getLink(data, 'first') ? getLink(data, 'first') : '';
 
     useEffect(() => {
-        console.log({totalItems})
-        console.log({itemsPerPage})
-        console.log({data})
-    }, [])
-
-    useEffect(() => {
         changePage(1);
     }, [first]);
 

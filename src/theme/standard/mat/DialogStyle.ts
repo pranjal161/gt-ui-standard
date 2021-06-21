@@ -8,7 +8,7 @@ export const DialogStyle = {
         },
 
         '& .MuiDialog-paperWidthMd': {
-            maxWidth: 1150
+            maxWidth: 1200
         }
     },
     titleRoot: {
@@ -36,6 +36,6 @@ export const DialogStyle = {
             paddingRight: '65px'
         }},
     content:{
-        padding: '0 32px',
+        padding: '0 32px'
     }
 }

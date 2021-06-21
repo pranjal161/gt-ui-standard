@@ -7,10 +7,21 @@ import { PencilIcon } from 'assets/svg';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-// import axios from 'utils/axios';
 interface EditPayerProps {
+
+    /**
+     * Define if the dialog is visible or not.
+     */
     isVisible: boolean,
+
+    /**
+     * Setter to set isVisible state value;
+     */
     setIsVisible?: Function,
+
+    /**
+     * Function called when you decide to get a value from the Dialog.
+     */
     onChange: Function
 }
 
@@ -24,22 +35,18 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
     const [isSearching, setIsSearching] = React.useState<boolean>(false);
 
     const onSearchingChange = () => {
-        setIsSearching(!isSearching);
+        setIsSearching(true);
+        createPersonsUrl(filters);
     }
 
-    /*  const testFindPersons = async (url: string) => {
-        try {
-            const res = await axios.get(url, {headers: APIConfig.defaultHeader});
-            console.log({res});
-        }
-        catch (err) {
-            console.log({err});
-        }
-    } */
-
     React.useEffect(() => {
-        createPersonsUrl({...filters});
-        console.log('Main :', filters)
+        setIsSearching(false);
+    }, [])
+    
+    React.useEffect(() => {
+        if (isSearching && Object.keys(filters).length > 0) {
+            createPersonsUrl({...filters});
+        }
     }, [filters]);
 
     const generateRequestFilters = (filters: any) => {
@@ -68,15 +75,19 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
     }
 
     const createPersonsUrl = (filters: any) => {
-        const fields = generateRequestFilters(filters);        
+        const fields = generateRequestFilters(filters);
         setPersonsUrl(`http://20.33.40.147:13111/csc/insurance/persons${fields}`);
         
     }
 
     const manageData = (obj: any = {}) => {
-        console.log(obj);
         setFilters({...obj.filters})
         setSelectedPerson({...obj.selectedRow});
+    }
+
+    const closeDialog = () => {
+        setFilters({});
+        setIsVisible(false);
     }
 
     return (
@@ -88,9 +99,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                 content={
                     <DialogContent 
                         url={personsUrl} 
-                        isVisible={isSearching} 
-                        onChange={manageData} 
-                        filters={filters} 
+                        onChange={manageData}
                     />
                 }
 
@@ -99,12 +108,15 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                 
                 actions={
                     <DialogActions 
-                        data={{filters}} 
-                        isSearching={isSearching} 
+                        data={{filters, selectedPerson}}
+                        isSearching={isSearching}
                         onSearch={() => onSearchingChange()} 
-                        onModify={() => onChange(selectedPerson)} 
-                        onCancel={() => setIsVisible(false)} 
-                        onCreate={() => setIsVisible(false)} 
+                        onModify={() => {
+                            onChange(selectedPerson);
+                            closeDialog();
+                        }}
+                        onCancel={() => closeDialog()}
+                        onCreate={() => closeDialog()}
                     />
                 }
             />
