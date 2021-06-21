@@ -2,12 +2,14 @@ import React, { useCallback, useState } from 'react';
 import Stepper, { StepProps } from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
+import {useTranslation} from 'react-i18next';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import { makeStyles } from '@material-ui/core/styles';
+import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import { useSelector } from 'react-redux';
@@ -58,11 +60,14 @@ const useStyles = makeStyles((theme) => ({
 const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
+    const hRef = props.hRef
+    const {t} = useTranslation()
     const { getActivityConf } = useConfigurations();
     const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
-    const activityResponse = useResponse(props.hRef);
+    const activityResponse = useResponse(hRef);
+    const { patch } = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
@@ -71,27 +76,27 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const steps = [
         {
             id: 0,
-            label: '_UNSOLICITED_PAYMENT',
+            label: t('common:_UNSOLICITED_PAYMENT'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <UnsolicitedPayment />
+            component: <UnsolicitedPayment response={activityResponse}/>
         },
         {
             id: 1,
-            label: '_INVESTMENT_SPLIT',
+            label: t('common:_INVESTMENT_SPLIT'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <InvestmentSplit />
+            component: <InvestmentSplit response={activityResponse}/>
         },
         {
             id: 2,
-            label: '_INFORMATION_SHEET',
+            label: t('common:_INFORMATION_SHEET'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <InformationSheet />
+            component: <InformationSheet response={activityResponse}/>
         }
     ]
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -109,6 +114,14 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
         setCurrentStep(step);
     }
 
+    const patchDate = (value:any, id: string) => {
+        const payload: any = {};
+        payload[id] = value;
+        patch(hRef,payload).then(() => {
+            setCurrentStep(0);
+        });
+    }
+
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
@@ -116,7 +129,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse && 
-                        <DateInput propertyName="date_effect" data={activityResponse.data} />}
+                        <DateInput propertyName="date_effect" onChangeMethod={(value: any) => patchDate(value, 'date_effect')} data={activityResponse.data} />}
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={(index: number) => setCurrentStep(index)} />

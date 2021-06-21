@@ -8,9 +8,8 @@ export const StyledHoverRow = styled.tr`
 `;
 
 export const StyledLabel = styled.label`
-  margin-right: 7px;
-  color: gray;
-  width: ${(props : { width: number}) => (props.width ? props.width : 'unset')}px;
+width: ${(props: {width: number}) => (props.width ? props.width : 'unset')}%;
+margin-right: 1%;
 `;
 
 export const StyledPaginator = styled.div`
