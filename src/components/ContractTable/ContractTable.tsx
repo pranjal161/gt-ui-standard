@@ -10,7 +10,7 @@ import useTabs from 'hooks/useTabs';
  * @returns {*} Return information of the contract in a Table
  */
 const ContractTable = (props: any) => {
-    const {openNewTab, openNewTabInSecondaryWindow} = useTabs()
+    const {openNewTab, forContract, forOperation} = useTabs()
     const {fetch} = useAia();
 
     const contractColumns = [
@@ -35,44 +35,25 @@ const ContractTable = (props: any) => {
                 const operationItem = operationRes.data._links['item'];
                 const payment = operationItem.find((item: { name: string }) => item.name === 'unsolicited_payment');
                 if (payment && payment.href) {
-                    openTicketInNewTab({
-                        title:row.title,
-                        entityType: 'contract',
-                        activityCode: 'unsolicited_payment',
-                        hRef: row.href,
-                        mainEntityHRef: row.href
-                    });
+                    openNewTab(forOperation(
+                        {
+                            entityType: 'contract',
+                            mainEntityHRef: row.href,
+                            operation: payment
+                        }
+                    ));
                 }
             }
         })
     }
 
-    const openTicketInNewTab = (row: any) => {
-        openNewTab({
-            id: row.summary['contract:number'],
-            subTitle: row.summary['contract:product_label'],
-            activityProps: {
-                title:row.title,
-                entityType: 'contract',
-                activityCode: 'contract_view',
-                hRef: row.href,
-                mainEntityHRef: row.href
-            }
-        })
+    const openTicketInNewTab = (contract: any) => {
+        console.log('contract', contract)
+        openNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
-    const openTicketInNewWindow = (row: any) => {
-        openNewTabInSecondaryWindow({
-            id: row.summary['contract:number'],
-            subTitle: row.summary['contract:product_label'],
-            activityProps: {
-                title:row.title,
-                entityType: 'contract',
-                activityCode: 'contract_view',
-                hRef: row.href,
-                mainEntityHRef: row.href
-            }
-        })
+    const openTicketInNewWindow = (contract: any) => {
+        openTicketInNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
     return (
