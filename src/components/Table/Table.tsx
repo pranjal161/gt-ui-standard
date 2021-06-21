@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
+import { debounce } from '@material-ui/core/utils';
 import { getDescriptionValue } from 'utils/functions';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -80,7 +81,7 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
 
 }
 
-const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, selectable = false }: TableProps) => {
+const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 20, selectable = false }: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -89,12 +90,18 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, s
     const { fetch } = useAia();
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
+    const debouncedCallAPI = React.useCallback(
+        debounce((apiURL: any) => getData(apiURL), 5000),
+        []
+    );
+
     useEffect(() => {
-        getData(url);        
+        debouncedCallAPI(url);
     }, [url]);
 
     const getData = (link: string) => {
-        fetch(`${link}&_num=${itemsByPage}`).then((response: any) => {
+        fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+            console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
                 if (!Array.isArray(result.data['_links']['item'])) {
@@ -102,7 +109,6 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, s
                 }
                 const count = response?.data?._count;
                 setTableData(result.data);
-                // changeTotalItems(count === '500+' ? 500 : count);
                 setTotalItems(count === '500+' ? 500 : count);
                 // setshowPaginator(props.showPaginator);
             }
