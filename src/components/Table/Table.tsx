@@ -91,7 +91,7 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 20, 
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
     const debouncedCallAPI = React.useCallback(
-        debounce((apiURL: any) => getData(apiURL), 5000),
+        debounce((apiURL: any) => getData(apiURL), 3000),
         []
     );
 

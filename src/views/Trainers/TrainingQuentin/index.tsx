@@ -14,7 +14,7 @@ const TrainingQuentin = () => {
     const [value, setValue] = React.useState<any>();
 
     const debouncedLog = React.useCallback(
-        debounce((nextValue: any) => console.log('Hello'), 1000),
+        debounce((val: any) => console.log(val), 1000),
         []
     );
 
