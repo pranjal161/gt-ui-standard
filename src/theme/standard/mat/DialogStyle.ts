@@ -1,11 +1,14 @@
 export const DialogStyle = {
     root: {
+
+        zIndex: '2500 !important',
+
         '& .MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthMd.MuiDialog-paperFullWidth.MuiPaper-elevation24.MuiPaper-rounded': {
-            maxHeight: 666,
+            maxHeight: 800,
         },
 
         '& .MuiDialog-paperWidthMd': {
-            maxWidth: 1150
+            maxWidth: 1200
         }
     },
     titleRoot: {
@@ -33,6 +36,6 @@ export const DialogStyle = {
             paddingRight: '65px'
         }},
     content:{
-        padding: '0 32px',
+        padding: '0 32px'
     }
 }
