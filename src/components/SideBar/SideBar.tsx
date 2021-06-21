@@ -1,9 +1,13 @@
+import * as sideBarReducer from 'store/reducers/secondaryTabsReducer';
+
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
+
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import React from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 
 export interface SideBarProps {
 
@@ -64,12 +68,11 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flex: '1 0 auto',
         height: '100%',
-        width: 'fit-content',
+        width: '100%',
     },
     toolbar: {
         display: 'flex',
         flexDirection: 'column',
-        flex: '1 1 auto',
         placeSelf: 'stretch',
         justifyContent: 'left',
         minWidth: '44px',
@@ -90,11 +93,11 @@ const useStyles = makeStyles((theme) => ({
     },
     headerAndContent: {
         display: 'flex',
-        margin: theme.spacing(3, 4, 0, 4),
+        margin: '5% 0 0 5%',
         flexDirection: 'column',
         alignItems: 'start',
         height: '-webkit-fill-available',
-        maxWidth:'-webkit-max-content'
+        width: '100%'
     },
     divider: {
         borderBottomWidth: 2,
@@ -110,9 +113,8 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom:theme.spacing(1)
     },
     headerTitle: {
-        flexGrow: 1,
-        width:'70%'
-        //minWidth:'300px'
+        width:'100%',
+        minWidth: 'calc(100% - 84px)'
     },
     headerActions: {
         display: 'flex',
@@ -181,7 +183,9 @@ export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
         className = '',
     } = props
     const classes = useStyles();
+    const dispatch = useDispatch();
     const handleToggle = () => {
+        dispatch(sideBarReducer.setSideBarToggle(!open));
         onToggle && onToggle()
     }
 
