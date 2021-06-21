@@ -99,7 +99,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
             /></div>}
     </>)
 
-    const content = currentInstance && currentInstance.controller(currentInstance.id)
+    const content = currentInstance && currentInstance.controller({id:currentInstance.id})
     const onToggle = useCallback(() => {
         setOpen((value: any) => !value)
     }, [setOpen])

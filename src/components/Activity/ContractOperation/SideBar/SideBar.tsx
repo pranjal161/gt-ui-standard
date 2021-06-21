@@ -78,8 +78,45 @@ const ContentController = ( { value }:any) => {
     </div>)
 }
 
+const personItems: PanelSectionItem[] = [
+    {id: 'person:gender', styleType: ['text']},
+    {id: 'person:first_name', styleType: ['text']},
+    {id: 'person:last_name', styleType: ['text']},
+    {id: 'person:birth_date', styleType: ['date']},
+    {id: 'person:age', styleType: ['number']},
+    {id: 'person:professional_status', styleType: ['text']},
+    {id: 'person:language', styleType: ['text']},
+]
+
+const PersonController = ( { hRef }:any) => {
+    const classes = useStyles();
+    const response = useResponse(hRef)
+    const FirstSectionContent = () => <div className={classes.firstSectionContent}>{personItems.map(
+        (item) => <LabelInline key={item.id}
+            property={item.id}
+            data={response && response.data}
+            styleType={item.styleType}
+        />)}</div>
+
+    console.log('PersonController Render, hRef : ', hRef, 'response :', response)
+
+    return (<div className={classes.controllerContent}>
+        <PanelSection className={classes.section} title={'Details 1'} content={<FirstSectionContent/>}/>
+    </div>)
+}
+
+const RoleController = ({hRef}:any) => {
+    const response = useResponse(hRef)
+    const personHRef= response && response.data._links['party_role:person'].href
+
+    console.log('RoleController Render, hRef : ', hRef, 'response :', response)
+
+    return (<PersonController hRef={personHRef}/>)
+}
+
 const personController = (value: any) => <ContentController value={value}/>
-const contractController = (value: any) => <ContentController value={value}/>
+const roleController = (value: any) => <RoleController hRef={value.id}/>
+const contractController = ({props}: any) => <ContentController {...props}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
     const {t} = useTranslation()
@@ -108,7 +145,7 @@ const SideBar = ({mainEntityHRef}: any) => {
             .map((item: any) => {
                 const display = t('common:clientTitle', {value : item.summary['person:display_id'].split(' - ')[0]})
 
-                return {display, id: item.href, controller: personController}
+                return {display, id: item.href, controller: roleController}
             })
     }
 
