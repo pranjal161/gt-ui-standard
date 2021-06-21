@@ -36,6 +36,8 @@ const TrainingQuentin = () => {
             />
 
             <DxcInput
+                label="Test debounce function"
+                assistiveText="Please check the console while typing"
                 value={value}
                 onChange={handleChange}
             />

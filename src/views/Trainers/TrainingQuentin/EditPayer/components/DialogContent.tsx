@@ -4,7 +4,7 @@ import { FilterIcon, SearchIcon } from 'assets/svg';
 import React from 'react';
 import Table from 'components/Table/Table';
 import Typo from 'components/Typography/Typo';
-import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
+import capitalize from '@material-ui/core/utils/capitalize';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { personsColumns } from '../personColumns';
@@ -18,12 +18,17 @@ interface DialogContentProps {
     onChange: Function,
 
     /**
+     * Boolean value to define if the search has started.
+     */
+    isSearching: boolean,
+
+    /**
      * The url where data will be get when there is a filter.
      */
     url: string
 }
 
-const DialogContent = ({onChange, url}: DialogContentProps) => {
+const DialogContent = ({onChange, isSearching, url}: DialogContentProps) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const [isFiltersVisible, setIsFiltersVisible] = React.useState(false);
@@ -45,7 +50,7 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
         }
 
         if (inputName === 'person:first_name') {
-            newValue = capitalizeFirstLetterAndRemove_(newValue);
+            newValue = capitalize(newValue);
         }
 
         if (newValue !== '') {
@@ -115,10 +120,14 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
             }
             
             {
-                url &&
+                isSearching &&
                     <>
                         <div className={classes.table}>
-                            <Table url={url} columnId={personsColumns} showPaginator={true} itemsByPage={5} onRowSelected={(row: any) => selectRow(row)} selectable={true} />
+                            <Table url={url}    
+                                columnId={personsColumns}  
+                                showPaginator={true}
+                                itemsByPage={5}
+                                onRowSelected={(row: any) => selectRow(row)}/>
                         </div>
                     </>
             }

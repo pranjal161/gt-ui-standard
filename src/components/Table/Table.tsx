@@ -23,12 +23,15 @@ type SelectedRow = {
 }
 
 interface TableProps {
+
+    /**
+     * Url from 
+     */
     url: string,
     columnId: Array<any>
     showPaginator: Boolean,
     onRowSelected?: Function,
     itemsByPage?: number,
-    selectable?: boolean
 }
 
 interface TableCellProps {
@@ -81,7 +84,7 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
 
 }
 
-const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 20, selectable = false }: TableProps) => {
+const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 20}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -143,7 +146,7 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 20, 
                             <tbody>
                                 {
                                     tableData._links.item.map((row: any, index: number) => (
-                                        <tr className={`${selectable && index === selectedRow.index ? classes.selectedRow : ''} ${classes.row}`}
+                                        <tr className={`${onRowSelected && index === selectedRow.index ? classes.selectedRow : ''} ${classes.row}`}
                                             key={'tr' + index}
                                             onClick={() => selectValue({index, person: row})}>
                                             {

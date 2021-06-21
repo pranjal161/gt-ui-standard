@@ -38,10 +38,6 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         setIsSearching(true);
         createPersonsUrl(filters);
     }
-
-    React.useEffect(() => {
-        setIsSearching(false);
-    }, [])
     
     React.useEffect(() => {
         if (isSearching && Object.keys(filters).length > 0) {
@@ -49,8 +45,8 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         }
     }, [filters]);
 
-    const generateRequestFilters = (filters: any) => {
-        if (Object.keys(filters).length === 0) {
+    const generateRequestFilters = (filtersObj: any) => {
+        if (Object.keys(filtersObj).length === 0) {
             return
         }
         else {
@@ -74,10 +70,9 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         }
     }
 
-    const createPersonsUrl = (filters: any) => {
-        const fields = generateRequestFilters(filters);
+    const createPersonsUrl = (filtersObj: any) => {
+        const fields = generateRequestFilters(filtersObj);
         setPersonsUrl(`http://20.33.40.147:13111/csc/insurance/persons${fields}`);
-        
     }
 
     const manageData = (obj: any = {}) => {
@@ -87,6 +82,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
 
     const closeDialog = () => {
         setFilters({});
+        setIsSearching(false);
         setIsVisible(false);
     }
 
@@ -97,7 +93,8 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                 title={t('common:edit_payer')}
 
                 content={
-                    <DialogContent 
+                    <DialogContent
+                        isSearching={isSearching}
                         url={personsUrl} 
                         onChange={manageData}
                     />
@@ -108,7 +105,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                 
                 actions={
                     <DialogActions 
-                        data={{filters, selectedPerson}}
+                        filters={filters}
                         isSearching={isSearching}
                         onSearch={() => onSearchingChange()} 
                         onModify={() => {
