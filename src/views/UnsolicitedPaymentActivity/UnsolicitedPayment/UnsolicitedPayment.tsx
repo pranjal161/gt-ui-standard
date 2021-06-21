@@ -7,16 +7,16 @@ import Section from 'components/Section/Section';
 export interface UnsolicitedPaymentProps{
 
     /**
-     * hRef of the entity to get information
+     * API response of API for the entity
      */
-    hRef:string
+    response:any
 }
 
-const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({hRef}:UnsolicitedPaymentProps) => (
+const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:UnsolicitedPaymentProps) => (
     <>
         <div className="col-12">
             <Section title="General Information" icon={<PaymentIcon />}>
-                hRef: {hRef}
+                response: {JSON.stringify(response)}
                 TEST 1
                 TEst 2
             </Section>

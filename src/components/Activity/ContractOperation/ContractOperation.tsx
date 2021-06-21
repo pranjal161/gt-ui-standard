@@ -80,7 +80,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <UnsolicitedPayment hRef={hRef}/>
+            component: <UnsolicitedPayment response={activityResponse}/>
         },
         {
             id: 1,
@@ -88,7 +88,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InvestmentSplit hRef={hRef}/>
+            component: <InvestmentSplit response={activityResponse}/>
         },
         {
             id: 2,
@@ -96,7 +96,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InformationSheet hRef={hRef}/>
+            component: <InformationSheet response={activityResponse}/>
         }
     ]
     const handleSideBarOffsetTop = useCallback((node) => {

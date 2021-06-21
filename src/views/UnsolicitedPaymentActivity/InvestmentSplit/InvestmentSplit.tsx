@@ -3,12 +3,12 @@ import React from 'react';
 export interface InvestmentSplitProps{
 
     /**
-     * hRef of the entity to get information
+     * API response of API for the entity
      */
-    hRef:string
+    response:any
 }
-const InvestmentSplit:React.FC<InvestmentSplitProps> = ({hRef}:InvestmentSplitProps) => (
-    <div>InvestmentSplit for hRef:{hRef}</div>
+const InvestmentSplit:React.FC<InvestmentSplitProps> = ({response}:InvestmentSplitProps) => (
+    <div>InformationSheet response: {JSON.stringify(response)}</div>
 )
 
 export default InvestmentSplit;

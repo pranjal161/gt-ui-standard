@@ -3,12 +3,13 @@ import React from 'react';
 export interface InformationSheetProps{
 
     /**
-     * hRef of the entity to get information
+     * API response of API for the entity
      */
-    hRef:string
+    response:any
+
 }
-const InformationSheet:React.FC<InformationSheetProps> = ({hRef}:InformationSheetProps) => (
-    <div>InformationSheet for hRef:{hRef}</div>
+const InformationSheet:React.FC<InformationSheetProps> = ({response}:InformationSheetProps) => (
+    <div>InformationSheet response: {JSON.stringify(response)}</div>
 )
 
 export default InformationSheet;
