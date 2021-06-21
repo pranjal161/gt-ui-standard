@@ -1,4 +1,5 @@
 {
+  "amount": "Amount",
   "currency_code": "Currency",
   "end_validity_date": "End date",
   "number": "Contract number",
