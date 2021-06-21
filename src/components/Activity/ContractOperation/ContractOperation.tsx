@@ -1,13 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import Stepper, { StepProps } from 'components/Stepper/Stepper';
 
+import Button from 'components/Button/Button';
+import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
+import useResponse from 'hooks/useResponse';
+import { useSelector } from 'react-redux';
 
 export interface ContractUpsertProps {
 
@@ -37,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(4)
     },
     bodyRight: {
-        minWidth: '44px'
+        maxWidth: '25%'
     },
     content: ({ contentOffsetTop = '' }: any) => ({
         height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
@@ -55,9 +59,12 @@ const useStyles = makeStyles((theme) => ({
 const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const { getActivityConf } = useConfigurations()
+    const { getActivityConf } = useConfigurations();
+    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
+    const activityResponse = useResponse(props.hRef);
+    const { patch } = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
@@ -99,19 +106,30 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
 
     const SideBarConf = configurations.sidebar;
 
-    const previousStep = (index: number) => {
-        const step = index < 0 ? 0 : index;
+    const nextStep = (index: number) => {
+        const step = index >= steps.length ? steps.length - 1 : index;
         setCurrentStep(step);
     }
 
-    return (
-        <div className={classes.body}>
-            <div className={classes.bodyLeft}>
+    const patchDate = (value:any, id: string) => {
+        const payload: any = {};
+        payload[id] = value;
+        patch(props.hRef,payload).then(() => {
+            setCurrentStep(0);
+        });
+    }
 
-                <div className={classes.header}>
-                    <div>---------Date effect input-------</div>
-                    <div>
-                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={() => previousStep(currentStep - 1)} />
+    return (
+        <div className={`col-12 ${classes.body}`}>
+            <div className={`col-9 ${classes.bodyLeft}`}>
+
+                <div className="d-flex pt-3 pb-3">
+                    <div className="col-2">
+                        {activityResponse && 
+                        <DateInput propertyName="date_effect" onChangeMethod={(value: any) => patchDate(value, 'date_effect')} data={activityResponse.data} />}
+                    </div>
+                    <div className="col-10">
+                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={(index: number) => setCurrentStep(index)} />
                     </div>
 
                 </div>
@@ -127,12 +145,11 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                             </>
                         ))
                         }
-
+                        <div className="m-2 p-1" style={{float: 'right'}}><Button onClick={() => nextStep(currentStep + 1)} title="_NEXT_BUTTON" /></div>
                     </WithScroll>
                 </div>
-
             </div>
-            <div ref={handleSideBarOffsetTop} className={clsx(classes.bodyRight, classes.sidebar)}>
+            <div ref={handleSideBarOffsetTop} className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}`: `${classes.bodyRight + ' ' + classes.sidebar}`}>
                 <SideBarConf {...props} />
             </div>
         </div>
