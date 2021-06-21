@@ -18,6 +18,15 @@
   "contractViewLabel": "Contract view",
   "operationEmptyList": "No operation available",
   "businessActivityLabel": "Business activity",
+  "date_effect": "Date d'effet",
+  "_CONTRACT_SEARCH": "Contract search",
+  "_RESET": "Reset",
+  "_PAGINATOR_WARNING": "Please add filter to have relevant results - No more than 500 results will be fetch",
+  "_OWNER_NAME": "Owner name",
+  "_ACTIONS": "Actions",
+  "_NO_RECORDS_FOUND": "No record",
+
+
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
