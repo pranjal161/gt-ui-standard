@@ -60,12 +60,13 @@ const useStyles = makeStyles((theme) => ({
 const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
+    const hRef = props.hRef
     const {t} = useTranslation()
     const { getActivityConf } = useConfigurations();
     const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
-    const activityResponse = useResponse(props.hRef);
+    const activityResponse = useResponse(hRef);
     const { patch } = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
@@ -79,7 +80,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <UnsolicitedPayment />
+            component: <UnsolicitedPayment hRef={hRef}/>
         },
         {
             id: 1,
@@ -87,7 +88,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InvestmentSplit />
+            component: <InvestmentSplit hRef={hRef}/>
         },
         {
             id: 2,
@@ -95,7 +96,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InformationSheet />
+            component: <InformationSheet hRef={hRef}/>
         }
     ]
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -116,7 +117,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const patchDate = (value:any, id: string) => {
         const payload: any = {};
         payload[id] = value;
-        patch(props.hRef,payload).then(() => {
+        patch(hRef,payload).then(() => {
             setCurrentStep(0);
         });
     }
