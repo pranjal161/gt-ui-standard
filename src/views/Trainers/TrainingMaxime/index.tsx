@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const TrainingMaxime = () => {
     const classes = useStyles();
     const [activityUrl, onLaunchActivity]:[any, any] = React.useState({});
+    const [isOpen, setIsOpen]:[boolean, Function] = React.useState(false);
 
     return (
         <>
@@ -21,6 +22,8 @@ const TrainingMaxime = () => {
                 <Header title={'Contract number: PCMR000381'} hRef={ 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FHtW'} onLaunchActivity={onLaunchActivity}/>
             </div>
             <h3>{activityUrl.hRef}</h3>
+
+            <button onClick={()=>{setIsOpen(true)}}>click</button>
         </>
     )
 }
