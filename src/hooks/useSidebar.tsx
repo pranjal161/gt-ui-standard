@@ -1,5 +1,6 @@
 import {ContractIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
 import React, {useCallback, useState} from 'react';
+
 import {DxcDropdown} from '@dxc-technology/halstack-react';
 import Typo from 'components/Typography/Typo';
 import VerticalToolbar from 'components/VerticalToolBar/VerticalToolbar';
@@ -90,7 +91,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
     }))
 
     const HeaderTitle = (props: { value: string }) => <Typo className={classes.headerTitle} variant={'title'} value={props.value}/>
-    const header = (<div className={classes.root}>
+    const header = (<>
         {currentInstance && options.length === 1 && <HeaderTitle value={currentInstance.display}/>}
         {currentInstance && options.length > 1 &&
         <div className={classes.cdkOveride}>
@@ -101,7 +102,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
                 value={currentInstance.id}
                 onSelectOption={onChangeEntityInstanceSelections}
             /></div>}
-    </div>)
+    </>)
 
     const content = currentInstance && currentInstance.controller(currentInstance.id)
     const onToggle = useCallback(() => {

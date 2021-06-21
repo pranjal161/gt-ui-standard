@@ -9,8 +9,10 @@ import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/In
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import { makeStyles } from '@material-ui/core/styles';
+import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
+import { useSelector } from 'react-redux';
 
 export interface ContractUpsertProps {
 
@@ -59,10 +61,12 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {t} = useTranslation()
-    const { getActivityConf } = useConfigurations()
+    const { getActivityConf } = useConfigurations();
+    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
     const activityResponse = useResponse(props.hRef);
+    const { patch } = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
@@ -109,6 +113,14 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
         setCurrentStep(step);
     }
 
+    const patchDate = (value:any, id: string) => {
+        const payload: any = {};
+        payload[id] = value;
+        patch(props.hRef,payload).then(() => {
+            setCurrentStep(0);
+        });
+    }
+
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
@@ -116,7 +128,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse && 
-                        <DateInput propertyName="date_effect" data={activityResponse.data} />}
+                        <DateInput propertyName="date_effect" onChangeMethod={(value: any) => patchDate(value, 'date_effect')} data={activityResponse.data} />}
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={(index: number) => setCurrentStep(index)} />
@@ -139,7 +151,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                     </WithScroll>
                 </div>
             </div>
-            <div ref={handleSideBarOffsetTop} className={`${classes.bodyRight + ' ' + classes.sidebar}`}>
+            <div ref={handleSideBarOffsetTop} className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}`: `${classes.bodyRight + ' ' + classes.sidebar}`}>
                 <SideBarConf {...props} />
             </div>
         </div>

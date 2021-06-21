@@ -1,7 +1,7 @@
 import { formatValue, getDescriptionFromOneOf } from 'utils/functions';
 
 import React from 'react';
-import styled from 'styled-components';
+import {StyledLabel} from 'styles/global-style';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -13,11 +13,6 @@ const Label = (props: { property: string; data: any; type?: string; width?: any 
     const { t } = useTranslation();
     const { property, data, type } = props;
     let value, viewValue;
-
-    const StyledLabel = styled.label`
-  width: ${(props: {width: number}) => (props.width ? props.width : 'unset')}px;
-  margin-right: 1%;
-`;
 
     // Functions to process Output
     /**
@@ -39,7 +34,7 @@ const Label = (props: { property: string; data: any; type?: string; width?: any 
 
     return (
         <span data-testid={property}>
-            {property && <StyledLabel width={props.width}>{t(property)}:</StyledLabel>}
+            {property && <StyledLabel width={props.width}>{t(property)}</StyledLabel>}
             <label dangerouslySetInnerHTML={{ __html: processDataOutput() }}></label>
         </span>
     );
