@@ -1,0 +1,17 @@
+{
+  "age": "Age",
+  "birth_date": "Date of birth",
+  "client_number": "Client number",
+  "last_name": "Last Name",
+  "marital_status": "Marital status",
+  "professional_status": "Prof.status",
+  "legal_name": "Legal Name",
+  "first_name": "First Name",
+  "trade_name": "Trade Name",
+  "postal_code": "Postcode",
+  "country_code": "Country code",
+  "name": "Name",
+  "type": "Type",
+  "birth_date_alt": "Birth date",
+  "creation_date": "Creation date"
+}

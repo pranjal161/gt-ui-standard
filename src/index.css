@@ -1,3 +1,9 @@
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+/* This part is used to avoid moving the contents displayed on the right after the scrollbar disapear, when the material-ui modal is displayed */
+html {
+  overflow-x: hidden;
+}
 body {
   margin: 0;
   font-family:
