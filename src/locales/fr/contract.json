@@ -1,4 +1,5 @@
 {
+  "amount": "Montant",
   "currency_code": "Devise",
   "end_validity_date": "Fin de validité",
   "number": "Numéro de contrat",
