@@ -29,7 +29,7 @@ const useTabs = () => {
     const {t} = useTranslation()
     const history = useHistory();
 
-    const openNewTab = ({subTitle, activityProps}: openNewTabProps) => {
+    const openNewTab = useCallback(({subTitle, activityProps}: openNewTabProps) => {
         dispatch(addSecondaryTabByID({
             tabId: activityProps.hRef,
             tabType: activityProps.entityType,
@@ -42,9 +42,9 @@ const useTabs = () => {
             activityProps: activityProps
         }));
         history.push('/viewTab');
-    }
+    },[dispatch, addWindowTabByID])
 
-    const openNewTabInSecondaryWindow = ({subTitle, activityProps}: openNewTabProps) => {
+    const openNewTabInSecondaryWindow = useCallback(({subTitle, activityProps}: openNewTabProps) => {
         dispatch(addWindowTabByID({
             tabId: activityProps.hRef,
             tabType: activityProps.entityType,
@@ -57,7 +57,7 @@ const useTabs = () => {
             activityProps: activityProps
         }));
         history.push('/viewTab');
-    }
+    },[dispatch, addWindowTabByID])
 
     const forOperation = useCallback(({entityType, mainEntityHRef, operation}: any) => ({
         id: operation.href,

@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import Stepper, { StepProps } from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
-import {useTranslation} from 'react-i18next';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
@@ -13,6 +12,7 @@ import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import { useSelector } from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 export interface ContractUpsertProps {
 
@@ -107,7 +107,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
 
     const configurations = getActivityConf(props)
 
-    const SideBarConf = configurations.sidebar;
+    const SideBarConf = configurations.sidebar
 
     const nextStep = (index: number) => {
         const step = index >= steps.length ? steps.length - 1 : index;
