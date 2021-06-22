@@ -94,12 +94,16 @@ const RoleController = React.memo(({hRef}: any) => {
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
 const contractController = (value: any) => <ContractPreview hRef={value.id}/>
+const loadingController = () => <div>Loading</div>
 
-const SideBar = ({mainEntityHRef}: any) => {
+const SideBar = (props:any) => {
+    const {mainEntityHRef} = props
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
     let items: any = {}
+
+    console.log('SideBar render', props, mainEntityResponse)
 
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
@@ -116,7 +120,7 @@ const SideBar = ({mainEntityHRef}: any) => {
     }
     else
         //This is a workaround for the initial state and to have contract define by default
-        items.contract = [{title: 'Loading', id: 'not_defined', controller: contractController}]
+        items.contract = [{title: 'Loading', id: 'not_defined', controller: loadingController}]
 
     //Get role parties linked to the contract
     //Todo : do we have to put such API parsing in functions ?
