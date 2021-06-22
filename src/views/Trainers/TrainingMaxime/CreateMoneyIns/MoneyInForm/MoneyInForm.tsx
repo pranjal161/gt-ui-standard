@@ -1,18 +1,13 @@
-import { DxcInput, DxcSelect } from '@dxc-technology/halstack-react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
+import FormContent from './FormContent';
 import React from 'react';
+import useAia from 'hooks/useAia';
 
 // import DateInput from 'theme/components/material/DateInput/DateInput';
-// import { getActivities } from 'utils/functions';
+
 // import { useTranslation } from 'react-i18next';
-
 export interface MoneyInFormProps {
-
-    /**
-     * BankAccountList
-            */
-    bankAccountList?: any
 
     /**
      * formData
@@ -23,18 +18,88 @@ export interface MoneyInFormProps {
      * setFormData
             */
     setFormData: Function
+
+    /**
+    * payerURI
+           */
+    payerURI: string
+
+    /**
+    * isLoad
+           */
+    isLoad: boolean;
+
+    /**
+    * setIsLoad
+           */
+    setIsLoad: Function;
+
+    /**
+    * bankAccountList
+           */
+    bankAccountList: any;
+
+    /**
+    * setBankAccountList
+           */
+    setBankAccountList: Function;
+
+    /**
+    * currencySelect : API properties formatted for dxc select
+           */
+    currencySelect: any
+
+    /**
+    * paymentTypeSelect : API properties formatted for dxc select
+           */
+    paymentTypeSelect: any
+
+    /**
+    * adminSelect : API properties formatted for dxc select
+           */
+    adminSelect: any
 }
 const useStyles = makeStyles((theme: Theme) => ({
-    container: {
-        // padding: theme.spacing(2, 4),
-    },
     formContainer: {
-
-    },
-    formRow: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        padding: theme.spacing(0, 4),
+    },
+    formRow: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginBottom: theme.spacing(4),
+        '& > div': {
+            marginRight: theme.spacing(4),
+        },
+        '& :last-child': {
+            marginRight: theme.spacing(0),
+        }
+    },
+    category1: {
+        marginBottom: theme.spacing(4),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: 600
+    },
+    category2: {
+        marginBottom: theme.spacing(1),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: 600
+    },
+    spinnerContainer: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden'
     }
 }));
 
@@ -45,65 +110,75 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
     const classes = useStyles();
+    const { fetch } = useAia();
     // const { t } = useTranslation();
 
     const {
-        bankAccountList,
         formData,
-        setFormData
+        setFormData,
+        payerURI,
+        isLoad,
+        setIsLoad,
+        bankAccountList,
+        setBankAccountList,
+        currencySelect,
+        paymentTypeSelect,
+        adminSelect
     } = props
+    const [payerTitle, setPayerTitle]: [string, Function] = React.useState('');
+
+    const getAccountList: Function = async () => {
+        try {
+            setIsLoad(true);
+            const res: any = await fetch(payerURI);
+            setPayerTitle(res.data._links.self.name);
+
+            const accountPayer = await fetch(res.data._links['person:bank_account_list'].href);
+            let accountList: any = [];
+            console.log({ accountPayer })
+            if (accountPayer.data._count === 0) {
+                accountList = [...accountList, { value: 1, label: 'No account available' }]
+            }
+            else {
+                accountPayer.data._links.item.map((item: any) => (
+                    accountList.push({
+                        value: item.title,
+                        label: item.title
+                    })
+                ))
+            }
+            console.log(accountList)
+            setBankAccountList(accountList);
+            setIsLoad(false);
+        }
+        catch (err: any) {
+            setIsLoad(false);
+
+            return err;
+        }
+    }
 
     React.useEffect(() => {
-        console.log(bankAccountList)
-    }, [bankAccountList])
-
-    React.useEffect(() => {
-        console.log(formData)
+        if (!bankAccountList) {
+            getAccountList();
+        }
     }, [])
 
-    const onChange = (inputName: string) => (newValue: any) => {
-        console.log(newValue);
-        console.log(inputName);
-
-        setFormData({ ...formData, [inputName]: newValue })
-    };
-
-    const optionsWithoutIcon = [
-        {
-            value: 1,
-            label: 'Amazon'
-        },
-        {
-            value: 2,
-            label: 'Ebay'
-        },
-        {
-            value: 3,
-            label: 'Apple'
-        }
-    ];
-
     return (
-        <div className={classes.container}>
+        <>
             <div className={classes.formContainer}>
-                <div className={classes.formRow}>
-                    <DxcInput
-                        label="Amount to pay"
-                        value={formData.amount}
-                        disabled={true}
-                    />
-                    <DxcInput
-                        label="Payment Amount"
-                        onChange={onChange('paymentAmount')}
-                    />
-                    <DxcSelect
-                        options={optionsWithoutIcon}
-                        onChange={onChange('currency')}
-                        label="Currency"
-                    />
-                </div>
+                <FormContent
+                    formData={formData}
+                    setFormData={setFormData}
+                    isLoad={isLoad}
+                    bankAccountList={bankAccountList}
+                    payerTitle={payerTitle}
+                    currencySelect={currencySelect}
+                    paymentTypeSelect={paymentTypeSelect}
+                    adminSelect={adminSelect}
+                />
             </div>
-        </div>
+        </>
     )
 }
 

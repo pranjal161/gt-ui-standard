@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingRight: 0,
+        paddingRight: '0px !important',
         // marginTop: theme.spacing(8),
     },
     cancelButton: {
@@ -39,10 +39,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.contrastText,
         border: 'none',
         marginLeft: theme.spacing(8),
-        '& :hover': {
-            background: 'inherit',
-            color: theme.palette.primary.main
-        }
     }
 
 }));

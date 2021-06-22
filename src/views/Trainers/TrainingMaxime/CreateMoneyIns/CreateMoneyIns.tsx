@@ -4,12 +4,9 @@ import ActionsModal from './ActionsModal/ActionsModal';
 import Dialog from 'theme/components/material/Dialog/Dialog';
 import MoneyInForm from './MoneyInForm/MoneyInForm';
 import React from 'react';
+import useAia from 'hooks/useAia';
 
-// import useAia from 'hooks/useAia';
-
-// import { getActivities } from 'utils/functions';
 // import { useTranslation } from 'react-i18next';
-
 export interface CreateMoneyInsProps {
 
     /**
@@ -41,92 +38,109 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProps) => {
     const classes = useStyles();
+    const { post } = useAia();
     const {
         open,
         onClose,
-        // response,
+        response,
     } = props
 
-    const addMoney = () => {
-        console.log('push')
-    };
-
+    const [isLoad, setIsLoad]: [boolean, Function] = React.useState(false);
+    const [bankAccountList, setBankAccountList]: [any, Function] = React.useState();
+    const [moneyIn, setMoneyIn]: [any, Function] = React.useState();
+    const [currencySelect, setCurrencySelect]: [any, Function] = React.useState();
+    const [paymentTypeSelect, setPaymentTypeSelect]: [any, Function] = React.useState();
+    const [adminSelect, setAdminSelect]: [any, Function] = React.useState();
     const [formData, setFormData]: [any, Function] = React.useState({
         amount: 3000,
-        paymentAmount: '',
-        currency: '',
+        ['operation:amount']: '',
+        ['operation:currency_code']: '',
         paymentMethod: 'cheque',
         accountingDate: '',
         receiptDate: '',
         depositDate: '',
         valueDate: '',
-        payer: {
-            uri: 'href',
-            label: 'un mec'
-        },
+        payer: '',
         admin: '',
-        depositAccount: {
-            uri: 'href',
-            label: 'un rib'
+        depositAccount: '',
+        chequeNumber: '',
+        signatureDate: ''
+    });
+    const payerURI: string = response.data._links['premium:addressee_person'].href;
+
+    const addMoney = () => {
+        console.log('push')
+    };
+
+    const getMoneyInsProps: Function = async () => {
+        try {
+            const res = await post('http://20.33.40.147:13111/csc/insurance/financials/money_ins', {});
+            console.log(res);
+            setMoneyIn(res);
+            console.log(moneyIn)
+            // Here I format the currencies list in option to feed the select.
+            let currencyFormat: any = [];
+            res.data._options.properties['operation:currency_code'].oneOf.map((item: any) => (
+                currencyFormat.push({
+                    value: item.enum,
+                    label: item.title
+                })
+            ))
+            setCurrencySelect(currencyFormat);
+            console.log(currencyFormat);
+
+            // Here I format the paymentType list in option to feed the select.
+            let paymentTypeFormat: any = [];
+            res.data._options.properties['money_in:payment_type'].oneOf.map((item: any) => (
+                paymentTypeFormat.push({
+                    value: item.enum,
+                    label: item.title
+                })
+            ))
+            setPaymentTypeSelect(paymentTypeFormat);
+            console.log(paymentTypeFormat);
+
+            // Here I format the administrator list in option to feed the select.
+            let adminList: any = [];
+            res.data._options.properties['money_in_administrator'].oneOf.map((item: any) => (
+                adminList.push({
+                    value: item.enum,
+                    label: item.title
+                })
+            ))
+            setAdminSelect(adminList);
+            console.log(adminList);
         }
-    })
+        catch (err) {
+            return err;
+        }
+    }
 
-    // const [moneyIn, setMoneyIn]: [any, Function] = React.useState();
-    // const payerURI: string = response.data._links['premium:addressee_person'].href;
-    // const [bankAccountList, setBankAccountList]: [any, Function] = React.useState([]);
-
-    // const { post, fetch} = useAia();
-    // const { fetch} = useAia();
-
-    // const getMoneyInsProps: Function = async() => {
-    //     try{
-    //         const res = await post('http://20.33.40.147:13111/csc/insurance/financials/money_ins', {});
-    //         console.log(res);
-    //         setMoneyIn(res);
-
-    //         // to delete the request after its creation to avoid too many useless data storage in AIA
-    //         const deleteNewRequest = await post(res.data._links['cscaia:cancel'].href, {});
-    //         console.log(deleteNewRequest);
-    //     }
-    //     catch(err) {
-    //         return err;
-    //     }
-    // }
-
-    // const getAccountList: Function = async() => {
-    //     try{
-    //         const res = await fetch(payerURI);
-    //         const accountList = await fetch(res.data._links['person:bank_account_list'].href);
-
-    //         console.log(accountList);
-    //         setBankAccountList(accountList);
-    //         console.log(bankAccountList);
-    //     }
-    //     catch(err: any){
-    //         return err;
-    //     }
-    // }
-
-    // React.useEffect(() => {
-    // getMoneyInsProps();
-    // console.log(moneyIn);
-    //     getAccountList();
-    // }, [])
+    React.useEffect(() => {
+        getMoneyInsProps();
+    }, [])
     // const { t } = useTranslation();
-
-    // React.useEffect(() => {
-    //     console.log(response);
-    // }, [response])
 
     return (
         <div className={classes.container}>
             <Dialog
                 open={open}
                 fullWidth={false}
+                title={isLoad ? null : 'Money In'}
                 content={<MoneyInForm
-                    formData={formData} setFormData={setFormData} />
+                    formData={formData}
+                    setFormData={setFormData}
+                    payerURI={payerURI}
+                    isLoad={isLoad}
+                    setIsLoad={setIsLoad}
+                    bankAccountList={bankAccountList}
+                    setBankAccountList={setBankAccountList}
+                    currencySelect={currencySelect}
+                    paymentTypeSelect={paymentTypeSelect}
+                    adminSelect={adminSelect}
+                />
                 }
-                actions={<ActionsModal onClose={onClose} addMoney={addMoney} formData = {formData} />} />
+                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney} formData={formData} />} />
         </div>
     )
 }
