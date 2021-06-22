@@ -1,10 +1,8 @@
-import React, {useCallback, useContext, useEffect} from 'react';
-import baContext from 'context/baContext';
+import React, {useCallback, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
-import {useSelector} from 'react-redux';
 import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,10 +65,6 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {startActivity, stopActivity} = useActivity()
     const aia: any = useAia()
 
-    const context = useContext(baContext);
-    const baId: string = context.baId ? context.baId : '';
-    const response = useSelector((state: any) => state.aia[baId] && state.aia[baId][hRef]);
-
     const classes: any = useStyles()
     const {getActivityConf} = useConfigurations()
 
@@ -109,7 +103,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
                 {HeaderConf && <HeaderConf {...props} onLaunchActivity={onLaunchActivity}/>}
             </div>
             <div className={classes.skeleton}>
-                {SkeletonConf && <SkeletonConf data={response} {...props}/>}
+                {SkeletonConf && <SkeletonConf {...props}/>}
             </div>
         </div>
     )
