@@ -107,13 +107,15 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
     }, [url]);
 
     const getData = (link: string) => {
-        if (link.includes('_num')) {
-            link = link.slice(0, link.search('&_num') + 1);
+
+        let newLink = link;
+        if (newLink.includes('&_num')) {
+            console.log({newLink});
+            newLink = newLink.substring(0, newLink.search('&_num') + 1);
+            console.log({newLink});
         }
 
-        console.log({link});
-
-        fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+        fetch(showPaginator && itemsByPage > 0 ? `${newLink}&_num=${itemsByPage}` : newLink).then((response: any) => {
             console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
