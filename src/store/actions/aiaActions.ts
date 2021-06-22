@@ -10,7 +10,9 @@ export const fetch = (href: string, baId:string, params?: Object) => (dispatch: 
     dispatch(aiaReducer.aiaGETPending())
     //Search if we have already fetch this href
     if (getState().aia[baId] && getState().aia[baId][href]) {
-        dispatch(aiaReducer.aiaGETSuccess(
+        dispatch(aiaReducer.aiaGETSuccessCache())
+
+        /*dispatch(aiaReducer.aiaGETSuccess(
             {
                 data: getState().aia[baId][href].data,
                 store:getState().aia,
@@ -18,8 +20,8 @@ export const fetch = (href: string, baId:string, params?: Object) => (dispatch: 
                 href,
                 baId
             }
-        ))
-        
+        ))*/
+
         return Promise.resolve(getState().aia[baId][href]);
     }
     else {
@@ -43,9 +45,9 @@ export const fetch = (href: string, baId:string, params?: Object) => (dispatch: 
                     baId
                 }))
             })
-        
+
         return promise
-    }   
+    }
 }
 
 export const refresh = (href: string, baId:string, params?: Object) => (dispatch: any, getState: any) => {
@@ -69,7 +71,7 @@ export const refresh = (href: string, baId:string, params?: Object) => (dispatch
                 baId
             }))
         })
-    
+
     return promise
 }
 
@@ -104,7 +106,7 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
                 href
             }))
         })
-    
+
     return promise;
 }
 
@@ -118,7 +120,7 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
             const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
             const existingHrefs = getState().aia[baId];
             processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
-        } 
+        }
         // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
         else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
             refresh(href, 'refresh', baId);
@@ -144,7 +146,7 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
                 baId
             }))
         })
-    
+
     return promise;
 }
 
@@ -154,7 +156,7 @@ export const deleteRequest = (href: string, baId: string, params?: Object) => (d
 
     const promise = APIActions.delete(href, params);
     promise.then((response: any) => {
-      
+
         if (response && response.data && response.data.messages && response.data.messages.length > 0) {
             const messages = response.data.messages;
             const existingHrefs = getState().aia[baId];
@@ -176,7 +178,7 @@ export const deleteRequest = (href: string, baId: string, params?: Object) => (d
                 baId
             }))
         })
-    
+
     return promise;
 }
 
