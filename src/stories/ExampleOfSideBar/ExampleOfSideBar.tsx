@@ -1,3 +1,4 @@
+/* eslint-disable */
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 
 import LabelInline from 'components/LabelInline/LabelInline';
@@ -54,7 +55,7 @@ const sectionItems: PanelSectionItem[] = [
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
-const ContentController = (props: { value: string }) => {
+const ContentController = () => {
     const classes = useStyles();
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
@@ -66,7 +67,7 @@ const ContentController = (props: { value: string }) => {
         />)}</div>
 
     return (<div className={classes.content}>
-        <PanelSection title={props.value} content={<FirstSectionContent/>}/>
+        <PanelSection title={'Detail'} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 2'} content={<FirstSectionContent/>}/>
         <PanelSection title={'Details 3'} content={<FirstSectionContent/>}/>
     </div>)
