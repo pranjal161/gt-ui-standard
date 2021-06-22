@@ -107,7 +107,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
 
     const configurations = getActivityConf(props)
 
-    const SideBarConf = configurations.sidebar;
+    const SideBarConf = React.memo(configurations.sidebar);
 
     const nextStep = (index: number) => {
         const step = index >= steps.length ? steps.length - 1 : index;
