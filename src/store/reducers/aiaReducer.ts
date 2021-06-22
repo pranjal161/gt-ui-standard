@@ -37,6 +37,9 @@ const AIASlice = createSlice({
         aiaGETSuccess(state, action) {
             state = updateResponse(state, action.payload)
         },
+        aiaGETSuccessCache(state) {
+            return state
+        },
         aiaPATCHPending(state) {
             return state;
         },
@@ -95,6 +98,7 @@ export const {
     aiaGETPending,
     aiaGETError,
     aiaGETSuccess,
+    aiaGETSuccessCache,
     aiaPATCHPending,
     aiaPATCHSuccess,
     aiaPATCHError,
