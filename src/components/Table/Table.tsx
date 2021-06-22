@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
+import { debounce } from '@material-ui/core/utils';
 import { getDescriptionValue } from 'utils/functions';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
-type Column = {
+export type Column = {
     label: string,
     actions?: Array<any>,
-    property: Array<any>,
+    property?: Array<any> | string,
     type?: any
 }
 
@@ -22,12 +23,19 @@ type SelectedRow = {
 }
 
 interface TableProps {
+
+    /**
+     * Url to fetch
+     */
     url: string,
-    columnId: Array<any>
+
+    /**
+     * Objects array which contains each 
+     */
+    columnId: Array<Column>
     showPaginator: Boolean,
     onRowSelected?: Function,
     itemsByPage?: number,
-    selectable?: boolean
 }
 
 interface TableCellProps {
@@ -69,18 +77,17 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
             <td key={rowKey}>
                 {
                     getDescriptionValue(
-                        row['summary'][column?.property],
-                        column?.property,
+                        row['summary'][column.property && column.label !== '_ACTIONS' ? column.property : ''],
+                        column.property ? column?.property : '',
                         tableData,
                         column.type)
                 }
             </td>
         )
     }
-
 }
 
-const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, selectable = false }: TableProps) => {
+const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -89,12 +96,23 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, s
     const { fetch } = useAia();
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
+    const debouncedCallAPI = React.useCallback(
+        debounce((apiURL: any) => getData(apiURL), 3000),
+        []
+    );
+
     useEffect(() => {
-        getData(url);        
+        debouncedCallAPI(url);
+        console.log({url});
     }, [url]);
 
     const getData = (link: string) => {
-        fetch(`${link}&_num=${itemsByPage}`).then((response: any) => {
+        if (link.includes('_num')) {
+            link = link.slice(0, link.search('&_num'));
+        }
+
+        fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+            console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
                 if (!Array.isArray(result.data['_links']['item'])) {
@@ -102,7 +120,6 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, s
                 }
                 const count = response?.data?._count;
                 setTableData(result.data);
-                // changeTotalItems(count === '500+' ? 500 : count);
                 setTotalItems(count === '500+' ? 500 : count);
                 // setshowPaginator(props.showPaginator);
             }
@@ -137,7 +154,7 @@ const Table = ({ url, columnId, showPaginator, onRowSelected, itemsByPage = 5, s
                             <tbody>
                                 {
                                     tableData._links.item.map((row: any, index: number) => (
-                                        <tr className={`${selectable && index === selectedRow.index ? classes.selectedRow : ''} ${classes.row}`}
+                                        <tr className={`${onRowSelected && index === selectedRow.index ? classes.selectedRow : ''} ${classes.row}`}
                                             key={'tr' + index}
                                             onClick={() => selectValue({index, person: row})}>
                                             {

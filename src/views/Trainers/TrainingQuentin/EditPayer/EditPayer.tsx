@@ -1,13 +1,13 @@
 // import { APIConfig } from 'configs/apiConfig';
 
 import Dialog from 'theme/components/material/Dialog/Dialog';
-import DialogActions from './components/DialogActions';
-import DialogContent from './components/DialogContent';
+import DialogActions from './components/EditPayerActions/EditPayerActions';
+import DialogContent from './components/EditPayerContent/EditPayerContent';
 import { PencilIcon } from 'assets/svg';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface EditPayerProps {
+export interface EditPayerProps {
 
     /**
      * Define if the dialog is visible or not.
@@ -38,10 +38,6 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         setIsSearching(true);
         createPersonsUrl(filters);
     }
-
-    React.useEffect(() => {
-        setIsSearching(false);
-    }, [])
     
     React.useEffect(() => {
         if (isSearching && Object.keys(filters).length > 0) {
@@ -49,8 +45,8 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         }
     }, [filters]);
 
-    const generateRequestFilters = (filters: any) => {
-        if (Object.keys(filters).length === 0) {
+    const generateRequestFilters = (filtersObj: any) => {
+        if (Object.keys(filtersObj).length === 0) {
             return
         }
         else {
@@ -74,10 +70,9 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
         }
     }
 
-    const createPersonsUrl = (filters: any) => {
-        const fields = generateRequestFilters(filters);
+    const createPersonsUrl = (filtersObj: any) => {
+        const fields = generateRequestFilters(filtersObj);
         setPersonsUrl(`http://20.33.40.147:13111/csc/insurance/persons${fields}`);
-        
     }
 
     const manageData = (obj: any = {}) => {
@@ -87,17 +82,19 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
 
     const closeDialog = () => {
         setFilters({});
+        setIsSearching(false);
         setIsVisible(false);
     }
 
     return (
-        <>
+        <div data-testid="component-editpayer">
             <Dialog 
                 icon={<PencilIcon size={35}/>}
                 title={t('common:edit_payer')}
 
                 content={
-                    <DialogContent 
+                    <DialogContent
+                        isSearching={isSearching}
                         url={personsUrl} 
                         onChange={manageData}
                     />
@@ -108,7 +105,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                 
                 actions={
                     <DialogActions 
-                        data={{filters, selectedPerson}}
+                        filters={filters}
                         isSearching={isSearching}
                         onSearch={() => onSearchingChange()} 
                         onModify={() => {
@@ -120,7 +117,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                     />
                 }
             />
-        </>
+        </div>
     )
 }
 

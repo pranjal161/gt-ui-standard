@@ -4,13 +4,13 @@ import { FilterIcon, SearchIcon } from 'assets/svg';
 import React from 'react';
 import Table from 'components/Table/Table';
 import Typo from 'components/Typography/Typo';
-import { capitalizeFirstLetterAndRemove_ } from 'utils/functions';
+import capitalize from '@material-ui/core/utils/capitalize';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { personsColumns } from '../personColumns';
+import { personsColumns } from '../../personColumns';
 import { useTranslation } from 'react-i18next';
 
-interface DialogContentProps {
+interface EditPayerContentProps {
 
     /**
      * Function called when a filter and/or a row is selected.
@@ -18,12 +18,17 @@ interface DialogContentProps {
     onChange: Function,
 
     /**
+     * Boolean value to define if the search has started.
+     */
+    isSearching: boolean,
+
+    /**
      * The url where data will be get when there is a filter.
      */
     url: string
 }
 
-const DialogContent = ({onChange, url}: DialogContentProps) => {
+const EditPayerContent = ({onChange, isSearching, url}: EditPayerContentProps) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const [isFiltersVisible, setIsFiltersVisible] = React.useState(false);
@@ -32,6 +37,7 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
     React.useEffect(() => {
+        console.log({filters});
         onChange({filters, selectedRow});
     }, [filters, selectedRow])
 
@@ -45,7 +51,7 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
         }
 
         if (inputName === 'person:first_name') {
-            newValue = capitalizeFirstLetterAndRemove_(newValue);
+            newValue = capitalize(newValue);
         }
 
         if (newValue !== '') {
@@ -76,17 +82,17 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
             <Typo variant="title" value={t('common:search_party')} />
             <div className={classes.filters}>
                 <div className={classes.filterColumn}>
-                    <DxcInput placeholder="Ex: PRSN00000000" value={filters['person:client_number']} className={classes.input} label={t('person:client_number')} size="fillParent" onChange={(value: string) => inputHandleChange('person:client_number', value)} />
-                    <DxcInput placeholder="Ex: DUPONT" value={filters['person:last_name']} className={classes.input} label={`${t('person:last_name')} / ${t('person:legal_name')}`} onChange={(value: string) => inputHandleChange('person:last_name', value)} />
+                    <DxcInput placeholder="Ex: PRSN00000000" value={filters['person:client_number'] ? filters['person:client_number'] : '' } className={classes.input} label={t('person:client_number')} size="fillParent" onChange={(value: string) => inputHandleChange('person:client_number', value)} />
+                    <DxcInput placeholder="Ex: DUPONT" value={filters['person:last_name'] ? filters['person:last_name'] : ''} className={classes.input} label={`${t('person:last_name')} / ${t('person:legal_name')}`} onChange={(value: string) => inputHandleChange('person:last_name', value)} />
                 </div>
 
                 <div className={classes.filterColumn}>
-                    <DxcInput placeholder="Ex: FR" value={filters['person:reference_country_code']} className={classes.input} label={t('person:country_code')} onChange={(value: string) => inputHandleChange('person:reference_country_code', value)} />
-                    <DxcInput placeholder="Ex: Juliette" value={filters['person:first_name']} label={`${t('person:first_name')} / ${t('person:trade_name')}`} onChange={(value: string) => inputHandleChange('person:first_name', value)}/>
+                    <DxcInput placeholder="Ex: FR" value={filters['person:reference_country_code'] ? filters['person:reference_country_code'] : ''} className={classes.input} label={t('person:country_code')} onChange={(value: string) => inputHandleChange('person:reference_country_code', value)} />
+                    <DxcInput placeholder="Ex: Juliette" value={filters['person:first_name'] ? filters['person:first_name'] : ''} label={`${t('person:first_name')} / ${t('person:trade_name')}`} onChange={(value: string) => inputHandleChange('person:first_name', value)}/>
                 </div>
 
                 <div className={classes.filterColumn}>
-                    <DxcInput placeholder="Ex: 78000" value={filters['person:postal_code']} label={t('person:postal_code')} onChange={(value: string) => inputHandleChange('person:postal_code', value)} />
+                    <DxcInput placeholder="Ex: 78000" value={filters['person:postal_code'] ? filters['person:postal_code'] : ''} label={t('person:postal_code')} onChange={(value: string) => inputHandleChange('person:postal_code', value)} />
                     <DxcButton mode="secondary" label={t('common:advanced_filters')} icon={<FilterIcon size={30} />} iconPosition="after" onClick={onFiltersVisibilityChange} />
                 </div>
             </div>
@@ -103,11 +109,11 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
                                         <DxcSelect value={filters['identifier']} className={classes.input} label={t('common:identifier')} size="medium" onChange={(value: string) => inputHandleChange('identifier', value)} />
                                         <DxcInput value={filters['identifier_value']} className={classes.input} label={t('common:identifier_value')} suffixIcon={<SearchIcon size={30} /> } onChange={(value: string) => inputHandleChange('identifier_value', value)} />
                                     </div>
-                                    <DxcCheckbox checked={isChecked} label={t('common:phonetic')} labelPosition="after" onChange={onCheckboxChange} />
                                 </div>
                                 
                                 <div className={classes.advFilterColumn}>
-                                    <DxcInput value={filters['search_key']} className={classes.input} size="fillParent" label={t('common:search_key')} onChange={(value: string) => inputHandleChange('search_key', value)} />
+                                    <DxcInput value={filters['search_key']} className={classes.input} size="large" label={t('common:search_key')} onChange={(value: string) => inputHandleChange('search_key', value)} />
+                                    <DxcCheckbox checked={isChecked} label={t('common:phonetic')} labelPosition="after" onChange={onCheckboxChange} />
                                 </div>
                             </div>
                         </div>
@@ -115,10 +121,14 @@ const DialogContent = ({onChange, url}: DialogContentProps) => {
             }
             
             {
-                url &&
+                isSearching &&
                     <>
                         <div className={classes.table}>
-                            <Table url={url} columnId={personsColumns} showPaginator={true} itemsByPage={5} onRowSelected={(row: any) => selectRow(row)} selectable={true} />
+                            <Table url={url}    
+                                columnId={personsColumns}  
+                                showPaginator={true}
+                                itemsByPage={5}
+                                onRowSelected={(row: any) => selectRow(row)}/>
                         </div>
                     </>
             }
@@ -196,7 +206,7 @@ const useStyles = makeStyles({
     advFilters: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         marginBottom: 10,
         marginTop: 10,
@@ -246,4 +256,4 @@ const useStyles = makeStyles({
     }
 });
 
-export default DialogContent;
+export default EditPayerContent;

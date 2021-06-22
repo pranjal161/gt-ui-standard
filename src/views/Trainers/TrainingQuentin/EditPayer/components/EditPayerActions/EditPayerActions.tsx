@@ -2,12 +2,12 @@ import { DxcButton } from '@dxc-technology/halstack-react'
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface DialogActionsProps {
+interface EditPayerActionsProps {
 
     /**
      * Data passed to the action section.
      */
-    data: any,
+    filters: any,
 
     /**
      * Searching state to disable or display other actions while search is started.
@@ -35,7 +35,8 @@ interface DialogActionsProps {
     onCreate: Function
 }
 
-const DialogActions = ({data = {}, isSearching, onCancel, onModify, onSearch, onCreate}: DialogActionsProps) => {
+const EditPayerActions = ({filters = {}, isSearching, onCancel, onModify, onSearch, onCreate}: EditPayerActionsProps) => {
+    
     const {t} = useTranslation();
 
     return (
@@ -45,11 +46,11 @@ const DialogActions = ({data = {}, isSearching, onCancel, onModify, onSearch, on
 
             {
                 isSearching ? 
-                    <DxcButton mode="primary" label={t('common:modify')} onClick={() => onModify()} disabled={!data.selectedPerson} /> 
-                    : <DxcButton mode="primary" label={t('common:search')} onClick={() => onSearch()} disabled={Object.keys(data.filters).length === 0} />
+                    <DxcButton mode="primary" label={t('common:modify')} onClick={() => onModify()} /> 
+                    : <DxcButton mode="primary" label={t('common:search')} onClick={() => onSearch()} disabled={Object.keys(filters).length === 0} />
             }
         </>
     )
 };
 
-export default DialogActions;
+export default EditPayerActions;
