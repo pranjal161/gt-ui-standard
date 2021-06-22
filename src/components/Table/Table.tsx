@@ -10,10 +10,26 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
-type Column = {
+export type Column = {
+
+    /**
+     * Name displayed in the <th></th> html element
+     */
     label: string,
+
+    /**
+     * Array of icon & their callback for each row
+     */
     actions?: Array<any>,
-    property: Array<any>,
+
+    /**
+     * API Object property to display in the TableCell.
+     */
+    property?: Array<any> | string,
+
+    /**
+     * Data type.
+     */
     type?: any
 }
 
@@ -25,12 +41,29 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Url from 
+     * Url to fetch
      */
     url: string,
-    columnId: Array<any>
+
+    /**
+     * Objects array which contains each 
+     */
+    columnId: Array<Column>
+
+    /**
+     * State to define if the paginator has to be displayed or not
+     */
     showPaginator: Boolean,
+
+    /**
+     * Callback to receive and manipulate a selected row out of the component. 
+     */
     onRowSelected?: Function,
+
+    /**
+     * Number of row to display : 1 to 20.
+     * If not provided, 20 items will be displayed.
+     */
     itemsByPage?: number,
 }
 
@@ -73,18 +106,17 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
             <td key={rowKey}>
                 {
                     getDescriptionValue(
-                        row['summary'][column?.property],
-                        column?.property,
+                        row['summary'][column.property && column.label !== '_ACTIONS' ? column.property : ''],
+                        column.property ? column?.property : '',
                         tableData,
                         column.type)
                 }
             </td>
         )
     }
-
 }
 
-const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 20}: TableProps) => {
+const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -100,10 +132,19 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 20}: 
 
     useEffect(() => {
         debouncedCallAPI(url);
+        console.log({url});
     }, [url]);
 
     const getData = (link: string) => {
-        fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+
+        let newLink = link;
+        if (newLink.includes('&_num')) {
+            console.log({newLink});
+            newLink = newLink.substring(0, newLink.search('&_num') + 1);
+            console.log({newLink});
+        }
+
+        fetch(showPaginator && itemsByPage > 0 ? `${newLink}&_num=${itemsByPage}` : newLink).then((response: any) => {
             console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));

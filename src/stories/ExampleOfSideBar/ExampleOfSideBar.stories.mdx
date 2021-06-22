@@ -2,11 +2,17 @@
 
 import { Preview, Meta, Story} from '@storybook/addon-docs/blocks';
 import ExampleOfSideBar from './ExampleOfSideBar';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import reducers from 'store/reducers';
 
 <Meta
     title='Examples/Sidebar'
     component={ExampleOfSideBar}
-    decorators={[(story) => <div style={{flex: '1 1 auto', height: '600px'}}>{story()}</div>]}
+    decorators={[(story) => <Provider store={createStore(reducers, composeWithDevTools())}>
+        <div style={{flex: '1 1 auto', height: '600px'}}>{story()}</div>
+    </Provider>]}
 />
 
 <!--- This is your Story template function, shown here in React -->

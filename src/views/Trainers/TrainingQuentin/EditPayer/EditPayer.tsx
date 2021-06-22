@@ -1,13 +1,13 @@
 // import { APIConfig } from 'configs/apiConfig';
 
 import Dialog from 'theme/components/material/Dialog/Dialog';
-import DialogActions from './components/DialogActions';
-import DialogContent from './components/DialogContent';
+import DialogActions from './components/EditPayerActions/EditPayerActions';
+import DialogContent from './components/EditPayerContent/EditPayerContent';
 import { PencilIcon } from 'assets/svg';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface EditPayerProps {
+export interface EditPayerProps {
 
     /**
      * Define if the dialog is visible or not.
@@ -87,7 +87,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
     }
 
     return (
-        <>
+        <div data-testid="component-editpayer">
             <Dialog 
                 icon={<PencilIcon size={35}/>}
                 title={t('common:edit_payer')}
@@ -117,7 +117,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
                     />
                 }
             />
-        </>
+        </div>
     )
 }
 
