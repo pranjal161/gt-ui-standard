@@ -101,6 +101,8 @@ const SideBar = ({mainEntityHRef}: any) => {
     const mainEntityResponse = useResponse(mainEntityHRef)
     let items: any = {}
 
+    console.log('SideBar render', mainEntityResponse)
+
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
 
