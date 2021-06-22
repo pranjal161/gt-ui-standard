@@ -2,7 +2,7 @@ import { DxcButton } from '@dxc-technology/halstack-react'
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface DialogActionsProps {
+interface EditPayerActionsProps {
 
     /**
      * Data passed to the action section.
@@ -35,7 +35,7 @@ interface DialogActionsProps {
     onCreate: Function
 }
 
-const DialogActions = ({filters = {}, isSearching, onCancel, onModify, onSearch, onCreate}: DialogActionsProps) => {
+const EditPayerActions = ({filters = {}, isSearching, onCancel, onModify, onSearch, onCreate}: EditPayerActionsProps) => {
     
     const {t} = useTranslation();
 
@@ -53,4 +53,4 @@ const DialogActions = ({filters = {}, isSearching, onCancel, onModify, onSearch,
     )
 };
 
-export default DialogActions;
+export default EditPayerActions;
