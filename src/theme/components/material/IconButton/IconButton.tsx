@@ -33,6 +33,15 @@ const IconButton = (props: any) => {
             </IconButtonMat>
         );
     }
+    else if (color === 'textButton') {
+        const cls = className ? className : classes.textButton;
+
+        return (
+            <IconButtonMat {...rest} classes={muiClasses} className={cls}>
+                {children}
+            </IconButtonMat>
+        );
+    }
     else {
         return (
             <IconButtonMat classes={muiClasses} className={className} color={color} {...rest}>

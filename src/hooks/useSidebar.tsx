@@ -1,5 +1,6 @@
 import {ContractIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
 import React, {useCallback, useState} from 'react';
+
 import {DxcDropdown} from '@dxc-technology/halstack-react';
 import Typo from 'components/Typography/Typo';
 import VerticalToolbar from 'components/VerticalToolBar/VerticalToolbar';
@@ -13,9 +14,14 @@ interface ItemProp {
     id: string;
 
     /**
-     * text or component to display
+     * title of the entity, it's not displayed
      */
-    display: any;
+    title: any;
+
+    /**
+     * Displayed title
+     */
+    display : string;
 
     /**
      * controller for the content
@@ -79,13 +85,13 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
 
     //Generate the header
     const options = items[entityClass].map((entity: any) => ({value: entity.id, label: entity.display}))
-    const onChangeEntityInstanceSelections = (selection: any) => setEntityInstanceSelections((prev: any) => ({
+    const onChangeEntityInstanceSelections = useCallback((selection: any) => setEntityInstanceSelections((prev: any) => ({
         ...prev,
         [entityClass]: selection
-    }))
+    })),[])
 
     const HeaderTitle = (props: { value: string }) => <Typo className={classes.headerTitle} variant={'title'} value={props.value}/>
-    const header = (<div className={classes.root}>
+    const header = (<>
         {currentInstance && options.length === 1 && <HeaderTitle value={currentInstance.display}/>}
         {currentInstance && options.length > 1 &&
         <div className={classes.cdkOveride}>
@@ -96,9 +102,9 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
                 value={currentInstance.id}
                 onSelectOption={onChangeEntityInstanceSelections}
             /></div>}
-    </div>)
+    </>)
 
-    const content = currentInstance && currentInstance.controller(currentInstance.id)
+    const content = currentInstance && currentInstance.controller({id:currentInstance.id})
     const onToggle = useCallback(() => {
         setOpen((value: any) => !value)
     }, [setOpen])

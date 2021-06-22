@@ -1,4 +1,5 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+
 import LabelInline from 'components/LabelInline/LabelInline';
 import React from 'react';
 import SideBar from 'components/SideBar/SideBar';
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '1 1 auto',
         overflow: 'auto',
-        width: '330px',
+        width: '100%',
     },
     firstSectionContent: {
         paddingTop: theme.spacing(0),
@@ -76,16 +77,16 @@ const controller = (value: any) => <ContentController value={value}/>
 const items = {
     contract:
         [
-            {display: 'Contract A', id: 'contractA', controller},
-            {display: 'Contract B', id: 'contractB', controller},
-            {display: 'Contract C', id: 'contractC', controller}],
+            {title: 'Contract A', display:'Contract A', id: 'contractA', controller},
+            {title: 'Contract B', display: 'Contract B', id: 'contractB', controller},
+            {title: 'Contract C', display: 'Contract B', id: 'contractC', controller}],
     person: [
-        {display: 'Person 1', id: 'person1', controller},
-        {display: 'Person 2', id: 'person2', controller},
+        {title: 'Person 1', display: 'Person 1', id: 'person1', controller},
+        {title: 'Person 2', display: 'Person 2', id: 'person2', controller},
     ],
     ticket:
         [
-            {display: 'Ticket 1', id: 'ticket1', controller}]
+            {title: 'Ticket 1', display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
 const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading=false}:ExampleOfSideBarProps) => {

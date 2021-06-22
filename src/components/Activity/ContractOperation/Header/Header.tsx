@@ -1,6 +1,7 @@
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import {LeftChevronIcon} from 'assets/svg';
 import React from 'react';
+import {capitalizeFirstLetterAndRemove_} from 'utils/functions';
 import {makeStyles} from '@material-ui/core/styles';
 
 export interface HeaderProps {
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: theme.spacing(1, 2, 1, 2),
-        height:'54px'
+        maxHeight: '70px',
+        borderRadius: '8px 8px 0px 0px',
     },
     iconTitle: {
         display: 'flex',
@@ -66,7 +68,7 @@ const Header: React.FC<HeaderProps> = ({title, rightTitle, onBack}: HeaderProps)
                     </IconButton></div>}
 
                 <div className={classes.title}>
-                    {title}
+                    {title && capitalizeFirstLetterAndRemove_(title) /* To remove*/}
                 </div>
             </div>
             {rightTitle && <div className={classes.rightTitle}>
