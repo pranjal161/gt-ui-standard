@@ -19,7 +19,7 @@ const IconButton = (props: any) => {
         const cls = className ? className : classes.primaryButton;
         
         return (
-            <IconButtonMat {...rest} classes={muiClasses} className={cls}>
+            <IconButtonMat classes={muiClasses} className={cls} {...rest}>
                 {children}
             </IconButtonMat>
         );
@@ -28,14 +28,14 @@ const IconButton = (props: any) => {
         const cls = className ? className : classes.secondaryButton;
         
         return (
-            <IconButtonMat {...rest} classes={muiClasses} className={cls}>
+            <IconButtonMat classes={muiClasses} className={cls} {...rest}>
                 {children}
             </IconButtonMat>
         );
     }
     else {
         return (
-            <IconButtonMat {...rest} classes={muiClasses} className={className} color={color}>
+            <IconButtonMat classes={muiClasses} className={className} color={color} {...rest}>
                 {children}
             </IconButtonMat>
         );
