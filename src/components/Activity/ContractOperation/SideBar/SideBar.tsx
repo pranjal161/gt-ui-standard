@@ -1,10 +1,10 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
-import useTabs from 'hooks/useTabs';
 import React from 'react';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
+import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
 
 const ContentList = ({items, data}: any) => items.map(
@@ -19,11 +19,11 @@ const ContentList = ({items, data}: any) => items.map(
 
 const ContractPreview = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
-    console.log('hRef : ', hRef, ' response :', response)
+    console.log('response', response)
 
     return <ContractGeneralSection key={'general'} hRef={hRef}/>
 })
-ContractPreview.displayName='ContractPreview'
+ContractPreview.displayName = 'ContractPreview'
 
 const contractGeneralItems: PanelSectionItem[] = [
     {id: 'contract:number', styleType: ['text']},
@@ -40,7 +40,7 @@ const ContractGeneralSection = React.memo(({hRef}: any) => {
     return <PanelSection title={'Detail'}
         content={<ContentList items={contractGeneralItems} data={response && response.data}/>}/>
 })
-ContractGeneralSection.displayName='ContractGeneralSection'
+ContractGeneralSection.displayName = 'ContractGeneralSection'
 
 /*************** For Person *******************/
 
@@ -93,15 +93,13 @@ const RoleController = React.memo(({hRef}: any) => {
 })
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController =(value: any) => <ContractPreview hRef={value.id}/>
+const contractController = (value: any) => <ContractPreview hRef={value.id}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
     let items: any = {}
-
-    console.log('SideBar render', mainEntityResponse)
 
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
@@ -149,7 +147,6 @@ const SideBar = ({mainEntityHRef}: any) => {
     const sidebarProps = useSidebar(items, true)
 
     const onOpenInNewTab = (item: any) => {
-        console.log('item', item)
         if (item.entityType === 'contract')
             openNewTab(forContract(item))
     }
@@ -166,4 +163,4 @@ const SideBar = ({mainEntityHRef}: any) => {
     )
 }
 
-export default SideBar;
+export default React.memo(SideBar);
