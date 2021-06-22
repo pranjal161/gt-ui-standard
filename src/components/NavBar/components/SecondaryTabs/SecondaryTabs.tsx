@@ -1,12 +1,12 @@
-import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg';
+import { LeftChevronIcon, RightChevronIcon } from '../../../../assets/svg';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { removeSecondaryTabByID, setSelectedSecondaryTabByID } from '../../store/reducers/secondaryTabsReducer';
+import { removeSecondaryTabByID, setSelectedSecondaryTabByID } from '../../../../store/reducers/secondaryTabsReducer';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { MemoTabButton } from '../Tabs/TabButton/TabButton';
+import { MemoTabButton } from '../../../Tabs/TabButton/TabButton';
 
 const useStyles = makeStyles((theme) => ({
     tabsButtonsMainContainer: {
