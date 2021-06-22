@@ -27,9 +27,10 @@ export interface FormContentProps {
     bankAccountList: any;
 
     /**
-    * payerTitle : Title of the current owner of the contract
+    * payerTitle
+    * @description title of the payer to display a label
            */
-    payerTitle: string
+     payerTitle: string
 
     /**
     * currencySelect : API properties formatted for dxc select
@@ -113,6 +114,8 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
     };
 
     const onBlur = (inputName: string) => (stringValue: any) => {
+        console.log(stringValue)
+        console.log(inputName)
         setFormData({ ...formData, [inputName]: stringValue.stringValue })
     };
 
@@ -131,54 +134,50 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                 />
                                 <DxcInput
                                     label="Payment Amount"
-                                    onChange={onChange('paymentAmount', 'number')}
+                                    onChange={onChange('operation:amount', 'number')}
                                 />
                                 <DxcSelect
                                     options={currencySelect}
-                                    onChange={onChange('currency')}
+                                    onChange={onChange('operation:currency_code')}
                                     label="Currency"
                                 />
                             </div>
                             <div className={classes.formRow}>
                                 <DxcSelect
                                     options={paymentTypeSelect}
-                                    onChange={onChange('paymentMethod')}
+                                    onChange={onChange('money_in:payment_type')}
                                     label="Payment Method"
                                 />
                                 <DxcDate
                                     label="Accounting Date"
-                                    value={formData.accountingDate}
+                                    value={formData['operation:accounting_date']}
                                     placeholder
-                                    format="dd/MM/yyyy"
-                                    onBlur={onBlur('accountingDate')}
-                                    onChange={onBlur('accountingDate')}
+                                    format="yyyy-MM-dd"
+                                    onChange={onBlur('operation:accounting_date')}
                                 />
                                 <DxcDate
                                     label="Receipt Date"
-                                    value={formData.receiptDate}
+                                    value={formData['money_in:receipt_date']}
                                     placeholder
-                                    format="dd/MM/yyyy"
-                                    onBlur={onBlur('receiptDate')}
-                                    onChange={onBlur('receiptDate')}
+                                    format="yyyy-MM-dd"
+                                    onChange={onBlur('money_in:receipt_date')}
                                 />
                                 {/* <DateInput propertyName="test" data={formData.receiptDate}/> */}
                             </div>
                             <div className={classes.formRow}>
                                 <DxcDate
                                     label="Deposit Date"
-                                    value={formData.depositDate}
+                                    value={formData['money_in:deposit_date']}
                                     placeholder
-                                    format="dd/MM/yyyy"
-                                    onBlur={onBlur('depositDate')}
-                                    onChange={onBlur('depositDate')}
+                                    format="yyyy-MM-dd"
+                                    onChange={onBlur('money_in:deposit_date')}
                                 />
                                 <DxcDate
                                     label="Value Date"
-                                    value={formData.valueDate}
+                                    value={formData['operation:value_date']}
                                     placeholder
-                                    format="dd/MM/yyyy"
-                                    onBlur={onBlur('valueDate')}
-                                    onChange={onBlur('valueDate')}
+                                    format="yyyy-MM-dd"
+                                    onChange={onBlur('operation:value_date')}
                                 />
                             </div>
                             <div className={classes.formRow}>
@@ -189,18 +188,18 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                 />
                                 <DxcSelect
                                     options={adminSelect}
-                                    onChange={onChange('admin')}
+                                    onChange={onChange('money_in_administrator')}
                                     label="Administrator"
                                 />
                                 <DxcSelect
                                     options={bankAccountList}
-                                    onChange={onChange('depositAccount')}
+                                    onChange={onChange('money_in:deposit_bank_account')}
                                     label="Deposit Account"
                                 />
                             </div>
                             <p className={classes.category2}>Payment type Details</p>
                             <div className={classes.formRow}>
-                                <DxcInput
+                                {/* <DxcInput
                                     label="Cheque Number"
                                     required={true}
                                     onChange={onChange('chequeNumber')}
@@ -210,10 +209,10 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                     value={formData.signatureDate}
                                     placeholder
                                     required={true}
-                                    format="dd/MM/yyyy"
+                                    format="yyyy-MM-dd"
                                     onBlur={onBlur('signatureDate')}
                                     onChange={onBlur('signatureDate')}
-                                />
+                                /> */}
                             </div>
                         </>
                     )
@@ -229,3 +228,18 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
 }
 
 export default FormContent;
+
+/*
+{
+"money_in:deposit_bank_account": "http://20.33.40.147:13111/csc/insurance/persons/ID-wJsQC7FAZ/bank_accounts/ID-EIBbf31Fr",
+"money_in:deposit_date": "2021-06-26",
+"money_in:payer_person": "http://20.33.40.147:13111/csc/insurance/persons/ID-wJsQC7FAZ",
+"money_in:payment_type": "check_deposit",
+"money_in:receipt_date": "2021-06-24",
+"money_in_administrator": "CAISSE",
+"operation:amount": 3000,
+"operation:contract": "http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60",
+"operation:currency_code": "eur",
+"operation:value_date": "2021-06-29"
+}
+*/

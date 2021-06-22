@@ -4,8 +4,6 @@ import FormContent from './FormContent';
 import React from 'react';
 import useAia from 'hooks/useAia';
 
-// import DateInput from 'theme/components/material/DateInput/DateInput';
-
 // import { useTranslation } from 'react-i18next';
 export interface MoneyInFormProps {
 
@@ -120,7 +118,7 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
     const {
         formData,
         setFormData,
-        payerURI,
+        // payerURI,
         isLoad,
         setIsLoad,
         bankAccountList,
@@ -134,22 +132,30 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
     const getAccountList: Function = async () => {
         try {
             setIsLoad(true);
-            const res: any = await fetch(payerURI);
+            const res: any = await fetch('http://20.33.40.147:13111/csc/insurance/persons/ID-wJsQC7FAZ');
             setPayerTitle(res.data._links.self.name);
+
+            setFormData({...formData, 'money_in:payer_person': res.data._links.self.href})
 
             const accountPayer = await fetch(res.data._links['person:bank_account_list'].href);
             let accountList: any = [];
             console.log({ accountPayer })
             if (accountPayer.data._count === 0) {
-                accountList = [...accountList, { value: 1, label: 'No account available' }]
+                accountList = [...accountList, { value: '', label: 'No account available' }]
             }
-            else {
+            else if(accountPayer.data._count > 1) {
                 accountPayer.data._links.item.map((item: any) => (
                     accountList.push({
-                        value: item.title,
+                        value: item.href,
                         label: item.title
                     })
                 ))
+            }
+            else if(accountPayer.data._count === 1){
+                accountList.push({
+                    value: accountPayer.data._links.item.href,
+                    label: accountPayer.data._links.item.title
+                })
             }
             console.log(accountList)
             setBankAccountList(accountList);

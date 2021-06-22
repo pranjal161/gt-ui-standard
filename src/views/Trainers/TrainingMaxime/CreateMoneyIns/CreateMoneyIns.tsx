@@ -21,7 +21,7 @@ export interface CreateMoneyInsProps {
 
     /**
         * response
-        * @description 
+        * @description  Uncolicited Payment response on creation
     */
     response?: any;
 
@@ -39,12 +39,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProps) => {
     const classes = useStyles();
-    const { post } = useAia();
+    const { post, patch } = useAia();
     const {
         open,
         onClose,
         response,
     } = props
+    const payerURI: string = response.data._links['premium:addressee_person'].href;
+    const contractURI: string = response.data._links.self.href;
 
     const [isLoad, setIsLoad]: [boolean, Function] = React.useState(false);
     const [bankAccountList, setBankAccountList]: [any, Function] = React.useState();
@@ -56,22 +58,29 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
         amount: 3000,
         'operation:amount': '',
         'operation:currency_code': '',
-        paymentMethod: 'cheque',
-        accountingDate: '',
-        receiptDate: '',
-        depositDate: '',
-        valueDate: '',
-        payer: '',
-        admin: '',
-        depositAccount: '',
-        chequeNumber: '',
-        signatureDate: ''
+        'money_in:payment_type': '',
+        'operation:accounting_date': '', // DATE OF CREATION MONEY_IN CAN'T BE MODIFIED
+        'money_in:receipt_date': '',
+        'money_in:deposit_date': '',
+        'operation:value_date': '',
+        'money_in:payer_person': '',
+        'money_in_administrator': '',
+        'money_in:deposit_bank_account': '', // ISSUE I CAN'T MODIFY THE DEFAULT BANK ACCOUNT ...
+        'operation:contract': contractURI.split('/operations')[0], // CUT /operations/unsolicited_payment/ID
+        // chequeNumber: '',
+        // signatureDate: ''
     });
-    const payerURI: string = response.data._links['premium:addressee_person'].href;
+    
+    const addMoney = async () => {
+        console.log('push');
+        const res = await patch(moneyIn.data._links.self.href, formData);
 
-    const addMoney = () => {
-        console.log('push')
+        console.log(res)
     };
+
+    React.useEffect(() => {
+        console.log(formData)
+    }, [formData])
 
     const getMoneyInsProps: Function = async () => {
         try {
@@ -83,7 +92,7 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
             let currencyFormat: any = [];
             res.data._options.properties['operation:currency_code'].oneOf.map((item: any) => (
                 currencyFormat.push({
-                    value: item.enum,
+                    value: item.enum[0],
                     label: item.title
                 })
             ))
@@ -94,7 +103,7 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
             let paymentTypeFormat: any = [];
             res.data._options.properties['money_in:payment_type'].oneOf.map((item: any) => (
                 paymentTypeFormat.push({
-                    value: item.enum,
+                    value: item.enum[0],
                     label: item.title
                 })
             ))
@@ -105,7 +114,7 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
             let adminList: any = [];
             res.data._options.properties['money_in_administrator'].oneOf.map((item: any) => (
                 adminList.push({
-                    value: item.enum,
+                    value: item.enum[0],
                     label: item.title
                 })
             ))

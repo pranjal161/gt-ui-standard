@@ -1,10 +1,10 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Button from 'theme/components/material/Button/Button';
+import { DxcButton } from '@dxc-technology/halstack-react';
 import React from 'react';
 
+// import Button from 'theme/components/material/Button/Button';
 // import { useTranslation } from 'react-i18next';
-
 export interface ActionsModalProps {
 
     /**
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     addButton: {
         background: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
-        border: 'none',
+        // border: 'none',
         marginLeft: theme.spacing(8),
     }
 
@@ -64,12 +64,26 @@ const ActionsModal: React.FC<ActionsModalProps> = (props: ActionsModalProps) => 
 
     return (
         <div className={classes.buttonContainer}>
-            <Button className={classes.cancelButton} aria-controls="simple-menu" aria-haspopup="true" onClick={onClose} data-testid="button-activities">
+            {/* <Button className={classes.cancelButton} aria-controls="simple-menu" aria-haspopup="true" onClick={onClose} data-testid="button-activities">
                 Cancel
-            </Button>
-            <Button variant="primary" className={classes.addButton} aria-controls="simple-menu" aria-haspopup="true" onClick={addMoney} data-testid="button-activities">
+            </Button> */}
+            <DxcButton
+                className={classes.cancelButton}
+                mode="text"
+                label="Cancel"
+                onClick={onClose}
+                margin="medium"
+            />
+            <DxcButton
+                className={classes.addButton}
+                mode="primary"
+                label="Add"
+                onClick={addMoney}
+                margin="medium"
+            />
+            {/* <Button variant="primary" className={classes.addButton} aria-controls="simple-menu" aria-haspopup="true" onClick={addMoney} data-testid="button-activities">
                 Add
-            </Button>
+            </Button> */}
         </div>
     )
 }
