@@ -1,7 +1,14 @@
 import React from 'react';
 
-const InvestmentSplit = () => (
-    <div>InvestmentSplit</div>
+export interface InvestmentSplitProps{
+
+    /**
+     * API response of API for the entity
+     */
+    response:any
+}
+const InvestmentSplit:React.FC<InvestmentSplitProps> = ({response}:InvestmentSplitProps) => (
+    <div>InformationSheet response: {JSON.stringify(response)}</div>
 )
 
 export default InvestmentSplit;

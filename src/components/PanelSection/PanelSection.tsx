@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import React from 'react';
 import Typo from 'components/Typography/Typo';
+import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 
 export interface PanelSectionItem {
@@ -76,4 +76,4 @@ const PanelSection: React.FC<PanelSectionProps> = ({title, content, className}: 
     )
 }
 
-export default PanelSection;
+export default React.memo(PanelSection);

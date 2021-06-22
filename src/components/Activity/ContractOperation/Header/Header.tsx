@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: theme.spacing(1, 2, 1, 2),
-        height:'54px'
+        maxHeight: '70px',
+        borderRadius: '8px 8px 0px 0px',
     },
     iconTitle: {
         display: 'flex',
