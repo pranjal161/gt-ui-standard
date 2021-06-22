@@ -17,12 +17,13 @@ const ContentList = ({items, data}: any) => items.map(
 
 /*************** For contract *******************/
 
-const ContractPreview = ({hRef}: any) => {
+const ContractPreview = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
-    console.log('response', response)
+    console.log('hRef : ', hRef, ' response :', response)
 
     return <ContractGeneralSection key={'general'} hRef={hRef}/>
-}
+})
+ContractPreview.displayName='ContractPreview'
 
 const contractGeneralItems: PanelSectionItem[] = [
     {id: 'contract:number', styleType: ['text']},
@@ -33,12 +34,13 @@ const contractGeneralItems: PanelSectionItem[] = [
     {id: 'contract:amount', styleType: ['currency']},
     {id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
-const ContractGeneralSection = ({hRef}: any) => {
+const ContractGeneralSection = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
 
     return <PanelSection title={'Detail'}
         content={<ContentList items={contractGeneralItems} data={response && response.data}/>}/>
-}
+})
+ContractGeneralSection.displayName='ContractGeneralSection'
 
 /*************** For Person *******************/
 
@@ -83,15 +85,15 @@ const PreferredBankAccount = ({hRef}: any) => {
         content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
 }
 
-const RoleController = ({hRef}: any) => {
+const RoleController = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
     const personHRef = response && response.data._links['party_role:person'].href
 
     return (<PersonPreview hRef={personHRef}/>)
-}
+})
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController = (value: any) => <ContractPreview hRef={value.id}/>
+const contractController =(value: any) => <ContractPreview hRef={value.id}/>
 
 const SideBar = ({mainEntityHRef}: any) => {
     const {t} = useTranslation()
