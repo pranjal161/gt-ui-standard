@@ -153,7 +153,7 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                 </div>
             </div>
             <div ref={handleSideBarOffsetTop} className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}`: `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf {...props} />
+                <SideBarConf mainEntityHRef={props.mainEntityHRef} />
             </div>
         </div>
     );
