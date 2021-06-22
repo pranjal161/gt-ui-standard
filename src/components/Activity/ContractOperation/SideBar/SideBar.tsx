@@ -1,7 +1,7 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
-import React from 'react';
+import React, {useEffect} from 'react';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -101,9 +101,19 @@ const SideBar = (props:any) => {
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
+
+    //Get role parties linked to the contract
+    //Todo : do we have to put such API parsing in functions ?
+    const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
+    const rolePartiesResponse = useResponse(rolePartiesHRef)
+
     let items: any = {}
 
-    console.log('SideBar render', props, mainEntityResponse)
+    useEffect(() => {
+        console.log('mainEntityResponse changed')
+    }, [mainEntityResponse])
+
+    console.log('SideBar render', props, mainEntityResponse, rolePartiesResponse)
 
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
@@ -121,11 +131,6 @@ const SideBar = (props:any) => {
     else
         //This is a workaround for the initial state and to have contract define by default
         items.contract = [{title: 'Loading', id: 'not_defined', controller: loadingController}]
-
-    //Get role parties linked to the contract
-    //Todo : do we have to put such API parsing in functions ?
-    const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
-    const rolePartiesResponse = useResponse(rolePartiesHRef)
 
     let personList = [{title: 'Loading', id: 'not_defined', controller: roleController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
