@@ -123,13 +123,11 @@ const EditPayerContent = ({onChange, isSearching, url}: EditPayerContentProps) =
             {
                 isSearching &&
                     <>
-                        <div className={classes.table}>
-                            <Table url={url}    
-                                columnId={personsColumns}  
-                                showPaginator={true}
-                                itemsByPage={5}
-                                onRowSelected={(row: any) => selectRow(row)}/>
-                        </div>
+                        <Table url={url}    
+                            columnId={personsColumns}  
+                            showPaginator={true}
+                            itemsByPage={5}
+                            onRowSelected={(row: any) => selectRow(row)}/>
                     </>
             }
         </div>
@@ -238,12 +236,6 @@ const useStyles = makeStyles({
         '& > .bGwLMU': {
             marginRight: 10,
             width: 191
-        },
-    },
-
-    table: {
-        '& > table[class="ewkDoX"] > th': {
-            backgroundColor: `${globalTokens.__grey_5} !important`
         },
     },
 
