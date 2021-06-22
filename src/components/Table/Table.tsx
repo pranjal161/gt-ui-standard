@@ -10,10 +10,10 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
-type Column = {
+export type Column = {
     label: string,
     actions?: Array<any>,
-    property: Array<any>,
+    property?: Array<any> | string,
     type?: any
 }
 
@@ -25,10 +25,14 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Url from 
+     * Url to fetch
      */
     url: string,
-    columnId: Array<any>
+
+    /**
+     * Objects array which contains each 
+     */
+    columnId: Array<Column>
     showPaginator: Boolean,
     onRowSelected?: Function,
     itemsByPage?: number,
@@ -73,18 +77,17 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
             <td key={rowKey}>
                 {
                     getDescriptionValue(
-                        row['summary'][column?.property],
-                        column?.property,
+                        row['summary'][column.property && column.label !== '_ACTIONS' ? column.property : ''],
+                        column.property ? column?.property : '',
                         tableData,
                         column.type)
                 }
             </td>
         )
     }
-
 }
 
-const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 20}: TableProps) => {
+const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -100,9 +103,14 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 20}: 
 
     useEffect(() => {
         debouncedCallAPI(url);
+        console.log({url});
     }, [url]);
 
     const getData = (link: string) => {
+        if (link.includes('_num')) {
+            link = link.slice(0, link.search('&_num'));
+        }
+
         fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
             console.log({response});
             if (response && response.data['_links']['item']) {
