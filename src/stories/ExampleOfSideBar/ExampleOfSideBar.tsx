@@ -73,7 +73,7 @@ const ContentController = () => {
     </div>)
 }
 
-const controller = (value: any) => <ContentController value={value}/>
+const controller = (value: any) => <ContentController/>
 
 const items = {
     contract:
