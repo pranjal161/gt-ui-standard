@@ -165,7 +165,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             </div>
                             <div className={classes.formRow}>
                                 <DxcDate
-                                    label="Accounting Date"
+                                    label="Deposit Date"
                                     value={formData.depositDate}
                                     placeholder
                                     format="dd/MM/yyyy"
@@ -173,7 +173,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                     onChange={onBlur('depositDate')}
                                 />
                                 <DxcDate
-                                    label="Receipt Date"
+                                    label="Value Date"
                                     value={formData.valueDate}
                                     placeholder
                                     format="dd/MM/yyyy"

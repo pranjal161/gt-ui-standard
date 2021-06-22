@@ -21,6 +21,7 @@ export interface CreateMoneyInsProps {
 
     /**
         * response
+        * @description 
     */
     response?: any;
 
@@ -53,8 +54,8 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
     const [adminSelect, setAdminSelect]: [any, Function] = React.useState();
     const [formData, setFormData]: [any, Function] = React.useState({
         amount: 3000,
-        ['operation:amount']: '',
-        ['operation:currency_code']: '',
+        'operation:amount': '',
+        'operation:currency_code': '',
         paymentMethod: 'cheque',
         accountingDate: '',
         receiptDate: '',

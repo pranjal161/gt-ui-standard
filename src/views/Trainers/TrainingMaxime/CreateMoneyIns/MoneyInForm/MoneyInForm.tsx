@@ -11,6 +11,7 @@ export interface MoneyInFormProps {
 
     /**
      * formData
+     * @description Object where I feed the value of the Money In form
             */
     formData: any
 
@@ -45,17 +46,20 @@ export interface MoneyInFormProps {
     setBankAccountList: Function;
 
     /**
-    * currencySelect : API properties formatted for dxc select
+    * currencySelect 
+    * @description API properties formatted for dxc select
            */
     currencySelect: any
 
     /**
-    * paymentTypeSelect : API properties formatted for dxc select
+    * paymentTypeSelect
+    * @description API properties formatted for dxc select
            */
     paymentTypeSelect: any
 
     /**
-    * adminSelect : API properties formatted for dxc select
+    * adminSelect
+    * @description API properties formatted for dxc select
            */
     adminSelect: any
 }
