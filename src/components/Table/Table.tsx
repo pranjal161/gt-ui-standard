@@ -108,8 +108,10 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
 
     const getData = (link: string) => {
         if (link.includes('_num')) {
-            link = link.slice(0, link.search('&_num'));
+            link = link.slice(0, link.search('&_num') + 1);
         }
+
+        console.log({link});
 
         fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
             console.log({response});
