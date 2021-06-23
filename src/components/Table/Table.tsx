@@ -33,7 +33,7 @@ interface TableProps {
      * Objects array which contains each 
      */
     columnId: Array<Column>
-    showPaginator: Boolean,
+    showPaginator?: Boolean,
     onRowSelected?: Function,
     itemsByPage?: number,
 }
@@ -87,7 +87,7 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
     }
 }
 
-const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: TableProps) => {
+const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -108,10 +108,19 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
 
     const getData = (link: string) => {
         if (link.includes('_num')) {
-            link = link.slice(0, link.search('&_num'));
+            link = link.slice(0, link.search('&_num') + 1);
         }
 
-        fetch(showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+        const arrSubstr = link.split('/');
+
+        if (arrSubstr[arrSubstr.length - 1].includes('?') || arrSubstr[arrSubstr.length - 1].includes('&')) {
+            link += '&';
+        }
+        else {
+            link += '?';
+        }
+
+        fetch(itemsByPage > 0 ? `${link}_num=${itemsByPage}` : link).then((response: any) => {
             console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
@@ -146,7 +155,7 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
                                 <tr>
                                     {
                                         columnId.map((columnItem, index) => (
-                                            <th key={columnItem.label + index}>{t(columnItem['label'])}</th>
+                                            <th className={classes.columnHeader} key={columnItem.label + index}>{t(columnItem['label'])}</th>
                                         ))
                                     }
                                 </tr>
@@ -183,7 +192,7 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
                             <tr>
                                 {
                                     columnId.map((columnItem) => (
-                                        <th key={columnItem['label']}>
+                                        <th className={classes.columnHeader} key={columnItem['label']}>
                                             {t(columnItem['label'])}
                                         </th>
                                     ))
@@ -204,10 +213,16 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
 
 const useStyles = makeStyles({
     row: {
+        // padding: '0 20px 0 40px',
         '&:hover': {
             backgroundColor: '#F7F7F7',
             cursor: 'pointer',
         }
+    },
+
+    columnHeader: {
+        backgroundColor: `${globalTokens.__grey_5} !important`,
+        color: `${globalTokens.__grey_2} !important`
     },
 
     selectedRow: {
