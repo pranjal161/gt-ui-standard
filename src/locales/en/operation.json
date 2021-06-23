@@ -1,9 +1,12 @@
 {
-
-"amount": "Gross amount",
-"identifier": "Identifier",
-"net_amount": "Net amount",
-"operation_empty_list": "No operation available",
-"start_date": "Effective date",
-"status_date": "Status date",
-"status_label": "Status"}
+  "amount": "Gross amount",
+  "identifier": "Identifier",
+  "net_amount": "Net amount",
+  "operation_empty_list": "No operation available",
+  "start_date": "Effective date",
+  "status_date": "Status date",
+  "status_label": "Status",
+  "currency_code": "Currency",
+  "payment_source": "Source",
+  "signature_date": "Signature date"
+}
