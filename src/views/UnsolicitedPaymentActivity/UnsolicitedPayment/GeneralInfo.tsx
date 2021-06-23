@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from 'react';
-
 import DateInput from 'theme/components/material/DateInput/DateInput';
+import EditPayer from './EditPayer/EditPayer';
+import IconButton from 'theme/components/material/IconButton/IconButton';
+import { PencilIcon } from 'assets/svg';
+import React from 'react';
 import SelectInput from 'components/SelectInput/SelectInput';
 import TextField from 'components/TextField/TextField';
 import { getLink } from 'utils/functions';
 import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 
 const GeneralInfo = ({ response }: any) => {
 
     const href = response && getLink(response.data, 'self');
-    const [personResponse, setPersonResponse] = useState();
-    const { fetch, patch } = useAia();
-    useEffect(() => {
-        const payerLink = response && getLink(response.data, 'premium:addressee_person');
-        fetch(payerLink).then((payerResponse: any) => {
-            setPersonResponse(payerResponse.data)
-        })
-    }, [response]);
-    
+    const [isVisible, setIsVisible] = React.useState(false);
+    const payerLink = response && getLink(response.data, 'premium:addressee_person');
+    const payerResponse = useResponse(payerLink);
+
+    const { patch } = useAia();
+
     const patchValue = (value: any, id: string) => {
-        const payload:any = {};
+        const payload: any = {};
         payload[id] = value;
         patch(href, payload).then();
+    }
+
+    const patchPayer = async (person: any = {}) => {
+        await patch(href, {'premium:addressee_person': person.href});
     }
 
     return <>{
@@ -49,11 +53,21 @@ const GeneralInfo = ({ response }: any) => {
                 ></SelectInput>
             </div>
             <div className="col-4 pt-3">
-                {personResponse &&
-                    <TextField
-                        data={personResponse}
-                        propertyName="person:display_id1"
-                    ></TextField>
+                {payerResponse &&
+                    <>
+                        <TextField
+                            data={payerResponse.data}
+                            propertyName="person:display_id1"
+                        ></TextField>
+                        <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
+                            <PencilIcon size={24} />
+                        </IconButton>
+                        <EditPayer
+                            isVisible={isVisible}
+                            setIsVisible={setIsVisible}
+                            onChange={(person: any) => patchPayer(person)}
+                        />
+                    </>
                 }
             </div>
             <div className="col-4 pt-3">
