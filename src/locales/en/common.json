@@ -24,9 +24,21 @@
   "_PAGINATOR_WARNING": "Please add filter to have relevant results - No more than 500 results will be fetch",
   "_OWNER_NAME": "Owner name",
   "_ACTIONS": "Actions",
-  "_NO_RECORDS_FOUND": "No record",
-
-
+  "edit_payer": "Edit payer",
+  "legal_name": "Legal Name",
+  "phonetic": "Phonetic",
+  "search_party": "Search party",
+  "advanced_filters": "Advanced filters",
+  "identifier": "Identifier",
+  "identifier_value": "Identifier value",
+  "search_key": "Search key",
+  "search": "Search",
+  "create": "Create",
+  "modify": "Modify",
+  "cancel": "Cancel",
+  "city": "City",
+  "_NO_RECORDS_FOUND": "No records found ..",
+  "_SEARCH_IN_PROGRESS": "Searching data ..",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -120,20 +132,5 @@
   "_VIEWS": "Status",
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
-  "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
-  "edit_payer": "Edit payer",
-  "legal_name": "Legal Name",
-  "phonetic": "Phonetic",
-  "search_party": "Search party",
-  "advanced_filters": "Advanced filters",
-  "identifier": "Identifier",
-  "identifier_value": "Identifier value",
-  "search_key": "Search key",
-  "search": "Search",
-  "create": "Create",
-  "modify": "Modify",
-  "cancel": "Cancel",
-  "city": "City",
-  "_NO_RECORDS_FOUND": "No records found ..",
-  "_SEARCH_IN_PROGRESS": "Searching data .."
-}
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
+  }
