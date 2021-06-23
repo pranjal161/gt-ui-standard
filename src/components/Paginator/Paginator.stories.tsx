@@ -5,7 +5,7 @@ import React from 'react';
 import { contracts } from 'assets/staticData/serverResponse';
 
 export default {
-    title: 'Components/Activity/Paginator',
+    title: 'Components/Paginator',
     component: Paginator,
 } as Meta;
 

@@ -6,7 +6,7 @@ import Stepper, { StepperProps } from './Stepper';
 import React from 'react';
 
 export default {
-    title: 'Components/Activity/Stepper',
+    title: 'Components/Stepper',
     component: Stepper,
 } as Meta;
 

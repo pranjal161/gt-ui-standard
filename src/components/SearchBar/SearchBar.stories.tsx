@@ -4,7 +4,7 @@ import React from 'react';
 import SearchBar from './SearchBar';
 
 export default {
-    title: 'Components/Inputs/SearchBar',
+    title: 'Components/SearchBar',
     component: SearchBar,
 } as Meta;
 
