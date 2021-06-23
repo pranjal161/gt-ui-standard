@@ -13,7 +13,7 @@ import React from 'react';
  * Tabs can also be closed to be removed from the tabbed view, and can be dynamically added, without rerendering already added tabs and their content.
  * The component doesn't seem to increase memory usage much - the app starts with a memory use of about 17-18 MB, and opening 4 tabs 
  * containing TicketView components causes an initial bump to about 25 MB, and this is about 1 minute later reduced to about 19-20 MB.
- * Opening 4 tabs containing ContractView components causes an initial bump to about 70 MB, and this is about 1 minute later reduced to about 19-20 MB.
+ * Opening 4 tabs containing SearchView components causes an initial bump to about 70 MB, and this is about 1 minute later reduced to about 19-20 MB.
  * Re-renders are optimized to try to keep them to just what is necessary.
  * @constructor 
  * 

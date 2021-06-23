@@ -18,6 +18,10 @@ const TabViewType = (props: { tabId: string, href?: string, activityProps?: any 
     let component
     let mode
     switch (props.activityProps.entityType) {
+        case 'search':
+            mode = 'search'
+            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
+            break;
         case 'ticket':
             component = <SampleTicket ticketId={tabId}/>
             break;
