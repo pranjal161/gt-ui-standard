@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
  */
 const TextField = (props: InputProps) => {
     const { t } = useTranslation();
-    const { propertyName, data, type, onChangeMethod, onBlurMethod } = props;
+    const { propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
     const { FieldWrapper, Validation } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type );
     const [showError, setError] = useState(false);
@@ -45,7 +45,7 @@ const TextField = (props: InputProps) => {
     return (
         <span hidden={!field.visible} data-testid={field.id}>
             <DxcInput
-                label={t(propertyName)}
+                label={t(propertyName, {context})}
                 required={field?.required}
                 disabled={field?.disabled}
                 onChange={onChange}
