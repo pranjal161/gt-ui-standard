@@ -1,39 +1,27 @@
 import { DxcAlert, DxcButton, DxcInput } from '@dxc-technology/halstack-react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { APIConfig } from 'configs/apiConfig';
 import ContractTable from 'components/ContractTable/ContractTable';
-import useActivity from 'hooks/useActivity';
 import { useTranslation } from 'react-i18next';
 import withActivity from 'hocs/withActivity';
 
 export let urlContract: string = APIConfig.defaultHostUrl + 'contracts?_num=5';
 export const PureContractSearch = ({searchString}:any) => {
     const { t } = useTranslation();
-    // const initialURL = APIConfig.defaultHostUrl + 'contracts?_num=5';
-    const { startActivity, stopActivity } = useActivity();
-    const [url, setURL] = useState(urlContract);
+
     const [contractNumber, setContractNumber] = useState(searchString);
+    const searchURL = APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5';
 
     const onContractNumberChange = (updatedValue: string) => {
         setContractNumber(updatedValue.toUpperCase());
     };
 
-    useEffect(() => {
-        startActivity();
-
-        return () => {
-            stopActivity()
-        };           
-    }, []);
-
     const searchContract = () => {
-        const searchURL = APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5';
-        setURL(searchURL);
+        setContractNumber(contractNumber);
     };
 
     const resetTable = () => {
-        setURL(urlContract);
         setContractNumber('');
     };
 
@@ -67,8 +55,8 @@ export const PureContractSearch = ({searchString}:any) => {
                             margin="xxsmall"
                         />
                     </div>
-                    {url &&
-                        <ContractTable url={url} />
+                    {searchURL &&
+                        <ContractTable url={searchURL} />
                     }
                 </div>
 
