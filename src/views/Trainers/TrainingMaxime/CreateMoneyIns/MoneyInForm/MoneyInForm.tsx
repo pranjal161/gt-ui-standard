@@ -15,21 +15,25 @@ export interface MoneyInFormProps {
 
     /**
      * setFormData
+     * @description React setter for formData state
     */
     setFormData: Function
 
     /**
     * payerURI
+    * @description href of the contract's owner to display his name
     */
     payerURI: string
 
     /**
     * isLoad
+    * @description React state to know if content is on loading or loaded
     */
     isLoad: boolean;
 
     /**
     * setIsLoad
+    * @description React setter for isLoad state
     */
     setIsLoad: Function;
 

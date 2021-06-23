@@ -8,16 +8,19 @@ export interface FormContentProps {
 
     /**
     * formData
+    * @description Object where I feed the value of the Money In form
     */
     formData: any
 
     /**
     * setFormData
+    * @description React setter for formData state
     */
     setFormData: Function
 
     /**
     * isLoad
+    * @description React state to know if content is on loading or loaded
     */
     isLoad: boolean;
 
