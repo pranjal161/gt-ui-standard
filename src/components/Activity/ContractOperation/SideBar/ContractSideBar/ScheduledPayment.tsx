@@ -17,7 +17,7 @@ const ScheduledPayment = (props: { contractResponse: any }) => {
     }, []);
 
     const getData = () => {
-        if (contractResponse) {
+        if (contractResponse && getLink(contractResponse, 'contract:billing_list-scheduled_payment')) {
             const scheduledPaymentListUrl = getLink(contractResponse, 'contract:billing_list-scheduled_payment');
             fetch(scheduledPaymentListUrl).then((itemsList: any) => {
                 if (itemsList && itemsList.data['_links'] && itemsList.data['_links'].item) {
