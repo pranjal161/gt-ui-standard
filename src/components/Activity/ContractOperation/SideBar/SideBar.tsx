@@ -1,7 +1,9 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
+import React, {useEffect} from 'react';
+
+import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
-import React, {useEffect} from 'react';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -14,33 +16,6 @@ const ContentList = ({items, data}: any) => items.map(
         loading={!data}
         styleType={item.styleType}
     />)
-
-/*************** For contract *******************/
-
-const ContractPreview = React.memo(({hRef}: any) => {
-    const response = useResponse(hRef)
-    console.log('response', response)
-
-    return <ContractGeneralSection key={'general'} hRef={hRef}/>
-})
-ContractPreview.displayName = 'ContractPreview'
-
-const contractGeneralItems: PanelSectionItem[] = [
-    {id: 'contract:number', styleType: ['text']},
-    {id: 'contract:product_identifier', styleType: ['text']},
-    {id: 'contract:product_type', styleType: ['text']},
-    {id: 'contract:status', styleType: ['text']},
-    {id: 'contract:start_date', styleType: ['date']},
-    {id: 'contract:amount', styleType: ['currency']},
-    {id: 'loan_account:total_amount_due', styleType: ['percent']}
-]
-const ContractGeneralSection = React.memo(({hRef}: any) => {
-    const response = useResponse(hRef)
-
-    return <PanelSection title={'Detail'}
-        content={<ContentList items={contractGeneralItems} data={response && response.data}/>}/>
-})
-ContractGeneralSection.displayName = 'ContractGeneralSection'
 
 /*************** For Person *******************/
 
@@ -93,7 +68,7 @@ const RoleController = React.memo(({hRef}: any) => {
 })
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController = (value: any) => <ContractPreview hRef={value.id}/>
+const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
 const loadingController = () => <div>Loading</div>
 
 const SideBar = (props:any) => {
