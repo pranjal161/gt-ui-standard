@@ -1,5 +1,4 @@
-import useTabs from 'hooks/useTabs';
-import {FilterIcon, SearchIcon} from '../../assets/svg';
+import {FilterIcon, SearchIcon} from 'assets/svg';
 import React, {useRef, useState} from 'react';
 import Badge from '@material-ui/core/Badge';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -11,7 +10,8 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import Paper from '@material-ui/core/Paper';
 import {globalTokens} from 'theme/standard/palette';
 import {makeStyles} from '@material-ui/core/styles';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
+import useOnClickOutside from 'hooks/useOnClickOutside';
+import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
     searchBar: {
@@ -94,7 +94,7 @@ interface IFilters {
 const SearchBar = () => {
     const classes = useStyles();
     const refFilters = useRef(null);
-    const [selectedSearchOption, setSearchOption] = useState(0);
+    const [selectedSearchOption, setSearchOption] = useState('contract');
     const [selectedFiltersNumber, setNumberSF] = useState(0);
     const [toggleFilters, setToggleFilters] = useState(false);
     const [searchString, setSearchString] = useState('');
@@ -114,25 +114,16 @@ const SearchBar = () => {
     });
 
     const arrayFilterIDs = Object.keys(filters.filtersById);
-    const {openNewTab} = useTabs()
+    const {openNewTab, forSearch} = useTabs()
+
+    const openSearchTab = () => openNewTab(forSearch({entityType:selectedSearchOption, searchString, filters}))
 
     const handleSubmitSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         e.stopPropagation();
 
         // if enter is pressed
         if (e.key === 'Enter') {
-            openNewTab({
-                id: 'search',
-                subTitle: 'Search',
-                activityProps: {
-                    activityCode: 'search',
-                    entityType: 'search',
-                    hRef: 'search',
-                    mainEntityHRef: 'search',
-                    title: 'search',
-                    extraValues: {searchString, filters}
-                }
-            })
+            openSearchTab()
         }
     }
 
@@ -143,12 +134,12 @@ const SearchBar = () => {
 
     const handleSearch = (e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();
-        console.log('searchString is: ' + searchString);
+        openSearchTab()
     }
 
     const handleSelectSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.stopPropagation();
-        setSearchOption(parseInt(e.target.value));
+        setSearchOption(e.target.value);
     }
 
     const handleFiltersToggle = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -202,11 +193,11 @@ const SearchBar = () => {
                 classes={{root: classes.nativeSelect}}
                 IconComponent={ExpandMoreIcon}
                 onChange={handleSelectSearch}>
-                <option value={0}>All</option>
-                <option value={1}>Tickets</option>
-                <option value={2}>Contracts</option>
-                <option value={3}>Persons</option>
-                <option value={4}>Businesses</option>
+                <option value={'all'}>All</option>
+                <option value={'ticket'}>Tickets</option>
+                <option value={'contract'} >Contracts</option>
+                <option value={'person'}>Persons</option>
+                <option value={'business'}>Businesses</option>
             </NativeSelect>
             <div
                 className={classes.divider}/>

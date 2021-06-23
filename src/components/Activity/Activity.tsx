@@ -83,7 +83,12 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
          * Main API call
          *
          */
-        aia.fetch(hRef)
+
+        //todo : change it
+        // For the moment, Search is also an activity but we dont have hRef for it.
+        // So we must not fetch on hRef, it's set with search_WORDTOSEARCH
+        if (hRef.slice(0,7) !== 'search_')
+            aia.fetch(hRef)
 
         return () => {
             stopActivity()
