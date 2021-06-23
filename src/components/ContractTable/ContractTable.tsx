@@ -1,6 +1,7 @@
 import {OpenInNewTabIcon, OpenInNewWindowIcon, PencilIcon} from 'assets/svg';
+import Table, { Column } from 'components/Table/Table';
+
 import React from 'react';
-import Table from 'components/Table/Table';
 import useAia from 'hooks/useAia';
 import useTabs from 'hooks/useTabs';
 
@@ -13,7 +14,7 @@ const ContractTable = (props: any) => {
     const {openNewTab, forContract, forOperation} = useTabs()
     const {fetch} = useAia();
 
-    const contractColumns = [
+    const contractColumns: Array<Column> = [
         {label: 'contract:number', property: 'contract:number'},
         {label: 'contract:status', property: 'contract:status'},
         {label: '_OWNER_NAME', property: ['person:display_id', 'organization:display_id']},

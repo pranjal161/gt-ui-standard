@@ -1,12 +1,11 @@
 import 'mocks/mockAxiosCalls'
-import {WithReduxActivity} from 'utils/storyBooks';
 import Header, {HeaderProps} from './Header';
 import {Meta, Story} from '@storybook/react';
-
 import React from 'react';
+import {WithReduxActivity} from 'utils/storyBooks';
 
 export default {
-    title: 'Components/Activity/ContractHeaderBar',
+    title: 'Components/Headers/For contract view',
     component: Header,
     decorators: [(Story: any) => <WithReduxActivity><Story/></WithReduxActivity>]
 } as Meta;
@@ -21,7 +20,7 @@ Default.args = {
     onLaunchActivity: onLaunchActivity
 };
 
-export const WrongResponseProps = Template.bind({});
-WrongResponseProps.args = {
+export const NoResponseProps = Template.bind({});
+NoResponseProps.args = {
     hRef: '',
 };
