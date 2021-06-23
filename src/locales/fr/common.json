@@ -17,6 +17,14 @@
   "contractViewLabel": "Espace contrat",
   "operationEmptyList": "Aucune activité disponible",
   "businessActivityLabel": "Acte de gestion",
+  "searchPersonDialog": "Recherche d'une personne",
+  "searchPersonDialog_payer": "Recherche d'une personne pour payeur",
+  "createPersonDialog": "Création d'une personne",
+  "createPersonDialog_payer": "Création d'une personne pour payeur",
+  "searchContractDialog": "Recherche d'un contrat",
+  "searchDistributorDialog": "Recherche d'un apporteur",
+  "selectFundsDialog": "Selection de fonds",
+  "validateFundsDialog": "Conformation de la selection",
   "date_effect": "Date d'effet",
   "_CONTRACT_SEARCH": "Recherche de contrat",
   "_RESET": "Reset",
@@ -24,8 +32,7 @@
   "_OWNER_NAME": "Souscripteur",
   "_ACTIONS": "Actions",
   "_NO_RECORDS_FOUND": "Pas d'enregistrement",
-
-
+  "breadcrumbFrom" : "Depuis",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -116,5 +123,8 @@
   "van": "Van",
   "warning": "Warning",
   "WORK_PARKING_DETAILS": "Work parking details",
-  "_VIEWS": "Status"
+  "_VIEWS": "Status",
+  "_INFORMATION_SHEET": "Information clients",
+  "_INVESTMENT_SPLIT": "Details des investissements",
+  "_UNSOLICITED_PAYMENT": "Versement libre"
 }
