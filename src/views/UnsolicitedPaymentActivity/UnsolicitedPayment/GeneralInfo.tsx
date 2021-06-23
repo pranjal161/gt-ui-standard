@@ -52,7 +52,7 @@ const GeneralInfo = ({ response }: any) => {
                     onBlurMethod={(value: any) => patchValue(value, 'operation:payment_source')}
                 ></SelectInput>
             </div>
-            <div className="row col-4 pt-3">
+            <div className="d-flex col-4 pt-3">
                 {payerResponse &&
                     <>
                         <div className="col-9">
