@@ -58,6 +58,7 @@ const GeneralInfo = ({ response }: any) => {
                         <div className="col-9">
                             <TextField
                                 data={payerResponse.data}
+                                context={'payer'}
                                 propertyName="person:display_id1"
                             ></TextField>
                         </div>

@@ -1,7 +1,7 @@
-import {BusinessIcon, CloseIcon, ContactIcon, ContractIcon, TicketIcon} from 'assets/svg';
+import {BusinessIcon, CloseIcon, ContactIcon, ContractIcon, SearchIcon, TicketIcon} from 'assets/svg';
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface TabButtonProps {
 
@@ -129,15 +129,17 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
                         icon &&
                         <div className={classes.buttonIcon}>
                             {
-                                icon === 'ticket' ?
-                                    <TicketIcon/> :
-                                    icon === 'contract' ?
-                                        <ContractIcon/> :
-                                        icon === 'person' ?
-                                            <ContactIcon/> :
-                                            icon === 'company' ?
-                                                <BusinessIcon/> :
-                                                <TicketIcon/>
+                                icon === 'search' ?
+                                    <SearchIcon/> :
+                                    icon === 'ticket' ?
+                                        <TicketIcon/> :
+                                        icon === 'contract' ?
+                                            <ContractIcon/> :
+                                            icon === 'person' ?
+                                                <ContactIcon/> :
+                                                icon === 'company' ?
+                                                    <BusinessIcon/> :
+                                                    <TicketIcon/>
                             }
 
                         </div>
