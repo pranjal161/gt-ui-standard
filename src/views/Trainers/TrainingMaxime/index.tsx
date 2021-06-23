@@ -22,23 +22,9 @@ const TrainingMaxime = () => {
 
     const myUrlUP = 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60/operations/unsolicited_payment/ID-mvQagAgc';
 
-    // const getMyUpInformations = async() => {
-    //     try{
-    //         const res = await post('http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60/operations/unsolicited_payment', {});
-    //         console.log(res);
-
-    //         const up_infos = await fetch(res.data._links.self.href)
-    //         setResponse(up_infos);
-    //     }
-    //     catch(err) {
-    //         return err;
-    //     }
-    // }
-
     const getMyUpInformations = async () => {
         try {
             const up_infos = await fetch(myUrlUP)
-            console.log(up_infos)
             setResponse(up_infos);
         }
         catch (err) {
@@ -58,18 +44,16 @@ const TrainingMaxime = () => {
         <>
             <h2>.</h2>
             <div className={classes.container}>
-                <Header title={'Contract number: PCMR000381'} hRef={'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FHtW'} onLaunchActivity={onLaunchActivity} />
+                <Header title={'Contract number: PCMR000381'} hRef={'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FHtW'} onLaunchActivity={onLaunchActivity}/>
             </div>
             <h3>{activityUrl.hRef}</h3>
 
             <button onClick={() => setIsOpen(!isOpen)}>click</button>
 
             {
-                // response must be the api response from a get unsolicitedPayment ({root}/contracts/ID/up/upID)
                 response &&
                     <CreateMoneyIns open={isOpen} onClose={onClose} response={response} />
             }
-            {/* <CreateMoneyIns open={isOpen} onClose={onClose}/> */}
 
         </>
     )

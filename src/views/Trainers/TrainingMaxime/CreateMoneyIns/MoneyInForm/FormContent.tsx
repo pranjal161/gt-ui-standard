@@ -7,45 +7,55 @@ import React from 'react';
 export interface FormContentProps {
 
     /**
-     * formData
-            */
+    * formData
+    */
     formData: any
 
     /**
-     * setFormData
-            */
+    * setFormData
+    */
     setFormData: Function
 
     /**
     * isLoad
-           */
+    */
     isLoad: boolean;
 
     /**
     * bankAccountList
-           */
+    * @description API properties formatted for dxc select
+    */
     bankAccountList: any;
 
     /**
     * payerTitle
     * @description title of the payer to display a label
-           */
-     payerTitle: string
+    */
+    payerTitle: string
 
     /**
-    * currencySelect : API properties formatted for dxc select
-           */
+    * currencySelect
+    * @description API properties formatted for dxc select
+    */
     currencySelect: any
 
     /**
-    * paymentTypeSelect : API properties formatted for dxc select
-           */
+    * paymentTypeSelect
+    * @description API properties formatted for dxc select
+    */
     paymentTypeSelect: any
 
     /**
-    * adminSelect : API properties formatted for dxc select
-           */
+    * adminSelect
+    * @description API properties formatted for dxc select
+    */
     adminSelect: any
+
+    /**
+    * amountUP
+    * @description The amount of the unsolicited Payment operation
+    */
+    amountUP: number
 }
 const useStyles = makeStyles((theme: Theme) => ({
     formRow: {
@@ -85,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 /**
- * EXPLAIN WHAT THE COMPONENT DOES
+ * The component renders a form for Money In case.
   * @param {FormContentProps} props Props of the component.
    * @returns {React.component} Display the component.
     */
@@ -100,7 +110,8 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
         payerTitle,
         currencySelect,
         paymentTypeSelect,
-        adminSelect
+        adminSelect,
+        amountUP
     } = props
 
     const onChange = (inputName: string, typeInput = 'string') => (newValue: any) => {
@@ -129,7 +140,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             <div className={classes.formRow}>
                                 <DxcInput
                                     label="Amount to pay"
-                                    value={formData.amount}
+                                    value={amountUP}
                                     disabled={true}
                                 />
                                 <DxcInput
@@ -150,10 +161,9 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                 />
                                 <DxcDate
                                     label="Accounting Date"
-                                    value={formData['operation:accounting_date']}
                                     placeholder
                                     format="yyyy-MM-dd"
-                                    onChange={onBlur('operation:accounting_date')}
+                                    disabled={true}
                                 />
                                 <DxcDate
                                     label="Receipt Date"
@@ -162,7 +172,6 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                                     format="yyyy-MM-dd"
                                     onChange={onBlur('money_in:receipt_date')}
                                 />
-                                {/* <DateInput propertyName="test" data={formData.receiptDate}/> */}
                             </div>
                             <div className={classes.formRow}>
                                 <DxcDate
@@ -199,20 +208,18 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             </div>
                             <p className={classes.category2}>Payment type Details</p>
                             <div className={classes.formRow}>
-                                {/* <DxcInput
+                                <DxcInput
                                     label="Cheque Number"
                                     required={true}
-                                    onChange={onChange('chequeNumber')}
+                                    onChange={() => null}
                                 />
                                 <DxcDate
                                     label="Signature Date"
-                                    value={formData.signatureDate}
                                     placeholder
                                     required={true}
                                     format="yyyy-MM-dd"
-                                    onBlur={onBlur('signatureDate')}
-                                    onChange={onBlur('signatureDate')}
-                                /> */}
+                                    onChange={() => null}
+                                />
                             </div>
                         </>
                     )
@@ -228,18 +235,3 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
 }
 
 export default FormContent;
-
-/*
-{
-"money_in:deposit_bank_account": "http://20.33.40.147:13111/csc/insurance/persons/ID-wJsQC7FAZ/bank_accounts/ID-EIBbf31Fr",
-"money_in:deposit_date": "2021-06-26",
-"money_in:payer_person": "http://20.33.40.147:13111/csc/insurance/persons/ID-wJsQC7FAZ",
-"money_in:payment_type": "check_deposit",
-"money_in:receipt_date": "2021-06-24",
-"money_in_administrator": "CAISSE",
-"operation:amount": 3000,
-"operation:contract": "http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60",
-"operation:currency_code": "eur",
-"operation:value_date": "2021-06-29"
-}
-*/
