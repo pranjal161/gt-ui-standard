@@ -5,7 +5,7 @@ import React from 'react';
 import Tab from 'components/Tabs/Tab/Tab'
 
 export default {
-    title: 'Components/Navigation/Tabs',
+    title: 'Components/Tabs',
     component: Tabs,
 } as Meta;
 
