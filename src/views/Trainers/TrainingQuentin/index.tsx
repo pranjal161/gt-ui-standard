@@ -1,7 +1,7 @@
 import { DxcButton, DxcInput } from '@dxc-technology/halstack-react';
 
 import Button from 'theme/components/material/Button/Button';
-import EditPayer from './EditPayer/EditPayer';
+import EditPayer from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/EditPayer/EditPayer';
 import { PencilIcon } from 'assets/svg';
 import React from 'react';
 import {debounce} from '@material-ui/core/utils/';
