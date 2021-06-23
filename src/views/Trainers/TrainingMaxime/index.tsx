@@ -1,6 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import CreateMoneyIns from './CreateMoneyIns/CreateMoneyIns';
+import CreateMoneyIn from './CreateMoneyIn/CreateMoneyIn';
 import Header from 'components/Activity/ContractView/Header/Header';
 import React from 'react';
 import useAia from 'hooks/useAia';
@@ -53,7 +53,7 @@ const TrainingMaxime = () => {
 
             {
                 response &&
-                    <CreateMoneyIns open={isOpen} onClose={onClose} response={response} setMoneyUri={setMoneyUri}/>
+                    <CreateMoneyIn open={isOpen} onClose={onClose} response={response} setMoneyUri={setMoneyUri}/>
             }
 
             <p>{moneyURI}</p>

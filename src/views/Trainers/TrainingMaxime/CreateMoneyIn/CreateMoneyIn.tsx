@@ -7,7 +7,7 @@ import React from 'react';
 import useAia from 'hooks/useAia';
 
 // import { useTranslation } from 'react-i18next';
-export interface CreateMoneyInsProps {
+export interface CreateMoneyInProps {
 
     /**
         * open
@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * The component renders a dialog that contains a form to create a money in.
-    * @param {CreateMoneyInsProps} props Props of the component.
+    * @param {CreateMoneyInProps} props Props of the component.
     * @returns {React.component} Display the component.
     */
-const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProps) => {
+const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) => {
     const classes = useStyles();
     // const { t } = useTranslation();
     const { post, patch, fetch } = useAia();
@@ -151,4 +151,4 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
     )
 }
 
-export default CreateMoneyIns;
+export default CreateMoneyIn;
