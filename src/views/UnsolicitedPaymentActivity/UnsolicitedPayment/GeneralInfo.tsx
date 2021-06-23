@@ -25,7 +25,7 @@ const GeneralInfo = ({ response }: any) => {
     }
 
     const patchPayer = async (person: any = {}) => {
-        await patch(href, {'premium:addressee_person': person.href});
+        await patch(href, { 'premium:addressee_person': person.href });
     }
 
     return <>{
@@ -52,16 +52,20 @@ const GeneralInfo = ({ response }: any) => {
                     onBlurMethod={(value: any) => patchValue(value, 'operation:payment_source')}
                 ></SelectInput>
             </div>
-            <div className="col-4 pt-3">
+            <div className="row col-4 pt-3">
                 {payerResponse &&
                     <>
-                        <TextField
-                            data={payerResponse.data}
-                            propertyName="person:display_id1"
-                        ></TextField>
-                        <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
-                            <PencilIcon size={24} />
-                        </IconButton>
+                        <div className="col-9">
+                            <TextField
+                                data={payerResponse.data}
+                                propertyName="person:display_id1"
+                            ></TextField>
+                        </div>
+                        <div className="col-3 pt-3 p-0">
+                            <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
+                                <PencilIcon size={24} />
+                            </IconButton>
+                        </div>
                         <EditPayer
                             isVisible={isVisible}
                             setIsVisible={setIsVisible}
