@@ -1,28 +1,25 @@
-import { DxcAlert, DxcButton, DxcInput } from '@dxc-technology/halstack-react';
-import React, { useState } from 'react';
+import {DxcAlert, DxcButton, DxcInput} from '@dxc-technology/halstack-react';
+import React, {useState} from 'react';
 
-import { APIConfig } from 'configs/apiConfig';
+import {APIConfig} from 'configs/apiConfig';
 import ContractTable from 'components/ContractTable/ContractTable';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import withActivity from 'hocs/withActivity';
 
 export let urlContract: string = APIConfig.defaultHostUrl + 'contracts?_num=5';
-export const PureContractSearch = ({searchString}:any) => {
-    const { t } = useTranslation();
+export const PureContractSearch = ({searchString}: any) => {
+    const {t} = useTranslation();
+    const makeUrl = (contractNumber:any) => APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5'
 
-    const [contractNumber, setContractNumber] = useState(searchString);
-    const searchURL = APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5';
+    const [contractNumber, setContractNumber]: [any, any] = useState(searchString);
+    const [searchURL, setSearchURL]: [any, any] = useState(makeUrl(contractNumber))
+
+    const searchContract = () => {
+        setSearchURL(makeUrl(contractNumber ))
+    };
 
     const onContractNumberChange = (updatedValue: string) => {
         setContractNumber(updatedValue.toUpperCase());
-    };
-
-    const searchContract = () => {
-        setContractNumber(contractNumber);
-    };
-
-    const resetTable = () => {
-        setContractNumber('');
     };
 
     return (
@@ -36,7 +33,6 @@ export const PureContractSearch = ({searchString}:any) => {
                             onChange={onContractNumberChange}
                             margin="medium"
                         />
-                        <div className="d-flex justify-content-center"></div>
                         <DxcButton
                             mode="primary"
                             label={t('_CONTRACT_SEARCH')}
@@ -44,8 +40,6 @@ export const PureContractSearch = ({searchString}:any) => {
                             margin="medium"
                             size="large"
                         />
-                        <DxcButton mode="primary" label={t('_RESET')} onClick={resetTable} margin="medium"
-                            size="large" />
                     </div>
                     <div className="align-center">
                         <DxcAlert
@@ -56,7 +50,7 @@ export const PureContractSearch = ({searchString}:any) => {
                         />
                     </div>
                     {searchURL &&
-                        <ContractTable url={searchURL} />
+                    <ContractTable url={searchURL}/>
                     }
                 </div>
 
