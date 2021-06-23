@@ -27,16 +27,16 @@ export interface ActivityContainerProps {
     mode: string
 
     /**
-     * Extra props to merge
+     * Extra Values
      */
-    extraProps: any
+    extraValues?: any
 
     title?:string
 
     children?:any
 }
 
-const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title, children}: ActivityContainerProps) => {
+const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title, children, extraValues}: ActivityContainerProps) => {
     const { post } = useAia()
     const [activityHRef, setActivityHRef]:[any, any] = useState(undefined);
 
@@ -45,7 +45,8 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
         mainEntityHRef: mainEntityHRef,
         action: 'fetch',
         activityCode: activityCode,
-        title: title
+        title: title,
+        extraValues:extraValues
     }
 
     useEffect(() => {
@@ -62,6 +63,9 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
         }
         else if (mode === 'view' || mode === 'storybook') {
             //nothing to do the fetch will be done in the activity
+            setActivityHRef(hRef)
+        }
+        else if (mode === 'search'){
             setActivityHRef(hRef)
         }
     }, [])

@@ -15,5 +15,6 @@
   "birth_date_alt": "Birth date",
   "creation_date": "Creation date",
   "display_id1": "Person",
-  "display_id1_payer": "Payer"
+  "display_id1_payer": "Payer",
+  "gender" : "Gender"
 }

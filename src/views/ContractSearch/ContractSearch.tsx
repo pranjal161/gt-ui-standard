@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next';
 import withActivity from 'hocs/withActivity';
 
 export let urlContract: string = APIConfig.defaultHostUrl + 'contracts?_num=5';
-const ContractSearch = () => {
+export const PureContractSearch = ({searchString}:any) => {
     const { t } = useTranslation();
     // const initialURL = APIConfig.defaultHostUrl + 'contracts?_num=5';
     const { startActivity, stopActivity } = useActivity();
     const [url, setURL] = useState(urlContract);
-    const [contractNumber, setContractNumber] = useState('');
+    const [contractNumber, setContractNumber] = useState(searchString);
 
     const onContractNumberChange = (updatedValue: string) => {
         setContractNumber(updatedValue.toUpperCase());
@@ -77,4 +77,4 @@ const ContractSearch = () => {
     );
 }
 
-export default () => withActivity(ContractSearch, urlContract);
+export default () => withActivity(PureContractSearch, urlContract);

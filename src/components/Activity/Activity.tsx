@@ -58,6 +58,11 @@ export interface ActivityProps {
      */
     mainEntityHRef: string
 
+    /**
+     * extraValues
+     */
+    extraValues?:any
+
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {

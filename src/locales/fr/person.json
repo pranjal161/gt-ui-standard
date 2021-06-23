@@ -11,5 +11,6 @@
   "trade_name": "Trade name",
   "postal_code": "Postal code",
   "display_id1": "Personne",
-  "display_id1_payer": "Payeur"
+  "display_id1_payer": "Payeur",
+  "gender" : "Civilité"
 }
