@@ -27,6 +27,12 @@ export interface CreateMoneyInsProps {
     */
     response: any;
 
+    /**
+        * setMoneyUri
+        * @description  React setter to retunr the URI String value of the Money in created.
+    */
+     setMoneyUri: Function;
+
 }
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -47,6 +53,7 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
         open,
         onClose,
         response,
+        setMoneyUri
     } = props
     
     const payerURI: string = response.data._links['premium:addressee_person'].href;
@@ -76,6 +83,7 @@ const CreateMoneyIns: React.FC<CreateMoneyInsProps> = (props: CreateMoneyInsProp
         const res = await patch(moneyIn.data._links.self.href, formData);
 
         console.log(res);
+        setMoneyUri(res.data._links.self.href);
         onClose();
     };
 

@@ -19,6 +19,7 @@ const TrainingMaxime = () => {
     const [activityUrl, onLaunchActivity]: [any, any] = React.useState({});
     const [isOpen, setIsOpen]: [boolean, Function] = React.useState(false);
     const [response, setResponse]: [any, Function] = React.useState(false);
+    const [moneyURI, setMoneyUri]: [string, Function] = React.useState('');
 
     const myUrlUP = 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60/operations/unsolicited_payment/ID-mvQagAgc';
 
@@ -52,8 +53,10 @@ const TrainingMaxime = () => {
 
             {
                 response &&
-                    <CreateMoneyIns open={isOpen} onClose={onClose} response={response} />
+                    <CreateMoneyIns open={isOpen} onClose={onClose} response={response} setMoneyUri={setMoneyUri}/>
             }
+
+            <p>{moneyURI}</p>
 
         </>
     )
