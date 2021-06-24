@@ -52,9 +52,7 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
 
     const getMoneyIn = async (url: string) => {
         const res = await fetch(url);
-        console.log({ res });
         setMyTable(res);
-
     }
 
     React.useEffect(() => {

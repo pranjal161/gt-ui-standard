@@ -50,7 +50,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
     } = props
 
     const payerURI: string = response.data._links['premium:addressee_person'].href;
-    const amountUP: number = response.data['operation:amount'];
+    const amountUP: number = response.data['operation:amount']??'';
     const contractURI: string = (response.data._links.self.href).split('/operations')[0]; // CUT THE USELESS PARTS OF THE URI
 
     const [isLoad, setIsLoad]: [boolean, Function] = React.useState(false);

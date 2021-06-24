@@ -144,7 +144,6 @@
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
   "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
-  "money_in": "Money In",
   "amount_to_pay": "Amount to pay",
   "payment_amount": "Payment Amount",
   "currency": "Currrency",
@@ -159,7 +158,7 @@
   "cheque_number": "Cheque Number",
   "signature_date": "Signature Date",
   "add": "Add",
-  "amount": "Amount"
+  "amount": "Amount",
   "distributor": "Distributor",
   "function": "Function",
   "type": "Type",

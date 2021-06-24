@@ -17,12 +17,12 @@ export interface UnsolicitedPaymentProps {
     response: any
 }
 
-const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:UnsolicitedPaymentProps) => {
-    const {t} = useTranslation();
+const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
     const validateDistributor = (obj: any) => {
-        console.log({obj});
+        console.log({ obj });
         setIsVisible(false);
     }
 
@@ -34,7 +34,7 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
                 </Section>
             </div>
             <div className="col-12">
-                 <MoneyIn response={response} />
+                <MoneyIn response={response} />
             </div>
             <div className="col-12">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
@@ -44,7 +44,7 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
                     </>
                 }>
                     <DistributorsManagement />
-                    <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({distributor})} onCancel={() => setIsVisible(false)} />
+                    <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({ distributor })} onCancel={() => setIsVisible(false)} />
                 </Section>
             </div>
         </>

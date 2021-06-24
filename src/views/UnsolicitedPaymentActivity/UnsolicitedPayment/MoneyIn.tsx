@@ -2,8 +2,8 @@ import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import Button from 'components/Button/Button';
-import CreateMoneyIn from 'views/Trainers/TrainingMaxime/CreateMoneyIn/CreateMoneyIn';
-import MoneyInResume from 'views/Trainers/TrainingMaxime/MoneyInResume/MoneyInResume';
+import CreateMoneyIn from './CreateMoneyIn/CreateMoneyIn';
+import MoneyInResume from './MoneyInResume/MoneyInResume';
 import React from 'react';
 import Section from 'components/Section/Section';
 
@@ -27,6 +27,10 @@ const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
     const onClose = () => {
         setIsMoneyInOpen(false);
     }
+
+    React.useEffect(() => {
+        console.log(response)
+    })
 
     return (
         <Section title="Payment" icon={<PaymentIcon />} actions={
