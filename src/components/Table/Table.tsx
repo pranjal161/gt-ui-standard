@@ -1,13 +1,12 @@
+import useResponse from 'hooks/useResponse';
 import React, { useEffect, useState } from 'react';
 
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
-import { debounce } from '@material-ui/core/utils';
 import { getDescriptionValue } from 'utils/functions';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
 export type Column = {
@@ -41,7 +40,7 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Props as the url to fetch.
+     * Url to fetch
      */
     url: string,
 
@@ -56,7 +55,7 @@ interface TableProps {
     showPaginator?: Boolean,
 
     /**
-     * Callback to receive and manipulate a selected row out of the component. 
+     * Callback to receive and manipulate a selected row out of the component.
      */
     onRowSelected?: Function,
 
@@ -85,7 +84,7 @@ interface TableCellProps {
     row?: any,
 
     /**
-     * Column object from column array feed to parent. 
+     * Column object from column array feed to parent.
      */
     column: Column
 }
@@ -135,20 +134,36 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
 const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
+    const [hRef, setHRef]:[any, any] = useState()
+
     const [tableData, setTableData] = useState<undefined | any>();
     const { t } = useTranslation();
     const [totalItems, setTotalItems] = useState(0);
-    const { fetch } = useAia();
     const [selectedRow, setSelectedRow] = React.useState<any>({});
-
-    const debouncedCallAPI = React.useCallback(debounce((apiURL: any) => getData(apiURL), 3000), [url]);
+    const response = useResponse(hRef)
 
     useEffect(() => {
-        debouncedCallAPI(url);
-    }, [url]);
+        setHRef(url)
+    }, [url])
 
-    const getData = (link: string) => {
+    useEffect(() => {
 
+        if (response && response.data['_links']['item']) {
+            let result = JSON.parse(JSON.stringify(response));
+            if (!Array.isArray(result.data['_links']['item'])) {
+                result.data['_links']['item'] = [result.data['_links']['item']];
+            }
+            const count = response?.data?._count;
+            setTableData(result.data);
+            setTotalItems(count === '500+' ? 500 : count);
+        }
+        else {
+            setTableData({});
+        }
+
+    }, [response])
+
+    const onPagination = (link: string) => {
         if (link.includes('_num=')) {
             link = link.slice(0, link.search('_num=') - 1);
         }
@@ -161,24 +176,10 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
         else {
             link += '?';
         }
+        const newHRef = showPaginator && itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link
+        setHRef(newHRef)
+    }
 
-        fetch(itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
-            console.log({response});
-            if (response && response.data['_links']['item']) {
-                let result = JSON.parse(JSON.stringify(response));
-                if (!Array.isArray(result.data['_links']['item'])) {
-                    result.data['_links']['item'] = [result.data['_links']['item']];
-                }
-                const count = response?.data?._count;
-                setTableData(result.data);
-                setTotalItems(count === '500+' ? 500 : count);
-            }
-            else {
-                setTableData({});
-            }
-        });
-    };
-    
     const selectValue = (row: SelectedRow) => {
         if (onRowSelected !== undefined) {
             setSelectedRow(row);
@@ -219,12 +220,12 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                         </DxcTable>
                         {
                             showPaginator && totalItems > 0 && (
-                                <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={getData} />
+                                <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
                             )
                         }
 
                         {/* {totalItems && (
-                            <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={getData} />
+                            <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={onPagination} />
                         )} */}
                     </>
                 ) : (
