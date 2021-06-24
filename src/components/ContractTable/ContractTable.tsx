@@ -49,7 +49,6 @@ const ContractTable = (props: any) => {
     }
 
     const openTicketInNewTab = (contract: any) => {
-        console.log('contract', contract)
         openNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 

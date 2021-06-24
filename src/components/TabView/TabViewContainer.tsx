@@ -8,7 +8,7 @@ const TabViewContainer = () => {
         strict: true,
         sensitive: true
     });
-    console.log('TabViewContainer render match: ', match);
+    //console.log('TabViewContainer render match: ', match);
 
     return (
         <div style={{display: match ? 'block' : 'none'}}>
