@@ -31,7 +31,7 @@ export interface CreateMoneyInProps {
         * setMoneyUri
         * @description  React setter to retunr the URI String value of the Money in created.
     */
-     setMoneyUri: Function;
+    setMoneyUri: Function;
 
 }
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,7 +55,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
         response,
         setMoneyUri
     } = props
-    
+
     const payerURI: string = response.data._links['premium:addressee_person'].href;
     const amountUP: number = response.data['operation:amount'];
     const contractURI: string = (response.data._links.self.href).split('/operations')[0]; // CUT THE USELESS PARTS OF THE URI
@@ -77,7 +77,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
         'money_in_administrator': '', // DEFINE BY DEFAULT ON THE SYSTEM, BUT AVAILABLE IN THE SELECT ONLY ONE OPTION
         'money_in:deposit_bank_account': '' // DEFINE BY DEFAULT ON THE SYSTEM, BUT AVAILABLE IN THE SELECT ONLY ONE OPTION
     });
-    
+
     const addMoney = async () => {
         console.log('push');
         const res = await patch(moneyIn.data._links.self.href, formData);
@@ -99,20 +99,20 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
                 label: item.title
             })
         ));
-        
+
         return newList;
     }
 
     const getMoneyInsProps: Function = async () => {
         try {
-            const res = await post('http://20.33.40.147:13111/csc/insurance/financials/money_ins', {'operation:contract': contractURI});
-            
+            const res = await post('http://20.33.40.147:13111/csc/insurance/financials/money_ins', { 'operation:contract': contractURI });
+
             setMoneyIn(res);
             setCurrencySelect(newList(res.data._options.properties['operation:currency_code'].oneOf));
             setPaymentTypeSelect(newList(res.data._options.properties['money_in:payment_type'].oneOf));
             setAdminSelect(newList(res.data._options.properties['money_in_administrator'].oneOf));
 
-            const getDeposit = await(fetch(res.data._links['money_in:deposit_bank_account'].href));
+            const getDeposit = await (fetch(res.data._links['money_in:deposit_bank_account'].href));
             setBankAccountList([{
                 value: getDeposit.data._links.self.href,
                 label: getDeposit.data._links.self.name

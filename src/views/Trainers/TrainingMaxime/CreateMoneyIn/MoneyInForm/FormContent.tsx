@@ -124,6 +124,10 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
         else if (typeInput === 'number') {
             setFormData({ ...formData, [inputName]: +newValue })
         }
+        else{
+            
+            return;
+        }
 
     };
 
@@ -143,7 +147,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             <div className={classes.formRow}>
                                 <DxcInput
                                     label="Amount to pay"
-                                    value={amountUP}
+                                    value={amountUP+''}
                                     disabled={true}
                                 />
                                 <DxcInput

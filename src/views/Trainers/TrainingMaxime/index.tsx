@@ -21,6 +21,8 @@ const TrainingMaxime = () => {
     const [response, setResponse]: [any, Function] = React.useState(false);
     const [moneyURI, setMoneyUri]: [string, Function] = React.useState('');
 
+    const [showMoney, setShowMoney]: [any, Function] = React.useState();
+
     const myUrlUP = 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FH60/operations/unsolicited_payment/ID-mvQagAgc';
 
     const getMyUpInformations = async () => {
@@ -33,6 +35,22 @@ const TrainingMaxime = () => {
         }
     }
 
+    const getMyNewMoneyIn: Function = async () => {
+        if(moneyURI !== ''){
+            try {
+                const response = await fetch(moneyURI)
+                setShowMoney(response);
+            }
+            catch (err) {
+                return err;
+            }
+        }
+        else {
+
+            return;
+        }
+    }
+
     React.useEffect(() => {
         getMyUpInformations();
     }, [])
@@ -40,6 +58,10 @@ const TrainingMaxime = () => {
     const onClose = () => {
         setIsOpen(false);
     }
+
+    React.useEffect(() => {
+        getMyNewMoneyIn()
+    }, [moneyURI])
 
     return (
         <>
@@ -57,6 +79,7 @@ const TrainingMaxime = () => {
             }
 
             <p>{moneyURI}</p>
+            <p>{JSON.stringify(showMoney)}</p>
 
         </>
     )

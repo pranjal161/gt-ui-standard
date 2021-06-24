@@ -24,7 +24,7 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
         <div className="col-12">
             <Section title="Payment" icon={<PaymentIcon />} actions={
                 <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                    title="Test Button" />} />
+                    title="Collection" />} />
         </div>
         <div className="col-12">
             <Section title="Distributor Management" icon={<DistributorIcon />} actions={
