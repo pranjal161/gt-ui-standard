@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { OpenInNewTabIcon, OpenInNewWindowIcon } from 'assets/svg';
 import React from 'react';
 import useDeskTickets from 'hooks/useDeskTickets';
@@ -16,6 +17,7 @@ const Home = () => {
         openNewTabInSecondaryWindow({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', hRef:tabId, mainEntityHRef:tabId}})
     }
 
+    /*
     return (<div data-testid="home-component" className="text-align-center">
         <h6>Home Component</h6>
         <p>List of tickets :</p>
@@ -32,6 +34,9 @@ const Home = () => {
             </span>
         </h6>)}
     </div>);
+    */
+
+    return <div>Please search a contract with the input in navbar, like : IUP% </div>
 }
 
 export default Home;

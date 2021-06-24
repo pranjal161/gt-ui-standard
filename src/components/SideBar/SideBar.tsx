@@ -1,13 +1,11 @@
 import * as sideBarReducer from 'store/reducers/secondaryTabsReducer';
-
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
-
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import React from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 export interface SideBarProps {
 
@@ -110,10 +108,10 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingBottom:theme.spacing(1)
+        paddingBottom: theme.spacing(1)
     },
     headerTitle: {
-        width:'100%',
+        width: '100%',
         minWidth: 'calc(100% - 84px)'
     },
     headerActions: {
