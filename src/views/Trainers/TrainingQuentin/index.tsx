@@ -1,8 +1,8 @@
 import { DxcButton, DxcInput, DxcTabs } from '@dxc-technology/halstack-react';
 
 import Button from 'theme/components/material/Button/Button';
-import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
-import EditPayer from './EditPayer/EditPayer';
+import DistributorsManagement from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/DistributorsManagement/DistributorsManagement';
+import EditPayer from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/EditPayer/EditPayer';
 import { PencilIcon } from 'assets/svg';
 import React from 'react';
 import {debounce} from '@material-ui/core/utils/';
@@ -90,7 +90,7 @@ const TrainingQuentin = () => {
                 <div className={`${classes.tab} ${classes.dm}`}>
                     <DistributorsManagement />
                 </div>
-            )}        
+            )}
         </>
     );
 }

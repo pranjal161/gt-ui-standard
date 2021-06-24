@@ -11,12 +11,26 @@ import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
 
 export type Column = {
+
+    /**
+     * Name displayed in the <th></th> html element
+     */
     label: string,
+
+    /**
+     * Array of icon & their callback for each row
+     */
     actions?: Array<any>,
-    property?: Array<string> | string,
-    type?: any,
-    propertyLink?: string,
-    pattern?: string 
+
+    /**
+     * API Object property to display in the TableCell.
+     */
+    property?: Array<any> | string,
+
+    /**
+     * Data type.
+     */
+    type?: any
 }
 
 type SelectedRow = {
@@ -32,22 +46,23 @@ interface TableProps {
     url: string,
 
     /**
-     * Objects array which contains each.
+     * Objects array which contains each Column properties.
      */
     columnId: Array<Column>
 
     /**
-     * State to define if the Paginator has to be displayed.
+     * State to define if the paginator has to be displayed or not
      */
-    showPaginator?: Boolean,
+    showPaginator: Boolean,
 
     /**
-     * Callback to get the object from the selected row.
+     * Callback to receive and manipulate a selected row out of the component. 
      */
     onRowSelected?: Function,
 
     /**
-     * Define the count of items maximum displayed by page. Managed by the Paginator.
+     * Number of row to display : 1 to 20.
+     * If not provided, 20 items will be displayed.
      */
     itemsByPage?: number,
 }
@@ -159,7 +174,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                 setTotalItems(count === '500+' ? 500 : count);
             }
             else {
-                setTableData([]);
+                setTableData({});
             }
         });
     };
@@ -239,7 +254,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
 
 const useStyles = makeStyles({
     row: {
-        // padding: '0 20px 0 40px',
         '&:hover': {
             backgroundColor: '#F7F7F7',
             cursor: 'pointer',
