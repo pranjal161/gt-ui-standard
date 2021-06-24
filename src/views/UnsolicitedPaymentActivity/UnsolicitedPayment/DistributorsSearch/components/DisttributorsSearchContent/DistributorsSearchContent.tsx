@@ -58,8 +58,9 @@ const DistributorsSearchContent = ({isSearching, setValue, onChange}: Distributo
     }
 
     React.useEffect(() => {
-        console.log({search});
-        setUrl(`${baseUrl}?distributor_detail:identifier=${search}`);
+        if (search !== '') {
+            setUrl(`${baseUrl}?distributor_detail:identifier=${search}`);
+        }
     }, [search])
 
     React.useEffect(() => {
@@ -79,7 +80,7 @@ const DistributorsSearchContent = ({isSearching, setValue, onChange}: Distributo
             </div>
 
             {
-                isSearching && url !== '' &&
+                isSearching === true && url &&
                     <Table url={url ? url : baseUrl}
                         itemsByPage={10}
                         columnId={distributorSearchColumns}

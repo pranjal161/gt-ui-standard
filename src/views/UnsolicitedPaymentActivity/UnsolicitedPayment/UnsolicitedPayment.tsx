@@ -20,6 +20,11 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
     const {t} = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
+    const validateDistributor = (obj: any) => {
+        console.log({obj});
+        setIsVisible(false);
+    }
+
     return (
         <>
             <div className="col-12">
@@ -40,7 +45,7 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
                     </>
                 }>
                     <DistributorsManagement />
-                    <DistributorsSearch open={isVisible} onValidate={(distributor: any) => console.log({distributor})} onCancel={() => setIsVisible(false)} />
+                    <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({distributor})} onCancel={() => setIsVisible(false)} />
                 </Section>
             </div>
         </>
