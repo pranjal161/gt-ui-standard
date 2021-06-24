@@ -27,7 +27,7 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Url to fetch.
+     * Props as the url to fetch.
      */
     url: string,
 
@@ -126,18 +126,16 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
     const { fetch } = useAia();
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
-    const debouncedCallAPI = React.useCallback(
-        debounce((apiURL: any) => getData(apiURL), 3000),
-        []
-    );
+    const debouncedCallAPI = React.useCallback(debounce((apiURL: any) => getData(apiURL), 3000), [url]);
 
     useEffect(() => {
         debouncedCallAPI(url);
     }, [url]);
 
     const getData = (link: string) => {
-        if (link.includes('_num')) {
-            link = link.slice(0, link.search('&_num') + 1);
+
+        if (link.includes('_num=')) {
+            link = link.slice(0, link.search('_num=') - 1);
         }
 
         const arrSubstr = link.split('/');
@@ -149,7 +147,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
             link += '?';
         }
 
-        fetch(itemsByPage > 0 ? `${link}_num=${itemsByPage}` : link).then((response: any) => {
+        fetch(itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
             console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
@@ -159,7 +157,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                 const count = response?.data?._count;
                 setTableData(result.data);
                 setTotalItems(count === '500+' ? 500 : count);
-                // setshowPaginator(props.showPaginator);
             }
             else {
                 setTableData([]);

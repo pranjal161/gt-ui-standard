@@ -17,7 +17,8 @@ import { useTranslation } from 'react-i18next';
 const DistributorsManagement = () => {
     const {t} = useTranslation();
     const classes = useStyles();
-    const url = 'http://20.33.40.147:13111/csc/insurance/distributors';
+    const url = '';
+    // const url = 'http://20.33.40.147:13111/csc/insurance/distributors';
     
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
     const [distributors, setDistributors] = React.useState<Array<any>>([]);

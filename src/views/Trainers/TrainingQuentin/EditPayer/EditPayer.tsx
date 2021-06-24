@@ -56,7 +56,7 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
 
                 strFilters += `${key}=${filters[key]}`;
 
-                if (Object.keys(filters).indexOf(key) !== Object.keys(filters).length - 1) {
+                if (Object.keys(filters).indexOf(key) !== Object.keys(filters).length) {
                     strFilters += '&';
                 }
             });
