@@ -3,7 +3,7 @@ import TabButton, { TabButtonProps } from 'components/Tabs/TabButton/TabButton';
 import React from 'react';
 
 export default {
-    title: 'Components/Navigation/TabButton',
+    title: 'Components/TabButton',
     component: TabButton,
 } as Meta;
 

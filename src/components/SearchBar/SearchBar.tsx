@@ -1,5 +1,5 @@
-import { FilterIcon, SearchIcon } from '../../assets/svg';
-import React, { useRef, useState } from 'react';
+import {FilterIcon, SearchIcon} from 'assets/svg';
+import React, {useRef, useState} from 'react';
 import Badge from '@material-ui/core/Badge';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -7,10 +7,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import NativeSelect from '@material-ui/core/NativeSelect';
-import Paper from '@material-ui/core/Paper'; 
-import { globalTokens } from 'theme/standard/palette';
-import { makeStyles } from '@material-ui/core/styles';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
+import Paper from '@material-ui/core/Paper';
+import {globalTokens} from 'theme/standard/palette';
+import {makeStyles} from '@material-ui/core/styles';
+import useOnClickOutside from 'hooks/useOnClickOutside';
+import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
     searchBar: {
@@ -93,7 +94,7 @@ interface IFilters {
 const SearchBar = () => {
     const classes = useStyles();
     const refFilters = useRef(null);
-    const [selectedSearchOption, setSearchOption] = useState(0);
+    const [selectedSearchOption, setSearchOption] = useState('contract');
     const [selectedFiltersNumber, setNumberSF] = useState(0);
     const [toggleFilters, setToggleFilters] = useState(false);
     const [searchString, setSearchString] = useState('');
@@ -113,14 +114,16 @@ const SearchBar = () => {
     });
 
     const arrayFilterIDs = Object.keys(filters.filtersById);
+    const {openNewTab, forSearch} = useTabs()
+
+    const openSearchTab = () => openNewTab(forSearch({entityType:selectedSearchOption, searchString, filters}))
 
     const handleSubmitSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         e.stopPropagation();
 
         // if enter is pressed
-        if(e.key === 'Enter') {
-            console.log('handleSubmitSearch: ');
-            console.log('handleSubmitSearch input value: '+searchString);
+        if (e.key === 'Enter') {
+            openSearchTab()
         }
     }
 
@@ -131,12 +134,12 @@ const SearchBar = () => {
 
     const handleSearch = (e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();
-        console.log('searchString is: '+searchString);
+        openSearchTab()
     }
 
     const handleSelectSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.stopPropagation();
-        setSearchOption(parseInt(e.target.value));
+        setSearchOption(e.target.value);
     }
 
     const handleFiltersToggle = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -146,10 +149,10 @@ const SearchBar = () => {
 
     const handleFiltersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.stopPropagation();
-        console.log('handleFiltersChange e.target.name: '+e.target.name);
-        console.log('handleFiltersChange e.target.checked: '+e.target.checked);
+        console.log('handleFiltersChange e.target.name: ' + e.target.name);
+        console.log('handleFiltersChange e.target.checked: ' + e.target.checked);
         setFilters((state: any) => ({
-            ...state, 
+            ...state,
             filtersById: {
                 ...state.filtersById,
                 [e.target.name]: {
@@ -160,16 +163,16 @@ const SearchBar = () => {
         }));
 
         let activeFiltersNum = arrayFilterIDs.reduce((activeFilters, filterId) => {
-            if(filters.filtersById[filterId].checked) {
+            if (filters.filtersById[filterId].checked) {
                 activeFilters++;
             }
-    
+
             return activeFilters;
         }, 0);
 
         // useState hasn't yet updated the filters with the setFilters hook, so it still has the value of past render
         // this means the current change needs to be made manually here.
-        if(e.target.checked) {
+        if (e.target.checked) {
             activeFiltersNum++;
         }
         else {
@@ -190,31 +193,31 @@ const SearchBar = () => {
                 classes={{root: classes.nativeSelect}}
                 IconComponent={ExpandMoreIcon}
                 onChange={handleSelectSearch}>
-                <option value={0}>All</option>
-                <option value={1}>Tickets</option>
-                <option value={2}>Contracts</option>
-                <option value={3}>Persons</option>
-                <option value={4}>Businesses</option>
+                <option value={'all'}>All</option>
+                <option value={'ticket'}>Tickets</option>
+                <option value={'contract'} >Contracts</option>
+                <option value={'person'}>Persons</option>
+                <option value={'business'}>Businesses</option>
             </NativeSelect>
             <div
-                className={classes.divider} />
+                className={classes.divider}/>
             <IconButton
                 classes={{root: classes.iconButtonML}}
                 color="primary"
                 size="small"
                 onClick={handleSearch}>
-                <SearchIcon />
+                <SearchIcon/>
             </IconButton>
             <InputBase
                 classes={{root: classes.inputBase, input: classes.input}}
                 placeholder="Search for tickets, contracts, persons, etc."
                 onChange={handleSearchStringInput}
-                onKeyDown={handleSubmitSearch} />
+                onKeyDown={handleSubmitSearch}/>
             <div
                 ref={refFilters}>
-                <Badge 
+                <Badge
                     classes={{badge: classes.badge}}
-                    badgeContent={selectedFiltersNumber} 
+                    badgeContent={selectedFiltersNumber}
                     color="primary"
                     overlap="circle"
                     variant="dot">
@@ -223,7 +226,7 @@ const SearchBar = () => {
                         color="primary"
                         size="small"
                         onClick={handleFiltersToggle}>
-                        <FilterIcon />
+                        <FilterIcon/>
                     </IconButton>
                 </Badge>
                 {
@@ -232,10 +235,11 @@ const SearchBar = () => {
                         classes={{root: classes.divFilters}}>
                         <div>number of active filters selected: {selectedFiltersNumber}</div>
                         {
-                            arrayFilterIDs.map((filter) => (<div key={filter}><FormControlLabel key={filter} control={<Checkbox 
-                                checked={filters.filtersById[filter].checked} 
-                                onChange={handleFiltersChange} 
-                                name={filter} />} label={filters.filtersById[filter].label} /></div>))
+                            arrayFilterIDs.map((filter) => (
+                                <div key={filter}><FormControlLabel key={filter} control={<Checkbox
+                                    checked={filters.filtersById[filter].checked}
+                                    onChange={handleFiltersChange}
+                                    name={filter}/>} label={filters.filtersById[filter].label}/></div>))
                         }
                     </Paper>
                 }

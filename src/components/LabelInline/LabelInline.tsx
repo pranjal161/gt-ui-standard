@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.project.text.label,
         fontFamily: theme.typography.fontFamily,
         fontSize: 14,
+        flex:3,
         textAlign: 'left',
         width: '50%',
         overflowWrap: 'break-word',
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
     value: {
         color: theme.palette.text.primary,
         fontFamily: theme.typography.fontFamily,
+        flex:4,
         fontSize: 14,
         textAlign: 'left',
         width: '50%',

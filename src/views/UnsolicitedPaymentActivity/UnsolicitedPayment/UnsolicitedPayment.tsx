@@ -1,6 +1,7 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
 
 import Button from 'components/Button/Button';
+import GeneralInfo from './GeneralInfo';
 import React from 'react';
 import Section from 'components/Section/Section';
 
@@ -15,10 +16,8 @@ export interface UnsolicitedPaymentProps{
 const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:UnsolicitedPaymentProps) => (
     <>
         <div className="col-12">
-            <Section title="General Information" icon={<PaymentIcon />}>
-                response: {JSON.stringify(response)}
-                TEST 1
-                TEst 2
+            <Section title="General Information" icon={<PaymentIcon />} >
+                <GeneralInfo response={response} />
             </Section>
         </div>
         <div className="col-12">
