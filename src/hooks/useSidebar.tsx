@@ -1,4 +1,4 @@
-import {ContractIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
+import {ContractIcon, ErrorIcon, PersonSmallIcon, TicketIcon} from 'assets/svg';
 import React, {useCallback, useState} from 'react';
 
 import {DxcDropdown} from '@dxc-technology/halstack-react';
@@ -114,6 +114,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
 
 const getIcon = (entityClass: string) => {
     let IconComponent: any
+    let color
     switch (entityClass) {
         case 'contract':
             IconComponent = ContractIcon
@@ -124,11 +125,16 @@ const getIcon = (entityClass: string) => {
         case 'ticket':
             IconComponent = TicketIcon
             break;
+        case 'statusReport':
+            IconComponent = ErrorIcon
+            color = 'red'
+            break
+
         default:
             const unKnow = () => <div>?</div>
             IconComponent = unKnow
     }
 
-    return <IconComponent size={18}/>
+    return <IconComponent size={18} color={color}/>
 
 }

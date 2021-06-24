@@ -3,7 +3,7 @@ import * as aiaReducer from 'store/reducers/aiaReducer';
 import { APIActions } from 'utils/functions';
 import { APIConfig } from 'configs/apiConfig';
 
-const modifiedHeaderTag = APIConfig.modifiedHeaderTag;
+const modifiedHeaderTag = APIConfig().modifiedHeaderTag;
 
 export const fetch = (href: string, baId:string, params?: Object) => (dispatch: any, getState: any) => {
 
