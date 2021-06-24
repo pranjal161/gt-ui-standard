@@ -5,5 +5,5 @@ export const personsColumns: Array<Column> = [
     { label: 'person:client_number', property: 'person:client_number' },
     { label: 'person:country_code', property: 'postal_address:country_code' },
     { label: 'person:postal_code', property: 'postal_address:postal_code' },
-    { label: 'person:birth_date_alt', property: 'person:birth_date' }
+    { label: 'person:birth_date_alt', property: 'person:birth_date', type: 'date' }
 ];

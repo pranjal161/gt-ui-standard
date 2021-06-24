@@ -13,5 +13,9 @@
   "name": "Name",
   "type": "Type",
   "birth_date_alt": "Birth date",
-  "creation_date": "Creation date"
+  "creation_date": "Creation date",
+  "display_id1": "Person",
+  "display_id1_payer": "Payer",
+  "gender" : "Gender",
+  "language": "Language"
 }

@@ -1,8 +1,17 @@
 {
-"age": "Age",
-"birth_date": "Date of birth",
-"client_number": "Client number",
-  "last_name": "last_name",
-"marital_status": "Marital status",
-"professional_status": "Prof.status"
+  "age": "Age",
+  "birth_date": "Date de naissance",
+  "client_number": "Numéro client",
+  "last_name": "Nom",
+  "marital_status": "Statut marital",
+  "professional_status": "Statut prof.",
+  "legal_name": "Nom légal",
+  "country_code": "Pays",
+  "first_name": "Prénom",
+  "trade_name": "Trade name",
+  "postal_code": "Postal code",
+  "display_id1": "Personne",
+  "display_id1_payer": "Payeur",
+  "gender" : "Civilité",
+  "language": "Langue"
 }

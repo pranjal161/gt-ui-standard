@@ -1,9 +1,9 @@
 import {MaterialEye, NotificationBellAdd} from 'assets/svg';
-import React from 'react';
 import {Theme, makeStyles} from '@material-ui/core/styles';
 import ActivitiesList from './ActivitiesList/ActivitiesList';
 import HeaderInformation from './HeaderInformation/HeaderInformation';
 import IconButton from 'theme/components/material/IconButton/IconButton';
+import React from 'react';
 import useResponse from 'hooks/useResponse';
 
 export interface HeaderProps {

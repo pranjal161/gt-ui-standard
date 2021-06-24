@@ -1,3 +1,4 @@
+import 'init/i18n' //todo : Make it globally for all tests
 import * as ContractHeaderBarStories from './Header.stories';
 
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -5,7 +6,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react';
 import { composeStories } from '@storybook/testing-react';
 
-const { Default, WrongResponseProps } = composeStories(ContractHeaderBarStories);
+const { Default, NoResponseProps } = composeStories(ContractHeaderBarStories);
 
 describe('Renders Default', () => {
     it('title displaying', () => {
@@ -22,14 +23,14 @@ describe('Renders Default', () => {
     });
 })
 
-describe('Renders WrongResponseProps', () => {
+describe('Renders NoResponseProps', () => {
     it('title displaying', () => {
-        const component = render(<WrongResponseProps />);
+        const component = render(<NoResponseProps />);
         expect(component.getByText('Default title')).toBeInTheDocument();
     });
 
     it('Activities displaying', () => {
-        const component = render(<WrongResponseProps />);
+        const component = render(<NoResponseProps />);
         const button = screen.getByTestId('button-activities');
 
         fireEvent.click(button);
