@@ -29,8 +29,7 @@ export const options:any = {
     saveMissing: true,
 
     lng: language,
-    //We decide to let it fail (silently) instead displaying a wrong translation
-    fallbackLng: false, // use en if detected lng is not available
+    fallbackLng: 'en', // use en if detected lng is not available
     whitelist: allLanguages,
 
     keySeparator: false, // we do not use keys in form messages.welcome

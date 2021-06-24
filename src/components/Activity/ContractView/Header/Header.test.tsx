@@ -1,3 +1,4 @@
+import 'init/i18n' //todo : Make it globally for all tests
 import * as ContractHeaderBarStories from './Header.stories';
 
 import { fireEvent, render, screen } from '@testing-library/react'
