@@ -20,7 +20,7 @@ describe('Table when rendered with data', () => {
     beforeEach(async () => {
 
         mockedAxios.get.mockResolvedValueOnce({ data: postalAddressResponse });
-        const url = APIConfig.defaultHostUrl + 'persons/ID-wJsQC7R2D/postal_addresses';
+        const url = APIConfig().defaultHostUrl + 'persons/ID-wJsQC7R2D/postal_addresses';
         const columns = [{ label: 'ID', property: 'postal_address:display_id' }];
         renderWithRedux(<Table url={url} columnId={columns} showPaginator={true} />, { initialState: {} });
         await waitForElementToBeRemoved(() => screen.getByText('_NO_RECORDS_FOUND'))
@@ -65,7 +65,7 @@ describe('Table when rendered without items', () => {
 
     beforeEach(async () => {
         mockedAxios.get.mockResolvedValueOnce({ data: response });
-        const url = APIConfig.defaultHostUrl + 'persons/ID-wJsQC7R2D/postal_addresses';
+        const url = APIConfig().defaultHostUrl + 'persons/ID-wJsQC7R2D/postal_addresses';
         const columns = [{ label: 'ID', property: 'postal_address:display_id' }];
         renderWithRedux(<Table url={url} columnId={columns} showPaginator={true} />, { initialState: {} });
         await waitFor(() => screen.getByText('_NO_RECORDS_FOUND'))

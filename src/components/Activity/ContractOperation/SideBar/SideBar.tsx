@@ -55,8 +55,9 @@ const preferredBankAccount: PanelSectionItem[] = [
 ]
 const PreferredBankAccount = ({hRef}: any) => {
     const response = useResponse(hRef)
+    const {t} = useTranslation()
 
-    return <PanelSection title={'Preferred bank account'}
+    return <PanelSection title={t('common:preferredBankAccountLabel')}
         content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
 }
 
@@ -72,11 +73,9 @@ const RoleController = React.memo(({hRef}: any) => {
 const StatusReport = ({hRef}: any) => {
     const response = useResponse(hRef)
     const statusReport = response && getStatusReport(response && response.data) || []
-    const {t} = useTranslation()
-
     const generateMessageLines = (lines: any) => lines.map((line: any) => ({id: line.propertyNames, styleType: ['text']}),)
 
-    const Sections = statusReport && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={t(message.message)}
+    const Sections = statusReport && statusReport.messages && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={message.message}
         content={<ContentList
             items={generateMessageLines(message.context)}
             data={message.context}/>}/>)
