@@ -238,7 +238,6 @@ const useStyles = makeStyles({
             width: 191
         },
     },
-
     actions: {
         display: 'flex',
         flexDirection: 'row',

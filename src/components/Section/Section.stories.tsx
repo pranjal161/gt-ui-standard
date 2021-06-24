@@ -6,7 +6,7 @@ import Button from 'components/Button/Button';
 import React from 'react';
 
 export default {
-    title: 'Components/Surfaces/Section',
+    title: 'Components/Section',
     component: Section,
 } as Meta;
 
