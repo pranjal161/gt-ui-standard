@@ -53,7 +53,7 @@ interface TableProps {
     /**
      * State to define if the paginator has to be displayed or not
      */
-    showPaginator: Boolean,
+    showPaginator?: Boolean,
 
     /**
      * Callback to receive and manipulate a selected row out of the component. 
