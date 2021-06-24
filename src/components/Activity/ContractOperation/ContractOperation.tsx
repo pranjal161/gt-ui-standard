@@ -14,19 +14,6 @@ import useResponse from 'hooks/useResponse';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-export interface ContractUpsertProps {
-
-    /**
-     * Data coming from API response
-     */
-    data?: any
-
-    /**
-     * Code of the activity
-     */
-    activityCode: string
-}
-
 const useStyles = makeStyles((theme) => ({
     root: {},
     body: {
@@ -55,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
+const ContractOperation: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const hRef = props.hRef
