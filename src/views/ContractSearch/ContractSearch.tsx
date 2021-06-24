@@ -6,10 +6,10 @@ import ContractTable from 'components/ContractTable/ContractTable';
 import {useTranslation} from 'react-i18next';
 import withActivity from 'hocs/withActivity';
 
-export let urlContract: string = APIConfig.defaultHostUrl + 'contracts?_num=5';
+export let urlContract: string = APIConfig().defaultHostUrl + 'contracts?_num=5';
 export const PureContractSearch = ({searchString}: any) => {
     const {t} = useTranslation();
-    const makeUrl = (contractNumber:any) => APIConfig.defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5'
+    const makeUrl = (contractNumber:any) => APIConfig().defaultHostUrl + 'contracts?contract:number=' + contractNumber + '&_num=5'
 
     const [contractNumber, setContractNumber]: [any, any] = useState(searchString);
     const [searchURL, setSearchURL]: [any, any] = useState(makeUrl(contractNumber))

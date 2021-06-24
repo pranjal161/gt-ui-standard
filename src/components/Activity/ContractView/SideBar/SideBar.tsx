@@ -1,8 +1,6 @@
-import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import PersonPreview from 'components/PersonPreview/PersonPreview';
 import React from 'react';
-import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -14,15 +12,13 @@ const RoleController = React.memo(({hRef}: any) => {
 
     return (<PersonPreview hRef={personHRef}/>)
 })
-RoleController.displayName='RoleController'
+RoleController.displayName = 'RoleController'
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
-const statusReportController = (value: any) => <StatusReportPreview hRef={value.id}/>
 const loadingController = () => <div>Loading</div>
 
 const SideBar = (props: any) => {
-    const {mainEntityHRef, hRef} = props
+    const {mainEntityHRef} = props
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
@@ -34,24 +30,8 @@ const SideBar = (props: any) => {
 
     let items: any = {}
 
-    const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
-    if (mainEntitySummary) {
-
-        const title = mainEntityResponse.data['contract:number']
-        items.contract = [{
-            title,
-            display: t('common:contractNumberTitle', {value: title}),
-            id: mainEntitySummary.href,
-            hRef: mainEntitySummary.href,
-            entityType: 'contract',
-            controller: contractController,
-        }]
-    }
-    else
-        //This is a workaround for the initial state and to have contract define by default
-        items.contract = [{title: 'Loading', id: 'not_defined', controller: loadingController}]
-
-    let personList = [{title: 'Loading', id: 'not_defined', controller: roleController}]
+    //This is a workaround for the initial state and to have contract define by default
+    let personList = [{title: 'Loading', id: 'not_defined', controller: loadingController}]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
             .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
@@ -71,15 +51,6 @@ const SideBar = (props: any) => {
     }
 
     items.person = personList
-
-    items.statusReport = [{
-        title: 'Status report',
-        display: 'Status report',
-        id: hRef,
-        hRef: hRef,
-        entityType: 'statusReport',
-        controller: statusReportController
-    }]
 
     const sidebarProps = useSidebar(items, true)
 

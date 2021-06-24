@@ -45,6 +45,11 @@
   "searchViewLabel_person" : "Search person",
   "searchViewLabel_ticket" : "Search ticket",
   "searchViewLabel_business" : "Search business",
+  "main_pool_split": "Funds slipt",
+  "money_in": "Money in",
+  "scheduledPaymentLabel": "Scheduled payment",
+  "scheduledPaymentLabel_plural": "Scheduled payments",
+  "preferredBankAccountLabel": "Preferred bank account",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -139,7 +144,6 @@
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
   "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
-
   "money_in": "Money In",
   "amount_to_pay": "Amount to pay",
   "payment_amount": "Payment Amount",
@@ -156,4 +160,11 @@
   "signature_date": "Signature Date",
   "add": "Add",
   "amount": "Amount"
-  }
+  "distributor": "Distributor",
+  "function": "Function",
+  "type": "Type",
+  "rate": "Rate",
+  "start_date": "Start Date",
+  "add_distributor": "Add Distributor",
+  "search_distributor": "Search distributor"
+}

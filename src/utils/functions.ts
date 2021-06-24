@@ -485,10 +485,10 @@ export const getDescriptionFromOneOf = (value: string, id: string, response: any
  */
 export const APIActions = {
 
-    get: (url: string, params?: { headers?: any; }) => axios.get(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader }),
-    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, { headers: params && params.headers ? params.headers : APIConfig.defaultHeader })
+    get: (url: string, params?: { headers?: any; }) => axios.get(url, { headers: params && params.headers ? params.headers : APIConfig().defaultHeader }),
+    post: (url: string, payload: Object, params?: { headers?: any; }) => axios.post(url, payload, { headers: params && params.headers ? params.headers : APIConfig().defaultHeader }),
+    patch: (url: string, payload: Object, params?: { headers?: any; }) => axios.patch(url, payload, { headers: params && params.headers ? params.headers : APIConfig().defaultHeader }),
+    delete: (url: string, params?: { headers?: any; }) => axios.delete(url, { headers: params && params.headers ? params.headers : APIConfig().defaultHeader })
 }
 
 /** To get error message from Property
