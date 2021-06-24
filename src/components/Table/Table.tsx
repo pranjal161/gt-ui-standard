@@ -13,8 +13,10 @@ import { useTranslation } from 'react-i18next';
 export type Column = {
     label: string,
     actions?: Array<any>,
-    property?: Array<any> | string,
-    type?: any
+    property?: Array<string> | string,
+    type?: any,
+    propertyLink?: string,
+    pattern?: string 
 }
 
 type SelectedRow = {
@@ -25,23 +27,51 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Url to fetch
+     * Url to fetch.
      */
     url: string,
 
     /**
-     * Objects array which contains each 
+     * Objects array which contains each.
      */
     columnId: Array<Column>
+
+    /**
+     * State to define if the Paginator has to be displayed.
+     */
     showPaginator?: Boolean,
+
+    /**
+     * Callback to get the object from the selected row.
+     */
     onRowSelected?: Function,
+
+    /**
+     * Define the count of items maximum displayed by page. Managed by the Paginator.
+     */
     itemsByPage?: number,
 }
 
 interface TableCellProps {
+
+    /**
+     * API Response.
+     */
     tableData: any,
+
+    /**
+     * Row key from outside map function.
+     */
     rowKey?: any,
+
+    /**
+     * Row object from outside map function.
+     */
     row?: any,
+
+    /**
+     * Column object from column array feed to parent. 
+     */
     column: Column
 }
 
@@ -103,7 +133,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
 
     useEffect(() => {
         debouncedCallAPI(url);
-        console.log({url});
     }, [url]);
 
     const getData = (link: string) => {
@@ -133,7 +162,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                 // setshowPaginator(props.showPaginator);
             }
             else {
-                setTableData({});
+                setTableData([]);
             }
         });
     };

@@ -133,7 +133,18 @@
   "create": "Create",
   "modify": "Modify",
   "cancel": "Cancel",
+  "validate": "Validate",
   "city": "City",
   "_NO_RECORDS_FOUND": "No records found ..",
-  "_SEARCH_IN_PROGRESS": "Searching data .."
+  "_SEARCH_IN_PROGRESS": "Searching data ..",
+  "add_distributor": "Add distributor",
+  "search_distributor": "Search distributor",
+  "rate": "Rate",
+  "add": "Add",
+  "distributor_management": "Distributor Management",
+  "start_date": "Start Date",
+  "end_date": "End date",
+  "type": "Type",
+  "function": "Function",
+  "distributor": "Distributor"
 }

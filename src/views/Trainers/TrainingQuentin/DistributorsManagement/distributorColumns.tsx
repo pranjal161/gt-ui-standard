@@ -2,17 +2,22 @@ import { Column } from 'components/Table/Table';
 import { DeleteIcon } from 'assets/svg';
 import React from 'react';
 
-export const distributorColumns: Array<Column> = [
-    { label: 'Distributor', property: 'title' },
-    { label: 'Function', property: 'distributor_detail:job_description' },
-    { label: 'Type', property: 'distributor_detail:agent_type' },
-    { label: 'Rate', property: '' },
-    { label: 'Start Date', property: '' },
-    { label: 'End Date', property: ''},
+export const distributorManagementColumns: Array<Column> = [
+    { label: 'distributor', property: 'distributor_detail:identifier' },
+    { label: 'function', property: 'distributor_detail:job_description' },
+    { label: 'type', property: 'distributor_detail:agent_type' },
+    { label: 'rate', property: '' },
+    { label: 'start_date', property: '' },
+    { label: 'end_date', property: ''},
     { label: '_ACTIONS', actions: [
         {
             icon: <DeleteIcon />, method: (row: any) => console.log({row})
         }
     ]}
+];
 
+export const distributorSearchColumns: Array<Column> = [
+    { label: 'distributor', property: ['distributor_detail:identifier', 'person:display_id1'], pattern: '#{0} : #{1}', propertyLink: 'distributor_detail:person' },
+    { label: 'function', property: 'distributor_detail:job_description' },
+    { label: 'type', property: 'distributor_detail:agent_type' },
 ]
