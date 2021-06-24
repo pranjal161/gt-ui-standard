@@ -2,8 +2,8 @@ import { DxcDate, DxcInput, DxcSelect, DxcSpinner } from '@dxc-technology/halsta
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-// import { useTranslation } from 'react-i18next';
 export interface FormContentProps {
 
     /**
@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
     const classes = useStyles();
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
     const {
         formData,
         setFormData,
@@ -143,37 +143,37 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                 !isLoad ?
                     (
                         <>
-                            <p className={classes.category1}>Money In</p>
+                            <p className={classes.category1}>{t('money_in')}</p>
                             <div className={classes.formRow}>
                                 <DxcInput
-                                    label="Amount to pay"
+                                    label={t('amount_to_pay')}
                                     value={amountUP+''}
                                     disabled={true}
                                 />
                                 <DxcInput
-                                    label="Payment Amount"
+                                    label={t('payment_amount')}
                                     onChange={onChange('operation:amount', 'number')}
                                 />
                                 <DxcSelect
                                     options={currencySelect}
                                     onChange={onChange('operation:currency_code')}
-                                    label="Currency"
+                                    label={t('currency')}
                                 />
                             </div>
                             <div className={classes.formRow}>
                                 <DxcSelect
                                     options={paymentTypeSelect}
                                     onChange={onChange('money_in:payment_type')}
-                                    label="Payment Method"
+                                    label={t('payment_method')}
                                 />
                                 <DxcDate
-                                    label="Accounting Date"
+                                    label={t('accounting_date')}
                                     placeholder
                                     format="yyyy-MM-dd"
                                     disabled={true}
                                 />
                                 <DxcDate
-                                    label="Receipt Date"
+                                    label={t('receipt_date')}
                                     value={formData['money_in:receipt_date']}
                                     placeholder
                                     format="yyyy-MM-dd"
@@ -182,14 +182,14 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             </div>
                             <div className={classes.formRow}>
                                 <DxcDate
-                                    label="Deposit Date"
+                                    label={t('deposit_date')}
                                     value={formData['money_in:deposit_date']}
                                     placeholder
                                     format="yyyy-MM-dd"
                                     onChange={onBlur('money_in:deposit_date')}
                                 />
                                 <DxcDate
-                                    label="Value Date"
+                                    label={t('value_date')}
                                     value={formData['operation:value_date']}
                                     placeholder
                                     format="yyyy-MM-dd"
@@ -198,30 +198,30 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                             </div>
                             <div className={classes.formRow}>
                                 <DxcInput
-                                    label="Payer"
+                                    label={t('payer')}
                                     value={payerTitle}
                                     disabled={true}
                                 />
                                 <DxcSelect
                                     options={adminSelect}
                                     onChange={onChange('money_in_administrator')}
-                                    label="Administrator"
+                                    label={t('adminsitrator')}
                                 />
                                 <DxcSelect
                                     options={bankAccountList}
                                     onChange={onChange('money_in:deposit_bank_account')}
-                                    label="Deposit Account"
+                                    label={t('deposit_account')}
                                 />
                             </div>
                             <p className={classes.category2}>Payment type Details</p>
                             <div className={classes.formRow}>
                                 <DxcInput
-                                    label="Cheque Number"
+                                    label={t('cheque_number')}
                                     required={true}
                                     onChange={() => null}
                                 />
                                 <DxcDate
-                                    label="Signature Date"
+                                    label={t('signature_date')}
                                     placeholder
                                     required={true}
                                     format="yyyy-MM-dd"

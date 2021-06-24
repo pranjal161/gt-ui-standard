@@ -5,8 +5,8 @@ import Dialog from 'theme/components/material/Dialog/Dialog';
 import MoneyInForm from './MoneyInForm/MoneyInForm';
 import React from 'react';
 import useAia from 'hooks/useAia';
+import { useTranslation } from 'react-i18next';
 
-// import { useTranslation } from 'react-i18next';
 export interface CreateMoneyInProps {
 
     /**
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) => {
     const classes = useStyles();
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
     const { post, patch, fetch } = useAia();
     const {
         open,
@@ -132,7 +132,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
             <Dialog
                 open={open}
                 fullWidth={false}
-                title={isLoad ? null : 'Money In'}
+                title={isLoad ? null : t('money_in')}
                 content={<MoneyInForm
                     formData={formData}
                     setFormData={setFormData}

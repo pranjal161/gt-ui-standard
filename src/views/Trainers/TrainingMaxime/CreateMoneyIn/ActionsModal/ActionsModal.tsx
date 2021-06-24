@@ -2,8 +2,8 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import { DxcButton } from '@dxc-technology/halstack-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-// import { useTranslation } from 'react-i18next';
 export interface ActionsModalProps {
 
     /**
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 */
 const ActionsModal: React.FC<ActionsModalProps> = (props: ActionsModalProps) => {
     const classes = useStyles();
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
 
     const {
         onClose,
@@ -64,14 +64,14 @@ const ActionsModal: React.FC<ActionsModalProps> = (props: ActionsModalProps) => 
             <DxcButton
                 className={classes.cancelButton}
                 mode="text"
-                label="Cancel"
+                label={t('cancel')}
                 onClick={onClose}
                 margin="medium"
             />
             <DxcButton
                 className={classes.addButton}
                 mode="primary"
-                label="Add"
+                label={t('add')}
                 onClick={addMoney}
                 margin="medium"
             />

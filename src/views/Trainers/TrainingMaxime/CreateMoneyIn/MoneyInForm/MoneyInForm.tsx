@@ -4,7 +4,6 @@ import FormContent from './FormContent';
 import React from 'react';
 import useAia from 'hooks/useAia';
 
-// import { useTranslation } from 'react-i18next';
 export interface MoneyInFormProps {
     
     /**
@@ -85,7 +84,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
     const classes = useStyles();
     const { fetch } = useAia();
-    // const { t } = useTranslation();
 
     const {
         formData,

@@ -138,5 +138,21 @@
   "_VIEWS": "Status",
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
-  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
+
+  "money_in": "Money In",
+  "amount_to_pay": "Amount to pay",
+  "payment_amount": "Payment Amount",
+  "currency": "Currrency",
+  "payment_method": "Payment Method",
+  "accounting_date": "Accounting Date",
+  "receipt_date": "Receipt Date",
+  "deposit_date": "Deposit Date",
+  "value_date": "Value Date",
+  "payer": "Payer",
+  "adminsitrator": "Administrator",
+  "deposit_account": "Deposit Account",
+  "cheque_number": "Cheque Number",
+  "signature_date": "Signature Date",
+  "add": "Add"
   }

@@ -146,5 +146,21 @@
   "_VIEWS": "Status",
   "_INFORMATION_SHEET": "Information clients",
   "_INVESTMENT_SPLIT": "Details des investissements",
-  "_UNSOLICITED_PAYMENT": "Versement libre"
+  "_UNSOLICITED_PAYMENT": "Versement libre",
+
+  "money_in": "Dépot d'argent",
+  "amount_to_pay": "Montant à payer",
+  "payment_amount": "Montant du paiement",
+  "currency": "Devise",
+  "payment_method": "Méthode de paiement",
+  "accounting_date": "Date de comptabilisation",
+  "receipt_date": "Date de réception",
+  "deposit_date": "Date de dépot",
+  "value_date": "Date d'effet",
+  "payer": "Payeur",
+  "adminsitrator": "Administrateur",
+  "deposit_account": "Compte de dépot",
+  "cheque_number": "Numéro de chèque",
+  "signature_date": "Date de signature",
+  "add": "Ajouter"
 }
