@@ -3,6 +3,7 @@ import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
 import React from 'react';
+import {getStatusReport} from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -45,7 +46,7 @@ const PersonGeneralSection = ({hRef}: any) => {
         content={<ContentList items={personGeneralItems} data={response && response.data}/>}/>
 }
 
-/*************** For Preferred bank accoubt *******************/
+/*************** For Preferred bank account *******************/
 
 const preferredBankAccount: PanelSectionItem[] = [
     {id: 'bank_account:account_details', styleType: ['text']},
@@ -66,12 +67,30 @@ const RoleController = React.memo(({hRef}: any) => {
     return (<PersonPreview hRef={personHRef}/>)
 })
 
+/*************** For Status Report *******************/
+
+const StatusReport = ({hRef}: any) => {
+    const response = useResponse(hRef)
+    const statusReport = response && getStatusReport(response && response.data) || []
+    const {t} = useTranslation()
+
+    const generateMessageLines = (lines: any) => lines.map((line: any) => ({id: line.propertyNames, styleType: ['text']}),)
+
+    const Sections = statusReport && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={t(message.message)}
+        content={<ContentList
+            items={generateMessageLines(message.context)}
+            data={message.context}/>}/>)
+
+    return Sections || <div>No errors</div>
+}
+
 const roleController = (value: any) => <RoleController hRef={value.id}/>
 const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
+const statusReportController = (value: any) => <StatusReport hRef={value.id}/>
 const loadingController = () => <div>Loading</div>
 
-const SideBar = (props:any) => {
-    const {mainEntityHRef} = props
+const SideBar = (props: any) => {
+    const {mainEntityHRef, hRef} = props
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
@@ -120,6 +139,15 @@ const SideBar = (props:any) => {
     }
 
     items.person = personList
+
+    items.statusReport = [{
+        title: 'Status report',
+        display: 'Status report',
+        id: hRef,
+        hRef: hRef,
+        entityType: 'statusReport',
+        controller: statusReportController
+    }]
 
     const sidebarProps = useSidebar(items, true)
 
