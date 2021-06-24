@@ -13,7 +13,7 @@ import SampleTicket from '../SampleTicket/SampleTicket';
  */
 const TabViewType = (props: { tabId: string, href?: string, activityProps?: any }) => {
     const {tabId, href = undefined} = props;
-    console.log('TabViewType render')
+    //console.log('TabViewType render')
 
     let component
     let mode
