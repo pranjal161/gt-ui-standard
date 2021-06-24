@@ -1,8 +1,8 @@
+import React, {Suspense} from 'react';
 import BaContext from 'context/baContext';
-import React from 'react';
 
 const WithActivity = ({hRef, children}: any) => (<BaContext.Provider value={{baId: hRef}}>
-    {children}
+    <Suspense fallback={<div>Loading</div> }>{children}</Suspense>
 </BaContext.Provider>
 )
 
