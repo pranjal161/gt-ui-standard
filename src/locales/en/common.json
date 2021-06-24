@@ -45,6 +45,11 @@
   "searchViewLabel_person" : "Search person",
   "searchViewLabel_ticket" : "Search ticket",
   "searchViewLabel_business" : "Search business",
+  "main_pool_split": "Funds slipt",
+  "money_in": "Money in",
+  "scheduledPaymentLabel": "Scheduled payment",
+  "scheduledPaymentLabel_plural": "Scheduled payments",
+  "preferredBankAccountLabel": "Preferred bank account",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",

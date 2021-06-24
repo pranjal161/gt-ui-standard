@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import ContentList from '../components/ContentList';
+import ContentList from 'components/ContentList/ContentList';
 import { PanelSectionItem } from 'components/PanelSection/PanelSection';
 import { getLink } from 'utils/functions';
 import useAia from 'hooks/useAia';

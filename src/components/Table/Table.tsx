@@ -132,20 +132,16 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
 
     useEffect(() => {
         debouncedCallAPI(url);
-        console.log({url});
     }, [url]);
 
     const getData = (link: string) => {
 
         let newLink = link;
         if (newLink.includes('&_num')) {
-            console.log({newLink});
             newLink = newLink.substring(0, newLink.search('&_num') + 1);
-            console.log({newLink});
         }
 
         fetch(showPaginator && itemsByPage > 0 ? `${newLink}&_num=${itemsByPage}` : newLink).then((response: any) => {
-            console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
                 if (!Array.isArray(result.data['_links']['item'])) {
