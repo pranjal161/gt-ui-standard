@@ -154,5 +154,6 @@
   "deposit_account": "Deposit Account",
   "cheque_number": "Cheque Number",
   "signature_date": "Signature Date",
-  "add": "Add"
+  "add": "Add",
+  "amount": "Amount"
   }

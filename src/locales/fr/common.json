@@ -162,5 +162,6 @@
   "deposit_account": "Compte de dépot",
   "cheque_number": "Numéro de chèque",
   "signature_date": "Date de signature",
-  "add": "Ajouter"
+  "add": "Ajouter",
+  "amount": "Montant"
 }

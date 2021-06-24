@@ -2,18 +2,19 @@ import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
 
 import Button from 'components/Button/Button';
 import GeneralInfo from './GeneralInfo';
+import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
 
-export interface UnsolicitedPaymentProps{
+export interface UnsolicitedPaymentProps {
 
     /**
      * API response of API for the entity
      */
-    response:any
+    response: any
 }
 
-const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:UnsolicitedPaymentProps) => (
+const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => (
     <>
         <div className="col-12">
             <Section title="General Information" icon={<PaymentIcon />} >
@@ -21,9 +22,7 @@ const UnsolicitedPayment:React.FC<UnsolicitedPaymentProps> = ({response}:Unsolic
             </Section>
         </div>
         <div className="col-12">
-            <Section title="Payment" icon={<PaymentIcon />} actions={
-                <Button onClick={() => console.log('test button')} Icon={AddBoxIcon}
-                    title="Collection" />} />
+            <MoneyIn response={response} />
         </div>
         <div className="col-12">
             <Section title="Distributor Management" icon={<DistributorIcon />} actions={

@@ -5,7 +5,7 @@ import React from 'react';
 import useAia from 'hooks/useAia';
 
 export interface MoneyInFormProps {
-    
+
     /**
      * formData
      * @description Object where I feed the value of the Money In form

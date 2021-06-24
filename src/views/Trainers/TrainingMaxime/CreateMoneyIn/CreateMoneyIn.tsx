@@ -26,14 +26,8 @@ export interface CreateMoneyInProps {
         * @description  Uncolicited Payment response on creation.
     */
     response: any;
-
-    /**
-        * setMoneyUri
-        * @description  React setter to retunr the URI String value of the Money in created.
-    */
-    setMoneyUri: Function;
-
 }
+
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
         padding: theme.spacing(2, 4),
@@ -53,7 +47,6 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
         open,
         onClose,
         response,
-        setMoneyUri
     } = props
 
     const payerURI: string = response.data._links['premium:addressee_person'].href;
@@ -79,17 +72,10 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
     });
 
     const addMoney = async () => {
-        console.log('push');
         const res = await patch(moneyIn.data._links.self.href, formData);
-
-        console.log(res);
-        setMoneyUri(res.data._links.self.href);
+        await patch(response.data._links.self.href, {'cscaia:money_in': res.data._links.self.href});
         onClose();
     };
-
-    React.useEffect(() => {
-        console.log(formData);
-    }, [formData])
 
     const newList = (itemToMap: any) => {
         let newList: any = [];
@@ -146,7 +132,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
                     amountUP={amountUP}
                 />
                 }
-                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney} formData={formData} />} />
+                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney}/>} />
         </div>
     )
 }

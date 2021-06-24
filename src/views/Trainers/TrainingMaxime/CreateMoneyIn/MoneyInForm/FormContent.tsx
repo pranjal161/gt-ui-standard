@@ -132,8 +132,6 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
     };
 
     const onBlur = (inputName: string) => (stringValue: any) => {
-        console.log(stringValue)
-        console.log(inputName)
         setFormData({ ...formData, [inputName]: stringValue.stringValue })
     };
 

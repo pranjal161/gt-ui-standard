@@ -15,12 +15,6 @@ export interface ActionsModalProps {
      * addMoney
             */
     addMoney: Function
-
-    /**
-     * formData
-            */
-    formData: any
-
 }
 const useStyles = makeStyles((theme: Theme) => ({
     buttonContainer: {
@@ -52,12 +46,7 @@ const ActionsModal: React.FC<ActionsModalProps> = (props: ActionsModalProps) => 
     const {
         onClose,
         addMoney,
-        formData,
     } = props
-
-    React.useEffect(() => {
-        console.log(formData)
-    }, [])
 
     return (
         <div className={classes.buttonContainer}>
