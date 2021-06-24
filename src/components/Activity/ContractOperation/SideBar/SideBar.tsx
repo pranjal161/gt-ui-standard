@@ -25,7 +25,7 @@ const PersonPreview = ({hRef}: any) => {
 
     return (
         <>
-            <PersonGeneralSection key={'general'} hRef={hRef}/>,
+            <PersonGeneralSection key={'general'} hRef={hRef}/>
             <PreferredBankAccount key={'preferred_bank'} hRef={hRefBankAccount}/>
         </>)
 }
