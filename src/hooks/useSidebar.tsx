@@ -88,7 +88,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
     const onChangeEntityInstanceSelections = useCallback((selection: any) => setEntityInstanceSelections((prev: any) => ({
         ...prev,
         [entityClass]: selection
-    })),[])
+    })),[entityClass])
 
     const HeaderTitle = (props: { value: string }) => <Typo className={classes.headerTitle} variant={'title'} value={props.value}/>
     const header = (<>

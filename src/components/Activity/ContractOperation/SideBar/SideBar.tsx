@@ -1,9 +1,8 @@
 import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
-import React, {useEffect} from 'react';
-
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import LabelInline from 'components/LabelInline/LabelInline';
+import React from 'react';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -83,12 +82,6 @@ const SideBar = (props:any) => {
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
     let items: any = {}
-
-    useEffect(() => {
-        console.log('mainEntityResponse changed')
-    }, [mainEntityResponse])
-
-    console.log('SideBar render', props, mainEntityResponse, rolePartiesResponse)
 
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {

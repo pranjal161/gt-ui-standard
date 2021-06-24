@@ -93,7 +93,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
         return () => {
             stopActivity()
         }
-    }, [])
+    }, [aia, hRef, stopActivity, startActivity])
 
     const SkeletonConf = configurations && configurations.skeleton
     const HeaderConf = configurations && configurations.header

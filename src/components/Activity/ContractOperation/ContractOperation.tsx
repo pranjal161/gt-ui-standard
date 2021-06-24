@@ -138,11 +138,11 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {steps.map((step: StepProps) => (
+                        {steps.map((step: StepProps, index) => (
                             <>
                                 {step.id === currentStep &&
                                     (
-                                        <>{step.component}</>
+                                        <div key={index}>{step.component}</div>
                                     )
                                 }
                             </>
