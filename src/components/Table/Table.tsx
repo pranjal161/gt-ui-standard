@@ -41,12 +41,12 @@ type SelectedRow = {
 interface TableProps {
 
     /**
-     * Url to fetch
+     * Props as the url to fetch.
      */
     url: string,
 
     /**
-     * Objects array which contains each 
+     * Objects array which contains each Column properties.
      */
     columnId: Array<Column>
 
@@ -68,9 +68,25 @@ interface TableProps {
 }
 
 interface TableCellProps {
+
+    /**
+     * API Response.
+     */
     tableData: any,
+
+    /**
+     * Row key from outside map function.
+     */
     rowKey?: any,
+
+    /**
+     * Row object from outside map function.
+     */
     row?: any,
+
+    /**
+     * Column object from column array feed to parent. 
+     */
     column: Column
 }
 
@@ -116,7 +132,7 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
     }
 }
 
-const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: TableProps) => {
+const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
     const [tableData, setTableData] = useState<undefined | any>();
@@ -125,10 +141,7 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
     const { fetch } = useAia();
     const [selectedRow, setSelectedRow] = React.useState<any>({});
 
-    const debouncedCallAPI = React.useCallback(
-        debounce((apiURL: any) => getData(apiURL), 3000),
-        []
-    );
+    const debouncedCallAPI = React.useCallback(debounce((apiURL: any) => getData(apiURL), 3000), [url]);
 
     useEffect(() => {
         debouncedCallAPI(url);
@@ -136,12 +149,21 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
 
     const getData = (link: string) => {
 
-        let newLink = link;
-        if (newLink.includes('&_num')) {
-            newLink = newLink.substring(0, newLink.search('&_num') + 1);
+        if (link.includes('_num=')) {
+            link = link.slice(0, link.search('_num=') - 1);
         }
 
-        fetch(showPaginator && itemsByPage > 0 ? `${newLink}&_num=${itemsByPage}` : newLink).then((response: any) => {
+        const arrSubstr = link.split('/');
+
+        if (arrSubstr[arrSubstr.length - 1].includes('?') || arrSubstr[arrSubstr.length - 1].includes('&')) {
+            link += '&';
+        }
+        else {
+            link += '?';
+        }
+
+        fetch(itemsByPage > 0 ? `${link}&_num=${itemsByPage}` : link).then((response: any) => {
+            console.log({response});
             if (response && response.data['_links']['item']) {
                 let result = JSON.parse(JSON.stringify(response));
                 if (!Array.isArray(result.data['_links']['item'])) {
@@ -150,7 +172,6 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
                 const count = response?.data?._count;
                 setTableData(result.data);
                 setTotalItems(count === '500+' ? 500 : count);
-                // setshowPaginator(props.showPaginator);
             }
             else {
                 setTableData({});
@@ -175,7 +196,7 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
                                 <tr>
                                     {
                                         columnId.map((columnItem, index) => (
-                                            <th key={columnItem.label + index}>{t(columnItem['label'])}</th>
+                                            <th className={classes.columnHeader} key={columnItem.label + index}>{t(columnItem['label'])}</th>
                                         ))
                                     }
                                 </tr>
@@ -212,7 +233,7 @@ const Table = ({url, columnId, showPaginator, onRowSelected, itemsByPage = 0}: T
                             <tr>
                                 {
                                     columnId.map((columnItem) => (
-                                        <th key={columnItem['label']}>
+                                        <th className={classes.columnHeader} key={columnItem['label']}>
                                             {t(columnItem['label'])}
                                         </th>
                                     ))
@@ -237,6 +258,11 @@ const useStyles = makeStyles({
             backgroundColor: '#F7F7F7',
             cursor: 'pointer',
         }
+    },
+
+    columnHeader: {
+        backgroundColor: `${globalTokens.__grey_5} !important`,
+        color: `${globalTokens.__grey_2} !important`
     },
 
     selectedRow: {

@@ -75,7 +75,7 @@ const Dialog: React.FC<DialogProps> = ({
     }
 
     return (
-        <MuiDialog className={classes.root} onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth}
+        <MuiDialog disableEnforceFocus className={classes.root} onClose={handleClose} aria-labelledby="customized-MuiDialog-title" open={open} maxWidth={maxWidth}
             fullWidth={fullWidth}>
             <MuiDialogTitle disableTypography className={classes.titleRoot}>
                 <div>
