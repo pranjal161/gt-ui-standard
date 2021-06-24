@@ -1,21 +1,24 @@
-import { ContactsIcon, SquaredAddIcon } from 'assets/svg';
+// import { ContactsIcon, SquaredAddIcon } from 'assets/svg';
 
-import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
-import {DxcButton} from '@dxc-technology/halstack-react';
+import DistributorsSearch from '../DistributorsSearch/DistributorsSearch';
 import React from 'react';
 import Table from 'components/Table/Table';
-import Typo from 'components/Typography/Typo';
 import { distributorManagementColumns } from './distributorColumns';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { useTranslation } from 'react-i18next';
+
+// import {DxcButton} from '@dxc-technology/halstack-react';
+
+// import Typo from 'components/Typography/Typo';
+
+// import { useTranslation } from 'react-i18next';
 
 // interface DistributorsManagementProps {
 
 // }
 
 const DistributorsManagement = () => {
-    const {t} = useTranslation();
+    // const {t} = useTranslation();
     const classes = useStyles();
     const url = '';
     // const url = 'http://20.33.40.147:13111/csc/insurance/distributors';
@@ -34,7 +37,7 @@ const DistributorsManagement = () => {
     return (
         <>
             <div className={classes.root}>
-                <div className={classes.rowTitle}>
+                {/* <div className={classes.rowTitle}>
                     <div className={classes.title}>
                         <div className={classes.icon}>
                             <ContactsIcon />
@@ -46,23 +49,8 @@ const DistributorsManagement = () => {
                         <DxcButton iconPosition="after" label={t('add')} icon={<SquaredAddIcon size={24}/>} onClick={() => setIsVisible(true)} />
                     </div>
                 </div>
-                <div className={classes.divider} />
-                <div className={classes.table}>
-                    <Table url={url} columnId={distributorManagementColumns} itemsByPage={10}/>
-                </div>
-
-                <div className={classes.divider} />
-
-                <div>
-                    <p>Distributors : [{distributors.length}]</p>
-                    <ul>
-                        {
-                            distributors.map((dist: any, index: number) => (
-                                <li key={index}>{dist.distributor.name} | {dist.rate}</li>
-                            ))
-                        }
-                    </ul>
-                </div>
+                <div className={classes.divider} /> */}
+                <Table url={url} columnId={distributorManagementColumns} itemsByPage={10}/>
             </div>
 
             <DistributorsSearch open={isVisible}
@@ -78,7 +66,7 @@ const useStyles = makeStyles({
         backgroundColor: 'white'
     },
     rowTitle: {
-        padding: '0 20px',
+        // padding: '0 20px',
         height: 56,
         display: 'flex',
         flexDirection: 'row',
@@ -112,10 +100,6 @@ const useStyles = makeStyles({
                 alignItems: 'center'
             }
         }
-    },
-    table: {
-        padding: '0 20px',
-        paddingBottom: 32,
     },
     divider: {
         marginBottom: 20,
