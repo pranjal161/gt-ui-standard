@@ -1,11 +1,11 @@
+import React, {useEffect} from 'react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import useResponse from 'hooks/useResponse';
+import {capitalizeFirstLetterAndRemove_, getActivities} from 'utils/functions';
 
 import Button from 'theme/components/material/Button/Button'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, {useEffect} from 'react';
-import {capitalizeFirstLetterAndRemove_, getActivities} from 'utils/functions';
+import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
 // import { globalTokens } from 'theme/standard/palette';

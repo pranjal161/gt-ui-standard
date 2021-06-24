@@ -1,5 +1,5 @@
-import {makeStyles} from '@material-ui/core/styles';
 import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface ContractViewProps {
 
@@ -14,13 +14,13 @@ export interface ContractViewProps {
     activityCode: string
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
 
     },
 }))
 
-const ContractView: React.FC<ContractViewProps> = (props: any) => {
+const ContractView: React.FC<ContractViewProps> = () => {
     const classes = useStyles()
 
     return (

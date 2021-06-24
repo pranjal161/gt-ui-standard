@@ -2,8 +2,8 @@ import ContractOperation from 'components/Activity/ContractOperation/ContractOpe
 import ContractView from 'components/Activity/ContractView/ContractView';
 import HeaderOfContractUpsert from 'components/Activity/ContractOperation/Header/Header';
 import HeaderOfContractView from 'components/Activity/ContractView/Header/Header';
-import SideBarOfContractUpsert from 'components/Activity/ContractOperation/SideBar/SideBar';
 import SearchView from 'components/Activity/SearchView/SearchView';
+import SideBarOfContractUpsert from 'components/Activity/ContractOperation/SideBar/SideBar';
 
 export const configs:any = {
     search:{

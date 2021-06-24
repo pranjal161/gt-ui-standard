@@ -68,7 +68,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
         else if (mode === 'search'){
             setActivityHRef(hRef)
         }
-    }, [])
+    }, [hRef, mode, post, setActivityHRef])
 
     return (
         <>
