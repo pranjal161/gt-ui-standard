@@ -1,10 +1,22 @@
 /* eslint-disable */
+import {makeStyles} from '@material-ui/core/styles';
 import { OpenInNewTabIcon, OpenInNewWindowIcon } from 'assets/svg';
 import React from 'react';
 import useDeskTickets from 'hooks/useDeskTickets';
 import useTabs from 'hooks/useTabs';
 
+const useStyles = makeStyles((theme) => ({
+    message: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:'center',
+        alignItems: 'center',
+        fontSize:'48px',
+        height: '300px'
+    }}))
+
 const Home = () => {
+    const classes = useStyles()
     const {getAll} = useDeskTickets();
     const tickets = getAll();
     const {openNewTab, openNewTabInSecondaryWindow} = useTabs()
@@ -36,7 +48,7 @@ const Home = () => {
     </div>);
     */
 
-    return <div>Please search a contract with the input in navbar, like : IUP% </div>
+    return <div className={classes.message}>Please search a contract with the input in navbar, like : IUP% </div>
 }
 
 export default Home;
