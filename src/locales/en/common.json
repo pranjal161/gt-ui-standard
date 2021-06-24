@@ -143,5 +143,12 @@
   "_VIEWS": "Status",
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
-  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
+  "distributor": "Distributor",
+  "function": "Function",
+  "type": "Type",
+  "rate": "Rate",
+  "start_date": "Start Date",
+  "add_distributor": "Add Distributor",
+  "search_distributor": "Search distributor"
 }

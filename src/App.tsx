@@ -33,7 +33,7 @@ function App() {
 
     return (
         <div data-testid="main_app">
-            <Router basename="/">
+            <Router basename="/omnichannel/react-standard">
                 {routeNodes}
 
                 <LocationDisplay />
