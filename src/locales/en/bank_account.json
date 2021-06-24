@@ -1,4 +1,6 @@
 {
-  "bank_name": "bank_name",
-  "i_b_a_n": "i_b_a_n"
+  "bank_name": "Bank",
+  "i_b_a_n": "IBAN",
+  "account_details": "Detail",
+  "account_holder_name": "Holder name"
 }
