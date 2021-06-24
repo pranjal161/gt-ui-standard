@@ -1,65 +1,12 @@
-import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
-import LabelInline from 'components/LabelInline/LabelInline';
+import PersonPreview from 'components/PersonPreview/PersonPreview';
 import React from 'react';
-import {getStatusReport} from 'utils/functions';
+import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
-
-const ContentList = ({items, data}: any) => items.map(
-    (item: any) => <LabelInline key={item.id}
-        property={item.id}
-        data={data}
-        loading={!data}
-        styleType={item.styleType}
-    />)
-
-/*************** For Person *******************/
-
-const PersonPreview = ({hRef}: any) => {
-    const response = useResponse(hRef)
-    const hRefBankAccount = response && response.data._links['person:preferred_bank_account'].href
-
-    return (
-        <>
-            <PersonGeneralSection key={'general'} hRef={hRef}/>
-            <PreferredBankAccount key={'preferred_bank'} hRef={hRefBankAccount}/>
-        </>)
-}
-
-const personGeneralItems: PanelSectionItem[] = [
-    {id: 'person:gender', styleType: ['text']},
-    {id: 'person:first_name', styleType: ['text']},
-    {id: 'person:last_name', styleType: ['text']},
-    {id: 'person:birth_date', styleType: ['date']},
-    {id: 'person:age', styleType: ['number']},
-    {id: 'person:professional_status', styleType: ['text']},
-    {id: 'person:language', styleType: ['text']},
-]
-const PersonGeneralSection = ({hRef}: any) => {
-    const response = useResponse(hRef)
-
-    return <PanelSection title={'Detail'}
-        content={<ContentList items={personGeneralItems} data={response && response.data}/>}/>
-}
-
-/*************** For Preferred bank account *******************/
-
-const preferredBankAccount: PanelSectionItem[] = [
-    {id: 'bank_account:account_details', styleType: ['text']},
-    {id: 'bank_account:account_holder_name', styleType: ['text']},
-    {id: 'bank_account:i_b_a_n', styleType: ['text']},
-]
-const PreferredBankAccount = ({hRef}: any) => {
-    const response = useResponse(hRef)
-    const {t} = useTranslation()
-
-    return <PanelSection title={t('common:preferredBankAccountLabel')}
-        content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
-}
 
 const RoleController = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
@@ -67,25 +14,11 @@ const RoleController = React.memo(({hRef}: any) => {
 
     return (<PersonPreview hRef={personHRef}/>)
 })
-
-/*************** For Status Report *******************/
-
-const StatusReport = ({hRef}: any) => {
-    const response = useResponse(hRef)
-    const statusReport = response && getStatusReport(response && response.data) || []
-    const generateMessageLines = (lines: any) => lines.map((line: any) => ({id: line.propertyNames, styleType: ['text']}),)
-
-    const Sections = statusReport && statusReport.messages && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={message.message}
-        content={<ContentList
-            items={generateMessageLines(message.context)}
-            data={message.context}/>}/>)
-
-    return Sections || <div>No errors</div>
-}
+RoleController.displayName='RoleController'
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
 const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
-const statusReportController = (value: any) => <StatusReport hRef={value.id}/>
+const statusReportController = (value: any) => <StatusReportPreview hRef={value.id}/>
 const loadingController = () => <div>Loading</div>
 
 const SideBar = (props: any) => {

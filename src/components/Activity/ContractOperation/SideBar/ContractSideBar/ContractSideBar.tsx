@@ -1,5 +1,5 @@
 import PanelSection, { PanelSectionItem } from 'components/PanelSection/PanelSection';
-import ContentList from '../components/ContentList';
+import ContentList from 'components/ContentList/ContentList';
 import React from 'react';
 import ScheduledPayment from './ScheduledPayment';
 import useResponse from 'hooks/useResponse';
