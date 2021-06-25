@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractView: React.FC<any> = (props:any) => {
+const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {getActivityConf} = useConfigurations();

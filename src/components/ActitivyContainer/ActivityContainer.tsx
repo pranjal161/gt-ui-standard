@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+
 import Activity from 'components/Activity/Activity';
-import WithActivity from 'components/WithActivity';
-import {getLink} from 'utils/functions';
+import { getLink } from 'utils/functions';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
 export interface ActivityContainerProps {
@@ -31,14 +32,23 @@ export interface ActivityContainerProps {
      */
     extraValues?: any
 
-    title?:string
+    title?: string
 
-    children?:any
+    children?: any
 }
 
-const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title, children, extraValues}: ActivityContainerProps) => {
-    const { post } = useAia()
-    const [activityHRef, setActivityHRef]:[any, any] = useState(undefined);
+const ActivityContainer: React.FC<ActivityContainerProps> = ({
+    hRef,
+    mainEntityHRef,
+    activityCode,
+    mode,
+    title,
+    children,
+    extraValues
+}: ActivityContainerProps) => {
+    const { post } = useAia();
+    const { startActivity, stopActivity } = useActivity();
+    const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
     const propsActivity: any = {
         hRef: activityHRef,
@@ -46,10 +56,11 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
         action: 'fetch',
         activityCode: activityCode,
         title: title,
-        extraValues:extraValues
+        extraValues: extraValues
     }
 
     useEffect(() => {
+        startActivity();
         if (mode === 'insert' || mode === 'update') {
             post(hRef, {}).then((res: any) => {
                 if (res && res.data && getLink(res.data, 'self')) {
@@ -65,17 +76,21 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
             //nothing to do the fetch will be done in the activity
             setActivityHRef(hRef)
         }
-        else if (mode === 'search'){
+        else if (mode === 'search') {
             setActivityHRef(hRef)
+        }
+
+        return () => {
+            stopActivity();
         }
     }, [hRef, mode, post, setActivityHRef])
 
     return (
         <>
             {activityHRef &&
-            <WithActivity {...propsActivity}> <Activity {...propsActivity}>{children}</Activity></WithActivity>}
-        </>
-    )
-}
+                <Activity {...propsActivity}>{children}</Activity>
+            }
+        </>)
 
+}
 export default React.memo(ActivityContainer);
