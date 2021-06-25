@@ -48,7 +48,7 @@ const Home = () => {
     </div>);
     */
 
-    return <div className={classes.message}>Please search a contract with the input in navbar, like : IUP% </div>
+    return <div className={classes.message}>Search a contract with the input in navbar, like : IUP% </div>
 }
 
 export default Home;

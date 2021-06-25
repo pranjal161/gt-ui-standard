@@ -1,7 +1,8 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+
 import Activity from 'components/Activity/Activity';
-import WithActivity from 'components/WithActivity';
-import {getLink} from 'utils/functions';
+import { getLink } from 'utils/functions';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
 export interface ActivityContainerProps {
@@ -45,7 +46,8 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     children,
     extraValues
 }: ActivityContainerProps) => {
-    const {post} = useAia()
+    const { post } = useAia();
+    const { startActivity, stopActivity } = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
     const propsActivity: any = {
@@ -58,6 +60,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     }
 
     useEffect(() => {
+        startActivity();
         if (mode === 'insert' || mode === 'update') {
             post(hRef, {}).then((res: any) => {
                 if (res && res.data && getLink(res.data, 'self')) {
@@ -76,12 +79,16 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
         else if (mode === 'search') {
             setActivityHRef(hRef)
         }
+
+        return () => {
+            stopActivity();
+        }
     }, [hRef, mode, post, setActivityHRef])
 
     return (
         <>
             {activityHRef &&
-                         <WithActivity {...propsActivity}> <Activity {...propsActivity}>{children}</Activity></WithActivity>
+                <Activity {...propsActivity}>{children}</Activity>
             }
         </>)
 
