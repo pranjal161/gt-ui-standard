@@ -65,6 +65,7 @@ MainNavContainer.SecondaryViewButtonsContainer = styled.div`
 `;
 
 MainNavContainer.NavTabs = styled.div`
+    z-index: 100;
     margin-top: 16px;
     min-width: 210px;
 `;
