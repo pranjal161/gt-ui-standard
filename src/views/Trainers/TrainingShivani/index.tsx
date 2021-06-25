@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Label from 'components/Label/Label';
-import axios from 'axios';
+import axios from 'utils/axios';
 
 const TrainingShivani = () => {
     const url = 'http://20.33.40.95:13211/csc/insurance/quotes/ID-mrMxYScs';
