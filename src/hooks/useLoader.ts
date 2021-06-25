@@ -2,10 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import axios from 'utils/axios';
 
-// import axios from 'axios';
-
-// const Axios = axios.create(); // export this and use it in all your components
-
 const useLoader = () => {
     const [counter, setCounter] = useState(0);
     // To add up/remove request count from Axios Array
