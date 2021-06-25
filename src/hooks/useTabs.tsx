@@ -147,7 +147,7 @@ const useTabs = () => {
             extraValues: {entityType, searchString, filters}
         }
 
-    }), [])
+    }), [t])
 
     return {openNewTab, openNewTabInSecondaryWindow, forOperation, forContract, forSearch}
 }

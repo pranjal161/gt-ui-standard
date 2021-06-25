@@ -1,10 +1,8 @@
-import {fireEvent} from '@testing-library/react';
 import * as DialogStories from './Dialog.stories'
-
-import {render} from 'test/testUtils';
-
 import React from 'react';
 import {composeStories} from '@storybook/testing-react';
+import {fireEvent} from '@testing-library/react';
+import {render} from 'test/testUtils';
 
 //👇 composeStories will process all information related to the component (e.g., args)
 const {Default} = composeStories(DialogStories);

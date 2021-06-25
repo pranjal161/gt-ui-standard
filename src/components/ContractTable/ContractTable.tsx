@@ -11,7 +11,7 @@ import useTabs from 'hooks/useTabs';
  * @returns {*} Return information of the contract in a Table
  */
 const ContractTable = (props: any) => {
-    const {openNewTab, forContract, forOperation} = useTabs()
+    const {openNewTab, openNewTabInSecondaryWindow, forContract, forOperation} = useTabs()
     const {fetch} = useAia();
 
     const contractColumns: Array<Column> = [
@@ -49,12 +49,11 @@ const ContractTable = (props: any) => {
     }
 
     const openTicketInNewTab = (contract: any) => {
-        console.log('contract', contract)
         openNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
     const openTicketInNewWindow = (contract: any) => {
-        openTicketInNewTab(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
+        openNewTabInSecondaryWindow(forContract({title:contract.summary['contract:number'], hRef:contract.href}))
     }
 
     return (

@@ -54,14 +54,9 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
 
             Object.keys(filters).forEach((key: string) => {
 
-                if (key === 'person:reference_country_code') {
-                    strFilters += `${key}=${filters[key]}`;
-                }
-                else {
-                    strFilters += `${key}=*${filters[key]}*`;
-                }
+                strFilters += `${key}=${filters[key]}`;
 
-                if (Object.keys(filters).indexOf(key) !== Object.keys(filters).length - 1) {
+                if (Object.keys(filters).indexOf(key) !== Object.keys(filters).length) {
                     strFilters += '&';
                 }
             });

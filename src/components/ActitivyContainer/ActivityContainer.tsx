@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import Activity from 'components/Activity/Activity';
 import WithActivity from 'components/WithActivity';
 import {getLink} from 'utils/functions';
@@ -31,14 +31,22 @@ export interface ActivityContainerProps {
      */
     extraValues?: any
 
-    title?:string
+    title?: string
 
-    children?:any
+    children?: any
 }
 
-const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRef, activityCode, mode, title, children, extraValues}: ActivityContainerProps) => {
-    const { post } = useAia()
-    const [activityHRef, setActivityHRef]:[any, any] = useState(undefined);
+const ActivityContainer: React.FC<ActivityContainerProps> = ({
+    hRef,
+    mainEntityHRef,
+    activityCode,
+    mode,
+    title,
+    children,
+    extraValues
+}: ActivityContainerProps) => {
+    const {post} = useAia()
+    const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
     const propsActivity: any = {
         hRef: activityHRef,
@@ -46,7 +54,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
         action: 'fetch',
         activityCode: activityCode,
         title: title,
-        extraValues:extraValues
+        extraValues: extraValues
     }
 
     useEffect(() => {
@@ -65,17 +73,17 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef,mainEntityHRe
             //nothing to do the fetch will be done in the activity
             setActivityHRef(hRef)
         }
-        else if (mode === 'search'){
+        else if (mode === 'search') {
             setActivityHRef(hRef)
         }
-    }, [])
+    }, [hRef, mode, post, setActivityHRef])
 
     return (
         <>
             {activityHRef &&
-            <WithActivity {...propsActivity}> <Activity {...propsActivity}>{children}</Activity></WithActivity>}
-        </>
-    )
-}
+                         <WithActivity {...propsActivity}> <Activity {...propsActivity}>{children}</Activity></WithActivity>
+            }
+        </>)
 
+}
 export default React.memo(ActivityContainer);
