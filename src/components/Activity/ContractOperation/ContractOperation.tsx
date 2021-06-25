@@ -137,7 +137,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                         ))
                         }
                         <div className="m-2 p-1" style={{float: 'right'}}><Button
-                            onClick={() => nextStep(currentStep + 1)} title="_NEXT_BUTTON"/></div>
+                            onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/></div>
                     </WithScroll>
                 </div>
             </div>

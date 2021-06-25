@@ -28,15 +28,15 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
 
     return (
         <>
-            <div className="col-12">
+            <div className="col-12 mb-4">
                 <Section title="General Information" icon={<PaymentIcon />} >
                     <GeneralInfo response={response} />
                 </Section>
             </div>
-            <div className="col-12">
+            <div className="col-12 mb-4">
                 <MoneyIn response={response} />
             </div>
-            <div className="col-12">
+            <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
                     <>
                         <Button onClick={() => setIsVisible(true)} Icon={AddBoxIcon}
