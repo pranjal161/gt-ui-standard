@@ -3,7 +3,7 @@ import TabsMat from '@material-ui/core/Tabs';
 import {getComponentStyle} from 'theme/components/material/index';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles(getComponentStyle('IconButton'));
+const useStyles = makeStyles(getComponentStyle('Tabs'));
 
 const Tabs = (props: any) => {
     const classes = useStyles();
