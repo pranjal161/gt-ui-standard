@@ -43,28 +43,16 @@ export interface MoneyInFormProps {
     bankAccountList: any;
 
     /**
-    * currencySelect 
-    * @description API properties formatted for dxc select
-    */
-    currencySelect: any
-
-    /**
-    * paymentTypeSelect
-    * @description API properties formatted for dxc select
-    */
-    paymentTypeSelect: any
-
-    /**
-    * adminSelect
-    * @description API properties formatted for dxc select
-    */
-    adminSelect: any
-
-    /**
     * amountUP
     * @description The amount of the unsolicited Payment operation
     */
     amountUP: number
+
+    /**
+       * moneyInData
+       * @description The response of new money in resource
+       */
+    moneyInData: any
 }
 const useStyles = makeStyles((theme: Theme) => ({
     formContainer: {
@@ -92,10 +80,8 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
         isLoad,
         setIsLoad,
         bankAccountList,
-        currencySelect,
-        paymentTypeSelect,
-        adminSelect,
-        amountUP
+        amountUP,
+        moneyInData
     } = props
     const [payerTitle, setPayerTitle]: [string, Function] = React.useState('');
 
@@ -129,10 +115,8 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
                     setFormData={setFormData}
                     isLoad={isLoad}
                     bankAccountList={bankAccountList}
+                    moneyInData={moneyInData}
                     payerTitle={payerTitle}
-                    currencySelect={currencySelect}
-                    paymentTypeSelect={paymentTypeSelect}
-                    adminSelect={adminSelect}
                     amountUP={amountUP}
                 />
             </div>
