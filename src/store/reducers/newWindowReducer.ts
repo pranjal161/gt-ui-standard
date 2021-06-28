@@ -19,7 +19,8 @@ export interface windowTabsObjsInt {
         subTitle?: string,
         href?: string,
         type: string,
-        activityProps?:any
+        activityProps?:any,
+        isSideBarOpen: boolean
     }
 }
 
@@ -64,7 +65,8 @@ const newWindowSlice = createSlice({
                 subTitle: secLabel,
                 type: action.payload.tabType,
                 href: URL,
-                activityProps:action.payload.activityProps
+                activityProps:action.payload.activityProps,
+                isSideBarOpen: true
             };
         },
         removeWindowTabByID(state, action: PayloadAction<string>) {

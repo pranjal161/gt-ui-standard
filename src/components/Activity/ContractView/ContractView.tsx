@@ -1,7 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
+
 import WithScroll from 'components/WithScroll/WithScroll';
-import useConfigurations from 'hooks/useConfigurations';
+import baContext from 'context/baContext';
 import {makeStyles} from '@material-ui/core/styles';
+import useConfigurations from 'hooks/useConfigurations';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +38,9 @@ const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
+    const context = useContext(baContext);
+    const baId: any = context.baId;
+    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen)
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
