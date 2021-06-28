@@ -16,64 +16,91 @@ const updateResponse = (newState:any, action:any) => {
     return newState;
 }
 
+const updateStatus = (newState:any, action:any, status : string) => {
+    newState[action.payload.baId].status[action.payload.href] = status
+
+    return newState
+}
+
 const AIASlice = createSlice({
     name: 'aia',
     initialState,
     reducers: {
         aiaBAStart(state: any = initialState, action) {
-            state[action.payload.baId] = {}
+            state[action.payload.baId] = {status:{}}
+
+            return state
         },
         aiaBAEnd(state: any, action:any) {
             delete state[action.payload.baId]
         },
-        aiaGETPending(state) {
+        aiaGETPending(state: any, action:any) {
+            updateStatus(state, action, 'loading' )
+
             return state
         },
-        aiaGETError(state, action) {
+        aiaGETError(state: any, action: any) {
             console.log('Error in BA_GET', action);
-            
+            //todo : we have to store errors and display them.
+            updateStatus(state, action, 'error' )
+
             return state;
         },
-        aiaGETSuccess(state, action) {
+        aiaGETSuccess(state: any, action: any) {
             state = updateResponse(state, action.payload)
+            updateStatus(state, action, 'success' )
+
+            return state;
         },
         aiaGETSuccessCache(state) {
+
             return state
         },
-        aiaPATCHPending(state) {
+        aiaPATCHPending(state, action) {
+            updateStatus(state, action, 'pending' )
+
             return state;
         },
         aiaPATCHSuccess(state, action) {
             state = updateResponse(state, action.payload);
+            updateStatus(state, action, 'success' )
         },
         aiaPATCHError(state, action) {
             console.log('Error in BA_PATCH', action);
-            
+            updateStatus(state, action, 'error')
+
             return state
         },
-        aiaPOSTPending(state) {
-            
+        aiaPOSTPending(state, action) {
+            updateStatus(state, action, 'pending' )
+
             return state;
         },
-        aiaPOSTSuccess(state) {
-            
+        aiaPOSTSuccess(state, action) {
+            updateStatus(state, action, 'success' )
+
             return state;
         },
         aiaPOSTError(state, action) {
             console.log('Error in BA_POST', action);
-            
+            updateStatus(state, action, 'error')
+
             return state;
         },
-        aiaREFRESHPending(state) {
-            
+        aiaREFRESHPending(state, action) {
+            updateStatus(state, action, 'pending' )
+
             return state;
         },
         aiaREFRESHSuccess(state, action) {
             state = updateResponse(state, action.payload)
+            updateStatus(state, action, 'success' )
+
         },
         aiaREFRESHError(state, action) {
             console.log('Error in BA_REFRESH', action);
-            
+            updateStatus(state, action, 'error')
+
             return state;
         },
         aiaDELETEPending(state) {

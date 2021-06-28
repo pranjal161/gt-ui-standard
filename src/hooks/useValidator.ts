@@ -71,8 +71,8 @@ const useValidator = () => {
         let elementId = '';
         if (data) {
             const link = getLink(data, 'self');
-            const baArray = link.split('/');
-            const id = link.split('/').slice(baArray.length - 1, baArray.length)[0].split('-')[1];
+            const baArray = link && link.split('/');
+            const id = baArray && link.split('/').slice(baArray.length - 1, baArray.length)[0].split('-')[1];
             elementId = id + '_' + propertyName;
         }
         
