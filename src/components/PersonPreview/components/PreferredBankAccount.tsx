@@ -10,7 +10,7 @@ const preferredBankAccount: PanelSectionItem[] = [
     {id: 'bank_account:i_b_a_n', styleType: ['text']},
 ]
 const PreferredBankAccount = ({hRef}: any) => {
-    const response = useResponse(hRef)
+    const [response] = useResponse(hRef)
     const {t} = useTranslation()
 
     return <PanelSection title={t('common:preferredBankAccountLabel')}

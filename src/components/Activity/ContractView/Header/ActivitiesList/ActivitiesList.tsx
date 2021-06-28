@@ -48,7 +48,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
     const {
         onLaunchActivity
     } = props
-    const response = useResponse(props.hRef)
+    const [response] = useResponse(props.hRef)
     const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
 
     useEffect(() => {

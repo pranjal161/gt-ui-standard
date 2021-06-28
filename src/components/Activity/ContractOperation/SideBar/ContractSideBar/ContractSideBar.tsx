@@ -6,7 +6,7 @@ import useResponse from 'hooks/useResponse';
 import {useTranslation} from 'react-i18next';
 
 const ContractSideBar = ({ hRef }: any) => {
-    const response = useResponse(hRef);
+    const [response] = useResponse(hRef);
     const {t} = useTranslation()
     const contractGeneralItems: PanelSectionItem[] = [
         { id: 'contract:number', styleType: ['text'] },
