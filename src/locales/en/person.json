@@ -16,5 +16,6 @@
   "creation_date": "Creation date",
   "display_id1": "Person",
   "display_id1_payer": "Payer",
-  "gender" : "Gender"
+  "gender" : "Gender",
+  "language": "Language"
 }

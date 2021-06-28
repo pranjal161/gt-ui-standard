@@ -12,5 +12,6 @@
   "postal_code": "Postal code",
   "display_id1": "Personne",
   "display_id1_payer": "Payeur",
-  "gender" : "Civilité"
+  "gender" : "Civilité",
+  "language": "Langue"
 }

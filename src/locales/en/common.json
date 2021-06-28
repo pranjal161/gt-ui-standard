@@ -45,6 +45,13 @@
   "searchViewLabel_person" : "Search person",
   "searchViewLabel_ticket" : "Search ticket",
   "searchViewLabel_business" : "Search business",
+  "main_pool_split": "Funds slipt",
+  "money_in": "Money in",
+  "scheduledPaymentLabel": "Scheduled payment",
+  "scheduledPaymentLabel_plural": "Scheduled payments",
+  "preferredBankAccountLabel": "Preferred bank account",
+  "_NEXT_BUTTON" : "Next",
+
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -138,5 +145,27 @@
   "_VIEWS": "Status",
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
-  "_UNSOLICITED_PAYMENT": "Unsolicited Payment"
-  }
+  "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
+  "amount_to_pay": "Amount to pay",
+  "payment_amount": "Payment Amount",
+  "currency": "Currrency",
+  "payment_method": "Payment Method",
+  "accounting_date": "Accounting Date",
+  "receipt_date": "Receipt Date",
+  "deposit_date": "Deposit Date",
+  "value_date": "Value Date",
+  "payer": "Payer",
+  "adminsitrator": "Administrator",
+  "deposit_account": "Deposit Account",
+  "cheque_number": "Cheque Number",
+  "signature_date": "Signature Date",
+  "add": "Add",
+  "amount": "Amount",
+  "distributor": "Distributor",
+  "function": "Function",
+  "type": "Type",
+  "rate": "Rate",
+  "start_date": "Start Date",
+  "add_distributor": "Add Distributor",
+  "search_distributor": "Search distributor"
+}

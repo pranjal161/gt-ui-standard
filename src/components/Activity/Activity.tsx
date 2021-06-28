@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
+
 import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
@@ -77,7 +78,6 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {openNewTab, forOperation} = useTabs()
 
     useEffect(() => {
-        startActivity();
 
         /**
          * Main API call
@@ -90,10 +90,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
         if (hRef.slice(0,7) !== 'search_')
             aia.fetch(hRef)
 
-        return () => {
-            stopActivity()
-        }
-    }, [])
+    }, [aia, hRef, stopActivity, startActivity])
 
     const SkeletonConf = configurations && configurations.skeleton
     const HeaderConf = configurations && configurations.header

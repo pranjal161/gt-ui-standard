@@ -1,6 +1,6 @@
 import baContext from 'context/baContext';
-import { useContext } from 'react';
 import {configs} from 'hooks/componentsConfigurations';
+import { useContext } from 'react';
 
 const useConfigurations = () => {
     const context = useContext(baContext)

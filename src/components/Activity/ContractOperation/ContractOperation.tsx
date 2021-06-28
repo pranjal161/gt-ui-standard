@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import Stepper, { StepProps } from 'components/Stepper/Stepper';
+import React, {useCallback, useState} from 'react';
+import Stepper, {StepProps} from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
@@ -7,30 +7,15 @@ import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-export interface ContractUpsertProps {
-
-    /**
-     * Data coming from API response
-     */
-    data?: any
-
-    /**
-     * Code of the activity
-     */
-    activityCode: string
-}
-
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
     body: {
         display: 'flex',
         flexDirection: 'row',
@@ -44,30 +29,30 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         maxWidth: '25%'
     },
-    content: ({ contentOffsetTop = '' }: any) => ({
+    content: ({contentOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
         overflowY: 'hidden',
         '& > * > div': {
             marginBottom: theme.spacing(2)
         }
     }),
-    sidebar: ({ sideBarOffsetTop = '' }: any) => ({
+    sidebar: ({sideBarOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
         backgroundColor: theme.palette.background.paper
     })
 }))
 
-const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
+const ContractOperation: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const hRef = props.hRef
     const {t} = useTranslation()
-    const { getActivityConf } = useConfigurations();
+    const {getActivityConf} = useConfigurations();
     const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
     const [currentStep, setCurrentStep] = useState(0);
-    const classes: any = useStyles({ contentOffsetTop, sideBarOffsetTop });
+    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const activityResponse = useResponse(hRef);
-    const { patch } = useAia();
+    const {patch} = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
@@ -114,10 +99,10 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
         setCurrentStep(step);
     }
 
-    const patchDate = (value:any, id: string) => {
+    const patchDate = (value: any, id: string) => {
         const payload: any = {};
         payload[id] = value;
-        patch(hRef,payload).then(() => {
+        patch(hRef, payload).then(() => {
             setCurrentStep(0);
         });
     }
@@ -128,32 +113,37 @@ const ContractOperation: React.FC<ContractUpsertProps> = (props: any) => {
 
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
-                        {activityResponse && 
-                        <DateInput propertyName="date_effect" onChangeMethod={(value: any) => patchDate(value, 'date_effect')} data={activityResponse.data} />}
+                        {activityResponse &&
+                        <DateInput propertyName="date_effect"
+                            onChangeMethod={(value: any) => patchDate(value, 'date_effect')}
+                            data={activityResponse.data}/>}
                     </div>
                     <div className="col-10">
-                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3} onChange={(index: number) => setCurrentStep(index)} />
+                        <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}
+                            onChange={(index: number) => setCurrentStep(index)}/>
                     </div>
 
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {steps.map((step: StepProps) => (
-                            <>
+                        {steps.map((step: StepProps, index) => (
+                            <div key={index}>
                                 {step.id === currentStep &&
-                                    (
-                                        <>{step.component}</>
-                                    )
+                                (
+                                    <>{step.component}</>
+                                )
                                 }
-                            </>
+                            </div>
                         ))
                         }
-                        <div className="m-2 p-1" style={{float: 'right'}}><Button onClick={() => nextStep(currentStep + 1)} title="_NEXT_BUTTON" /></div>
+                        <div className="m-2 p-1" style={{float: 'right'}}><Button
+                            onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/></div>
                     </WithScroll>
                 </div>
             </div>
-            <div ref={handleSideBarOffsetTop} className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}`: `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} />
+            <div ref={handleSideBarOffsetTop}
+                className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
+                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef}/>
             </div>
         </div>
     );

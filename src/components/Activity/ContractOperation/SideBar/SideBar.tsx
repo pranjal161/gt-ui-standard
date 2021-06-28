@@ -1,64 +1,12 @@
-import PanelSection, {PanelSectionItem} from 'components/PanelSection/PanelSection';
-import React, {useEffect} from 'react';
-
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
-import LabelInline from 'components/LabelInline/LabelInline';
+import PersonPreview from 'components/PersonPreview/PersonPreview';
+import React from 'react';
+import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
-
-const ContentList = ({items, data}: any) => items.map(
-    (item: any) => <LabelInline key={item.id}
-        property={item.id}
-        data={data}
-        loading={!data}
-        styleType={item.styleType}
-    />)
-
-/*************** For Person *******************/
-
-const PersonPreview = ({hRef}: any) => {
-    const response = useResponse(hRef)
-    const hRefBankAccount = response && response.data._links['person:preferred_bank_account'].href
-
-    return (
-        <>
-            <PersonGeneralSection key={'general'} hRef={hRef}/>
-            <PreferredBankAccount key={'preferred_bank'} hRef={hRefBankAccount}/>
-        </>)
-}
-
-const personGeneralItems: PanelSectionItem[] = [
-    {id: 'person:gender', styleType: ['text']},
-    {id: 'person:first_name', styleType: ['text']},
-    {id: 'person:last_name', styleType: ['text']},
-    {id: 'person:birth_date', styleType: ['date']},
-    {id: 'person:age', styleType: ['number']},
-    {id: 'person:professional_status', styleType: ['text']},
-    {id: 'person:language', styleType: ['text']},
-]
-const PersonGeneralSection = ({hRef}: any) => {
-    const response = useResponse(hRef)
-
-    return <PanelSection title={'Detail'}
-        content={<ContentList items={personGeneralItems} data={response && response.data}/>}/>
-}
-
-/*************** For Preferred bank accoubt *******************/
-
-const preferredBankAccount: PanelSectionItem[] = [
-    {id: 'bank_account:account_details', styleType: ['text']},
-    {id: 'bank_account:account_holder_name', styleType: ['text']},
-    {id: 'bank_account:i_b_a_n', styleType: ['text']},
-]
-const PreferredBankAccount = ({hRef}: any) => {
-    const response = useResponse(hRef)
-
-    return <PanelSection title={'Preferred bank account'}
-        content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
-}
 
 const RoleController = React.memo(({hRef}: any) => {
     const response = useResponse(hRef)
@@ -66,13 +14,15 @@ const RoleController = React.memo(({hRef}: any) => {
 
     return (<PersonPreview hRef={personHRef}/>)
 })
+RoleController.displayName='RoleController'
 
 const roleController = (value: any) => <RoleController hRef={value.id}/>
 const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
+const statusReportController = (value: any) => <StatusReportPreview hRef={value.id}/>
 const loadingController = () => <div>Loading</div>
 
-const SideBar = (props:any) => {
-    const {mainEntityHRef} = props
+const SideBar = (props: any) => {
+    const {mainEntityHRef, hRef} = props
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
     const mainEntityResponse = useResponse(mainEntityHRef)
@@ -83,12 +33,6 @@ const SideBar = (props:any) => {
     const rolePartiesResponse = useResponse(rolePartiesHRef)
 
     let items: any = {}
-
-    useEffect(() => {
-        console.log('mainEntityResponse changed')
-    }, [mainEntityResponse])
-
-    console.log('SideBar render', props, mainEntityResponse, rolePartiesResponse)
 
     const mainEntitySummary = mainEntityResponse && mainEntityResponse.data._links.self
     if (mainEntitySummary) {
@@ -127,6 +71,15 @@ const SideBar = (props:any) => {
     }
 
     items.person = personList
+
+    items.statusReport = [{
+        title: 'Status report',
+        display: 'Status report',
+        id: hRef,
+        hRef: hRef,
+        entityType: 'statusReport',
+        controller: statusReportController
+    }]
 
     const sidebarProps = useSidebar(items, true)
 
