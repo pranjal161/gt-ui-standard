@@ -8,7 +8,7 @@ export interface InvestmentSplitProps{
     response:any
 }
 const InvestmentSplit:React.FC<InvestmentSplitProps> = ({response}:InvestmentSplitProps) => (
-    <div>InformationSheet response: {JSON.stringify(response)}</div>
+    <div>InformationSplit coming soon</div>
 )
 
 export default InvestmentSplit;

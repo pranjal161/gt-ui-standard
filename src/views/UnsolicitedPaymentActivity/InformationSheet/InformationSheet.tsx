@@ -9,7 +9,7 @@ export interface InformationSheetProps{
 
 }
 const InformationSheet:React.FC<InformationSheetProps> = ({response}:InformationSheetProps) => (
-    <div>InformationSheet response: {JSON.stringify(response)}</div>
+    <div>InformationSheet coming soon</div>
 )
 
 export default InformationSheet;
