@@ -47,8 +47,8 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const hRef = props.hRef
     const {t} = useTranslation()
-    const {getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
+    const {baId, getActivityConf} = useConfigurations();
+    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen);
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const activityResponse = useResponse(hRef);
