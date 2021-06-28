@@ -17,8 +17,6 @@ export const fetch = (href: string, baId: string, params?: Object) => (dispatch:
 
     }
 
-    dispatch(aiaReducer.aiaGETPending({href, baId}))
-
     //Search if we have already fetch this href
     if (getState().aia[baId] && getState().aia[baId][href]) {
         dispatch(aiaReducer.aiaGETSuccessCache())
@@ -36,6 +34,8 @@ export const fetch = (href: string, baId: string, params?: Object) => (dispatch:
         return Promise.resolve(getState().aia[baId][href]);
     }
     else {
+        dispatch(aiaReducer.aiaGETPending({href, baId}))
+
         const promise = APIActions.get(href, params);
         promise.then(
             (response: any) => {
