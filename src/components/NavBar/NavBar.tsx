@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import DXCLogo from 'assets/dxc_logo.jpg';
+import { DxcSpinner } from '@dxc-technology/halstack-react';
 import { MainNavContainer } from './StyledNavBar';
 import SearchBar from '../SearchBar/SearchBar';
 import SecondaryTabs from './components/SecondaryTabs/SecondaryTabs';
@@ -9,6 +11,7 @@ import TopBar from './components/TopBar/TopBar';
 import { globalTokens } from 'theme/standard/palette';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import useLoader from 'hooks/useLoader';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: globalTokens.__grey_7
         }
+    },
+    spinner: {
+        maxWidth: 94,
+        width: '100%',
+        padding: '5px 20px',
+        minHeight: 64
     }
 }));
 
@@ -30,6 +39,7 @@ const NavBar = () => {
     const {t} = useTranslation()
     const history = useHistory();
     const classes = useStyles();
+    const [loading] = useLoader();
 
     const [activeNavTab, setNavTab] = useState(0);
 
@@ -50,7 +60,12 @@ const NavBar = () => {
                         src={DXCLogo} 
                         alt="DXC Logo"
                         title="Home"
-                        onClick={() => goToPage('/home')} />                    
+                        onClick={() => goToPage('/home')} />   
+                    <div className={classes.spinner}>
+                        {loading && (
+                            <DxcSpinner margin="xxsmall" mode="small" />
+                        )}
+                    </div>
                     <SearchBar />
                     <MainNavContainer.SecondaryViewButtonsContainer>
                         <TopBar />

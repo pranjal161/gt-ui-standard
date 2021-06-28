@@ -40,6 +40,11 @@ MainNavContainer.LogoImg = styled.img.attrs((props) => ({
     margin-left: 2rem;
     margin-top: 14px;
     cursor: pointer;
+
+    @media screen and (max-width: 1300px) {
+        max-height: 30px;
+        margin-bottom: 15px;
+    }
 `;
 
 MainNavContainer.ActionButtonsContainer = styled.div`
