@@ -3,12 +3,10 @@ import {useContext, useEffect} from 'react';
 import baContext from 'context/baContext';
 import useAia from 'hooks/useAia';
 
-
 const useResponse = (hRef: string | undefined) => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const {fetch} = useAia();
-
     useEffect(() => {
         if (!hRef)
             return
