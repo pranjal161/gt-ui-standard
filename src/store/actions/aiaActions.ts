@@ -1,13 +1,24 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 
-import { APIActions } from 'utils/functions';
-import { APIConfig } from 'configs/apiConfig';
+import {APIActions} from 'utils/functions';
+import {APIConfig} from 'configs/apiConfig';
 
 const modifiedHeaderTag = APIConfig().modifiedHeaderTag;
 
-export const fetch = (href: string, baId:string, params?: Object) => (dispatch: any, getState: any) => {
+export const fetch = (href: string, baId: string, params?: Object) => (dispatch: any, getState: any) => {
 
-    dispatch(aiaReducer.aiaGETPending())
+    //Check if a call is pending, if yes, we have to return the futur object position
+
+    if (getState().aia[baId].status[href] === 'loading') {
+
+        // Will return always undefined, the promise code will be resolved with undefined.
+        // The right solution is to be able to link the result as the first call promise
+        return Promise.resolve(getState().aia[baId][href]);
+
+    }
+
+    dispatch(aiaReducer.aiaGETPending({href, baId}))
+
     //Search if we have already fetch this href
     if (getState().aia[baId] && getState().aia[baId][href]) {
         dispatch(aiaReducer.aiaGETSuccessCache())
@@ -27,11 +38,11 @@ export const fetch = (href: string, baId:string, params?: Object) => (dispatch: 
     else {
         const promise = APIActions.get(href, params);
         promise.then(
-            (response:any) => {
+            (response: any) => {
                 dispatch(aiaReducer.aiaGETSuccess(
                     {
                         data: response.data,
-                        store:getState().aia,
+                        store: getState().aia,
                         params: params,
                         href,
                         baId
@@ -50,15 +61,15 @@ export const fetch = (href: string, baId:string, params?: Object) => (dispatch: 
     }
 }
 
-export const refresh = (href: string, baId:string, params?: Object) => (dispatch: any, getState: any) => {
-    dispatch(aiaReducer.aiaREFRESHPending())
+export const refresh = (href: string, baId: string, params?: Object) => (dispatch: any, getState: any) => {
+    dispatch(aiaReducer.aiaREFRESHPending({href, baId}))
 
     const promise = APIActions.get(href, params);
     promise.then(
-        (response:any) => {
+        (response: any) => {
             dispatch(aiaReducer.aiaREFRESHSuccess({
                 data: response.data,
-                store:getState().aia,
+                store: getState().aia,
                 params: params,
                 href,
                 baId
@@ -75,8 +86,8 @@ export const refresh = (href: string, baId:string, params?: Object) => (dispatch
     return promise
 }
 
-export const post = (href: string, body: Object, baId: string, params?: Object) => (dispatch: any, getState:any) => {
-    dispatch(aiaReducer.aiaPOSTPending());
+export const post = (href: string, body: Object, baId: string, params?: Object) => (dispatch: any, getState: any) => {
+    dispatch(aiaReducer.aiaPOSTPending({href, baId}));
 
     const promise = APIActions.post(href, body, params);
     promise.then((response: any) => {
@@ -92,13 +103,13 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
         if (response && response.data && !response.data.messages) {
             dispatch(aiaReducer.aiaREFRESHSuccess({
                 data: response.data,
-                store:getState().aia,
+                store: getState().aia,
                 params: params,
                 href,
                 baId
             }))
         }
-        dispatch(aiaReducer.aiaPOSTSuccess())
+        dispatch(aiaReducer.aiaPOSTSuccess({href, baId}))
     })
         .catch((error: any) => {
             dispatch(aiaReducer.aiaPOSTError({
@@ -110,9 +121,9 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
     return promise;
 }
 
-export const patch = (href: string, payload: Object, baId: string, params?: Object) => (dispatch: any, getState:any) => {
+export const patch = (href: string, payload: Object, baId: string, params?: Object) => (dispatch: any, getState: any) => {
 
-    dispatch(aiaReducer.aiaPATCHPending())
+    dispatch(aiaReducer.aiaPATCHPending({href, baId}))
     const promise = APIActions.patch(href, payload, params);
     promise.then((response: any) => {
         // case1: modified headers recieved in response headers
@@ -133,7 +144,7 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
         }
         dispatch(aiaReducer.aiaPATCHSuccess({
             data: response.data,
-            store:getState().aia,
+            store: getState().aia,
             params: params,
             href,
             baId
@@ -150,7 +161,7 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
     return promise;
 }
 
-export const deleteRequest = (href: string, baId: string, params?: Object) => (dispatch: any, getState:any) => {
+export const deleteRequest = (href: string, baId: string, params?: Object) => (dispatch: any, getState: any) => {
 
     dispatch(aiaReducer.aiaDELETEPending())
 
@@ -183,8 +194,8 @@ export const deleteRequest = (href: string, baId: string, params?: Object) => (d
 }
 
 // checks if any modified URI exists in store & refresh it
-const processModifiedHeaders = (modifiedArray: Array<Object | string>, existingMap: Array<any>, baId: string, dispatch:any) => {
-    const requestArray :Array<Object> =[];
+const processModifiedHeaders = (modifiedArray: Array<Object | string>, existingMap: Array<any>, baId: string, dispatch: any) => {
+    const requestArray: Array<Object> = [];
     if (modifiedArray) {
         // eslint-disable-next-line array-callback-return
         modifiedArray.map((message: any) => {
