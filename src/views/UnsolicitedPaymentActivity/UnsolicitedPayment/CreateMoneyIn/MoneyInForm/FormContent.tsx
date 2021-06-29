@@ -1,4 +1,4 @@
-import { DxcDate, DxcInput, DxcSelect, DxcSpinner } from '@dxc-technology/halstack-react';
+import { DxcDate, DxcInput, DxcSelect } from '@dxc-technology/halstack-react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import DateInput from 'theme/components/material/DateInput/DateInput';
@@ -20,12 +20,6 @@ export interface FormContentProps {
     * @description React setter for formData state
     */
     setFormData: Function
-
-    /**
-    * isLoad
-    * @description React state to know if content is on loading or loaded
-    */
-    isLoad: boolean;
 
     /**
     * bankAccountList
@@ -96,7 +90,6 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
     const {
         formData,
         setFormData,
-        isLoad,
         bankAccountList,
         payerTitle,
         moneyInData,
@@ -120,120 +113,112 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
     return (
         <>
             {
-                moneyInData && !isLoad ?
-                    (
-                        <>
-                            <div className={classes.category1}>{t('money_in')}</div>
-                            <div className="w-100 row">
-                                <div className="col-4">
-                                    <DxcInput
-                                        label={t('amount_to_pay')}
-                                        value={amountUP + ''}
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <TextField
-                                        propertyName="operation:amount"
-                                        type="number"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('operation:amount')}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <SelectInput
-                                        data={moneyInData}
-                                        propertyName="operation:currency_code"
-                                        onChangeMethod={onChange('amount_to_pay')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <SelectInput
-                                        data={moneyInData}
-                                        propertyName="money_in:payment_type"
-                                        onChangeMethod={onChange('money_in:payment_type')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <DateInput
-                                        propertyName="operation:accounting_date"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('operation:accounting_date')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <DateInput
-                                        propertyName="money_in:receipt_date"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('money_in:receipt_date')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <DateInput
-                                        propertyName="money_in:deposit_date"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('money_in:deposit_date')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <DateInput
-                                        propertyName="operation:value_date"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('operation:value_date')}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-100 row">
-                                <div className="col-4 mt-4">
-                                    <DxcInput
-                                        label={t('payer')}
-                                        value={payerTitle}
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <SelectInput
-                                        propertyName="money_in_administrator"
-                                        data={moneyInData}
-                                        onChangeMethod={onChange('money_in_administrator')}
-                                    />
-                                </div>
-                                <div className="col-4 mt-4">
-                                    <DxcSelect
-                                        options={bankAccountList}
-                                        onChange={onChange('money_in:deposit_bank_account')}
-                                        label={t('deposit_account')}
-                                        onChangeMethod={onChange('money_in:deposit_bank_account')}
-                                    />
-                                </div>
-                            </div>
-                            <div className={classes.category2 + ' mt-4'}>Payment type Details</div>
-                            <div className="row w-100">
-                                <div className="col-4">
-                                    <DxcInput
-                                        label={t('cheque_number')}
-                                        required={true}
-                                        onChange={() => null}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <DxcDate
-                                        label={t('signature_date')}
-                                        placeholder
-                                        required={true}
-                                        format="yyyy-MM-dd"
-                                        onChange={() => null}
-                                    />
-                                </div>
-                            </div>
-                        </>
-                    )
-                    :
-                    (
-                        <div className={classes.spinnerContainer}>
-                            <DxcSpinner />
+                moneyInData &&
+                <>
+                    <div className={classes.category1}>{t('money_in')}</div>
+                    <div className="w-100 row">
+                        <div className="col-4">
+                            <DxcInput
+                                label={t('amount_to_pay')}
+                                value={amountUP + ''}
+                                disabled={true}
+                            />
                         </div>
-                    )
+                        <div className="col-4">
+                            <TextField
+                                propertyName="operation:amount"
+                                type="number"
+                                data={moneyInData}
+                                onChangeMethod={onChange('operation:amount')}
+                            />
+                        </div>
+                        <div className="col-4">
+                            <SelectInput
+                                data={moneyInData}
+                                propertyName="operation:currency_code"
+                                onChangeMethod={onChange('amount_to_pay')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <SelectInput
+                                data={moneyInData}
+                                propertyName="money_in:payment_type"
+                                onChangeMethod={onChange('money_in:payment_type')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                propertyName="operation:accounting_date"
+                                data={moneyInData}
+                                onChangeMethod={onChange('operation:accounting_date')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                propertyName="money_in:receipt_date"
+                                data={moneyInData}
+                                onChangeMethod={onChange('money_in:receipt_date')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                propertyName="money_in:deposit_date"
+                                data={moneyInData}
+                                onChangeMethod={onChange('money_in:deposit_date')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                propertyName="operation:value_date"
+                                data={moneyInData}
+                                onChangeMethod={onChange('operation:value_date')}
+                            />
+                        </div>
+                    </div>
+                    <div className="w-100 row">
+                        <div className="col-4 mt-4">
+                            <DxcInput
+                                label={t('payer')}
+                                value={payerTitle}
+                                disabled={true}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <SelectInput
+                                propertyName="money_in_administrator"
+                                data={moneyInData}
+                                onChangeMethod={onChange('money_in_administrator')}
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DxcSelect
+                                options={bankAccountList}
+                                onChange={onChange('money_in:deposit_bank_account')}
+                                label={t('deposit_account')}
+                                onChangeMethod={onChange('money_in:deposit_bank_account')}
+                            />
+                        </div>
+                    </div>
+                    <div className={classes.category2 + ' mt-4'}>Payment type Details</div>
+                    <div className="row w-100">
+                        <div className="col-4">
+                            <DxcInput
+                                label={t('cheque_number')}
+                                required={true}
+                                onChange={() => null}
+                            />
+                        </div>
+                        <div className="col-4">
+                            <DxcDate
+                                label={t('signature_date')}
+                                placeholder
+                                required={true}
+                                format="yyyy-MM-dd"
+                                onChange={() => null}
+                            />
+                        </div>
+                    </div>
+                </>
             }
         </>
     )
