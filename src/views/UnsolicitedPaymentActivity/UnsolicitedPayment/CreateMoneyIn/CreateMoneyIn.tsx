@@ -1,5 +1,7 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
+import { getLink, isResponseConsistent } from 'utils/functions';
 
+import { APIConfig } from 'configs/apiConfig';
 import ActionsModal from './ActionsModal/ActionsModal';
 import Dialog from 'theme/components/material/Dialog/Dialog';
 import MoneyInForm from './MoneyInForm/MoneyInForm';
@@ -49,56 +51,34 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
         response,
     } = props
 
-    const payerURI: string = response.data._links['premium:addressee_person'].href;
-    const amountUP: number = response.data['operation:amount']??'';
-    const contractURI: string = (response.data._links.self.href).split('/operations')[0]; // CUT THE USELESS PARTS OF THE URI
+    const payerURI: string = getLink(response, 'premium:addressee_person');
+    const amountUP: number = response.data['operation:amount'] ?? '';
+    const UPHref = getLink(response.data, 'self');
+    const contractURI: string = (UPHref).split('/operations')[0]; // CUT THE USELESS PARTS OF THE URI
 
     const [isLoad, setIsLoad]: [boolean, Function] = React.useState(false);
     const [bankAccountList, setBankAccountList]: [any, Function] = React.useState();
     const [moneyIn, setMoneyIn]: [any, Function] = React.useState();
-    const [currencySelect, setCurrencySelect]: [any, Function] = React.useState();
-    const [paymentTypeSelect, setPaymentTypeSelect]: [any, Function] = React.useState();
-    const [adminSelect, setAdminSelect]: [any, Function] = React.useState();
-    const [formData, setFormData]: [any, Function] = React.useState({
-        'operation:amount': '',
-        'operation:currency_code': '',
-        'money_in:payment_type': '',
-        'money_in:receipt_date': '',
-        'money_in:deposit_date': '', // NEED TO BE THE LATEST DATE TO AVOID SOME ISSUE
-        'operation:value_date': '',
-        'money_in:payer_person': '',
-        'money_in_administrator': '', // DEFINE BY DEFAULT ON THE SYSTEM, BUT AVAILABLE IN THE SELECT ONLY ONE OPTION
-        'money_in:deposit_bank_account': '' // DEFINE BY DEFAULT ON THE SYSTEM, BUT AVAILABLE IN THE SELECT ONLY ONE OPTION
-    });
+    const [formData, setFormData]: [any, Function] = React.useState();
 
     const addMoney = async () => {
-        const res = await patch(moneyIn.data._links.self.href, formData);
-        await patch(response.data._links.self.href, {'cscaia:money_in': res.data._links.self.href});
-        onClose();
+        const moneyInHref = getLink(moneyIn, 'self');
+        const res = await patch(moneyInHref, formData);
+        // checking consistency & display error
+        if (res && res.data && isResponseConsistent(res.data)) {
+            await patch(UPHref , { 'cscaia:money_in': moneyInHref });
+            onClose();
+        }
     };
-
-    const newList = (itemToMap: any) => {
-        let newList: any = [];
-        itemToMap.map((item: any) => (
-            newList.push({
-                value: item.enum[0],
-                label: item.title
-            })
-        ));
-
-        return newList;
-    }
 
     const getMoneyInsProps: Function = async () => {
         try {
-            const res = await post('http://20.33.40.147:13111/csc/insurance/financials/money_ins', { 'operation:contract': contractURI });
+            const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins'
+            const res = await post(moneyInCollection, { 'operation:contract': contractURI });
 
-            setMoneyIn(res);
-            setCurrencySelect(newList(res.data._options.properties['operation:currency_code'].oneOf));
-            setPaymentTypeSelect(newList(res.data._options.properties['money_in:payment_type'].oneOf));
-            setAdminSelect(newList(res.data._options.properties['money_in_administrator'].oneOf));
+            setMoneyIn(res.data);
 
-            const getDeposit = await (fetch(res.data._links['money_in:deposit_bank_account'].href));
+            const getDeposit = getLink(res.data, 'money_in:deposit_bank_account') && await (fetch(getLink(res.data, 'money_in:deposit_bank_account')));
             setBankAccountList([{
                 value: getDeposit.data._links.self.href,
                 label: getDeposit.data._links.self.name
@@ -117,22 +97,21 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
         <div className={classes.container}>
             <Dialog
                 open={open}
+                maxWidth="md"
                 fullWidth={false}
                 title={isLoad ? null : t('money_in')}
                 content={<MoneyInForm
                     formData={formData}
+                    moneyInData={moneyIn}
                     setFormData={setFormData}
                     payerURI={payerURI}
                     isLoad={isLoad}
                     setIsLoad={setIsLoad}
                     bankAccountList={bankAccountList}
-                    currencySelect={currencySelect}
-                    paymentTypeSelect={paymentTypeSelect}
-                    adminSelect={adminSelect}
                     amountUP={amountUP}
                 />
                 }
-                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney}/>} />
+                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney} />} />
         </div>
     )
 }

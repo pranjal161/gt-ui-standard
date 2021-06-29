@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from 'react';
+
 import WithScroll from 'components/WithScroll/WithScroll';
-import useConfigurations from 'hooks/useConfigurations';
 import {makeStyles} from '@material-ui/core/styles';
+import useConfigurations from 'hooks/useConfigurations';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,12 +20,15 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         maxWidth: '25%'
     },
+    toBeDefine: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height:'100%'
+    },
     content: ({contentOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
         overflowY: 'hidden',
-        '& > * > div': {
-            marginBottom: theme.spacing(2)
-        }
     }),
     sidebar: ({sideBarOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
@@ -35,8 +39,12 @@ const useStyles = makeStyles((theme) => ({
 const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const {getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
+    const { baId ,getActivityConf} = useConfigurations();
+    let newBaId = baId;
+    if (newBaId && newBaId.includes('_secondary')) {
+        newBaId= baId.split('_')[0];
+    }
+    const isSideBarOpen = useSelector((state: any) => (state.secondaryTabs.secondaryTabsIDs[newBaId] ? state.secondaryTabs.secondaryTabsIDs[newBaId].isSideBarOpen : state.newWindow.windowTabsIDs[newBaId].isSideBarOpen ))
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
@@ -58,7 +66,7 @@ const ContractView: React.FC<any> = (props: any) => {
             <div className={`col-9 ${classes.bodyLeft}`}>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        Contract Detail to be define
+                        <div className={classes.toBeDefine}>Contract Detail to be define</div>
                     </WithScroll>
                 </div>
             </div>

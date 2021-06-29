@@ -50,6 +50,8 @@
   "scheduledPaymentLabel": "Scheduled payment",
   "scheduledPaymentLabel_plural": "Scheduled payments",
   "preferredBankAccountLabel": "Preferred bank account",
+  "_NEXT_BUTTON" : "Next",
+
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
