@@ -72,10 +72,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-block'
     },
     loadingItemLabel: {
-        width: () => 50 + Math.floor(Math.random() * 45) + '%',
+        width: '75%',
     },
     loadingItemValue: {
-        width: () => 50 + Math.floor(Math.random() * 45) + '%',
+        width: '75%',
     },
     value: {
         color: theme.palette.text.primary,
