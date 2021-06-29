@@ -14,10 +14,10 @@ const personGeneralItems: PanelSectionItem[] = [
 ]
 
 const PersonGeneralSection = ({hRef}: any) => {
-    const response = useResponse(hRef)
+    const [response, loading] = useResponse(hRef)
 
     return <PanelSection title={'Detail'}
-        content={<ContentList items={personGeneralItems} data={response && response.data}/>}/>
+        content={<ContentList items={personGeneralItems} data={response && response.data} loading={loading}/>}/>
 }
 
 export default React.memo(PersonGeneralSection)

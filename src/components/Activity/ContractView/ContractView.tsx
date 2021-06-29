@@ -20,12 +20,15 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         maxWidth: '25%'
     },
+    toBeDefine: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height:'100%'
+    },
     content: ({contentOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
         overflowY: 'hidden',
-        '& > * > div': {
-            marginBottom: theme.spacing(2)
-        }
     }),
     sidebar: ({sideBarOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const { baId ,getActivityConf} = useConfigurations();
+    const {baId, getActivityConf} = useConfigurations();
     const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen)
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
@@ -59,7 +62,7 @@ const ContractView: React.FC<any> = (props: any) => {
             <div className={`col-9 ${classes.bodyLeft}`}>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        Contract Detail to be define
+                        <div className={classes.toBeDefine}>Contract Detail to be define</div>
                     </WithScroll>
                 </div>
             </div>

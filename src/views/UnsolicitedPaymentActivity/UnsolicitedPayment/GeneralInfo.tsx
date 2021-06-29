@@ -14,7 +14,7 @@ const GeneralInfo = ({ response }: any) => {
     const href = response && getLink(response.data, 'self');
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
-    const payerResponse = useResponse(payerLink);
+    const [payerResponse] = useResponse(payerLink)
 
     const { patch } = useAia();
 
@@ -36,21 +36,21 @@ const GeneralInfo = ({ response }: any) => {
                     data={response.data}
                     propertyName="operation:amount"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:amount')}
-                ></TextField>
+                />
             </div>
             <div className="col-4">
                 <SelectInput
                     data={response.data}
                     propertyName="operation:currency_code"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:currency_code')}
-                ></SelectInput>
+                />
             </div>
             <div className="col-4">
                 <SelectInput
                     data={response.data}
                     propertyName="operation:payment_source"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:payment_source')}
-                ></SelectInput>
+                />
             </div>
             <div className="d-flex col-4 pt-3">
                 {payerResponse &&
@@ -60,7 +60,7 @@ const GeneralInfo = ({ response }: any) => {
                                 data={payerResponse.data}
                                 context={'payer'}
                                 propertyName="person:display_id1"
-                            ></TextField>
+                            />
                         </div>
                         <div className="col-3 pt-3 p-0">
                             <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
@@ -80,7 +80,7 @@ const GeneralInfo = ({ response }: any) => {
                     data={response.data}
                     propertyName="operation:signature_date"
                     onChangeMethod={(value: any) => patchValue(value, 'operation:signature_date')}
-                ></DateInput>
+                />
             </div>
         </div>}
     </>
