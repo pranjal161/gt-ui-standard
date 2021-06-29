@@ -164,7 +164,7 @@
   "deposit_date": "Date de dépot",
   "value_date": "Date d'effet",
   "payer": "Payeur",
-  "adminsitrator": "Administrateur",
+  "money_in_administrator": "Administrateur",
   "deposit_account": "Compte de dépot",
   "cheque_number": "Numéro de chèque",
   "signature_date": "Date de signature",

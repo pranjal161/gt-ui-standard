@@ -155,7 +155,7 @@
   "deposit_date": "Deposit Date",
   "value_date": "Value Date",
   "payer": "Payer",
-  "adminsitrator": "Administrator",
+  "money_in_administrator": "Administrator",
   "deposit_account": "Deposit Account",
   "cheque_number": "Cheque Number",
   "signature_date": "Signature Date",
