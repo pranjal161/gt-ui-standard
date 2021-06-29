@@ -1,6 +1,6 @@
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
-import PersonPreview from 'components/PersonPreview/PersonPreview';
+import PersonPreview from 'components/ClientPreview/PersonPreview';
 import React from 'react';
 import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
 import useResponse from 'hooks/useResponse';
