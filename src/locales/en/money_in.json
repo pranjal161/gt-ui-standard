@@ -1,0 +1,7 @@
+{
+    "deposit_bank_account": "deposit_bank_account",
+    "payment_type": "Payment Method",
+    "accounting_date": "Accounting Date",
+    "receipt_date": "Receipt Date",
+    "deposit_date": "Deposit Date"
+}

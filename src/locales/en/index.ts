@@ -10,6 +10,7 @@ import duration from './duration.json'
 import e_mail_address from 'locales/en/e_mail_address.json'
 import loan_account from './loan_account.json'
 import membership from './membership.json'
+import money_in from './money_in.json'
 import operation from './operation.json'
 import organization from './organization.json'
 import person from './person.json'
@@ -45,5 +46,6 @@ export default {
     quote_owner,
     quote_risk,
     system,
-    w_m_activity
+    w_m_activity,
+    money_in
 }
