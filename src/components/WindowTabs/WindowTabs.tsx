@@ -1,10 +1,12 @@
+import React, { useCallback } from 'react';
 import { closeWindowTabs, removeWindowTabByID, setSelectedWindowTabByID } from 'store/reducers/newWindowReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useCallback } from 'react';
+
 import ActivityContainer from 'components/ActitivyContainer/ActivityContainer';
 import SampleTicket from '../SampleTicket/SampleTicket';
 import Tab from 'components/Tabs/Tab/Tab';
 import Tabs from 'components/Tabs/Tabs';
+import WithActivity from 'components/WithActivity';
 
 const SimpleComponent = React.memo((props: { tabId: string, href?: string, activityProps?: any }) => {
     const {tabId, href = undefined} = props;
@@ -17,11 +19,11 @@ const SimpleComponent = React.memo((props: { tabId: string, href?: string, activ
             break;
         case 'contract':
             mode = (props.activityProps.activityCode === 'contract_view') ? 'view': 'update'
-            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
+            component = <WithActivity hRef={href+'_secondary'}><ActivityContainer mode={mode} {...{...props.activityProps, href}}/></WithActivity>
             break;
         case 'person':
             mode = (props.activityProps.activityCode === 'person_view') ? 'view': 'update'
-            component = <ActivityContainer mode={mode} {...{...props.activityProps, href}}/>
+            component = <WithActivity hRef={href+'_secondary'}><ActivityContainer mode={mode} {...{...props.activityProps, href}}/></WithActivity>
 
     }
 

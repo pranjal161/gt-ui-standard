@@ -39,8 +39,12 @@ const useStyles = makeStyles((theme) => ({
 const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const {baId, getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen)
+    const { baId ,getActivityConf} = useConfigurations();
+    let newBaId = baId;
+    if (newBaId && newBaId.includes('_secondary')) {
+        newBaId= baId.split('_')[0];
+    }
+    const isSideBarOpen = useSelector((state: any) => (state.secondaryTabs.secondaryTabsIDs[newBaId] ? state.secondaryTabs.secondaryTabsIDs[newBaId].isSideBarOpen : state.newWindow.windowTabsIDs[newBaId].isSideBarOpen ))
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
