@@ -17,7 +17,7 @@ const OrganizationPreview = ({ hRef }: any) => {
     return (<>
         <OrgGeneralSection key={'general'} hRef={hRef} />
         <PreferredAddress key={'preferred_address'} hRef={addressHref} />
-        {phoneHref || emailHref && <PreferredContact key={'preferred_phone'} phoneHref={phoneHref} emailHref={emailHref} />}
+        {(phoneHref || emailHref) && <PreferredContact key={'preferred_phone'} phoneHref={phoneHref} emailHref={emailHref} />}
         {hRefBankAccount && <PreferredBankAccount key={'preferred_bank'} hRef={hRefBankAccount} />}
     </>)
 }
