@@ -5,7 +5,7 @@ import {getStatusReport} from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 
 const StatusReportPreview = ({hRef}: any) => {
-    const response = useResponse(hRef)
+    const [response] = useResponse(hRef)
     const statusReport = response && getStatusReport(response && response.data) || []
     const generateMessageLines = (lines: any) => lines.map((line: any) => ({
         id: line.propertyNames,

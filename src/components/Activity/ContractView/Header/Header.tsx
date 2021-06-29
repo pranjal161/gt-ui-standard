@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
  */
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
-    const response = useResponse(props.hRef)
+    const [response] = useResponse(props.hRef)
     const [operationHRef, setOperationHRef]: [any, any] = React.useState();
 
     const {

@@ -7,7 +7,7 @@ import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
 
 const RoleController = React.memo(({hRef}: any) => {
-    const response = useResponse(hRef)
+    const [response] = useResponse(hRef)
     const personHRef = response && response.data._links['party_role:person'].href
 
     return (<PersonPreview hRef={personHRef}/>)
@@ -21,12 +21,12 @@ const SideBar = (props: any) => {
     const {mainEntityHRef} = props
     const {t} = useTranslation()
     const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
-    const mainEntityResponse = useResponse(mainEntityHRef)
+    const [mainEntityResponse] = useResponse(mainEntityHRef)
 
     //Get role parties linked to the contract
     //Todo : do we have to put such API parsing in functions ?
     const rolePartiesHRef = mainEntityResponse && mainEntityResponse.data._links['contract:role_list'].href + '?_inquiry=e_contract_parties_view'
-    const rolePartiesResponse = useResponse(rolePartiesHRef)
+    const [rolePartiesResponse] = useResponse(rolePartiesHRef)
 
     let items: any = {}
 
