@@ -1,68 +1,72 @@
 import React, { useState } from 'react';
-import Tab from '../../../components/Tabs/Tab/Tab';
-import Tabs from '../../../components/Tabs/Tabs';
-import { addSecondaryTabByID } from '../../../store/reducers/secondaryTabsReducer';
-import { addWindowTabByID } from '../../../store/reducers/newWindowReducer';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+
+import axios from '../../../utils/axios';
 
 const TrainingNikolay = React.memo(() => {
-    const history = useHistory();
-    const [tabID, setTabId] = useState(0);
-    let dispatch = useDispatch();
-    const addTab = () => {
-        setTabId((prevId) => prevId + 1);
-        if(tabID % 2 === 0)
-            dispatch(addWindowTabByID({tabId: tabID.toString(), tabType: 'ticket', displayTabLabel: 'TabButton '+tabID+' the quick brown fox jumps over the lazy dog'}));
-        else
-            dispatch(addWindowTabByID({tabId: tabID.toString(), tabType: 'ticket', displayTabLabel: 'TabButton '+tabID+' the quick brown fox jumps over the lazy dog', displayTabSmallLabel: 'the quick brown foz jumps over the lazy dog THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG'}));
+    console.log('TrainingNikolay render:');
+    const [camundaData1, setCamundaData1] = useState([]);
+    const camundaURL1 = 'http://54.195.26.237:8080/engine-rest/process-definition?latest=true&active=true';
+    const camundaURL2 = 'http://54.195.26.237:8080/engine-rest/process-definition/key/unsolicited_payment_process/start';
+    const [camundaData2, setCamundaData2] = useState({});
+    const username = 'user2';
+    const password = 'bpmn_02';
+
+    const handleCamunda1 = () => {
+        const promise = axios.get(camundaURL1, {
+            headers: {
+                'Authorization': 'Basic '+window.btoa(username+':'+password),
+                'Content-Type': 'application/json'
+            }
+        });
+
+        promise.then((response:any) => {
+            console.log('response: ', response);
+            console.log('response data: ', response.data);
+            setCamundaData1(response.data);
+        }).catch(
+            (error: any) => {
+                console.log('error handleCamunda: ', error);
+            }
+        )
+        
     }
 
-    const openSecondaryTab = () => {
-        let secTabID = Math.round(Math.random() * 100);
-        console.log('openSecondaryTab secTabID.current: '+secTabID);
-        dispatch(addSecondaryTabByID({
-            tabId: secTabID.toString()+'ind',
-            tabType: 'ticket',
-            displayTabLabel: 'TabButton '+secTabID+' the quick brown fox jumps over the lazy dog', 
-            displayTabSmallLabel: 'the quick brown foz jumps over the lazy dog THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG'
-        }));
-        history.push('/viewTab');
+    const bodyCamundaRequest2 = {
+        businessKey: 'Unsolicited payment for contract INV000321',
+    }
+    const handleCamunda2 = () => {
+        const promise = axios.post(camundaURL2, bodyCamundaRequest2, {
+            headers: {
+                'Authorization': 'Basic '+window.btoa(username+':'+password),
+                crossDomain: true
+            }
+        });
+
+        promise.then((response:any) => {
+            console.log('response: ', response);
+            console.log('response data: ', response.data);
+            setCamundaData2(response.data);
+        }).catch(
+            (error: any) => {
+                console.log('error handleCamunda: ', error);
+            }
+        )
     }
 
     return (
         <>
             <h1>Hello Nikolay</h1>
-            <button onClick={addTab}>
-                Press to open window.
-            </button>
-            <button onClick={openSecondaryTab}>
-                Press to open secondary tabs.
-            </button>
             <div>
-                <Tabs
-                    activeTabId="1A">
-                    <Tab
-                        tabId="1A"
-                        activated={true}
-                        title="Title 1 GGGGGGGgggggggQQQQQqqqqqqe TitlGGGGGGGgggggggQQQQQqqqqqqe 1"
-                        subTitle="SubTitle 1 GGGGGGGgggggggQQQQQqqqqqqe TitlGGGGGGGgggggggQQQQQqqqqqqe 1"
-                        icon="person">
-                        <div>
-                            Tab content 1
-                        </div>
-                    </Tab>
-                    <Tab
-                        tabId="2A"
-                        activated={false}
-                        title="Title 2 TitlGGGGGGGgggggggQQQQQqqqqqqe TitlGGGGGGGgggggggQQQQQqqqqqqe 2"
-                        subTitle="SubTitle 2 GGGGGGGgggggggQQQQQqqqqqqe TitlGGGGGGGgggggggQQQQQqqqqqqe 1"
-                        icon="ticket">
-                        <div>
-                            Tab content 2
-                        </div>
-                    </Tab>
-                </Tabs>
+                <button onClick={handleCamunda1}>get camunda list available operations</button>
+                <span>
+                    {camundaData1.length > 0 ? 'fetched data' : 'nothing loaded yet'}
+                </span>
+            </div>
+            <div>
+                <button onClick={handleCamunda2}>camunda start unsolicited payments process</button>
+                <span>
+                    {Object.keys(camundaData2).length === 0 ? 'nothing loaded yet' : 'fetched data'}
+                </span>
             </div>
         </>
     )

@@ -101,14 +101,17 @@ const TopBar = () => {
 
     const goToTraining = () => {
         history.push('/training');
+        setShowActions(false);
     }
 
     const goToHelp = () => {
         history.push('/home');
+        setShowActions(false);
     }
 
     const goToContractSearch = () => {
         history.push('/ContractSearch');
+        setShowActions(false);
     }
 
     const changeLanguage = (value: string) => {
