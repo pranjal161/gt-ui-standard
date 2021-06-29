@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DxcTable } from '@dxc-technology/halstack-react';
+import { default as TableMat } from '@material-ui/core/Table';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
 import { getDescriptionValue } from 'utils/functions';
@@ -7,6 +7,47 @@ import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
+
+const useStyles = makeStyles({
+    row: {
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: globalTokens.lightGrey,
+
+        '&:hover': {
+            backgroundColor: '#F7F7F7',
+            cursor: 'pointer',
+        },
+
+        '& > td': {
+            padding: '14px 20px 12px 40px',
+        }
+    },
+
+    columnHeaderRow: {
+        '& th:first-child': {
+            borderTopLeftRadius: 4,
+        },
+        '& th:last-child': {
+            borderTopRightRadius: 4,
+        },
+    },
+
+    columnHeader: {
+        textAlign: 'left',
+        fontWeight: 400,
+        fontSize: 14,
+        fontFamily: 'Open Sans,sans-serif',
+        padding: '16px 20px 16px 40px',
+        minHeight: 60,
+        backgroundColor: `${globalTokens.__grey_5} !important`,
+        color: `${globalTokens.__grey_2} !important`
+    },
+
+    selectedRow: {
+        backgroundColor: `${globalTokens.__grey_6} !important`,
+    }
+})
 
 export type Column = {
 
@@ -191,9 +232,9 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
             {
                 tableData && tableData._links && tableData._links.item && tableData._links.item.length > 0 ? (
                     <>
-                        <DxcTable>
+                        <TableMat>
                             <thead>
-                                <tr>
+                                <tr className={classes.columnHeaderRow}>
                                     {
                                         columnId.map((columnItem, index) => (
                                             <th className={classes.columnHeader} key={columnItem.label + index}>{t(columnItem['label'])}</th>
@@ -216,7 +257,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                     ))
                                 }
                             </tbody>
-                        </DxcTable>
+                        </TableMat>
                         {
                             showPaginator && totalItems > 0 && (
                                 <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
@@ -228,9 +269,9 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                         )} */}
                     </>
                 ) : (
-                    <DxcTable>
+                    <TableMat>
                         <thead>
-                            <tr>
+                            <tr className={classes.columnHeaderRow}>
                                 {
                                     columnId.map((columnItem) => (
                                         <th className={classes.columnHeader} key={columnItem['label']}>
@@ -241,33 +282,15 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr className={classes.row}>
                                 <td colSpan={12}>{t('_NO_RECORDS_FOUND')}</td>
                             </tr>
                         </tbody>
-                    </DxcTable>
+                    </TableMat>
                 )
             }
         </>
     );
 };
-
-const useStyles = makeStyles({
-    row: {
-        '&:hover': {
-            backgroundColor: '#F7F7F7',
-            cursor: 'pointer',
-        }
-    },
-
-    columnHeader: {
-        backgroundColor: `${globalTokens.__grey_5} !important`,
-        color: `${globalTokens.__grey_2} !important`
-    },
-
-    selectedRow: {
-        backgroundColor: `${globalTokens.__grey_6} !important`,
-    }
-})
 
 export default Table;
