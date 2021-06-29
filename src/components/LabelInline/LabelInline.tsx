@@ -1,4 +1,5 @@
 import {formatValue, getDescriptionFromOneOf} from 'utils/functions';
+
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
@@ -148,7 +149,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({
             return value
         }
 
-        return '#NA'
+        return ''
     }
 
     return (
