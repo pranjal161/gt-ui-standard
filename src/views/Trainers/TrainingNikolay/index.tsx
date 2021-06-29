@@ -32,7 +32,10 @@ const TrainingNikolay = React.memo(() => {
     }
 
     const bodyCamundaRequest2 = {
-        businessKey: 'Unsolicited payment for contract INV000321',
+        businessKey: 'Unsolicited payment for contract INV000825',
+        modifications: {
+            'contractId': {'value':'INV000825'}
+        }
     }
     const handleCamunda2 = () => {
         const promise = axios.post(camundaURL2, bodyCamundaRequest2, {
@@ -65,7 +68,7 @@ const TrainingNikolay = React.memo(() => {
             <div>
                 <button onClick={handleCamunda2}>camunda start unsolicited payments process</button>
                 <span>
-                    {Object.keys(camundaData2).length === 0 ? 'nothing loaded yet' : 'fetched data'}
+                    {Object.keys(camundaData2).length === 0 ? 'nothing loaded yet' : JSON.stringify(camundaData2)}
                 </span>
             </div>
         </>
