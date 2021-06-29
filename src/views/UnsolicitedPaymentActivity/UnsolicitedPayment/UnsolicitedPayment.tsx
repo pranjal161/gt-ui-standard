@@ -1,6 +1,6 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
 
-import Button from 'components/Button/Button';
+import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
 import GeneralInfo from './GeneralInfo';
@@ -39,8 +39,12 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
                     <>
-                        <Button onClick={() => setIsVisible(true)} Icon={AddBoxIcon}
-                            title={t('add')} />
+                        <Button
+                            color="primary"
+                            onClick={() => setIsVisible(true)}
+                            endIcon={<AddBoxIcon />}>
+                            {t('add')}
+                        </Button>
                     </>
                 }>
                     <DistributorsManagement />
