@@ -17,7 +17,8 @@ const updateResponse = (newState:any, action:any) => {
 }
 
 const updateStatus = (newState:any, action:any, status : string) => {
-    newState[action.payload.baId].status[action.payload.href] = status
+    if(newState[action.payload.baId])
+        newState[action.payload.baId].status[action.payload.href] = status
 
     return newState
 }

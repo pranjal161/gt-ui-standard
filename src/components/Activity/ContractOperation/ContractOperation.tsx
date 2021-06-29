@@ -51,7 +51,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen);
     const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
-    const activityResponse = useResponse(hRef);
+    const [activityResponse] = useResponse(hRef);
     const {patch} = useAia();
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {

@@ -7,6 +7,7 @@ import useAia from 'hooks/useAia';
 
 //import { useTranslation } from 'react-i18next';
 
+//todo : This code has to be changed to use useResponse to be reactive
 const ScheduledPayment = (props: { contractResponse: any }) => {
     const contractResponse = props.contractResponse.data;
     const [scheduledPayment, setScheduledPayment] = React.useState<undefined | any>();

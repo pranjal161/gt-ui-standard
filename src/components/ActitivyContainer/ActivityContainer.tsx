@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-
+import React, {useEffect, useState} from 'react';
 import Activity from 'components/Activity/Activity';
-import { getLink } from 'utils/functions';
+import {getLink} from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
@@ -46,8 +45,8 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     children,
     extraValues
 }: ActivityContainerProps) => {
-    const { post } = useAia();
-    const { startActivity, stopActivity } = useActivity();
+    const {post} = useAia();
+    const {startActivity, stopActivity} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
     const propsActivity: any = {
@@ -87,8 +86,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
 
     return (
         <>
-            {activityHRef &&
-                <Activity {...propsActivity}>{children}</Activity>
+            {activityHRef ? <Activity {...propsActivity}>{children}</Activity> : <div>Loading the activity</div>
             }
         </>)
 
