@@ -1,5 +1,6 @@
 import {FilterIcon, SearchIcon} from 'assets/svg';
 import React, {useRef, useState} from 'react';
+
 import Badge from '@material-ui/core/Badge';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -32,18 +33,18 @@ const useStyles = makeStyles((theme) => ({
 
         '::placeholder': {
             fontStyle: 'italic'
-        }
+        },
+        '& input': {
+            '&::placeholder': {
+                fontStyle: 'italic'
+            }
+        },
     },
-    input: {
-        '&::placeholder': {
-            fontStyle: 'italic'
-        }
-    },
+    
     divider: {
         border: 'none',
         height: 28,
         width: 1,
-        marginLeft: theme.spacing(2),
         backgroundColor: globalTokens.__grey_5
     },
     iconButtonML: {
@@ -202,14 +203,14 @@ const SearchBar = () => {
             <div
                 className={classes.divider}/>
             <IconButton
-                classes={{root: classes.iconButtonML}}
+                className="px-3"
                 color="primary"
                 size="small"
                 onClick={handleSearch}>
                 <SearchIcon/>
             </IconButton>
             <InputBase
-                classes={{root: classes.inputBase, input: classes.input}}
+                className={classes.inputBase}
                 placeholder="Search for tickets, contracts, persons, etc."
                 onChange={handleSearchStringInput}
                 onKeyDown={handleSubmitSearch}/>
