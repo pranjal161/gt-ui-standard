@@ -1,4 +1,5 @@
-import * as sideBarReducer from 'store/reducers/secondaryTabsReducer';
+import * as newWindowReducer from 'store/reducers/newWindowReducer';
+import * as secondaryTabsReducer from 'store/reducers/secondaryTabsReducer';
 
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
 
@@ -187,7 +188,12 @@ export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
     const dispatch = useDispatch();
     const { baId } = useConfigurations();
     const handleToggle = () => {
-        dispatch(sideBarReducer.setSideBarToggle({ tabId: baId,isSideBarOpen: !open}));
+        if (baId && baId.includes('secondary')) {
+            let newBaId= baId.split('_')[0];
+            dispatch(newWindowReducer.setSideBarToggle({ tabId: newBaId, isSideBarOpen: !open}))
+        } 
+        else
+            dispatch(secondaryTabsReducer.setSideBarToggle({ tabId: baId,isSideBarOpen: !open}));
         onToggle && onToggle()
     }
 

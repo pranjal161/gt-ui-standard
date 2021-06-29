@@ -91,6 +91,9 @@ const newWindowSlice = createSlice({
         },
         setSelectedWindowTabByID(state, action: PayloadAction<string>) {
             state.selectedWindowTab.id = action.payload;
+        },
+        setSideBarToggle(state: any, action) {  
+            state.windowTabsIDs[action.payload.tabId].isSideBarOpen = action.payload.isSideBarOpen;
         }
     }
 });
@@ -101,5 +104,6 @@ export const {
     closeWindowTabs,
     addWindowTabByID,
     removeWindowTabByID,
-    setSelectedWindowTabByID
+    setSelectedWindowTabByID,
+    setSideBarToggle
 } = newWindowSlice.actions;

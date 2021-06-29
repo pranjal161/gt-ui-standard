@@ -9,7 +9,7 @@ export const fetch = (href: string, baId: string, params?: Object) => (dispatch:
 
     //Check if a call is pending, if yes, we have to return the futur object position
 
-    if (getState().aia[baId].status[href] === 'loading') {
+    if (getState().aia[baId] && getState().aia[baId].status[href] === 'loading') {
 
         // Will return always undefined, the promise code will be resolved with undefined.
         // The right solution is to be able to link the result as the first call promise
