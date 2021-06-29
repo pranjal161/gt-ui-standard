@@ -1,12 +1,11 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
 import { formatValue, getDescriptionFromOneOf } from 'utils/functions';
 
-import { DxcTable } from '@dxc-technology/halstack-react';
 import IconContainer from './IconContainer/IconContainer';
 import React from 'react';
+import Table from '@material-ui/core/Table';
 import useAia from 'hooks/useAia';
 import { useTranslation } from 'react-i18next';
-
 export interface MoneyInResumeProps {
 
     /**
@@ -22,9 +21,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: 'center',
         padding: theme.spacing(2)
     },
+
     itemTable: {
         textAlign: 'left',
-    },
+    }
 }));
 
 /**
@@ -77,7 +77,7 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
 
     return (
         <div className={classes.container}>
-            <DxcTable>
+            <Table>
                 <tr>
                     {
                         columns.map((item: any, key: number) => (
@@ -105,7 +105,7 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
                         }
                     </tr>
                 }
-            </DxcTable>
+            </Table>
         </div>
     )
 }
