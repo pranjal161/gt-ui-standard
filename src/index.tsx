@@ -1,6 +1,6 @@
 import 'init'
 import './index.css'
-import {ThemeProvider as MatThemeProvider, createMuiTheme} from '@material-ui/core/styles';
+import {ThemeProvider as MatThemeProvider, StylesProvider, createGenerateClassName, createMuiTheme} from '@material-ui/core/styles';
 import App from './App'
 import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
@@ -12,10 +12,14 @@ import configureStore from 'store/configureStore';
 import reportWebVitals from './reportWebVitals'
 import themes from 'theme';
 
-const store = configureStore()
-const matMuiTheme = createMuiTheme(themes.matTheme)
+const store = configureStore();
+const matMuiTheme = createMuiTheme(themes.matTheme);
 
 console.log('matMuiTheme', matMuiTheme)
+
+const generateClassName = createGenerateClassName({
+    productionPrefix: 'prd',
+});
 
 ReactDOM.render(
     <React.StrictMode>
@@ -24,7 +28,9 @@ ReactDOM.render(
                 <FirebaseProvider dispatch={store.dispatch}>
                     <MatThemeProvider theme={matMuiTheme}>
                         <CdkThemeProvider theme={themes.cdkTheme}>
-                            <App/>
+                            <StylesProvider generateClassName={generateClassName}>
+                                <App/>
+                            </StylesProvider>
                         </CdkThemeProvider>
                     </MatThemeProvider>
                 </FirebaseProvider>
