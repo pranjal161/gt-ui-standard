@@ -45,13 +45,20 @@ const Input = React.memo(({property}: any) => {
     const classes = useStyles()
     const isFocus = useFocus(property)
 
+
+    useEffect(() => {
+        console.log('isFocus changed', property, isFocus)
+    }, [isFocus])
+
     const focus = isFocus()
     console.log(property, 'render', focus)
+
+    const onBlur = useCallback((value: any) => patchValue(value, property),[patchValue])
 
     return (<div className={clsx({[classes.focus]: focus})}><TextField
         data={resource.resource}
         propertyName={property}
-        onBlurMethod={(value: any) => patchValue(value, property)}
+        onBlurMethod={onBlur}
     /></div>)
 })
 
@@ -65,12 +72,12 @@ const StatusReport = () => {
     return (
         <StepContext.Provider value={focusOn}>
             <div className={classes.root}>
-                <Input key={1} property={'contract:status_date'}></Input>
-                <Input key={2} property={'duration:renewal_month'}></Input>
-                <Input key={3} property={'contract:number'}></Input>
-                <Input key={4} property={'contract:product_label'}></Input>
-                <Input key={5} property={'contract:start_date'}></Input>
-                <Button title={'set focus'} onClick={handleClick}></Button>
+                <Input key={1} property={'contract:status_date'}/>
+                <Input key={2} property={'duration:renewal_month'}/>
+                <Input key={3} property={'contract:number'}/>
+                <Input key={4} property={'contract:product_label'}/>
+                <Input key={5} property={'contract:start_date'}/>
+                <Button title={'set focus'} onClick={handleClick}/>
             </div>
         </StepContext.Provider>
     );
