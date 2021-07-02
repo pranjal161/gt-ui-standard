@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { StylesProvider, jssPreset } from '@material-ui/core';
 
-import { DxcBox } from '@dxc-technology/halstack-react'
+import { DxcBox } from '@dxc-technology/halstack-react';
 import ReactDOM from 'react-dom';
 import { StyleSheetManager } from 'styled-components';
+import { create } from 'jss';
 
 /*eslint "require-jsdoc": [2, {
     "require": {
@@ -28,7 +30,11 @@ function copyStyles(sourceDoc: Document, targetDoc: Document) {
     for(let i = 0; i < sourceStyles.length; i++) {
         if(sourceStyles[i].dataset &&
            sourceStyles[i].dataset.styled === 'active') {
-            // skip import
+            // skip import for styled components
+        }
+        else if(sourceStyles[i].dataset &&
+                sourceStyles[i].dataset.jss) {
+            // skip import for makeStyle components
         }
         else {
             const newStyleEl = sourceDoc.createElement('style');
@@ -45,7 +51,6 @@ function copyStyles(sourceDoc: Document, targetDoc: Document) {
             targetDoc.head.appendChild(newLinkEl);
         }
     }
-
 }
 
 const NewWindow = ( props : {
@@ -71,6 +76,7 @@ const NewWindow = ( props : {
     const container = document.createElement('div');
     let windowRef = useRef<any>(null);
     let externalWindow: any;
+    const jss = create({ ...jssPreset(), insertionPoint: container });
 
     const setFocus = () => {
         if(windowRef.current &&
@@ -117,10 +123,14 @@ const NewWindow = ( props : {
             margin="xxsmall"
             size="fillParent"
             shadowDepth={0}>
-            <StyleSheetManager 
-                target={container}>
-                {children}
-            </StyleSheetManager>
+            <StylesProvider 
+                jss={jss}
+                injectFirst>
+                <StyleSheetManager 
+                    target={container}>
+                    {children}
+                </StyleSheetManager>
+            </StylesProvider>
         </DxcBox>, container)
     )
 }
