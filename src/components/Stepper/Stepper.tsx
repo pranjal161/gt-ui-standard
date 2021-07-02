@@ -102,6 +102,11 @@ export interface StepProps {
     id: number,
 
     /**
+     * code for each step
+     */
+    code: string,
+
+    /**
      * Title for each step
      */
     label: string,

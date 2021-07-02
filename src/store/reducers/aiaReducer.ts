@@ -1,23 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {};
 
-const updateResponse = (newState:any, action:any) => {
+const updateResponse = (newState: any, action: any) => {
     // eslint-disable-next-line array-callback-return
     Object.keys(action.store).forEach((baId: any) => {
         if (baId && action.store[baId][action.href]) {
-            newState[baId][action.href] = {data:{...action.data}}
+            newState[baId][action.href] = {data: {...action.data}}
         }
         else {
-            newState[action.baId][action.href] = {data:{...action.data}}
+            newState[action.baId][action.href] = {data: {...action.data}}
         }
     })
-    
+
     return newState;
 }
 
-const updateStatus = (newState:any, action:any, status : string) => {
-    if(newState[action.payload.baId])
+const updateStatus = (newState: any, action: any, status: string) => {
+    if (newState[action.payload.baId])
         newState[action.payload.baId].status[action.payload.href] = status
 
     return newState
@@ -28,28 +28,31 @@ const AIASlice = createSlice({
     initialState,
     reducers: {
         aiaBAStart(state: any = initialState, action) {
-            state[action.payload.baId] = {status:{}}
+            state[action.payload.baId] = {
+                status: {},
+                steps: {}
+            }
 
             return state
         },
-        aiaBAEnd(state: any, action:any) {
+        aiaBAEnd(state: any, action: any) {
             delete state[action.payload.baId]
         },
-        aiaGETPending(state: any, action:any) {
-            updateStatus(state, action, 'loading' )
+        aiaGETPending(state: any, action: any) {
+            updateStatus(state, action, 'loading')
 
             return state
         },
         aiaGETError(state: any, action: any) {
             console.log('Error in BA_GET', action);
             //todo : we have to store errors and display them.
-            updateStatus(state, action, 'error' )
+            updateStatus(state, action, 'error')
 
             return state;
         },
         aiaGETSuccess(state: any, action: any) {
             state = updateResponse(state, action.payload)
-            updateStatus(state, action, 'success' )
+            updateStatus(state, action, 'success')
 
             return state;
         },
@@ -58,13 +61,13 @@ const AIASlice = createSlice({
             return state
         },
         aiaPATCHPending(state, action) {
-            updateStatus(state, action, 'pending' )
+            updateStatus(state, action, 'pending')
 
             return state;
         },
         aiaPATCHSuccess(state, action) {
             state = updateResponse(state, action.payload);
-            updateStatus(state, action, 'success' )
+            updateStatus(state, action, 'success')
         },
         aiaPATCHError(state, action) {
             console.log('Error in BA_PATCH', action);
@@ -73,12 +76,12 @@ const AIASlice = createSlice({
             return state
         },
         aiaPOSTPending(state, action) {
-            updateStatus(state, action, 'pending' )
+            updateStatus(state, action, 'pending')
 
             return state;
         },
         aiaPOSTSuccess(state, action) {
-            updateStatus(state, action, 'success' )
+            updateStatus(state, action, 'success')
 
             return state;
         },
@@ -89,13 +92,13 @@ const AIASlice = createSlice({
             return state;
         },
         aiaREFRESHPending(state, action) {
-            updateStatus(state, action, 'pending' )
+            updateStatus(state, action, 'pending')
 
             return state;
         },
         aiaREFRESHSuccess(state, action) {
             state = updateResponse(state, action.payload)
-            updateStatus(state, action, 'success' )
+            updateStatus(state, action, 'success')
 
         },
         aiaREFRESHError(state, action) {
@@ -105,17 +108,44 @@ const AIASlice = createSlice({
             return state;
         },
         aiaDELETEPending(state) {
-            
+
             return state;
         },
         aiaDELETESuccess(state: any, action: any) {
-            let resources = state[action.payload.baId] ? state[action.payload.baId] : {};
+            let resources = state[action.payload.baId] || {};
             delete resources[action.payload.href];
             state[action.payload.baId] = resources;
         },
         aiaDELETEError(state, action) {
             console.log('Error in BA_DELETE', action);
-            
+
+            return state;
+        },
+
+        aiaStepAddInput(state: any, action: any) {
+            const {baId, step, hRef, property} = action.payload
+
+            if (!state[baId].steps[step])
+                state[baId].steps[step] = {}
+
+            if (!state[baId].steps[step][hRef])
+                state[baId].steps[step][hRef] = {}
+
+            state[baId].steps[step][hRef][property] = 'displayed'
+
+            return state;
+        },
+        aiaStepRemoveInput(state: any, action: any) {
+            const {baId, step, hRef, property} = action.payload
+
+            if (!state[baId].steps[step])
+                state[baId].steps[step] = {}
+
+            if (!state[baId].steps[step][hRef])
+                state[baId].steps[step][hRef] = {}
+
+            delete state[baId].steps[step][hRef][property]
+
             return state;
         },
     }
@@ -140,5 +170,7 @@ export const {
     aiaDELETESuccess,
     aiaDELETEError,
     aiaBAStart,
-    aiaBAEnd
+    aiaBAEnd,
+    aiaStepAddInput,
+    aiaStepRemoveInput
 } = AIASlice.actions;

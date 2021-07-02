@@ -13,6 +13,7 @@ import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import StepContext from 'context/StepContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -61,6 +62,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const steps = [
         {
             id: 0,
+            code : 'unsolicited_payment',
             label: t('common:_UNSOLICITED_PAYMENT'),
             required: true,
             fullfilled: true,
@@ -69,6 +71,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
         },
         {
             id: 1,
+            code : 'investment_split',
             label: t('common:_INVESTMENT_SPLIT'),
             required: true,
             fullfilled: true,
@@ -77,6 +80,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
         },
         {
             id: 2,
+            code : 'information_sheet',
             label: t('common:_INFORMATION_SHEET'),
             required: true,
             fullfilled: true,
@@ -130,7 +134,9 @@ const ContractOperation: React.FC<any> = (props: any) => {
                             <div key={index}>
                                 {step.id === currentStep &&
                                 (
-                                    <>{step.component}</>
+                                    <StepContext.Provider value={{step: step.code}}>
+                                        {step.component}
+                                    </StepContext.Provider>
                                 )
                                 }
                             </div>
