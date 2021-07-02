@@ -29,11 +29,7 @@ const useStyles = makeStyles((theme) => ({
     inputBase: {
         flex: 1,
         fontSize: 13,
-        fontFamily: theme.typography.fontFamily,
 
-        '::placeholder': {
-            fontStyle: 'italic'
-        },
         '& input': {
             '&::placeholder': {
                 fontStyle: 'italic'
@@ -223,7 +219,7 @@ const SearchBar = () => {
                     overlap="circle"
                     variant="dot">
                     <IconButton
-                        classes={{root: classes.iconButtonMR}}
+                        className="px-3"
                         color="primary"
                         size="small"
                         onClick={handleFiltersToggle}>
