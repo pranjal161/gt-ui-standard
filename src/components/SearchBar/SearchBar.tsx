@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme) => ({
             }
         },
     },
-    
     divider: {
         border: 'none',
         height: 28,
         width: 1,
-        backgroundColor: globalTokens.__grey_5
+        backgroundColor: globalTokens.__grey_5,
+        marginLeft: theme.spacing(2)
     },
     iconButtonML: {
         marginLeft: theme.spacing(2),
@@ -49,12 +49,13 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButtonMR: {
         marginLeft: theme.spacing(0.5),
-        marginRight: theme.spacing(1.5)
+        marginRight: theme.spacing(2)
     },
     nativeSelect: {
         fontSize: 13,
         fontFamily: theme.typography.fontFamily,
         marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(1),
 
         '&:focus': {
             backgroundColor: globalTokens.white
@@ -199,7 +200,7 @@ const SearchBar = () => {
             <div
                 className={classes.divider}/>
             <IconButton
-                className="px-3"
+                classes={{root: classes.iconButtonML}}
                 color="primary"
                 size="small"
                 onClick={handleSearch}>
@@ -219,7 +220,7 @@ const SearchBar = () => {
                     overlap="circle"
                     variant="dot">
                     <IconButton
-                        className="px-3"
+                        classes={{root: classes.iconButtonMR}}
                         color="primary"
                         size="small"
                         onClick={handleFiltersToggle}>
