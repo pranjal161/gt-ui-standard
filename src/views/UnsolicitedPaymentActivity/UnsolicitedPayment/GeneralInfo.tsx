@@ -11,7 +11,7 @@ import useResponse from 'hooks/useResponse';
 
 const GeneralInfo = ({response}: any) => {
 
-    const href = response && getLink(response.data, 'self');
+    const hRef = response && getLink(response.data, 'self');
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
     const [payerResponse] = useResponse(payerLink)
@@ -21,11 +21,11 @@ const GeneralInfo = ({response}: any) => {
     const patchValue = (value: any, id: string) => {
         const payload: any = {};
         payload[id] = value;
-        patch(href, payload).then();
+        patch(hRef, payload).then();
     }
 
     const patchPayer = async (person: any = {}) => {
-        await patch(href, {'premium:addressee_person': person.href});
+        await patch(hRef, {'premium:addressee_person': person.href});
     }
 
     return <>{
@@ -34,12 +34,14 @@ const GeneralInfo = ({response}: any) => {
             <div className="col-4">
                 <TextField
                     data={response.data}
+                    hRef={hRef}
                     propertyName="operation:amount"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:amount')}
                 />
             </div>
             <div className="col-4">
                 <SelectInput
+                    hRef={hRef}
                     data={response.data}
                     propertyName="operation:currency_code"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:currency_code')}
@@ -47,6 +49,7 @@ const GeneralInfo = ({response}: any) => {
             </div>
             <div className="col-4">
                 <SelectInput
+                    hRef={hRef}
                     data={response.data}
                     propertyName="operation:payment_source"
                     onBlurMethod={(value: any) => patchValue(value, 'operation:payment_source')}
@@ -57,6 +60,7 @@ const GeneralInfo = ({response}: any) => {
                 <>
                     <div className="col-9">
                         <TextField
+                            hRef={hRef}
                             data={payerResponse.data}
                             context={'payer'}
                             propertyName="person:display_id1"
@@ -77,6 +81,7 @@ const GeneralInfo = ({response}: any) => {
             </div>
             <div className="col-4 pt-3">
                 <DateInput
+                    hRef={hRef}
                     data={response.data}
                     propertyName="operation:signature_date"
                     onChangeMethod={(value: any) => patchValue(value, 'operation:signature_date')}

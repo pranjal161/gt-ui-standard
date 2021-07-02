@@ -119,6 +119,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                     <div className="col-2">
                         {activityResponse &&
                         <DateInput propertyName="date_effect"
+                            hRef={hRef}
                             onChangeMethod={(value: any) => patchDate(value, 'date_effect')}
                             data={activityResponse.data}/>}
                     </div>

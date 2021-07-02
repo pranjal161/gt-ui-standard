@@ -6,6 +6,7 @@ import React from 'react';
 import SelectInput from 'components/SelectInput/SelectInput';
 import TextField from 'components/TextField/TextField';
 import { useTranslation } from 'react-i18next';
+import {getLink} from 'utils/functions';
 
 export interface FormContentProps {
 
@@ -110,6 +111,8 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
 
     };
 
+    const hRef = getLink(moneyInData, 'self');
+
     return (
         <>
             {
@@ -126,6 +129,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4">
                             <TextField
+                                hRef={hRef}
                                 propertyName="operation:amount"
                                 type="number"
                                 data={moneyInData}
@@ -134,6 +138,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4">
                             <SelectInput
+                                hRef={hRef}
                                 data={moneyInData}
                                 propertyName="operation:currency_code"
                                 onChangeMethod={onChange('amount_to_pay')}
@@ -141,6 +146,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <SelectInput
+                                hRef={hRef}
                                 data={moneyInData}
                                 propertyName="money_in:payment_type"
                                 onChangeMethod={onChange('money_in:payment_type')}
@@ -148,6 +154,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <DateInput
+                                hRef={hRef}
                                 propertyName="operation:accounting_date"
                                 data={moneyInData}
                                 onChangeMethod={onChange('operation:accounting_date')}
@@ -155,6 +162,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <DateInput
+                                hRef={hRef}
                                 propertyName="money_in:receipt_date"
                                 data={moneyInData}
                                 onChangeMethod={onChange('money_in:receipt_date')}
@@ -162,6 +170,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <DateInput
+                                hRef={hRef}
                                 propertyName="money_in:deposit_date"
                                 data={moneyInData}
                                 onChangeMethod={onChange('money_in:deposit_date')}
@@ -169,6 +178,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <DateInput
+                                hRef={hRef}
                                 propertyName="operation:value_date"
                                 data={moneyInData}
                                 onChangeMethod={onChange('operation:value_date')}
@@ -185,6 +195,7 @@ const FormContent: React.FC<FormContentProps> = (props: FormContentProps) => {
                         </div>
                         <div className="col-4 mt-4">
                             <SelectInput
+                                hRef={hRef}
                                 propertyName="money_in_administrator"
                                 data={moneyInData}
                                 onChangeMethod={onChange('money_in_administrator')}

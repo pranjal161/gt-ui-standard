@@ -56,6 +56,7 @@ const Input = React.memo(({property}: any) => {
     const onBlur = useCallback((value: any) => patchValue(value, property),[patchValue])
 
     return (<div className={clsx({[classes.focus]: focus})}><TextField
+        hRef={'kjkjkjkjk'}
         data={resource.resource}
         propertyName={property}
         onBlurMethod={onBlur}

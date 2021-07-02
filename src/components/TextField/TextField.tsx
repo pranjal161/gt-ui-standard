@@ -1,3 +1,4 @@
+import useApiBinding from 'hooks/useApiBinding';
 import React, { useState } from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
 
@@ -11,7 +12,9 @@ import { useTranslation } from 'react-i18next';
  */
 const TextField = (props: InputProps) => {
     const { t } = useTranslation();
-    const { propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
+    const { hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
+    useApiBinding({hRef, property : propertyName})
+
     const { FieldWrapper, Validation } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type );
     const [showError, setError] = useState(false);

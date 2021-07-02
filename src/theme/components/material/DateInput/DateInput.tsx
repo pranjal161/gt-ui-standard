@@ -1,4 +1,5 @@
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import useApiBinding from 'hooks/useApiBinding';
 import React, { useState } from 'react';
 import { format, isValid } from 'date-fns';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
@@ -13,7 +14,9 @@ import { useTranslation } from 'react-i18next';
  */
 const DateInput = (props: InputProps) => {
     const { t } = useTranslation();
-    const { propertyName, data, type = 'date', onChangeMethod, onBlurMethod } = props;
+    const { hRef, propertyName, data, type = 'date', onChangeMethod, onBlurMethod } = props;
+    useApiBinding({hRef, property : propertyName})
+
     const { FieldWrapper } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type);
     const [value, setValue] = useState(field?.value);
