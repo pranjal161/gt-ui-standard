@@ -1,4 +1,4 @@
-import useApiBinding from 'hooks/useApiBinding';
+import useBindInputToStep from 'hooks/useBindInputToStep';
 import React, { useState } from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
 
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 const TextField = (props: InputProps) => {
     const { t } = useTranslation();
     const { hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
-    useApiBinding({hRef, property : propertyName})
+    const ref:any = useBindInputToStep({hRef, property : propertyName})
 
     const { FieldWrapper, Validation } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type );
@@ -46,7 +46,7 @@ const TextField = (props: InputProps) => {
     }
 
     return (
-        <span hidden={!field.visible} data-testid={field.id}>
+        <span ref={ref} hidden={!field.visible} data-testid={field.id}>
             <DxcInput
                 label={t(propertyName, {context})}
                 required={field?.required}

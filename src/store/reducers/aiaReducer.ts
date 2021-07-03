@@ -148,6 +148,19 @@ const AIASlice = createSlice({
 
             return state;
         },
+        aiaStepSetInputStatus(state: any, action: any) {
+            const {baId, step, hRef, property, status} = action.payload
+
+            if (!state[baId].steps[step])
+                state[baId].steps[step] = {}
+
+            if (!state[baId].steps[step][hRef])
+                state[baId].steps[step][hRef] = {}
+
+            state[baId].steps[step][hRef][property] = status
+
+            return state;
+        },
     }
 });
 
