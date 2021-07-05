@@ -8,8 +8,8 @@ const useStep = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
 
-    const setFocusError = useCallback ( ({hRef, property}:any) => {
-        dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status:'error'}))
+    const setFocusError = useCallback ( ({hRef, property, message}:any) => {
+        dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status:{value:'error', message}}))
     },[baId, dispatch])
 
     const setCurentStep = useCallback ( (current:string) => {

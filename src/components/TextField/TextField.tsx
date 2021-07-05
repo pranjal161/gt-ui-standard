@@ -1,9 +1,9 @@
 import useBindInputToStep from 'hooks/useBindInputToStep';
-import React, { useState } from 'react';
-import useValidator, { Field, InputProps } from 'hooks/useValidator';
+import React, {useEffect, useState} from 'react';
+import useValidator, {Field, InputProps} from 'hooks/useValidator';
 
-import { DxcInput } from '@dxc-technology/halstack-react';
-import { useTranslation } from 'react-i18next';
+import {DxcInput} from '@dxc-technology/halstack-react';
+import {useTranslation} from 'react-i18next';
 
 /**
  * Display a Input field
@@ -11,23 +11,25 @@ import { useTranslation } from 'react-i18next';
  * @returns {*} Return the Input
  */
 const TextField = (props: InputProps) => {
-    const { t } = useTranslation();
-    const { hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
-    const ref:any = useBindInputToStep({hRef, property : propertyName})
+    const {t} = useTranslation();
+    const {hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context = undefined} = props;
+    const [ref, errorMessageAPI]: any = useBindInputToStep({hRef, property: propertyName})
 
-    const { FieldWrapper, Validation } = useValidator();
-    const field: Field = FieldWrapper(data, propertyName, type );
+    const {FieldWrapper, Validation} = useValidator();
+    const field: Field = FieldWrapper(data, propertyName, type);
     const [showError, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<String | null >(null);
+    const [errorMessage, setErrorMessage] = useState<String | null>(null);
     const [value, setValue] = useState(field?.value);
-    
+
     const onChange = (value: any) => {
         const validatedOutput = Validation(field, value, type);
         setValue(value);
+        console.log('validatedOutput', validatedOutput)
+
         setError(!validatedOutput.valid);
         if (!validatedOutput.valid) {
             setErrorMessage(validatedOutput.error)
-        } 
+        }
         else if (onChangeMethod) {
             onChangeMethod(value);
         }
@@ -39,11 +41,17 @@ const TextField = (props: InputProps) => {
         setError(!validatedOutput.valid);
         if (!validatedOutput.valid) {
             setErrorMessage(validatedOutput.error)
-        } 
+        }
         else if (onBlurMethod) {
             onBlurMethod(value);
         }
     }
+
+    useEffect(() => {
+        setError(!errorMessage)
+    }, [errorMessage])
+
+    const assistiveText = errorMessageAPI ? errorMessageAPI : showError ? errorMessage : null
 
     return (
         <div ref={ref} hidden={!field.visible} data-testid={field.id}>
@@ -54,7 +62,7 @@ const TextField = (props: InputProps) => {
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                assistiveText={showError? errorMessage: null}
+                assistiveText={assistiveText}
                 invalid={showError}
             />
         </div>

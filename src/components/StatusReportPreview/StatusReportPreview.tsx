@@ -14,16 +14,17 @@ const StatusReportPreview = ({hRef}: any) => {
         styleType: ['text']
     }),)
 
-    const handleOnClick = (item:any) => {
+    const handleOnClick = (item:any, message:any) => {
         const property = item.id
-        setFocusError({hRef, property })
+        console.log('item', item, message)
+        setFocusError({hRef, property, message })
     }
 
     const Sections = statusReport && statusReport.messages && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={message.message}
         content={<ContentList
             items={generateMessageLines(message.context)}
             data={message.context}
-            onClick={handleOnClick}
+            onClick={(item:any) => handleOnClick(item, message.message)}
         />}/>)
 
     return Sections || <div>No errors</div>

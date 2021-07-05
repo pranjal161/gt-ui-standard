@@ -139,7 +139,10 @@ const AIASlice = createSlice({
             if (!state[baId].steps[currentStep][hRef])
                 state[baId].steps[currentStep][hRef] = {}
 
-            state[baId].steps[currentStep][hRef][property] = 'displayed'
+            if (!state[baId].steps[currentStep][hRef][property])
+                state[baId].steps[currentStep][hRef][property] = {status: {}}
+
+            state[baId].steps[currentStep][hRef][property].status = {value:'displayed'}
 
             return state;
         },
@@ -168,7 +171,10 @@ const AIASlice = createSlice({
             if (!state[baId].steps[currentStep][hRef])
                 state[baId].steps[currentStep][hRef] = {}
 
-            state[baId].steps[currentStep][hRef][property] = status
+            if(!state[baId].steps[currentStep][hRef][property])
+                state[baId].steps[currentStep][hRef][property] = {status:{}}
+
+            state[baId].steps[currentStep][hRef][property].status = status
 
             return state;
         },

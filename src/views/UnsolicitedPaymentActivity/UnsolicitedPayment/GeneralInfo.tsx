@@ -1,3 +1,4 @@
+import BindToStep from 'components/BindToStep/BindToStep';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import EditPayer from './EditPayer/EditPayer';
 import IconButton from 'theme/components/material/IconButton/IconButton';
@@ -57,26 +58,28 @@ const GeneralInfo = ({response}: any) => {
             </div>
             <div className="d-flex col-4 pt-3">
                 {payerResponse &&
-                <>
-                    <div className="col-9">
-                        <TextField
-                            hRef={hRef}
-                            data={payerResponse.data}
-                            context={'payer'}
-                            propertyName="person:display_id1"
+                <BindToStep hRef={hRef} property={'premium:addressee_person'}>
+                    <div className="row">
+                        <div className="col-9">
+                            <TextField
+                                hRef={hRef}
+                                data={payerResponse.data}
+                                context={'payer'}
+                                propertyName="person:display_id1"
+                            />
+                        </div>
+                        <div className="col-3 pt-3 ml-3">
+                            <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
+                                <PencilIcon size={24}/>
+                            </IconButton>
+                        </div>
+                        <EditPayer
+                            isVisible={isVisible}
+                            setIsVisible={setIsVisible}
+                            onChange={(person: any) => patchPayer(person)}
                         />
                     </div>
-                    <div className="col-3 pt-3 p-0">
-                        <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
-                            <PencilIcon size={24}/>
-                        </IconButton>
-                    </div>
-                    <EditPayer
-                        isVisible={isVisible}
-                        setIsVisible={setIsVisible}
-                        onChange={(person: any) => patchPayer(person)}
-                    />
-                </>
+                </BindToStep>
                 }
             </div>
             <div className="col-4 pt-3">

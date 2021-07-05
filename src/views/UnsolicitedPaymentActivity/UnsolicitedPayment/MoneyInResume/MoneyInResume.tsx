@@ -48,7 +48,6 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
         { label: t('currency'), property: 'operation:currency_code' },
         { label: t('accounting_date'), property: 'operation:accounting_date', type: 'date' },
         { label: t('value_date'), property: 'operation:value_date', type: 'date' },
-        { label: '', property: false }
     ]
 
     const getMoneyIn = async (url: string) => {
