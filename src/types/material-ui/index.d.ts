@@ -37,12 +37,24 @@ declare module '@material-ui/core/styles/createPalette' {
         }
     }
 
+    interface Table {
+        header: {
+            background: React.CSSProperties['color'],
+            fontColor: React.CSSProperties['color']
+        },
+        body: {
+            background: React.CSSProperties['color'],
+            fontColor: React.CSSProperties['color']
+        }
+    }
+
     interface Project {
         button:ProjectButtonOption;
         text:ProjectText;
         tabs:ProjectTabButton;
         sidebar:ProjectSideBar;
         skeleton:React.CSSProperties['color'],
+        table: Table
     }
 
     interface Palette {
