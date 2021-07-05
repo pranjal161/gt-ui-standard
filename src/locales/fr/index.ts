@@ -9,6 +9,7 @@ import coverage from './coverage.json'
 import duration from './duration.json'
 import e_mail_address from 'locales/en/e_mail_address.json'
 import membership from './membership.json'
+import money_in from './money_in.json'
 import operation from './operation.json'
 import organization from './organization.json'
 import person from './person.json'
@@ -33,6 +34,7 @@ export default {
     duration,
     e_mail_address,
     membership,
+    money_in,
     phone_address,
     postal_address,
     operation,

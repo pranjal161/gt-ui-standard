@@ -1,15 +1,16 @@
 import { AddIcon, CircleFull, ExtensionsIcon, HelpIcon, History, MoreVert, SearchIcon } from '../../../../assets/svg';
+import React, { useRef, useState } from 'react';
+
 import Button from '../../../../theme/components/material/Button/Button';
 import IconButton from '../../../../theme/components/material/IconButton/IconButton';
-import Paper from '@material-ui/core/Paper'; 
-import React, { useRef, useState } from 'react';
+import Paper from '@material-ui/core/Paper';
 import { changeLanguageCountry } from 'configs';
 import en from 'assets/gb.jpg';
 import fr from 'assets/fr.jpg';
+import { globalTokens } from 'theme/standard/palette';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import useOnClickOutside from '../../../../hooks/useOnClickOutside';
-import { globalTokens } from 'theme/standard/palette';
 
 const useStyles = makeStyles((theme) => ({
     container: {

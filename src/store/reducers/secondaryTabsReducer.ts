@@ -8,15 +8,13 @@ import {
 interface secondaryTabsInt {
     areSecondaryTabsOpened: boolean,
     selectedSecondaryTab: selectedSecondaryTabInt,
-    secondaryTabsIDs: secondaryTabsObjsInt,
-    isSideBarOpen: boolean
+    secondaryTabsIDs: secondaryTabsObjsInt
 }
 
 const initialState: secondaryTabsInt = {
     areSecondaryTabsOpened: false,
     selectedSecondaryTab: {id: ''},
-    secondaryTabsIDs: {},
-    isSideBarOpen: true
+    secondaryTabsIDs: {}
 };
 
 const secondaryTabsSlice = createSlice({
@@ -50,7 +48,8 @@ const secondaryTabsSlice = createSlice({
                 subTitle: secLabel,
                 type: action.payload.tabType,
                 href: contractURL,
-                activityProps:action.payload.activityProps
+                activityProps:action.payload.activityProps,
+                isSideBarOpen: true
             };
         },
         removeSecondaryTabByID(state, action: PayloadAction<string>) {
@@ -77,7 +76,7 @@ const secondaryTabsSlice = createSlice({
             state.selectedSecondaryTab.id = action.payload;
         },
         setSideBarToggle(state, action) {
-            state.isSideBarOpen = action.payload;
+            state.secondaryTabsIDs[action.payload.tabId].isSideBarOpen = action.payload.isSideBarOpen;
         }
     }
 });

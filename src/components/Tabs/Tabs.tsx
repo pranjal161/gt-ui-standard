@@ -1,44 +1,9 @@
+import './Tabs.css'
+
 import { LeftChevronIcon, RightChevronIcon } from '../../assets/svg';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { MemoTabButton } from './TabButton/TabButton';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    tabsMainContainer: {
-        width: '100%',
-        height: '100%',
-        margin: '0',
-        padding: '0'
-    },
-    tabsButtonsContainer: {
-        display: 'flex',
-        flexWrap: 'nowrap',
-        borderBottom: '2px solid #D9D9D9',
-        overflow: 'hidden',
-        scrollBehavior: 'smooth',
-
-        '&::-webkit-scrollbar': {
-            display: 'none'
-        }
-    },
-    tabsButtonsScroller: {
-        paddingTop: '12px',
-        height: '48px',
-        opacity: '0.6',
-        backgroundColor: 'white',
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        position: 'absolute',
-        display: 'none'
-    },
-    tabsButtonsScrollerLeft: {
-        left: '0'
-    },
-    tabsButtonsScrollerRight: {
-        right: '0'
-    }
-}));
 
 export interface TabsProps {
     children: any,
@@ -93,7 +58,6 @@ const Tabs = (props: TabsProps) => {
         onTabClose = null
     } = props;
 
-    const classes = useStyles();
     const [activeTab, setActiveTab] = useState(children ? children[0].props.tabId : null);
     const mainDivRef = useRef<HTMLDivElement>(null);
     const scrollDivRef = useRef<HTMLDivElement>(null);
@@ -213,13 +177,13 @@ const Tabs = (props: TabsProps) => {
 
     return (
         <div 
-            className={classes.tabsMainContainer}
+            className="tabsMainContainer"
             ref={mainDivRef}>
             <div
-                className={classes.tabsButtonsContainer}
+                className="tabsButtonsContainer"
                 ref={scrollDivRef}>
                 <div
-                    className={classes.tabsButtonsScroller+' '+classes.tabsButtonsScrollerLeft}
+                    className="tabsButtonsScroller tabsButtonsScrollerLeft"
                     onClick={() => scrollHandler(-20)}
                     ref={scrollLeftArrowRef}>
                     <LeftChevronIcon />
@@ -241,7 +205,7 @@ const Tabs = (props: TabsProps) => {
                         null
                 }
                 <div
-                    className={classes.tabsButtonsScroller+' '+classes.tabsButtonsScrollerRight}
+                    className="tabsButtonsScroller tabsButtonsScrollerRight"
                     onClick={() => scrollHandler(20)}
                     ref={scrollRightArrowRef}>
                     <RightChevronIcon />

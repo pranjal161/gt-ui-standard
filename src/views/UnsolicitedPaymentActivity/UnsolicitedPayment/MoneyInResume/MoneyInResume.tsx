@@ -1,4 +1,5 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
+import { formatValue, getDescriptionFromOneOf } from 'utils/functions';
 
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconContainer from './IconContainer/IconContainer';
@@ -43,10 +44,10 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
 
     const columns: any = [
         { label: t('payment_method'), property: 'money_in:payment_type' },
-        { label: t('amount'), property: 'operation:amount' },
+        { label: t('amount'), property: 'operation:amount', type: 'currency' },
         { label: t('currency'), property: 'operation:currency_code' },
-        { label: t('accounting_date'), property: 'operation:accounting_date' },
-        { label: t('value_date'), property: 'operation:value_date' },
+        { label: t('accounting_date'), property: 'operation:accounting_date', type: 'date' },
+        { label: t('value_date'), property: 'operation:value_date', type: 'date' },
         { label: '', property: false }
     ]
 
@@ -89,14 +90,16 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
                     <tr>
                         {
                             columns.map((item: any, key: number) => (
-                                item.property ?
+                                item.type && item.property ?
+                                    <td className={classes.itemTable} key={key}>{formatValue(myTable.data[item.property], item.type)}</td> :
+                                    item.property ?
 
-                                    <td className={classes.itemTable} key={key}>{myTable.data[item.property]}</td>
+                                        <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(myTable.data[item.property], item.property, myTable.data)}</td>
 
-                                    :
-                                    <td key={key}>
-                                        <IconContainer onDelete={onDelete} onEdit={onEdit} />
-                                    </td>
+                                        :
+                                        <td key={key}>
+                                            <IconContainer onDelete={onDelete} onEdit={onEdit} />
+                                        </td>
 
                             ))
                         }

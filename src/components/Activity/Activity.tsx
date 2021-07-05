@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import useActivity from 'hooks/useActivity';
-import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
+import useResponse from 'hooks/useResponse';
 import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,33 +66,29 @@ export interface ActivityProps {
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {hRef} = props
-    const {startActivity, stopActivity} = useActivity()
-    const aia: any = useAia()
-
     const classes: any = useStyles()
     const {getActivityConf} = useConfigurations()
 
     const configurations = getActivityConf(props) // activityCode can also be store in redux
     const {openNewTab, forOperation} = useTabs()
 
+    //todo : change it
+    // For the moment, Search is also an activity but we dont have hRef for it.
+    // So we must not fetch on hRef, it's set with search_WORDTOSEARCH
+    const hRefToFetch = hRef.slice(0,7) === 'search_' ? undefined : hRef
+    useResponse(hRefToFetch)
+
+    /*
+
     useEffect(() => {
-        startActivity();
-
-        /**
-         * Main API call
-         *
-         */
-
-        //todo : change it
         // For the moment, Search is also an activity but we dont have hRef for it.
         // So we must not fetch on hRef, it's set with search_WORDTOSEARCH
         if (hRef.slice(0,7) !== 'search_')
             aia.fetch(hRef)
 
-        return () => {
-            stopActivity()
-        }
     }, [aia, hRef, stopActivity, startActivity])
+
+    */
 
     const SkeletonConf = configurations && configurations.skeleton
     const HeaderConf = configurations && configurations.header

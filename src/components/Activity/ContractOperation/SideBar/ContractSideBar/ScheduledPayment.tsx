@@ -1,33 +1,19 @@
-import React, { useEffect } from 'react';
-
 import ContentList from 'components/ContentList/ContentList';
 import { PanelSectionItem } from 'components/PanelSection/PanelSection';
+import React from 'react';
 import { getLink } from 'utils/functions';
-import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 
 //import { useTranslation } from 'react-i18next';
 
+//todo : This code has to be changed to use useResponse to be reactive
 const ScheduledPayment = (props: { contractResponse: any }) => {
     const contractResponse = props.contractResponse.data;
-    const [scheduledPayment, setScheduledPayment] = React.useState<undefined | any>();
-    const { fetch } = useAia();
+    const scheduledPaymentListUrl = contractResponse && getLink(contractResponse, 'contract:billing_list-scheduled_payment');
+    const [scheduledPaymentListRes] = useResponse(scheduledPaymentListUrl);
+    const item = scheduledPaymentListRes && scheduledPaymentListRes.data && scheduledPaymentListRes.data['_links'].item && scheduledPaymentListRes.data['_links'].item.href;
+    const [scheduledPayment]: any = useResponse(item);
 
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const getData = () => {
-        if (contractResponse && getLink(contractResponse, 'contract:billing_list-scheduled_payment')) {
-            const scheduledPaymentListUrl = getLink(contractResponse, 'contract:billing_list-scheduled_payment');
-            fetch(scheduledPaymentListUrl).then((itemsList: any) => {
-                if (itemsList && itemsList.data['_links'] && itemsList.data['_links'].item) {
-                    fetch(itemsList.data['_links'].item.href).then((response: any) => {
-                        setScheduledPayment(response.data)
-                    });
-                }
-            });
-        }
-    };
     const Items: PanelSectionItem[] = [
         { id: 'billing:amount', styleType: ['currency'] },
         { id: 'billing:payment_type', styleType: ['text'] },
@@ -39,7 +25,7 @@ const ScheduledPayment = (props: { contractResponse: any }) => {
         <>
             {scheduledPayment && (
                 <>
-                    <ContentList items={Items} data={scheduledPayment} />
+                    <ContentList items={Items} data={scheduledPayment.data} />
                 </>
             )}
         </>

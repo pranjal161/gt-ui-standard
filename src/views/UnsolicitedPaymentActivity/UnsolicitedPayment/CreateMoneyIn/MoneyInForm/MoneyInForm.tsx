@@ -25,46 +25,22 @@ export interface MoneyInFormProps {
     payerURI: string
 
     /**
-    * isLoad
-    * @description React state to know if content is on loading or loaded
-    */
-    isLoad: boolean;
-
-    /**
-    * setIsLoad
-    * @description React setter for isLoad state
-    */
-    setIsLoad: Function;
-
-    /**
     * bankAccountList
     * @description API properties formatted for dxc select
     */
     bankAccountList: any;
 
     /**
-    * currencySelect 
-    * @description API properties formatted for dxc select
-    */
-    currencySelect: any
-
-    /**
-    * paymentTypeSelect
-    * @description API properties formatted for dxc select
-    */
-    paymentTypeSelect: any
-
-    /**
-    * adminSelect
-    * @description API properties formatted for dxc select
-    */
-    adminSelect: any
-
-    /**
     * amountUP
     * @description The amount of the unsolicited Payment operation
     */
     amountUP: number
+
+    /**
+       * moneyInData
+       * @description The response of new money in resource
+       */
+    moneyInData: any
 }
 const useStyles = makeStyles((theme: Theme) => ({
     formContainer: {
@@ -89,28 +65,19 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
         formData,
         setFormData,
         payerURI,
-        isLoad,
-        setIsLoad,
         bankAccountList,
-        currencySelect,
-        paymentTypeSelect,
-        adminSelect,
-        amountUP
+        amountUP,
+        moneyInData
     } = props
     const [payerTitle, setPayerTitle]: [string, Function] = React.useState('');
 
     const getPayerName: Function = async () => {
         try {
-            setIsLoad(true);
             const res: any = await fetch(payerURI);
             setPayerTitle(res.data._links.self.name);
             setFormData({ ...formData, 'money_in:payer_person': res.data._links.self.href })
-
-            setIsLoad(false);
         }
         catch (err: any) {
-            setIsLoad(false);
-
             return err;
         }
     }
@@ -127,12 +94,9 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
                 <FormContent
                     formData={formData}
                     setFormData={setFormData}
-                    isLoad={isLoad}
                     bankAccountList={bankAccountList}
+                    moneyInData={moneyInData}
                     payerTitle={payerTitle}
-                    currencySelect={currencySelect}
-                    paymentTypeSelect={paymentTypeSelect}
-                    adminSelect={adminSelect}
                     amountUP={amountUP}
                 />
             </div>

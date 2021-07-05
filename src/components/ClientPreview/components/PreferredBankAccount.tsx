@@ -10,11 +10,11 @@ const preferredBankAccount: PanelSectionItem[] = [
     {id: 'bank_account:i_b_a_n', styleType: ['text']},
 ]
 const PreferredBankAccount = ({hRef}: any) => {
-    const response = useResponse(hRef)
+    const [response, loading] = useResponse(hRef)
     const {t} = useTranslation()
 
     return <PanelSection title={t('common:preferredBankAccountLabel')}
-        content={<ContentList items={preferredBankAccount} data={response && response.data}/>}/>
+        content={<ContentList items={preferredBankAccount} data={response && response.data} loading={loading}/>}/>
 }
 
 export default React.memo(PreferredBankAccount)
