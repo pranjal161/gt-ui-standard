@@ -145,7 +145,7 @@ const AIASlice = createSlice({
         },
         aiaStepRemoveInput(state: any, action: any) {
             const {baId, hRef, property} = action.payload
-            const currentStep = state[baId].steps.current
+            const currentStep = state[baId] && state[baId].steps.current
             if (currentStep) {
                 if (!state[baId].steps[currentStep])
                     state[baId].steps[currentStep] = {}

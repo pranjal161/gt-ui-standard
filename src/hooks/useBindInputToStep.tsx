@@ -18,12 +18,11 @@ const useBindInputToStep = ({hRef, property}: any) => {
     console.log('currentStep', currentStep)
 
     useEffect(() => {
-        const style = onError ? {borderStyle: 'solid', borderColor: 'red', borderWidth:3} : {};
         if (ref.current)
-            ref.current.style = style
-
-        console.log('ICI', ref.current, property, onError, currentStep, style)
-
+            if (onError) {
+                ref.current.style.borderStyle = onError ? 'solid' : 'none'
+                ref.current.style.borderColor = onError ? 'red' : 'transparent'
+            }
     }, [ref, onError])
 
     useEffect(() => {

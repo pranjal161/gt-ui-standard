@@ -46,7 +46,7 @@ const TextField = (props: InputProps) => {
     }
 
     return (
-        <span ref={ref} hidden={!field.visible} data-testid={field.id}>
+        <div ref={ref} hidden={!field.visible} data-testid={field.id}>
             <DxcInput
                 label={t(propertyName, {context})}
                 required={field?.required}
@@ -57,7 +57,7 @@ const TextField = (props: InputProps) => {
                 assistiveText={showError? errorMessage: null}
                 invalid={showError}
             />
-        </span>
+        </div>
     );
 };
 
