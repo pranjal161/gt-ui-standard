@@ -56,7 +56,6 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
     const UPHref = getLink(response.data, 'self');
     const contractURI: string = (UPHref).split('/operations')[0]; // CUT THE USELESS PARTS OF THE URI
 
-    const [isLoad, setIsLoad]: [boolean, Function] = React.useState(false);
     const [bankAccountList, setBankAccountList]: [any, Function] = React.useState();
     const [moneyIn, setMoneyIn]: [any, Function] = React.useState();
     const [formData, setFormData]: [any, Function] = React.useState();
@@ -78,7 +77,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
 
             setMoneyIn(res.data);
 
-            const getDeposit = getLink(res.data, 'money_in:deposit_bank_account') && await (fetch(getLink(res.data, 'money_in:deposit_bank_account')));
+            const getDeposit = res && getLink(res.data, 'money_in:deposit_bank_account') && await (fetch(getLink(res.data, 'money_in:deposit_bank_account')));
             setBankAccountList([{
                 value: getDeposit.data._links.self.href,
                 label: getDeposit.data._links.self.name
@@ -99,19 +98,17 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
                 open={open}
                 maxWidth="md"
                 fullWidth={false}
-                title={isLoad ? null : t('money_in')}
+                title={t('money_in')}
                 content={<MoneyInForm
                     formData={formData}
                     moneyInData={moneyIn}
                     setFormData={setFormData}
                     payerURI={payerURI}
-                    isLoad={isLoad}
-                    setIsLoad={setIsLoad}
                     bankAccountList={bankAccountList}
                     amountUP={amountUP}
                 />
                 }
-                actions={isLoad ? null : <ActionsModal onClose={onClose} addMoney={addMoney} />} />
+                actions={<ActionsModal onClose={onClose} addMoney={addMoney} />} />
         </div>
     )
 }

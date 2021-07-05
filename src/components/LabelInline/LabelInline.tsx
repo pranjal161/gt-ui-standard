@@ -1,4 +1,5 @@
 import {formatValue, getDescriptionFromOneOf} from 'utils/functions';
+
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
@@ -71,10 +72,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-block'
     },
     loadingItemLabel: {
-        width: () => 50 + Math.floor(Math.random() * 45) + '%',
+        width: '75%',
     },
     loadingItemValue: {
-        width: () => 50 + Math.floor(Math.random() * 45) + '%',
+        width: '75%',
     },
     value: {
         color: theme.palette.text.primary,
@@ -148,7 +149,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({
             return value
         }
 
-        return '#NA'
+        return ''
     }
 
     return (

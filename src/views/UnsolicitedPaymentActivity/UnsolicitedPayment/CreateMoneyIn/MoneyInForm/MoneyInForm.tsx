@@ -25,18 +25,6 @@ export interface MoneyInFormProps {
     payerURI: string
 
     /**
-    * isLoad
-    * @description React state to know if content is on loading or loaded
-    */
-    isLoad: boolean;
-
-    /**
-    * setIsLoad
-    * @description React setter for isLoad state
-    */
-    setIsLoad: Function;
-
-    /**
     * bankAccountList
     * @description API properties formatted for dxc select
     */
@@ -77,8 +65,6 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
         formData,
         setFormData,
         payerURI,
-        isLoad,
-        setIsLoad,
         bankAccountList,
         amountUP,
         moneyInData
@@ -87,16 +73,11 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
 
     const getPayerName: Function = async () => {
         try {
-            setIsLoad(true);
             const res: any = await fetch(payerURI);
             setPayerTitle(res.data._links.self.name);
             setFormData({ ...formData, 'money_in:payer_person': res.data._links.self.href })
-
-            setIsLoad(false);
         }
         catch (err: any) {
-            setIsLoad(false);
-
             return err;
         }
     }
@@ -113,7 +94,6 @@ const MoneyInForm: React.FC<MoneyInFormProps> = (props: MoneyInFormProps) => {
                 <FormContent
                     formData={formData}
                     setFormData={setFormData}
-                    isLoad={isLoad}
                     bankAccountList={bankAccountList}
                     moneyInData={moneyInData}
                     payerTitle={payerTitle}

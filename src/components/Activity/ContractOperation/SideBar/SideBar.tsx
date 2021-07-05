@@ -1,30 +1,37 @@
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
-import PersonPreview from 'components/PersonPreview/PersonPreview';
+import OrganizationPreview from 'components/ClientPreview/OrganizationPreview';
+import PersonPreview from 'components/ClientPreview/PersonPreview';
 import React from 'react';
 import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
+import { getLink } from 'utils/functions';
 import useResponse from 'hooks/useResponse';
-import {useSidebar} from 'hooks/useSidebar';
+import { useSidebar } from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-const RoleController = React.memo(({hRef}: any) => {
+const RoleController = React.memo(({ hRef }: any) => {
     const [response] = useResponse(hRef)
-    const personHRef = response && response.data._links['party_role:person'].href
+    const personHRef = response && getLink(response.data, 'party_role:person');
+    const orgHref = response && getLink(response.data, 'party_role:organization');
 
-    return (<PersonPreview hRef={personHRef}/>)
+    return (
+        <>
+            {personHRef && <PersonPreview hRef={personHRef} />}
+            {orgHref && <OrganizationPreview hRef={orgHref} />}</>
+    )
 })
-RoleController.displayName='RoleController'
+RoleController.displayName = 'RoleController'
 
-const roleController = (value: any) => <RoleController hRef={value.id}/>
-const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
-const statusReportController = (value: any) => <StatusReportPreview hRef={value.id}/>
+const roleController = (value: any) => <RoleController hRef={value.id} />
+const contractController = (value: any) => <ContractSideBar hRef={value.id} />
+const statusReportController = (value: any) => <StatusReportPreview hRef={value.id} />
 const loadingController = () => <div>Loading</div>
 
 const SideBar = (props: any) => {
-    const {mainEntityHRef, hRef} = props
-    const {t} = useTranslation()
-    const {openNewTab, openNewTabInSecondaryWindow, forContract} = useTabs()
+    const { mainEntityHRef, hRef } = props
+    const { t } = useTranslation()
+    const { openNewTab, openNewTabInSecondaryWindow, forContract } = useTabs()
     const [mainEntityResponse] = useResponse(mainEntityHRef)
 
     //Get role parties linked to the contract
@@ -40,7 +47,7 @@ const SideBar = (props: any) => {
         const title = mainEntityResponse.data['contract:number']
         items.contract = [{
             title,
-            display: t('common:contractNumberTitle', {value: title}),
+            display: t('common:contractNumberTitle', { value: title }),
             id: mainEntitySummary.href,
             hRef: mainEntitySummary.href,
             entityType: 'contract',
@@ -49,19 +56,23 @@ const SideBar = (props: any) => {
     }
     else
         //This is a workaround for the initial state and to have contract define by default
-        items.contract = [{title: 'Loading', id: 'not_defined', controller: loadingController}]
+        items.contract = [{ title: 'Loading', id: 'not_defined', controller: loadingController }]
 
-    let personList = [{title: 'Loading', id: 'not_defined', controller: roleController}]
+    let personList = [{ title: 'Loading', id: 'not_defined', controller: roleController }]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
         personList = rolePartiesResponse.data._links.item
-            .filter((item: any) => item.summary['party_role:party_type'] === 'person' && item.summary['party_role:role_type'] === 'owner')
+            .filter((item: any) => (item.summary['party_role:party_type'] === 'person'
+                || item.summary['party_role:party_type'] === 'organization')
+                && item.summary['party_role:role_type'] === 'owner')
             .map((item: any) => {
 
-                const title = item.summary['person:display_id'].split(' - ')[0]
+                const title = item.summary['person:display_id'] ?
+                    item.summary['person:display_id'].split(' - ')[0] :
+                    item.summary['organization:display_id'].split(' - ')[0]
 
                 return {
                     title,
-                    display: t('common:clientTitle', {value: title}),
+                    display: t('common:clientTitle', { value: title }),
                     id: item.href,
                     hRef: item.href,
                     entityType: 'person',
@@ -95,7 +106,7 @@ const SideBar = (props: any) => {
 
     return (
         <>
-            <GlobalSideBar {...sidebarProps} {...{onOpenInNewTab, onOpenInNewWindow}} />
+            <GlobalSideBar {...sidebarProps} {...{ onOpenInNewTab, onOpenInNewWindow }} />
         </>
     )
 }
