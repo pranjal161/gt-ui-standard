@@ -10,12 +10,13 @@ const StatusReportPreview = ({hRef}: any) => {
     const [response] = useResponse(hRef)
     const statusReport = response && getStatusReport(response && response.data) || []
     const generateMessageLines = (lines: any) => lines.map((line: any) => ({
-        id: line.propertyNames,
+        id: line.propertyNames[0],
         styleType: ['text']
     }),)
 
     const handleOnClick = (item:any) => {
-        setFocusError({hRef, property : item.id[0] })
+        const property = item.id
+        setFocusError({hRef, property })
     }
 
     const Sections = statusReport && statusReport.messages && statusReport.messages.map((message: any, index: any) => <PanelSection key={index} title={message.message}

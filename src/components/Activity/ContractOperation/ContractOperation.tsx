@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
@@ -12,8 +12,8 @@ import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import {useSelector} from 'react-redux';
+import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
-import StepContext from 'context/StepContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -43,6 +43,17 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
+//On step mount we set the current step
+const Step = ({value}: any) => {
+    const {setCurentStep} = useStep()
+
+    useEffect(() => {
+        setCurentStep(value.code)
+    }, [])
+
+    return value.component
+}
+
 const ContractOperation: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
@@ -62,7 +73,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const steps = [
         {
             id: 0,
-            code : 'unsolicited_payment',
+            code: 'unsolicited_payment',
             label: t('common:_UNSOLICITED_PAYMENT'),
             required: true,
             fullfilled: true,
@@ -71,7 +82,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
         },
         {
             id: 1,
-            code : 'investment_split',
+            code: 'investment_split',
             label: t('common:_INVESTMENT_SPLIT'),
             required: true,
             fullfilled: true,
@@ -80,7 +91,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
         },
         {
             id: 2,
-            code : 'information_sheet',
+            code: 'information_sheet',
             label: t('common:_INFORMATION_SHEET'),
             required: true,
             fullfilled: true,
@@ -132,15 +143,8 @@ const ContractOperation: React.FC<any> = (props: any) => {
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
                         {steps.map((step: StepProps, index) => (
-                            <div key={index}>
-                                {step.id === currentStep &&
-                                (
-                                    <StepContext.Provider value={{step: step.code}}>
-                                        {step.component}
-                                    </StepContext.Provider>
-                                )
-                                }
-                            </div>
+                            step.id === currentStep &&
+                            <Step key={index} value={step}/>
                         ))
                         }
                         <div className="m-2 p-1" style={{float: 'right'}}><Button

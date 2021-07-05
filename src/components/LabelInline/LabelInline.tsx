@@ -161,7 +161,7 @@ const LabelInline: React.FC<LabelInlineProps> = ({
     }
 
     return (
-        <div className={clsx(classes.root, className)}>
+        <div className={clsx(classes.root, className)} onClick={onClick}>
             <div className={classes.label}>
                 {loading ? <SkeletonLabel/> : property && t(property)}
             </div>

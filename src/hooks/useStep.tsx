@@ -1,25 +1,22 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
+import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
-import stepContext from 'context/StepContext';
-import {useContext} from 'react';
 import {useDispatch} from 'react-redux';
 
 const useStep = () => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
-    const stepContextValue :any = useContext(stepContext)
-    const step = stepContextValue.step
 
-    const setFocusError = ({hRef, property}:any) => {
-        dispatch(aiaReducer.aiaStepAddInput({baId, step, hRef, property}))
+    const setFocusError = useCallback ( ({hRef, property}:any) => {
+        dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status:'error'}))
+    },[baId, dispatch])
 
-        return () => {
-            dispatch(aiaReducer.aiaStepRemoveInput({baId, step, hRef, property}))
-        }
-    }
+    const setCurentStep = useCallback ( (current:string) => {
+        dispatch(aiaReducer.aiaStepSetCurrent({baId, current}))
+    },[baId, dispatch])
 
-    return {setFocusError}
+    return {setFocusError,setCurentStep}
 }
 
 export default useStep;

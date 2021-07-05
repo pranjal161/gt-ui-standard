@@ -30,7 +30,8 @@ const AIASlice = createSlice({
         aiaBAStart(state: any = initialState, action) {
             state[action.payload.baId] = {
                 status: {},
-                steps: {}
+                steps: {},
+                current:undefined
             }
 
             return state
@@ -121,46 +122,57 @@ const AIASlice = createSlice({
 
             return state;
         },
+        aiaStepSetCurrent(state: any, action: any) {
+            const {baId, current} = action.payload
 
+            state[baId].steps.current = current
+
+            return state;
+        },
         aiaStepAddInput(state: any, action: any) {
-            const {baId, step, hRef, property} = action.payload
+            const {baId, hRef, property} = action.payload
+            const currentStep = state[baId].steps.current
 
-            if (!state[baId].steps[step])
-                state[baId].steps[step] = {}
+            if (!state[baId].steps[currentStep])
+                state[baId].steps[currentStep] = {}
 
-            if (!state[baId].steps[step][hRef])
-                state[baId].steps[step][hRef] = {}
+            if (!state[baId].steps[currentStep][hRef])
+                state[baId].steps[currentStep][hRef] = {}
 
-            state[baId].steps[step][hRef][property] = 'displayed'
+            state[baId].steps[currentStep][hRef][property] = 'displayed'
 
             return state;
         },
         aiaStepRemoveInput(state: any, action: any) {
-            const {baId, step, hRef, property} = action.payload
+            const {baId, hRef, property} = action.payload
+            const currentStep = state[baId].steps.current
+            if (currentStep) {
+                if (!state[baId].steps[currentStep])
+                    state[baId].steps[currentStep] = {}
 
-            if (!state[baId].steps[step])
-                state[baId].steps[step] = {}
+                if (!state[baId].steps[currentStep][hRef])
+                    state[baId].steps[currentStep][hRef] = {}
 
-            if (!state[baId].steps[step][hRef])
-                state[baId].steps[step][hRef] = {}
-
-            delete state[baId].steps[step][hRef][property]
+                delete state[baId].steps[currentStep][hRef][property]
+            }
 
             return state;
         },
         aiaStepSetInputStatus(state: any, action: any) {
-            const {baId, step, hRef, property, status} = action.payload
+            const {baId, hRef, property, status} = action.payload
+            const currentStep = state[baId].steps.current
 
-            if (!state[baId].steps[step])
-                state[baId].steps[step] = {}
+            if (!state[baId].steps[currentStep])
+                state[baId].steps[currentStep] = {}
 
-            if (!state[baId].steps[step][hRef])
-                state[baId].steps[step][hRef] = {}
+            if (!state[baId].steps[currentStep][hRef])
+                state[baId].steps[currentStep][hRef] = {}
 
-            state[baId].steps[step][hRef][property] = status
+            state[baId].steps[currentStep][hRef][property] = status
 
             return state;
         },
+
     }
 });
 
@@ -184,6 +196,8 @@ export const {
     aiaDELETEError,
     aiaBAStart,
     aiaBAEnd,
+    aiaStepSetCurrent,
     aiaStepAddInput,
-    aiaStepRemoveInput
+    aiaStepRemoveInput,
+    aiaStepSetInputStatus
 } = AIASlice.actions;
