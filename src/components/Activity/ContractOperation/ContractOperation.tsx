@@ -70,6 +70,8 @@ const ContractOperation: React.FC<any> = (props: any) => {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
+    const {validate} = useStep()
+
     const steps = [
         {
             id: 0,
@@ -110,8 +112,15 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const SideBarConf = configurations.sidebar
 
     const nextStep = (index: number) => {
-        const step = index >= steps.length ? steps.length - 1 : index;
-        setCurrentStep(step);
+
+        if (validate()) {
+            const step = index >= steps.length ? steps.length - 1 : index;
+            setCurrentStep(step);
+        }
+        else {
+            //Display errors
+            console.log()
+        }
     }
 
     const patchDate = (value: any, id: string) => {
@@ -147,8 +156,9 @@ const ContractOperation: React.FC<any> = (props: any) => {
                             <Step key={index} value={step}/>
                         ))
                         }
-                        <div className="m-2 p-1" style={{float: 'right'}}><Button
-                            onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/></div>
+                        <div className="m-2 p-1" style={{float: 'right'}}>
+                            <Button onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/>
+                        </div>
                     </WithScroll>
                 </div>
             </div>

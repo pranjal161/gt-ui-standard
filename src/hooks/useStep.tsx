@@ -2,7 +2,7 @@ import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStatusReport, isResponseConsistent} from 'utils/functions';
+//import {getStatusReport, isResponseConsistent} from 'utils/functions';
 
 const useStep = () => {
     const dispatch = useDispatch()
@@ -12,13 +12,8 @@ const useStep = () => {
     const stepRessource = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
         state.aia[baId].steps[currentStep])
-    const rawResponses = useSelector((state: any) => state.aia[baId] &&
-        state.aia[baId])
 
-    //We take only hRef, not steps and status
-    const responses = rawResponses.filter((ressource: string) => ressource.slice(0, 4) === 'http')
-
-    const setStatus = useCallback(({hRef, property, status, message }: any) => {
+    const setStatus = useCallback(({hRef, property, status, message}: any) => {
         dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status: {value: status, message}}))
     }, [baId, dispatch])
 
@@ -36,7 +31,7 @@ const useStep = () => {
         const errors: any = []
         const warnings: any = []
 
-        stepRessource && Object.values(stepRessource)
+        stepRessource && Object.entries(stepRessource)
             .forEach(([hRef, properties]: any) => Object.entries(properties)
                 .forEach(([property, propertyStatus]: any) => {
                     const statusValue = propertyStatus.status.value
@@ -55,28 +50,42 @@ const useStep = () => {
      * @return {boolean} indicates if it's validated or not
      */
     const validate = () => {
-        responses && Object.values(responses)
-            .forEach(([hRef, response]: any) => {
-                if (!isResponseConsistent(response)) {
-                    const statusReport = getStatusReport(response && response.data) || []
+        let result = true
 
-                    statusReport.messages.forEach(
-                        (message: any) => {
-                            message.context.forEach(
-                                (line: any) => (
-                                    setStatus({
-                                        hRef, 
-                                        property: line.propertyNames[0],
-                                        status:'error',
-                                        message:message.message})
+        console.log('stepRessource', stepRessource)
+        const {errors}= getMessages()
+        result = errors.length === 0
+        console.log('errors', errors)
+
+        /*
+                stepRessource && Object.entries(stepRessource)
+                    .forEach(([hRef, response]: any) => {
+                        if (!isResponseConsistent(response.data)) {
+                            const statusReport = getStatusReport(response && response.data) || []
+
+                            statusReport &&
+                            statusReport.messages &&
+                            statusReport.messages
+                                .forEach(
+                                    (message: any) => {
+                                        message.context.forEach(
+                                            (line: any) => (
+                                                setStatus({
+                                                    hRef,
+                                                    property: line.propertyNames[0],
+                                                    status: message.severity,
+                                                    message:message.message})
+                                            )
+                                        )
+                                    }
                                 )
-                            )
+                            console.log('statusReport', statusReport)
+                            result = false
                         }
-                    )
-                }
-            })
+                    })
+        */
 
-        console.log()
+        return result
     }
 
     return {validate, getMessages, setStatus, setCurentStep}
