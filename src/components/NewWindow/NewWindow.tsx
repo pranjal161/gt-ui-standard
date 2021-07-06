@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { StylesProvider, jssPreset } from '@material-ui/core';
 
-import { DxcBox } from '@dxc-technology/halstack-react';
 import ReactDOM from 'react-dom';
-import { StyleSheetManager } from 'styled-components';
+import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 import { create } from 'jss';
+import generateClassName from '../../theme/generateClassName';
 
 /*eslint "require-jsdoc": [2, {
     "require": {
@@ -23,34 +22,25 @@ import { create } from 'jss';
  */
 function copyStyles(sourceDoc: Document, targetDoc: Document) {
 
-    let sourceStyles = sourceDoc.head.querySelectorAll('style');
-    // styled-components are inserted in a style tag with data-* attributes.
-    // Here, we check if they exist and skip importing them
+    (Array.from(document.styleSheets) as CSSStyleSheet[]).forEach((styleSheet) => {
 
-    for(let i = 0; i < sourceStyles.length; i++) {
-        if(sourceStyles[i].dataset &&
-           sourceStyles[i].dataset.styled === 'active') {
-            // skip import for styled components
-        }
-        else if(sourceStyles[i].dataset &&
-                sourceStyles[i].dataset.jss) {
-            // skip import for makeStyle components
-        }
-        else {
-            const newStyleEl = sourceDoc.createElement('style');
-            newStyleEl.appendChild(sourceDoc.createTextNode(sourceStyles[i].innerText));
+        if (styleSheet.cssRules) {
+            // for <style> elements
+            const newStyleEl = document.createElement('style');
+            Array.from(styleSheet.cssRules).forEach((cssRule) => {
+                // write the text of each rule into the body of the style element
+                newStyleEl.appendChild(document.createTextNode(cssRule.cssText));
+            });
             targetDoc.head.appendChild(newStyleEl);
-        }
-    }
-
-    for(let i = 0; i < sourceDoc.styleSheets.length; i++) {
-        if (sourceDoc.styleSheets[i].href) { // for <link> elements loading CSS from a URL
-            const newLinkEl = sourceDoc.createElement('link');
+        } 
+        else if (styleSheet.href) {
+            // for <link> elements loading CSS from a URL
+            const newLinkEl = document.createElement('link');
             newLinkEl.rel = 'stylesheet';
-            newLinkEl.href = sourceDoc.styleSheets[i].href!;
+            newLinkEl.href = styleSheet.href;
             targetDoc.head.appendChild(newLinkEl);
         }
-    }
+    });
 }
 
 const NewWindow = ( props : {
@@ -76,7 +66,10 @@ const NewWindow = ( props : {
     const container = document.createElement('div');
     let windowRef = useRef<any>(null);
     let externalWindow: any;
-    const jss = create({ ...jssPreset(), insertionPoint: container });
+    const jssInstance = create({
+        ...jssPreset(),
+        insertionPoint: container
+    });
 
     const setFocus = () => {
         if(windowRef.current &&
@@ -107,11 +100,6 @@ const NewWindow = ( props : {
             externalWindow.onbeforeunload = onCloseCallback;
 
         windowRef.current = externalWindow;
-        
-        return () => {
-            windowRef.current = null;
-            externalWindow.close();
-        }
     }, []);
 
     useEffect(() => {
@@ -119,22 +107,18 @@ const NewWindow = ( props : {
     }, [children]);
 
     return (
-        ReactDOM.createPortal(<DxcBox
-            margin="xxsmall"
-            size="fillParent"
-            shadowDepth={0}>
-            <StylesProvider 
-                jss={jss}
-                injectFirst>
-                <StyleSheetManager 
-                    target={container}>
-                    {children}
-                </StyleSheetManager>
+        ReactDOM.createPortal(
+            <StylesProvider
+                jss={jssInstance}
+                generateClassName={generateClassName}
+                sheetsManager={new Map()}>
+                {children}
             </StylesProvider>
-        </DxcBox>, container)
+            , container)
     )
 }
 
+//
 export default NewWindow;
 
 export const NewWindowMemo = React.memo(NewWindow);
