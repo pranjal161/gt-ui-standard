@@ -21,8 +21,6 @@ const TextField = (props: InputProps) => {
     const [errorMessage, setErrorMessage] = useState<String | null>(null);
     const [value, setValue] = useState(field?.value);
 
-    console.log(propertyName, 'render')
-
     const onChange = (value: any) => {
         const validatedOutput = Validation(field, value, type);
         setValue(value);

@@ -28,10 +28,6 @@ const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
         setIsMoneyInOpen(false);
     }
 
-    React.useEffect(() => {
-        console.log(response)
-    })
-
     return (
         <Section title="Payment" icon={<PaymentIcon />} actions={
             <Button onClick={() => setIsMoneyInOpen(true)} Icon={AddBoxIcon}

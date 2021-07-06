@@ -72,8 +72,6 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
 
     const {baId} = useConfigurations();
     const contractUrl = baId && baId.split('/operations')[0];
-
-    console.log(isOpen);
     const poolSplit = props.response.data['main_pool_split'];
 
     return (
