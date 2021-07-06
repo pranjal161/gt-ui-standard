@@ -73,12 +73,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const SelectionOption = (props: {selection: any, index: number, selectedItem: any, selectedValues: any, onClick: Function}) => (
+const SelectionOption = (props: {selection: any, index: number, values: any, onClick: Function}) => (
     <>
         {props.selection && props.selection === 'one' &&
             <DxcRadio
                 key={`radio_${props.index}`}
-                checked={props.selectedValues === props.index}
+                checked={props.values === props.index}
                 onClick={props.onClick}
                 margin="xxsmall"
             />
@@ -86,7 +86,7 @@ const SelectionOption = (props: {selection: any, index: number, selectedItem: an
         {props.selection && props.selection === 'multiple' &&
             <DxcCheckbox
                 key={`checkbox_${props.index}`}
-                checked={props.selectedValues && props.selectedValues.includes(props.index)}
+                checked={props.values && props.values.includes(props.index)}
                 margin="xxsmall"
                 onChange={props.onClick}
             />
@@ -94,16 +94,23 @@ const SelectionOption = (props: {selection: any, index: number, selectedItem: an
     </>
 );
 
-export const ComplexTableRow = (props: { hRef: any, tableColumn: Array<ComplexTableColumnItemProps>, index: number, row: any, selection: any, entityClicked: Function, selectedValues: any, tableData: any, className: string}) => {
-    const rowResponse: any = useResponse(props.hRef);
+const ComplexTableRow = (props: { hRef?: null | string, tableColumn: Array<ComplexTableColumnItemProps>, index: number, row: any, selection: any, onClick: Function, values: any, selected: Boolean}) => {
+    const href = props.hRef ? props.hRef : undefined;
+    console.log('href -->', props.index, href);
+    const [rowResponse] = useResponse(href);
+    // const rowResponse = { data: {}};
 
-    const component = (component: React.ComponentType, value: any) => React.createElement(component, value);
+    const component = (component: React.FunctionComponent, value: any) => component(value);
+
+    const selectionComponent = (index: number) => ((index === 0) && <SelectionOption selection={props.selection} values={props.values} index={props.index} onClick={() => props.onClick(props.row, props.index)} />);
+
+    const response = props.hRef ? rowResponse && rowResponse['data'] : props.row;
 
     return (
-        <>{rowResponse && rowResponse[0] && rowResponse[0]['data'] && <tr className={props.className} key={props.index}>
+        <>{response && <tr className={`${props.selected && 'selected'}`} key={props.index}>
             {props.tableColumn && props.tableColumn.map((column: ComplexTableColumnItemProps, inx: number) => (<td key={`column${props.index}${inx}`}><div className="d-flex align-items-center">
-                {(inx === 0) && <SelectionOption selection={props.selection} selectedValues={props.selectedValues} index={props.index} selectedItem={props.row} onClick={() => props.entityClicked(props.row, props.index)} />}
-                {column.component ? component(column.component, { propertyName: column.valueKey, response: rowResponse[0]['data'] && rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'] : props.tableData, icon: false }) : rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'][column.valueKey] : props.row[column.valueKey]}
+                {selectionComponent(inx)}
+                {column.component ? component(column.component, { property: column.valueKey, response: response && response[column.valueKey] ? response : null, icon: false }) : response[column.valueKey] ? response[column.valueKey] : null}
             </div></td>))}
         </tr>}</>
     );
@@ -119,6 +126,7 @@ const ComplexTable = (props: ComplexTableProps) => {
     const classes: any = useStyles();
     const itemsPerPage = 10;
     const [totalItems, setTotalItems] = React.useState(0);
+    const hRefKey = tableRow && tableRow['hRefKey'];
 
     const getData = (href: string) => {
         console.log('href-->', href);
@@ -152,7 +160,11 @@ const ComplexTable = (props: ComplexTableProps) => {
         }
     };
     
-    const component = (component: React.ComponentType, value: any) => React.createElement(component, value);
+    // const component = (component: React.FunctionComponent, value: any) => component(value);
+
+    const entityClicked = (items: any, index: number) => (props.selection && props.selection === 'one' ? () => onRadioClick(items, index) : props.selection && props.selection === 'multiple' ? () => onCheckboxClick(items, index) : () => {
+        console.log('empty') 
+    })
 
     React.useEffect(() => {
         if (tableData && tableData && tableData.length > 0) {
@@ -172,21 +184,17 @@ const ComplexTable = (props: ComplexTableProps) => {
                 </thead>
                 <tbody>
                     {props.tableColumn && tableData && tableData.map((items: any, index: number) => (<>
-                        {tableRow?.hRefKey ?
-                            <ComplexTableRow className={checked === index || checked.includes(index) && 'selected'} hRef={items[tableRow?.hRefKey]} row={items} tableData={tableData} index={index} tableColumn={props.tableColumn} selection={props.selection} selectedValues={props.selection && props.selection === 'one' ? checked : props.selection && props.selection === 'multiple' ? checked : null} entityClicked={props.selection && props.selection === 'one' ? () => onRadioClick(items, index) : props.selection && props.selection === 'multiple' ? () => onCheckboxClick(items, index) : () => {
-                                console.log('empty') 
-                            }} /> :
-                            <>
-                                <tr className={checked === index || checked.includes(index) && 'selected'} key={index}>
-                                    {props.tableColumn && props.tableColumn.map((column: ComplexTableColumnItemProps, inx: number) => (<td key={`column${index}${inx}`}><div className="d-flex align-items-center">
-                                        {(inx === 0) && <SelectionOption selection={props.selection} selectedValues={props.selection && props.selection === 'one' ? checked : props.selection && props.selection === 'multiple' ? checked : null} index={index} selectedItem={items} onClick={props.selection && props.selection === 'one' ? () => onRadioClick(items, index) : props.selection && props.selection === 'multiple' ? () => onCheckboxClick(items, index) : () => {
-                                            console.log('empty') 
-                                        }} />}
-                                        {column.component ? component(column.component, { propertyName: column.valueKey, response: tableData ? tableData : 'null' }) : items[column.valueKey] ? items[column.valueKey] : 'null'}
-                                    </div>
-                                    </td>))}
-                                </tr>
-                            </>
+                        {/* {tableRow?.hRefKey ? */}
+                        <ComplexTableRow selected={checked === index || checked.includes(index)} hRef={hRefKey && items[hRefKey]} row={items} index={index} tableColumn={props.tableColumn} selection={props.selection} values={props.selection ? checked : null} onClick={entityClicked(items, index)} />
+                        {// <>
+                            //     <tr className={checked === index || checked.includes(index) && 'selected'} key={index}>
+                            //         {props.tableColumn && props.tableColumn.map((column: ComplexTableColumnItemProps, inx: number) => (<td key={`column${index}${inx}`}><div className="d-flex align-items-center">
+                            //             {(inx === 0) && <SelectionOption selection={props.selection} values={props.selection ? checked : null} index={index} onClick={entityClicked(items, index)} />}
+                            //             {column.component ? component(column.component, { property: column.valueKey, response: tableData ? tableData : 'null' }) : items[column.valueKey] ? items[column.valueKey] : 'null'}
+                            //         </div>
+                            //         </td>))}
+                            //     </tr>
+                            // </>
                         }
                     </>))}
                 </tbody>

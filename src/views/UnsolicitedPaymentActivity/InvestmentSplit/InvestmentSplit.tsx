@@ -17,7 +17,7 @@ interface SplitPoolInterface {
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
-    const poolResponse: any = useResponse(props.hRef);
+    const [poolResponse] = useResponse(props.hRef);
     const header = [
         { title: 'Funds' },
         { title: 'Pending funds' },
@@ -33,9 +33,9 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
 
     return (
         <>
-            {poolResponse && poolResponse[0] && poolResponse[0].data && <AccordionContainer title={poolResponse[0].data['coverage_fund:label']} prefixActions={<AddFolderIcon />} actions={
+            {poolResponse && poolResponse.data && <AccordionContainer title={poolResponse.data['coverage_fund:label']} prefixActions={<AddFolderIcon />} actions={
                 <div className={'d-flex'}>
-                    <label>Rate</label><Rate propertyName={''} response={[]} />
+                    <label>Rate</label><Rate property={''} response={[]} />
                 </div>}>
 
                 <ComplexTable selection="multiple" tableColumn={column} tableRow={row} tableHeader={header} tableData={tableData} showSelectionLength={true} />
