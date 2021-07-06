@@ -171,10 +171,6 @@ const AIASlice = createSlice({
             if (!state[baId].steps[currentStep][hRef])
                 state[baId].steps[currentStep][hRef] = {}
 
-            /*if(!state[baId].steps[currentStep][hRef][property])
-                state[baId].steps[currentStep][hRef][property] = {status:{}}
-    */
-
             state[baId].steps[currentStep][hRef][property].status.value = status.value
             state[baId].steps[currentStep][hRef][property].status.message = status.message
 
