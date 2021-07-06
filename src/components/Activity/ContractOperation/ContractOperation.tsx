@@ -44,15 +44,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 //On step mount we set the current step
-const Step = ({value}: any) => {
+const Step = React.memo(({value}: any) => {
+    //This is used to mount and set current step first before the inputs are bind to the step
+    const [isMounted, setIsMounted] = useState(false)
     const {setCurentStep} = useStep()
 
     useEffect(() => {
         setCurentStep(value.code)
+        setIsMounted(true)
     }, [])
 
-    return value.component
-}
+    return isMounted ? value.component : <></>
+})
+Step.displayName = 'Step'
 
 const ContractOperation: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
@@ -70,7 +74,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
-    const {validate} = useStep()
+    const {canValidateStep} = useStep()
 
     const steps = [
         {
@@ -113,7 +117,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
 
     const nextStep = (index: number) => {
 
-        if (validate()) {
+        if (canValidateStep()) {
             const step = index >= steps.length ? steps.length - 1 : index;
             setCurrentStep(step);
         }
@@ -130,6 +134,9 @@ const ContractOperation: React.FC<any> = (props: any) => {
             setCurrentStep(0);
         });
     }
+
+    const currentStepConfig = steps && steps.filter((step: StepProps, index) => (step.id === currentStep))
+    const CurrentStep = currentStepConfig && <Step key={currentStepConfig[0].id} value={currentStepConfig[0]}/> || <div></div>
 
     return (
         <div className={`col-12 ${classes.body}`}>
@@ -151,11 +158,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {steps.map((step: StepProps, index) => (
-                            step.id === currentStep &&
-                            <Step key={index} value={step}/>
-                        ))
-                        }
+                        {CurrentStep}
                         <div className="m-2 p-1" style={{float: 'right'}}>
                             <Button onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/>
                         </div>

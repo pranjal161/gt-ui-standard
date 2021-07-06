@@ -2,6 +2,7 @@ import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
 import {useDispatch, useSelector} from 'react-redux';
+import {getStatusReport} from 'utils/functions';
 //import {getStatusReport, isResponseConsistent} from 'utils/functions';
 
 const useStep = () => {
@@ -9,9 +10,12 @@ const useStep = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
-    const stepRessource = useSelector((state: any) => state.aia[baId] &&
+    const stepRessources = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
         state.aia[baId].steps[currentStep])
+
+    const baIdRessources = useSelector((state: any) => state.aia[baId] &&
+        state.aia[baId])
 
     const setStatus = useCallback(({hRef, property, status, message}: any) => {
         dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status: {value: status, message}}))
@@ -31,7 +35,7 @@ const useStep = () => {
         const errors: any = []
         const warnings: any = []
 
-        stepRessource && Object.entries(stepRessource)
+        stepRessources && Object.entries(stepRessources)
             .forEach(([hRef, properties]: any) => Object.entries(properties)
                 .forEach(([property, propertyStatus]: any) => {
                     const statusValue = propertyStatus.status.value
@@ -44,6 +48,76 @@ const useStep = () => {
         return {errors, warnings}
     }
 
+    const getRessourceStatusReport = (hRef: string) => {
+        const response = baIdRessources && baIdRessources[hRef]
+
+        return response && getStatusReport(response && response.data)
+    }
+
+    const getPropertyStatusReport = (statusReport: any, property: string) => {
+        let result = undefined
+        statusReport.messages.forEach((message: any) => {
+            message.context.forEach((context: any) => {
+                context.propertyNames.forEach((propertyName: any) => {
+                    if (propertyName === property) {
+                        result = message
+                    }
+                })
+            })
+        })
+
+        return result
+    }
+
+    /**
+     * We loop on all ressources used in the current step
+     * For each ressources, we have to get its status_report from the baId.
+     * We make a second loop on the properties we displayed and check if they are present in the status_report
+     * if yes, we update their status with the severity getting from status_report
+     * if no, we update their status with value = displayed
+     * @return {boolean} indicates if the step can be validated or not
+     */
+    const canValidateStep = () => {
+        let result = true
+
+        //We loop on all ressources used in the current step
+        stepRessources && Object.entries(stepRessources)
+            .forEach(([hRef, boundInputs]: any) => {
+
+                //For each ressources, we have to get its status_report from the baId.
+                const statusReport = getRessourceStatusReport(hRef)
+
+                //We make a second loop on the properties we displayed and check if they are present in the status_report
+                Object.keys(boundInputs)
+                    .forEach((property: string) => {
+                        const status: any = getPropertyStatusReport(statusReport, property)
+
+                        //if yes, we update their status with the severity getting from status_report
+                        if (status) {
+                            if (status.severity === 'error')
+                                result = false
+                            setStatus({
+                                hRef,
+                                property,
+                                status: status.severity,
+                                message: status.message
+                            })
+                        }
+                        else {
+                            //if no, we update their status with value = displayed
+                            setStatus({
+                                hRef,
+                                property,
+                                status: 'displayed',
+                                message: ''
+                            })
+                        }
+                    })
+            })
+
+        return result
+    }
+
     /**
      * We loop on all hRef of the current step. we check is its consistent, if not, we loop on all status_report
      * messages and se set the status on the bound inputs.
@@ -52,13 +126,13 @@ const useStep = () => {
     const validate = () => {
         let result = true
 
-        console.log('stepRessource', stepRessource)
-        const {errors}= getMessages()
+        console.log('stepRessources', stepRessources)
+        const {errors} = getMessages()
         result = errors.length === 0
         console.log('errors', errors)
 
         /*
-                stepRessource && Object.entries(stepRessource)
+                stepRessources && Object.entries(stepRessources)
                     .forEach(([hRef, response]: any) => {
                         if (!isResponseConsistent(response.data)) {
                             const statusReport = getStatusReport(response && response.data) || []
@@ -88,7 +162,7 @@ const useStep = () => {
         return result
     }
 
-    return {validate, getMessages, setStatus, setCurentStep}
+    return {canValidateStep, validate, getMessages, setStatus, setCurentStep}
 }
 
 export default useStep;
