@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 const DateInput = (props: InputProps) => {
     const { t } = useTranslation();
     const { hRef, propertyName, data, type = 'date', onChangeMethod, onBlurMethod } = props;
-    useBindInputToStep({hRef, property : propertyName})
+    const { inputId } = useBindInputToStep({hRef, property : propertyName})
 
     const { FieldWrapper } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type);
@@ -47,7 +47,7 @@ const DateInput = (props: InputProps) => {
     }
 
     return (
-        <span hidden={!field.visible} data-testid={propertyName}>
+        <span id={inputId} hidden={!field.visible} data-testid={propertyName}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                     id={field.id}

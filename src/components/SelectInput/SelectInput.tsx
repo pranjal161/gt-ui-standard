@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 const SelectInput = (props: InputProps) => {
     const { t } = useTranslation();
     const { hRef, propertyName, data, onChangeMethod, onBlurMethod } = props;
-    useBindInputToStep({hRef, property : propertyName})
+    const { inputId } = useBindInputToStep({hRef, property : propertyName})
     const { FieldWrapper } = useValidator();
     const field: Field = FieldWrapper(data, propertyName);
     const [value, setValue] = useState(field?.value);
@@ -32,7 +32,7 @@ const SelectInput = (props: InputProps) => {
     }
 
     return (
-        <span hidden={!field.visible} data-testid={field.id}>
+        <span id={inputId} hidden={!field.visible} data-testid={field.id}>
             <DxcSelect
                 options={field.values}
                 required={field?.required}

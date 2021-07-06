@@ -4,7 +4,6 @@ import useValidator, {Field, InputProps} from 'hooks/useValidator';
 
 import {DxcInput} from '@dxc-technology/halstack-react';
 import {useTranslation} from 'react-i18next';
-import {getUniqueId} from 'utils/system';
 
 /**
  * Display a Input field
@@ -14,9 +13,7 @@ import {getUniqueId} from 'utils/system';
 const TextField = (props: InputProps) => {
     const {t} = useTranslation();
     const {hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context = undefined} = props;
-    const [uniqueID] = useState(getUniqueId(propertyName))
-
-    const [ref, errorMessageAPI]: any = useBindInputToStep({hRef, property: propertyName})
+    const {inputId, ref, errorMessage : errorMessageAPI }: any = useBindInputToStep({hRef, property: propertyName})
 
     const {FieldWrapper, Validation} = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type);
@@ -29,7 +26,6 @@ const TextField = (props: InputProps) => {
     const onChange = (value: any) => {
         const validatedOutput = Validation(field, value, type);
         setValue(value);
-        console.log('validatedOutput', validatedOutput)
 
         setError(!validatedOutput.valid);
         if (!validatedOutput.valid) {
@@ -59,7 +55,7 @@ const TextField = (props: InputProps) => {
     const assistiveText = errorMessageAPI ? errorMessageAPI : showError ? errorMessage : null
 
     return (
-        <div id={uniqueID} ref={ref} hidden={!field.visible} data-testid={field.id} >
+        <div id={inputId} ref={ref} hidden={!field.visible} data-testid={field.id} >
             <DxcInput
                 label={t(propertyName, {context})}
                 required={field?.required}

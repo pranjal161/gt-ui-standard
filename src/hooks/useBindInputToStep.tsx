@@ -1,13 +1,15 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
-import {createRef, useContext, useEffect} from 'react';
+import {createRef, useContext, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
+import {uniqueId} from 'utils/system';
 
-const useBindInputToStep = ({hRef, property, uniqueId}: any) => {
+const useBindInputToStep = ({hRef, property}: any) => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
     const ref: any = createRef()
+    const [inputId] = useState(uniqueId(property))
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
     const errorMessage = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
@@ -19,14 +21,14 @@ const useBindInputToStep = ({hRef, property, uniqueId}: any) => {
         state.aia[baId].steps[currentStep][hRef][property].status.message)
 
     useEffect(() => {
-        dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property, uniqueId}))
+        dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property, inputId}))
 
         return () => {
             dispatch(aiaReducer.aiaStepRemoveInput({baId, hRef, property}))
         }
     }, [])
 
-    return [ref, errorMessage]
+    return {ref, inputId, errorMessage}
 }
 
 export default useBindInputToStep;

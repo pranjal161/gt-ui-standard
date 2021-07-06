@@ -27,4 +27,4 @@ export const logErrorByMessage = (message?: string, extra?:any) => {
  * @param {string} prefix to add
  * @return {string} id string
  */
-export const getUniqueId = (prefix?:string) => prefix + '_' + Math.random().toString(36).substr(2, 9);
+export const uniqueId:any = (prefix?:string) => prefix + '_' + Math.random().toString(36).substr(2, 9);
