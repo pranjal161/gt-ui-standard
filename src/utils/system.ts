@@ -31,7 +31,6 @@ export const uniqueId:any = (prefix?:string) => prefix + '_' + Math.random().toS
 
 export const scrollIntoView = (id:string) => {
     const element = document.getElementById(id)
-    console.log('element', element)
     if (element)
         element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'})
 }

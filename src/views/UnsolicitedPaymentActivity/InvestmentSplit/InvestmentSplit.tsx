@@ -33,7 +33,7 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
     const tableData = props.data.filter((funds: any) => funds['parent_product_component'] === props.hRef);
 
     const actions = <div className={'d-flex'}>
-        <label>Rate</label><Rate hRef={props.hRef} propertyName={''} response={[]}/>
+        <label>Rate</label><Rate hRef={props.hRef} propertyName={'to_be_define'} response={[]}/>
     </div>
 
     return (

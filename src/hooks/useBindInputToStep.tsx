@@ -1,5 +1,5 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
-import {createRef, useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import {uniqueId} from 'utils/system';
@@ -8,7 +8,6 @@ const useBindInputToStep = ({hRef, property}: any) => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
-    const ref: any = createRef()
     const [inputId] = useState(uniqueId(property))
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
     const errorMessage = useSelector((state: any) => state.aia[baId] &&
@@ -28,7 +27,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
         }
     }, [])
 
-    return {ref, inputId, errorMessage}
+    return {inputId, errorMessage}
 }
 
 export default useBindInputToStep;
