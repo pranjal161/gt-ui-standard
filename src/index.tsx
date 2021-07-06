@@ -1,6 +1,6 @@
 import 'init'
 import './index.css'
-import {ThemeProvider as MatThemeProvider, StylesProvider, createGenerateClassName, createMuiTheme} from '@material-ui/core/styles';
+import {ThemeProvider as MatThemeProvider, StylesProvider, createMuiTheme} from '@material-ui/core/styles';
 import App from './App'
 import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import configureStore from 'store/configureStore';
+import generateClassName from '../src/theme/generateClassName';
 import reportWebVitals from './reportWebVitals'
 import themes from 'theme';
 
@@ -17,22 +18,18 @@ const matMuiTheme = createMuiTheme(themes.matTheme);
 
 console.log('matMuiTheme', matMuiTheme)
 
-const generateClassName = createGenerateClassName({
-    productionPrefix: 'prd',
-});
-
 ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
             <Provider store={store}>
                 <FirebaseProvider dispatch={store.dispatch}>
-                    <MatThemeProvider theme={matMuiTheme}>
-                        <CdkThemeProvider theme={themes.cdkTheme}>
-                            <StylesProvider generateClassName={generateClassName}>
+                    <StylesProvider generateClassName={generateClassName}>
+                        <MatThemeProvider theme={matMuiTheme}>
+                            <CdkThemeProvider theme={themes.cdkTheme}>
                                 <App/>
-                            </StylesProvider>
-                        </CdkThemeProvider>
-                    </MatThemeProvider>
+                            </CdkThemeProvider>
+                        </MatThemeProvider>
+                    </StylesProvider>
                 </FirebaseProvider>
             </Provider>
         </React.Suspense>

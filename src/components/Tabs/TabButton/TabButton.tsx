@@ -1,7 +1,7 @@
 import {BusinessIcon, CloseIcon, ContactIcon, ContractIcon, SearchIcon, TicketIcon} from 'assets/svg';
 import React from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
+import { Theme, makeStyles } from '@material-ui/core/styles';
 
 export interface TabButtonProps {
 
@@ -25,79 +25,81 @@ export interface TabButtonProps {
     onTabClick?: Function
 }
 
-const useStyles = makeStyles((theme) => ({
-    button: {
-        borderBottom: 'unset',
-        boxSizing: 'border-box',
-        height: '48px',
-        maxWidth: '350px',
-        minWidth: '280px',
-        marginLeft: '4px',
-        marginRight: '4px',
-        padding: '9px 14px 9px 6px',
-        backgroundColor: theme.palette.project.tabs.button.background,
-        borderColor: theme.palette.project.tabs.button.border,
-        color: theme.palette.project.tabs.button.color,
-        borderStyle: 'solid',
-        borderWidth: '2px 2px 0px 2px',
-        borderRadius: '2px 2px 0px 0px',
-        '& > div': {
+const useStyles = makeStyles((theme: Theme) => ({
+    '@global': {
+        'div.TabsButton': {
+            borderBottom: 'unset',
+            boxSizing: 'border-box',
+            height: '48px',
+            maxWidth: '350px',
+            minWidth: '280px',
+            marginLeft: '4px',
+            marginRight: '4px',
+            padding: '9px 14px 9px 6px',
+            backgroundColor: theme.palette.project.tabs.button.background,
+            borderColor: theme.palette.project.tabs.button.border,
+            color: theme.palette.project.tabs.button.color,
+            borderStyle: 'solid',
+            borderWidth: '2px 2px 0px 2px',
+            borderRadius: '2px 2px 0px 0px',
+            '& > div': {
+                display: 'flex',
+                alignItems: 'center'
+            }
+        },
+        'div.TabsButtonActivated': {
+            backgroundColor: theme.palette.project.tabs.activated.background,
+            borderColor: theme.palette.project.tabs.activated.border,
+            color: theme.palette.project.tabs.activated.color,
+            borderRadius: '4px 4px 0px 0px'
+        },
+        'div.TabsTitlesContainer': {
+            paddingLeft: '10px',
+            flexGrow: 1,
+            textAlign: 'left',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            height: '28px'
+        },
+        'div.TabsTitlesContainerCenter': {
             display: 'flex',
             alignItems: 'center'
-        }
-    },
-    buttonActivated: {
-        backgroundColor: theme.palette.project.tabs.activated.background,
-        borderColor: theme.palette.project.tabs.activated.border,
-        color: theme.palette.project.tabs.activated.color,
-        borderRadius: '4px 4px 0px 0px'
-    },
-    titlesContainer: {
-        paddingLeft: '10px',
-        flexGrow: 1,
-        textAlign: 'left',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        height: '28px'
-    },
-    titlesContainerCenter: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    mainTitle: {
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        height: '15px',
-        fontFamily: theme.typography.fontFamily,
-        fontSize: '11px',
-        fontWeight: 'bold'
-    },
-    noSubTitle: {
-        height: '18px',
-        fontSize: '13px'
-    },
-    subTitle: {
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        height: '13px',
-        fontFamily: theme.typography.fontFamily,
-        fontSize: '9px'
-    },
-    buttonIcon: {
-        width: '24px'
-    },
-    buttonCloseIcon: {
-        '& > svg': {
-            color: theme.palette.project.tabs.closeIcon,
+        },
+        'div.TabsMainTitle': {
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            height: '15px',
+            fontFamily: theme.typography.fontFamily,
+            fontSize: '11px',
+            fontWeight: 'bold'
+        },
+        'div.TabsNoSubTitle': {
+            height: '18px',
+            fontSize: '13px'
+        },
+        'div.TabsSubTitle': {
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            height: '13px',
+            fontFamily: theme.typography.fontFamily,
+            fontSize: '9px'
+        },
+        'div.TabsButtonIcon': {
+            width: '24px'
+        },
+        'div.TabsButtonCloseIcon': {
+            '& > svg': {
+                color: theme.palette.project.tabs.closeIcon,
+            }
         }
     }
-}))
+}));
 
 const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
-    const classes = useStyles()
+    useStyles();
     const {
         activated,
         tabId,
@@ -122,12 +124,12 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
 
     return (
         <div>
-            <div className={clsx(classes.button, {[classes.buttonActivated]: activated})}
+            <div className={clsx('TabsButton', {'TabsButtonActivated': activated})}
                 onClick={handleTabClick}>
                 <div>
                     {
                         icon &&
-                        <div className={classes.buttonIcon}>
+                        <div className="TabsButtonIcon">
                             {
                                 icon === 'search' ?
                                     <SearchIcon/> :
@@ -144,20 +146,20 @@ const TabButton: React.FC<TabButtonProps> = (props: TabButtonProps) => {
 
                         </div>
                     }
-                    <div className={clsx(classes.titlesContainer, {[classes.titlesContainerCenter]: !props.subTitle})}>
+                    <div className={clsx('TabsTitlesContainer', {'TabsTitlesContainerCenter': !props.subTitle})}>
                         {
                             subTitle &&
-                            <div className={classes.subTitle}>
+                            <div className="TabsSubTitle">
                                 {subTitle}
                             </div>
                         }
-                        <div className={clsx(classes.mainTitle, {[classes.noSubTitle]: !props.subTitle})}>
+                        <div className={clsx('TabsMainTitle', {'TabsNoSubTitle': !props.subTitle})}>
                             {title}
                         </div>
                     </div>
                     {
                         onTabClose &&
-                        <div className={classes.buttonCloseIcon}
+                        <div className="TabsButtonCloseIcon"
                             onClick={handleTabClose}
                             data-test="tab-close-icon">
                             <CloseIcon/>
