@@ -1,5 +1,6 @@
 // import { APIConfig } from 'configs/apiConfig';
 
+import { APIConfig } from 'configs/apiConfig';
 import Dialog from 'theme/components/material/Dialog/Dialog';
 import DialogActions from './components/EditPayerActions/EditPayerActions';
 import DialogContent from './components/EditPayerContent/EditPayerContent';
@@ -67,7 +68,8 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
 
     const createPersonsUrl = (filtersObj: any) => {
         const fields = generateRequestFilters(filtersObj);
-        setPersonsUrl(`http://20.33.40.147:13111/csc/insurance/persons${fields}`);
+        setPersonsUrl(APIConfig().defaultHostUrl+'persons'+`${fields}`);
+        console.log(personsUrl);
     }
 
     const manageData = (obj: any = {}) => {
