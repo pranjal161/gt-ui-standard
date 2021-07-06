@@ -116,14 +116,13 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const SideBarConf = configurations.sidebar
 
     const nextStep = (index: number) => {
-
         if (canValidateStep()) {
             const step = index >= steps.length ? steps.length - 1 : index;
             setCurrentStep(step);
         }
         else {
             //Display errors
-            console.log()
+            console.log('Have errors on this step, errors to display')
         }
     }
 
@@ -173,4 +172,4 @@ const ContractOperation: React.FC<any> = (props: any) => {
     );
 }
 
-export default ContractOperation;
+export default React.memo(ContractOperation);
