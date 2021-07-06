@@ -64,7 +64,7 @@ const TextField = (props: InputProps) => {
                 onBlur={onBlur}
                 value={value}
                 assistiveText={assistiveText}
-                invalid={showError}
+                invalid={(assistiveText)}
             />
         </div>
     );

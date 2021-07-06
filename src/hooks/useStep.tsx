@@ -78,7 +78,7 @@ const useStep = () => {
      * @return {boolean} indicates if the step can be validated or not
      */
     const canValidateStep = () => {
-        let result = true
+        let inputErrors:any = []
 
         //We loop on all ressources used in the current step
         stepRessources && Object.entries(stepRessources)
@@ -88,14 +88,15 @@ const useStep = () => {
                 const statusReport = getRessourceStatusReport(hRef)
 
                 //We make a second loop on the properties we displayed and check if they are present in the status_report
-                Object.keys(boundInputs)
-                    .forEach((property: string) => {
+                Object.entries(boundInputs)
+                    .forEach(([property, propertyDetail]: any) => {
                         const status: any = getPropertyStatusReport(statusReport, property)
 
                         //if yes, we update their status with the severity getting from status_report
                         if (status) {
                             if (status.severity === 'error')
-                                result = false
+                                inputErrors.push(propertyDetail.status.inputId)
+
                             setStatus({
                                 hRef,
                                 property,
@@ -115,7 +116,7 @@ const useStep = () => {
                     })
             })
 
-        return result
+        return inputErrors
     }
 
     /**

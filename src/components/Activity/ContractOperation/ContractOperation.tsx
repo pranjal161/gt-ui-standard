@@ -3,6 +3,7 @@ import Stepper, {StepProps} from 'components/Stepper/Stepper';
 
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
+import {scrollIntoView} from 'utils/system';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
@@ -116,13 +117,14 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const SideBarConf = configurations.sidebar
 
     const nextStep = (index: number) => {
-        if (canValidateStep()) {
+        const inputErrors = canValidateStep()
+        if (inputErrors.length === 0) {
             const step = index >= steps.length ? steps.length - 1 : index;
             setCurrentStep(step);
         }
         else {
-            //Display errors
-            console.log('Have errors on this step, errors to display')
+            //We scroll to view the first error
+            scrollIntoView(inputErrors[0])
         }
     }
 
@@ -135,7 +137,8 @@ const ContractOperation: React.FC<any> = (props: any) => {
     }
 
     const currentStepConfig = steps && steps.filter((step: StepProps, index) => (step.id === currentStep))
-    const CurrentStep = currentStepConfig && <Step key={currentStepConfig[0].id} value={currentStepConfig[0]}/> || <div></div>
+    const CurrentStep = currentStepConfig && <Step key={currentStepConfig[0].id} value={currentStepConfig[0]}/> ||
+        <div></div>
 
     return (
         <div className={`col-12 ${classes.body}`}>

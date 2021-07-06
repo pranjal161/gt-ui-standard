@@ -28,3 +28,10 @@ export const logErrorByMessage = (message?: string, extra?:any) => {
  * @return {string} id string
  */
 export const uniqueId:any = (prefix?:string) => prefix + '_' + Math.random().toString(36).substr(2, 9);
+
+export const scrollIntoView = (id:string) => {
+    const element = document.getElementById(id)
+    console.log('element', element)
+    if (element)
+        element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'})
+}
