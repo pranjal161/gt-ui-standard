@@ -69,7 +69,6 @@ const EditPayer = ({isVisible = false, setIsVisible = () => undefined, onChange 
     const createPersonsUrl = (filtersObj: any) => {
         const fields = generateRequestFilters(filtersObj);
         setPersonsUrl(APIConfig().defaultHostUrl+'persons'+`${fields}`);
-        console.log(personsUrl);
     }
 
     const manageData = (obj: any = {}) => {
