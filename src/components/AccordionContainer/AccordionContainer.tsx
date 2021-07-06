@@ -73,7 +73,7 @@ const AccordionContainer = (props: AccordionProps) => {
 
     return (
         <>
-            <Accordion onChange={handleOnChange}>
+            <Accordion onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}}>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-label="Expand"

@@ -45,4 +45,4 @@ const BindToStep: React.FC<BindToStep> = ({hRef, property, children}: BindToStep
     );
 }
 
-export default BindToStep;
+export default React.memo(BindToStep);
