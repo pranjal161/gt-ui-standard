@@ -84,7 +84,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <UnsolicitedPayment response={activityResponse}/>
+            component: <UnsolicitedPayment response={activityResponse} hRef={hRef}/>
         },
         {
             id: 1,
@@ -93,7 +93,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InvestmentSplit response={activityResponse}/>
+            component: <InvestmentSplit response={activityResponse} hRef={hRef}/>
         },
         {
             id: 2,
@@ -102,7 +102,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             required: true,
             fullfilled: true,
             error: true,
-            component: <InformationSheet response={activityResponse}/>
+            component: <InformationSheet response={activityResponse} hRef={hRef}/>
         }
     ]
     const handleSideBarOffsetTop = useCallback((node) => {

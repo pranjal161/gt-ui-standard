@@ -1,6 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles';
 import useBindInputToStep from 'hooks/useBindInputToStep';
-import React from 'react';
+import React, {useState} from 'react';
+import {getUniqueId} from 'utils/system';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -24,7 +25,7 @@ export interface BindToStep {
     /**children
      *
      */
-    children: any
+    children?: any
 
 }
 
@@ -35,10 +36,12 @@ export interface BindToStep {
  */
 const BindToStep: React.FC<BindToStep> = ({hRef, property, children}: BindToStep) => {
     const classes = useStyles()
-    const [ref, errorMessageAPI] = useBindInputToStep({hRef, property})
+    const [uniqueId] = useState(getUniqueId(property))
+
+    const [ref, errorMessageAPI] = useBindInputToStep({hRef, property, uniqueId})
 
     return (
-        <div ref={ref} className={classes.root}>
+        <div id={uniqueId} ref={ref} className={classes.root}>
             {errorMessageAPI && <p ref={ref} className="MuiFormHelperText-root Mui-error">{errorMessageAPI}</p>}
             {children}
         </div>

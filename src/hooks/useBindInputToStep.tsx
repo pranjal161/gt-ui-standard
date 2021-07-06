@@ -3,7 +3,7 @@ import {createRef, useContext, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 
-const useBindInputToStep = ({hRef, property}: any) => {
+const useBindInputToStep = ({hRef, property, uniqueId}: any) => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
@@ -19,7 +19,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
         state.aia[baId].steps[currentStep][hRef][property].status.message)
 
     useEffect(() => {
-        dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property}))
+        dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property, uniqueId}))
 
         return () => {
             dispatch(aiaReducer.aiaStepRemoveInput({baId, hRef, property}))

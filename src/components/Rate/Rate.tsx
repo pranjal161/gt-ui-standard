@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
-const Rate = (props: { propertyName: string, response: any, icon?: Boolean }) => {
+const Rate = (props: { propertyName: string, hRef: string, response: any, icon?: Boolean }) => {
     const classes: any = useStyles();
     const onChange = (newValue: string) => {
         console.log(newValue);
@@ -45,6 +45,7 @@ const Rate = (props: { propertyName: string, response: any, icon?: Boolean }) =>
 
     return (<div className={classes.root}>
         <TextField
+            hRef={props.hRef}
             onChangeMethod={onChange}
             propertyName={props.propertyName}
             type="text"

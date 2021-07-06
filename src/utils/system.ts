@@ -21,3 +21,10 @@ export const logErrorByMessage = (message?: string, extra?:any) => {
     if (message)
         console.error(message, extra)
 }
+
+/**
+ * Generate a random unique Id
+ * @param {string} prefix to add
+ * @return {string} id string
+ */
+export const getUniqueId = (prefix?:string) => prefix + '_' + Math.random().toString(36).substr(2, 9);

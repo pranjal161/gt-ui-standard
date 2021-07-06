@@ -130,7 +130,7 @@ const AIASlice = createSlice({
             return state;
         },
         aiaStepAddInput(state: any, action: any) {
-            const {baId, hRef, property} = action.payload
+            const {baId, hRef, property, uniqueId} = action.payload
             const currentStep = state[baId].steps.current
 
             if (!state[baId].steps[currentStep])
@@ -142,7 +142,7 @@ const AIASlice = createSlice({
             if (!state[baId].steps[currentStep][hRef][property])
                 state[baId].steps[currentStep][hRef][property] = {status: {}}
 
-            state[baId].steps[currentStep][hRef][property].status = {value:'displayed'}
+            state[baId].steps[currentStep][hRef][property].status = {value:'displayed', uniqueId}
 
             return state;
         },

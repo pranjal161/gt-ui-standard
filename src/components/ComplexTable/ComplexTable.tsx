@@ -103,7 +103,7 @@ export const ComplexTableRow = (props: { hRef: any, tableColumn: Array<ComplexTa
         <>{rowResponse && rowResponse[0] && rowResponse[0]['data'] && <tr className={props.className} key={props.index}>
             {props.tableColumn && props.tableColumn.map((column: ComplexTableColumnItemProps, inx: number) => (<td key={`column${props.index}${inx}`}><div className="d-flex align-items-center">
                 {(inx === 0) && <SelectionOption selection={props.selection} selectedValues={props.selectedValues} index={props.index} selectedItem={props.row} onClick={() => props.entityClicked(props.row, props.index)} />}
-                {column.component ? component(column.component, { propertyName: column.valueKey, response: rowResponse[0]['data'] && rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'] : props.tableData, icon: false }) : rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'][column.valueKey] : props.row[column.valueKey]}
+                {column.component ? component(column.component, { propertyName: column.valueKey, hRef:props.hRef, response: rowResponse[0]['data'] && rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'] : props.tableData, icon: false }) : rowResponse[0]['data'][column.valueKey] ? rowResponse[0]['data'][column.valueKey] : props.row[column.valueKey]}
             </div></td>))}
         </tr>}</>
     );

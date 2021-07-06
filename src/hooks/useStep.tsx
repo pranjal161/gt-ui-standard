@@ -56,7 +56,7 @@ const useStep = () => {
 
     const getPropertyStatusReport = (statusReport: any, property: string) => {
         let result = undefined
-        statusReport.messages.forEach((message: any) => {
+        statusReport.messages && statusReport.messages.forEach((message: any) => {
             message.context.forEach((context: any) => {
                 context.propertyNames.forEach((propertyName: any) => {
                     if (propertyName === property) {
