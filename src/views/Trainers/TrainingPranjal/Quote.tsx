@@ -33,7 +33,7 @@ const Quote = () => {
     const ownerUrl = 'http://20.33.40.95:13211/csc/insurance/quotes/ID-mrMxYT5Q/owners/ID-iy5KKS9M';
     const [owner, setOwner] = useState<string>();
     useEffect(() => {
-        startActivity();
+        startActivity({});
         getData();
     }, []);
 

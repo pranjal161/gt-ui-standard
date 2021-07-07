@@ -12,7 +12,7 @@ const useActivity = () => {
     const baId: any = context.baId
     const {t} = useTranslation()
 
-    const startActivity = useCallback (() => dispatch(aiaReducer.aiaBAStart({baId})),[dispatch, baId])
+    const startActivity = useCallback ((activityProps) => dispatch(aiaReducer.aiaBAStart({baId, activityProps})),[dispatch, baId])
     const stopActivity = useCallback (() => dispatch(aiaReducer.aiaBAEnd({baId})),[dispatch, baId])
     const getSteps = useCallback((activityCode) => {
         const activityConf = getActivityConf(activityCode)

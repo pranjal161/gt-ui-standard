@@ -34,7 +34,7 @@ const ActivityContainer: React.FC<ActivityDetailProps> = ({
     }
 
     useEffect(() => {
-        startActivity();
+        startActivity(propsActivity);
         if (['insert', 'update', 'upsert'].includes(mode)) {
             post(hRef, {}).then((res: any) => {
                 if (res && res.data && getLink(res.data, 'self'))

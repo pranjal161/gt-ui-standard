@@ -31,6 +31,7 @@ const AIASlice = createSlice({
             state[action.payload.baId] = {
                 status: {},
                 steps: {},
+                props : action.payload.activityProps,
                 current: undefined
             }
 

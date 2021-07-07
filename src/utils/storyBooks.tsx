@@ -18,7 +18,7 @@ const WrapActivity = ({children}: any) => {
     const StartEndActivity = ({children}: any) => {
         const {startActivity, stopActivity} = useActivity()
         useEffect(() => {
-            startActivity();
+            startActivity(activityProps);
 
             return () => {
                 stopActivity()
