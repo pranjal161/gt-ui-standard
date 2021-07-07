@@ -44,7 +44,7 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
                     prefixActions={<AddFolderIcon/>}
                     actions={actions}>
 
-                    <ComplexTable selectionMode="none"
+                    <ComplexTable
                         columns={columns} 
                         rowExtraData={rowExtraData}
                         headers={headers}
