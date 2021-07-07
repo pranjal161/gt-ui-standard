@@ -73,7 +73,7 @@ const ContentController = () => {
     </div>)
 }
 
-const controller = (value: any) => <ContentController/>
+const controller = () => <ContentController/>
 
 const items = {
     contract:
@@ -92,7 +92,7 @@ const items = {
 
 const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading=false}:ExampleOfSideBarProps) => {
     const classes = useStyles();
-    const sidebarProps = useSidebar(items, true)
+    const sidebarProps = useSidebar(items, {}, true)
     mockLoading = loading
 
     return (

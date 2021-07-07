@@ -62,20 +62,22 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
     const [formData, setFormData]: [any, Function] = React.useState();
     const {canValidateStep} = useStep()
 
-    const addMoney = async () => {
+    const addMoney = () => {
         const moneyInHref = getLink(moneyIn, 'self');
-        await patch(moneyInHref, formData)
-        // checking consistency & display error
-        const inputErrors = canValidateStep()
-        if (inputErrors.length === 0) {
-            //Todo : NOt to do here, to be done in UP level
-            await patch(UPHref, {'cscaia:money_in': moneyInHref});
-            onClose()
-        }
-        else {
-            //We scroll to view the first error
-            scrollIntoView(inputErrors[0])
-        }
+        patch(moneyInHref, formData).then(() => {
+            // checking consistency & display error
+            const inputErrors = canValidateStep()
+            if (inputErrors.length === 0) {
+                //Todo : NOt to do here, to be done in UP level
+                patch(UPHref, {'cscaia:money_in': moneyInHref});
+                onClose()
+            }
+            else {
+                //We scroll to view the first error
+                scrollIntoView(inputErrors[0])
+            }
+        })
+
     };
 
     const getMoneyInsProps: Function = async () => {
