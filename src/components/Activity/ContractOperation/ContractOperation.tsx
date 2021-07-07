@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
+import {ActivityProps} from 'components/Activity/Activity';
 import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
@@ -41,8 +42,9 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractOperation: React.FC<any> = (props: any) => {
-    const {hRef, mainEntityRef} = props
+const ContractOperation: React.FC<any> = (props: ActivityProps) => {
+    const {hRef, activityProps} = props
+    const {activityCode, mainEntityHRef } = activityProps
 
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
@@ -52,7 +54,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const {getActivityConf} = useConfigurations();
 
     const {getSteps} = useActivity()
-    const steps = getSteps(props)
+    const steps = getSteps(activityCode)
 
     const {canValidateStep} = useStep()
 
@@ -77,7 +79,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
         }
     }, []);
 
-    const configurations = getActivityConf(props)
+    const configurations = getActivityConf(activityCode)
 
     const SideBarConf = configurations.sidebar
 
@@ -105,7 +107,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            <CurrentStepComponent hRef={hRef} mainEntityRef={mainEntityRef}/></ActivityStep> ||
+            <CurrentStepComponent hRef={hRef} activityProps={props}/></ActivityStep> ||
         <div/>
 
     const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
@@ -140,7 +142,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef} onChange={handleSidebarChange}/>
+                <SideBarConf mainEntityHRef={mainEntityHRef} hRef={hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );

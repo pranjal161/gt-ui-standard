@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {ActivityProps} from 'components/Activity/Activity';
+import {ActivityDetailProps} from 'components/Activity/Activity';
 import WithActivity from 'components/WithActivity';
 import useActivity from 'hooks/useActivity';
 import {Provider} from 'react-redux';
@@ -7,7 +7,7 @@ import React, {useEffect} from 'react';
 import configureStore from 'store/configureStore';
 
 const WrapActivity = ({children}: any) => {
-    const activityProps: ActivityProps = {
+    const activityProps: ActivityDetailProps = {
         hRef: 'http://mock/activity/storybook',
         entityType: 'storybook',
         mainEntityHRef: 'http://mock/activity/storybook',

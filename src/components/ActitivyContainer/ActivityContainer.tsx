@@ -1,54 +1,16 @@
+import Activity, {ActivityDetailProps} from 'components/Activity/Activity';
 import React, {useEffect, useState} from 'react';
-import Activity, {ActivityProps} from 'components/Activity/Activity';
 import {getLink} from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
-export interface ActivityContainerProps {
-
-    /**
-     * activityCode code of the activity to display/Execute
-     */
-    activityCode: string
-
-    /**
-     * Can be ticket, contract, person, claims,
-     */
-    entityType: string
-
-    /**
-     * hRef of operation, for launch activity it's the href to POST
-     */
-    hRef: string
-
-    /**
-     * mainEntityHRef it will be the contract, the person or not defined
-     */
-    mainEntityHRef: string,
-
-    /**
-     * Mode of execution of the activity : view, insert, update
-     */
-    mode: string
-
-    /**
-     * Extra Values
-     */
-    extraValues?: any
-
-    /**
-     * title
-     */
-    title: string
-}
-
 /**
  * Wrap activity, manage the start and end activity for Redux
  * Do the POSt for mode === 'insert' || mode === 'update'
- * @param {ActivityContainerProps} Activity props
+ * @param {ActivityProps} Activity props
  * @return {React.Component} Children activity content
  */
-const ActivityContainer: React.FC<ActivityContainerProps> = ({
+const ActivityContainer: React.FC<ActivityDetailProps> = ({
     hRef,
     mainEntityHRef,
     activityCode,
@@ -56,12 +18,12 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     mode,
     title,
     extraValues
-}: ActivityContainerProps) => {
+}: ActivityDetailProps) => {
     const {post} = useAia();
     const {startActivity, stopActivity} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
-    const propsActivity: ActivityProps = {
+    const propsActivity: ActivityDetailProps = {
         hRef: activityHRef,
         entityType,
         mainEntityHRef,
@@ -92,8 +54,9 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     }, [hRef, mode, post, setActivityHRef, startActivity, stopActivity])
 
     return (<>
-        {activityHRef ? <Activity {...propsActivity}/> : <div>Activity is loading ...</div>}
+        {activityHRef ? <Activity hRef={activityHRef} activityProps={propsActivity}/> :
+            <div>Activity is loading ...</div>}
     </>)
-
 }
+
 export default React.memo(ActivityContainer);

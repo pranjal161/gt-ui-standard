@@ -1,6 +1,7 @@
 import {AddBoxIcon, AddFolderIcon, PaymentIcon} from 'assets/svg';
 
 import AccordionContainer from 'components/AccordionContainer/AccordionContainer';
+import {ActivityProps} from 'components/Activity/Activity';
 import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'components/Button/Button';
 import ComplexTable from 'components/ComplexTable/ComplexTable';
@@ -54,27 +55,16 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
     );
 }
 
-export interface InvestmentSplitProps {
-
-    /**
-     * hRef of the activity
-     */
-    hRef: string
-
-    /**
-     * hRef of the main entity of the activity, can be the contract or the person
-     */
-    mainEntityRef: string
-}
-
-const InvestmentSplit: React.FC<InvestmentSplitProps> = ( { hRef, mainEntityRef }:InvestmentSplitProps) => {
+const InvestmentSplit: React.FC<ActivityProps> = ( props:ActivityProps) => {
+    const { hRef, activityProps } = props
+    const { mainEntityHRef } = activityProps
     const [response] = useResponse(hRef)
 
     const [isOpen, setOpen]: [boolean, Function] = React.useState(false);
     // To be picked from API after property allocation_type is available, harcoded for now
     const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
-    const contractHRef =mainEntityRef
+    const contractHRef = mainEntityHRef
     const poolSplit = response.data['main_pool_split'];
 
     return (

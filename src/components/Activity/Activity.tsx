@@ -15,6 +15,19 @@ const useStyles = makeStyles((theme) => ({
 export interface ActivityProps {
 
     /**
+     * hRef of the activity
+     */
+    hRef : string
+
+    /**
+     * hRef of the main entity of the activity, can be the contract or the person
+     */
+    activityProps: ActivityDetailProps
+}
+
+export interface ActivityDetailProps {
+
+    /**
      * code of the activity
      */
     activityCode: any
@@ -51,11 +64,11 @@ export interface ActivityProps {
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
+    const {hRef, activityProps} = props
     const classes: any = useStyles()
-    const {hRef} = props
 
     const {getActivityConf} = useConfigurations()
-    const configurations = getActivityConf(props)
+    const configurations = getActivityConf(activityProps.activityCode)
 
     const {openNewTab, forOperation} = useTabs()
     const onLaunchActivity = useCallback((operation: any, entityType: string) => {
@@ -72,10 +85,10 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     return (
         <div className={classes.root}>
             <div className="col-12">
-                {Header && <Header {...props} onLaunchActivity={onLaunchActivity}/>}
+                {Header && <Header hRef={hRef} activityProps={activityProps} onLaunchActivity={onLaunchActivity}/>}
             </div>
             <div>
-                {Structure && <Structure {...props}/>}
+                {Structure && <Structure hRef={hRef} activityProps={activityProps}/>}
             </div>
         </div>
     )

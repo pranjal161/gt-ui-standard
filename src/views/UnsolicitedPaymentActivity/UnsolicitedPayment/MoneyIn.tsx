@@ -2,8 +2,9 @@ import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 import { getLink, isResponseConsistent } from 'utils/functions';
 
-import { APIConfig } from 'configs/apiConfig';
+import {ActivityProps} from 'components/Activity/Activity';
 import ActivityStep from 'components/ActivityStep/ActivityStep';
+import { APIConfig } from 'configs/apiConfig';
 import Button from 'theme/components/material/Button/Button';
 import MoneyInDialog from './MoneyInDialog/MoneyInDialog';
 import MoneyInList from './MoneyInList/MoneyInList';
@@ -11,19 +12,6 @@ import React from 'react';
 import Section from 'components/Section/Section';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
-
-export interface MoneyInProps {
-
-    /**
-     * href of current unsolicited payment
-     */
-    hRef: string
-
-    /**
-     * hRef of the main entity of the activity, can be the contract or the person
-     */
-    mainEntityRef: string
-}
 
 const useStyles = makeStyles((theme: Theme) => ({
     avoidMovement: {
@@ -37,7 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   * @description Please don't forget to save the money in at the end of the unsolicited payment process
    * @returns {React.component} Display the component.
     */
-const MoneyIn: React.FC<MoneyInProps> = ({ hRef, mainEntityRef }: MoneyInProps) => {
+const MoneyIn: React.FC<ActivityProps> = (props: ActivityProps) => {
+    const { hRef, activityProps } = props
+    const { mainEntityHRef } = activityProps
     const classes = useStyles();
     const { post, patch } = useAia();
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -47,7 +37,7 @@ const MoneyIn: React.FC<MoneyInProps> = ({ hRef, mainEntityRef }: MoneyInProps) 
     const unsolicitedPaymentHref: string = getLink(response && response.data, 'self');
     const payerURI: string = getLink(response && response.data, 'premium:addressee_person');
     const amountUP: number = response?.data['operation:amount'];
-    const contractHRef: string = mainEntityRef
+    const contractHRef: string = mainEntityHRef
 
     const [moneyInHRef, setMoneyInHRef]: [any, Function] = React.useState();
 

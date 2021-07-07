@@ -1,4 +1,5 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+import {ActivityProps} from 'components/Activity/Activity';
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -8,20 +9,7 @@ import React from 'react';
 import Section from 'components/Section/Section';
 import { useTranslation } from 'react-i18next';
 
-export interface UnsolicitedPaymentProps {
-
-    /**
-     * hRef of the activity
-     */
-    hRef : string
-
-    /**
-     * hRef of the main entity of the activity, can be the contract or the person
-     */
-    mainEntityRef: string
-}
-
-const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = (props: UnsolicitedPaymentProps) => {
+const UnsolicitedPayment: React.FC<ActivityProps> = (props: ActivityProps) => {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
