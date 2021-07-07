@@ -45,7 +45,7 @@ const GeneralInfo = ({response}: any) => {
                     hRef={hRef}
                     data={response.data}
                     propertyName="operation:currency_code"
-                    onBlurMethod={(value: any) => patchValue(value, 'operation:currency_code')}
+                    onChangeMethod={(value: any) => patchValue(value, 'operation:currency_code')}
                 />
             </div>
             <div className="col-4">
@@ -53,7 +53,7 @@ const GeneralInfo = ({response}: any) => {
                     hRef={hRef}
                     data={response.data}
                     propertyName="operation:payment_source"
-                    onBlurMethod={(value: any) => patchValue(value, 'operation:payment_source')}
+                    onChangeMethod={(value: any) => patchValue(value, 'operation:payment_source')}
                 />
             </div>
             <div className="d-flex col-4 pt-3">
