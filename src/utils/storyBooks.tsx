@@ -12,6 +12,7 @@ const WrapActivity = ({children}: any) => {
         entityType: 'storybook',
         mainEntityHRef: 'http://mock/activity/storybook',
         activityCode: 'storybook',
+        mode:'storybook',
         title: 'storybook'
     }
     const StartEndActivity = ({children}: any) => {

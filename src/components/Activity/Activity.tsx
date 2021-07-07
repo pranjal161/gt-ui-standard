@@ -30,20 +30,24 @@ export interface ActivityProps {
     hRef: string
 
     /**
-     * title
-     */
-    title: string
-
-    /**
      * hRef of the main entity
      */
     mainEntityHRef: string
+
+    /**
+     * Mode of execution of the activity : view, insert, update
+     */
+    mode: string
 
     /**
      * extraValues
      */
     extraValues?:any
 
+    /**
+     * title
+     */
+    title: string
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {

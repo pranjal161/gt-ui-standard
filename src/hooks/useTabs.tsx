@@ -115,6 +115,7 @@ const useTabs = () => {
             title: operation.title,
             entityType,
             activityCode: operation.name,
+            mode: 'upsert',
             hRef: operation.href,
             mainEntityHRef,
         }
@@ -130,6 +131,7 @@ const useTabs = () => {
             title,
             entityType: 'contract',
             activityCode: 'contract_view',
+            mode:'view',
             hRef,
             mainEntityHRef: hRef
         }
@@ -143,6 +145,7 @@ const useTabs = () => {
             entityType: 'search',
             hRef: `search_${entityType}_${searchString}`, // todo : to be changed, not very good . this value is checking in the Activiti useEffect to not fetch on it
             mainEntityHRef: 'search',
+            mode:'search',
             title: searchString,
             extraValues: {entityType, searchString, filters}
         }

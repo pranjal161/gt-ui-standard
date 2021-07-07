@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Activity from 'components/Activity/Activity';
+import Activity, {ActivityProps} from 'components/Activity/Activity';
 import {getLink} from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
@@ -12,6 +12,11 @@ export interface ActivityContainerProps {
     activityCode: string
 
     /**
+     * Can be ticket, contract, person, claims,
+     */
+    entityType: string
+
+    /**
      * hRef of operation, for launch activity it's the href to POST
      */
     hRef: string
@@ -19,7 +24,7 @@ export interface ActivityContainerProps {
     /**
      * mainEntityHRef it will be the contract, the person or not defined
      */
-    mainEntityHRef?: string,
+    mainEntityHRef: string,
 
     /**
      * Mode of execution of the activity : view, insert, update
@@ -31,7 +36,10 @@ export interface ActivityContainerProps {
      */
     extraValues?: any
 
-    title?: string
+    /**
+     * title
+     */
+    title: string
 }
 
 /**
@@ -44,6 +52,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     hRef,
     mainEntityHRef,
     activityCode,
+    entityType,
     mode,
     title,
     extraValues
@@ -52,18 +61,19 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
     const {startActivity, stopActivity} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
-    const propsActivity: any = {
+    const propsActivity: ActivityProps = {
         hRef: activityHRef,
-        mainEntityHRef: mainEntityHRef,
-        action: 'fetch',
+        entityType,
+        mainEntityHRef,
         activityCode,
         title,
+        mode,
         extraValues
     }
 
     useEffect(() => {
         startActivity();
-        if (mode === 'insert' || mode === 'update') {
+        if (['insert', 'update', 'upsert'].includes(mode)) {
             post(hRef, {}).then((res: any) => {
                 if (res && res.data && getLink(res.data, 'self'))
                     //We got the Href of the new ressource
