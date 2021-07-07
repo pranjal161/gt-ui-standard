@@ -3,9 +3,9 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 import { getLink, isResponseConsistent } from 'utils/functions';
 
 import {ActivityProps} from 'components/Activity/Activity';
-import ActivityStep from 'components/ActivityStep/ActivityStep';
 import { APIConfig } from 'configs/apiConfig';
 import Button from 'theme/components/material/Button/Button';
+import DialogActivityStep from 'components/DialogActivityStep/DialogActivityStep';
 import MoneyInDialog from './MoneyInDialog/MoneyInDialog';
 import MoneyInList from './MoneyInList/MoneyInList';
 import React from 'react';
@@ -78,9 +78,9 @@ const MoneyIn: React.FC<ActivityProps> = (props: ActivityProps) => {
 
                     {
                         isOpen ?
-                            <ActivityStep code={'up_create_money_in'}>
+                            <DialogActivityStep code={'up_create_money_in'}>
                                 <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP}/>
-                            </ActivityStep>
+                            </DialogActivityStep>
                             :
                             <div className={classes.avoidMovement} />
 

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 const SelectInput = (props: InputProps) => {
     const { t } = useTranslation();
     const { hRef, propertyName, data, onChangeMethod, onBlurMethod } = props;
-    const { inputId } = useBindInputToStep({hRef, property : propertyName})
+    const { inputId, status} = useBindInputToStep({hRef, property : propertyName})
     const { FieldWrapper } = useValidator();
     const field: Field = FieldWrapper(data, propertyName);
     const [value, setValue] = useState(field?.value);
@@ -30,6 +30,8 @@ const SelectInput = (props: InputProps) => {
         }
     },[onBlurMethod])
 
+    const invalid = status === 'error'
+
     return (
         <span id={inputId} hidden={!field.visible} data-testid={field.id}>
             <DxcSelect
@@ -40,6 +42,7 @@ const SelectInput = (props: InputProps) => {
                 onChange={onChange}
                 onBlur={onBlur}
                 label={t(propertyName)}
+                invalid={invalid}
             />
         </span>
     );

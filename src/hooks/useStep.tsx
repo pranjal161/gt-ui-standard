@@ -164,7 +164,7 @@ const useStep = () => {
         return result
     }
 
-    return {canValidateStep, validate, getMessages, setStatus, setCurentStep}
+    return {currentStep, canValidateStep, validate, getMessages, setStatus, setCurentStep}
 }
 
 export default useStep;

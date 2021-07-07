@@ -81,6 +81,8 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const addMoney = async () => {
         const res = await patch(hRef, formData);
         const inputErrors = canValidateStep()
+        console.log('inputErrors', inputErrors)
+
         if (inputErrors.length === 0) {
             onClose('UPPatch', res);
         }

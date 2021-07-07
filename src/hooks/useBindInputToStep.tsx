@@ -10,7 +10,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
     const baId: any = context.baId
     const [inputId] = useState(uniqueId(property))
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
-    const errorMessage = useSelector((state: any) => state.aia[baId] &&
+    const statusMessage = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
         state.aia[baId].steps[currentStep] &&
         state.aia[baId].steps[currentStep][hRef] &&
@@ -18,6 +18,14 @@ const useBindInputToStep = ({hRef, property}: any) => {
         state.aia[baId].steps[currentStep][hRef][property].status &&
         state.aia[baId].steps[currentStep][hRef][property].status.value === 'error' &&
         state.aia[baId].steps[currentStep][hRef][property].status.message)
+
+    const status = useSelector((state: any) => state.aia[baId] &&
+        state.aia[baId].steps &&
+        state.aia[baId].steps[currentStep] &&
+        state.aia[baId].steps[currentStep][hRef] &&
+        state.aia[baId].steps[currentStep][hRef][property] &&
+        state.aia[baId].steps[currentStep][hRef][property].status &&
+        state.aia[baId].steps[currentStep][hRef][property].status.value)
 
     useEffect(() => {
         dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property, inputId}))
@@ -27,7 +35,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
         }
     }, [])
 
-    return {inputId, errorMessage}
+    return {inputId, status, statusMessage}
 }
 
 export default useBindInputToStep;
