@@ -18,6 +18,11 @@ export interface MoneyInProps {
      * href of current unsolicited payment
      */
     hRef: string
+
+    /**
+     * hRef of the main entity of the activity, can be the contract or the person
+     */
+    mainEntityRef: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   * @description Please don't forget to save the money in at the end of the unsolicited payment process
    * @returns {React.component} Display the component.
     */
-const MoneyIn: React.FC<MoneyInProps> = ({ hRef }: MoneyInProps) => {
+const MoneyIn: React.FC<MoneyInProps> = ({ hRef, mainEntityRef }: MoneyInProps) => {
     const classes = useStyles();
     const { post, patch } = useAia();
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -42,7 +47,7 @@ const MoneyIn: React.FC<MoneyInProps> = ({ hRef }: MoneyInProps) => {
     const unsolicitedPaymentHref: string = getLink(response && response.data, 'self');
     const payerURI: string = getLink(response && response.data, 'premium:addressee_person');
     const amountUP: number = response?.data['operation:amount'];
-    const contractURI: string = unsolicitedPaymentHref && (unsolicitedPaymentHref).split('/operations')[0]; // CUT THE USELESS PARTS OF THE
+    const contractHRef: string = mainEntityRef
 
     const [moneyInHRef, setMoneyInHRef]: [any, Function] = React.useState();
 
@@ -63,7 +68,7 @@ const MoneyIn: React.FC<MoneyInProps> = ({ hRef }: MoneyInProps) => {
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractURI });
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ContractOperation: React.FC<any> = (props: any) => {
-    const hRef = props.hRef
+    const {hRef, mainEntityRef} = props
 
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
@@ -105,7 +105,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            <CurrentStepComponent hRef={hRef}/></ActivityStep> ||
+            <CurrentStepComponent hRef={hRef} mainEntityRef={mainEntityRef}/></ActivityStep> ||
         <div/>
 
     const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])

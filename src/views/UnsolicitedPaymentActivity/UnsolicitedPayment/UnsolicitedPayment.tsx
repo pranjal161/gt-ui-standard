@@ -6,8 +6,6 @@ import GeneralInfo from './GeneralInfo';
 import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
-import { getLink } from 'utils/functions';
-import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
 export interface UnsolicitedPaymentProps {
@@ -16,10 +14,14 @@ export interface UnsolicitedPaymentProps {
      * hRef of the activity
      */
     hRef : string
+
+    /**
+     * hRef of the main entity of the activity, can be the contract or the person
+     */
+    mainEntityRef: string
 }
 
-const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ hRef }: UnsolicitedPaymentProps) => {
-    const [response] = useResponse(hRef)
+const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = (props: UnsolicitedPaymentProps) => {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
@@ -28,17 +30,15 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ hRef }: Unsolic
         setIsVisible(false);
     }
 
-    const moneyInHRef = response && getLink(response?.data, 'self')
-
     return (
         <>
             <div className="col-12 mb-4">
                 <Section title="General Information" icon={<PaymentIcon />} >
-                    <GeneralInfo hRef={hRef} />
+                    <GeneralInfo {...props}/>
                 </Section>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn hRef={moneyInHRef}/>
+                <MoneyIn {...props}/>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={

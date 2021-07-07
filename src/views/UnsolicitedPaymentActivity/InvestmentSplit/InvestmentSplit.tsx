@@ -9,7 +9,6 @@ import ManagementSelection from './ManagementSelection/ManagementSelection';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
 import Section from 'components/Section/Section';
-import useActivity from 'hooks/useActivity';
 import useResponse from 'hooks/useResponse';
 
 interface SplitPoolInterface {
@@ -61,17 +60,21 @@ export interface InvestmentSplitProps {
      * hRef of the activity
      */
     hRef: string
+
+    /**
+     * hRef of the main entity of the activity, can be the contract or the person
+     */
+    mainEntityRef: string
 }
 
-const InvestmentSplit: React.FC<InvestmentSplitProps> = ( { hRef }:InvestmentSplitProps) => {
+const InvestmentSplit: React.FC<InvestmentSplitProps> = ( { hRef, mainEntityRef }:InvestmentSplitProps) => {
     const [response] = useResponse(hRef)
 
     const [isOpen, setOpen]: [boolean, Function] = React.useState(false);
     // To be picked from API after property allocation_type is available, harcoded for now
     const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
-    const {baId} = useActivity();
-    const contractUrl = baId && baId.split('/operations')[0];//Todo : This is not good
+    const contractHRef =mainEntityRef
     const poolSplit = response.data['main_pool_split'];
 
     return (
@@ -88,7 +91,7 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = ( { hRef }:InvestmentSpl
                 </div>
                 <ManagementSelection open={isOpen}
                     onCancel={() => setOpen(false)}
-                    contractUrl={contractUrl}
+                    contractUrl={contractHRef}
                 />
                 <BindToStep hRef={hRef} property={'main_pool_split'}/>
                 {poolSplit && poolSplit.map((pool: any, index: number) => (
