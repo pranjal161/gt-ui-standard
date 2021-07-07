@@ -15,7 +15,7 @@ export interface IconContainerProps {
     /**
          * onEdit
               */
-     onEdit: any
+    onEdit: any
 }
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
     },
     editIcon: {
-        marginRight: theme.spacing(1/2),
+        marginRight: theme.spacing(1 / 2),
         '& :hover': {
             cursor: 'pointer'
         }
     },
     deleteIcon: {
-        marginLeft: theme.spacing(1/2),
+        marginLeft: theme.spacing(1 / 2),
         '& :hover': {
             cursor: 'pointer'
         }
@@ -54,9 +54,13 @@ const IconContainer: React.FC<IconContainerProps> = (props: IconContainerProps) 
 
     return (
         <div className={classes.container}>
-            <span className={classes.editIcon} onClick={onEdit}>
-                <PencilIcon />
-            </span>
+            {
+                onEdit &&
+                <span className={classes.editIcon} onClick={onEdit}>
+                    <PencilIcon />
+                </span>
+            }
+
             <span className={classes.deleteIcon} onClick={onDelete}>
                 <DeleteIcon />
             </span>
