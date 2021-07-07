@@ -119,7 +119,7 @@ export interface StepProps {
     /**
      * if step is validated and correct
      */
-    fullfilled: boolean,
+    fulfilled: boolean,
 
     /**
      * if step is disabled
@@ -232,7 +232,7 @@ const Stepper = (props: StepperProps) => {
         let counter = 0;
         const updatedSteps: any = mainsteps.map((step: any) => {
             if (step.error) step.valid = !step.error;
-            if (step.fullfilled) step.valid = step.fullfilled;
+            if (step.fulfilled) step.valid = step.fulfilled;
             if (step.required) counter = counter + 1;
             step.description = `${counter}/${mainsteps.length}`;
             if (counter+1 < currentStep) step.iconSrc = PencilIcon;

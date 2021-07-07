@@ -10,9 +10,8 @@ import {getLink} from 'utils/functions';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 
-const GeneralInfo = ({response}: any) => {
-
-    const hRef = response && getLink(response.data, 'self');
+const GeneralInfo = ({hRef}: any) => {
+    const [response] = useResponse(hRef)
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
     const [payerResponse] = useResponse(payerLink)

@@ -3,12 +3,10 @@ import Stepper, {StepProps} from 'components/Stepper/Stepper';
 import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
-import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
-import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
-import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
 import {scrollIntoView} from 'utils/system';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
@@ -53,6 +51,12 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const {t} = useTranslation()
     const {getActivityConf} = useConfigurations();
 
+    const {getSteps} = useActivity()
+    const steps = getSteps(props)
+    console.log('step', steps)
+
+    const {canValidateStep} = useStep()
+
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
     const handleSidebarChange = useCallback((open: boolean) => {
         setIsSideBarOpen(open)
@@ -67,39 +71,6 @@ const ContractOperation: React.FC<any> = (props: any) => {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
-    const {canValidateStep} = useStep()
-
-    const initSteps = useCallback(() => [
-        {
-            id: 0,
-            code: 'unsolicited_payment',
-            label: t('common:_UNSOLICITED_PAYMENT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <UnsolicitedPayment response={activityResponse} hRef={hRef}/>
-        },
-        {
-            id: 1,
-            code: 'investment_split',
-            label: t('common:_INVESTMENT_SPLIT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InvestmentSplit response={activityResponse} hRef={hRef}/>
-        },
-        {
-            id: 2,
-            code: 'information_sheet',
-            label: t('common:_INFORMATION_SHEET'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InformationSheet response={activityResponse} hRef={hRef}/>
-        }
-    ], [activityResponse, hRef, t])
-
-    const steps = initSteps()
 
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
@@ -132,9 +103,10 @@ const ContractOperation: React.FC<any> = (props: any) => {
     }, [hRef, patch])
 
     const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
+    const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            {currentStepConfig[0].component}</ActivityStep> ||
+            <CurrentStepComponent hRef={hRef}/></ActivityStep> ||
         <div/>
 
     const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])

@@ -58,24 +58,21 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
 export interface InvestmentSplitProps {
 
     /**
-     * API response of API for the entity
-     */
-    response: any
-
-    /**
      * hRef of the activity
      */
     hRef: string
 }
 
-const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any, hRef: string }) => {
+const InvestmentSplit: React.FC<InvestmentSplitProps> = ( { hRef }:InvestmentSplitProps) => {
+    const [response] = useResponse(hRef)
+
     const [isOpen, setOpen]: [boolean, Function] = React.useState(false);
     // To be picked from API after property allocation_type is available, harcoded for now
     const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
     const {baId} = useActivity();
     const contractUrl = baId && baId.split('/operations')[0];//Todo : This is not good
-    const poolSplit = props.response.data['main_pool_split'];
+    const poolSplit = response.data['main_pool_split'];
 
     return (
         <div className="col-12 mb-4">
@@ -93,11 +90,11 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
                     onCancel={() => setOpen(false)}
                     contractUrl={contractUrl}
                 />
-                <BindToStep hRef={props.hRef} property={'main_pool_split'}/>
+                <BindToStep hRef={hRef} property={'main_pool_split'}/>
                 {poolSplit && poolSplit.map((pool: any, index: number) => (
                     <MainSplitPool
                         key={index}
-                        data={props.response.data['investment_split']}
+                        data={response.data['investment_split']}
                         hRef={pool['product_component']}/>
                 )
                 )}

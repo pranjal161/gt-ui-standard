@@ -1,5 +1,4 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
-
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -8,14 +7,10 @@ import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
 import { getLink } from 'utils/functions';
+import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
 export interface UnsolicitedPaymentProps {
-
-    /**
-     * API response of API for the entity
-     */
-    response: any
 
     /**
      * hRef of the activity
@@ -23,7 +18,8 @@ export interface UnsolicitedPaymentProps {
     hRef : string
 }
 
-const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => {
+const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ hRef }: UnsolicitedPaymentProps) => {
+    const [response] = useResponse(hRef)
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
@@ -32,15 +28,17 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
         setIsVisible(false);
     }
 
+    const moneyInHRef = response && getLink(response?.data, 'self')
+
     return (
         <>
             <div className="col-12 mb-4">
                 <Section title="General Information" icon={<PaymentIcon />} >
-                    <GeneralInfo response={response} />
+                    <GeneralInfo hRef={hRef} />
                 </Section>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn activityHref={getLink(response?.data, 'self')}/>
+                <MoneyIn hRef={moneyInHRef}/>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={

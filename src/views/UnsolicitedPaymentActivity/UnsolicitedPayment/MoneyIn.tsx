@@ -17,7 +17,7 @@ export interface MoneyInProps {
     /**
      * href of current unsolicited payment
      */
-    activityHref: string
+    hRef: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,16 +28,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * The component renders the money in part of the unsolicited payment
-  * @param {FormContentProps} props Props of the component.
+  * @param {MoneyInProps} props Props of the component.
   * @description Please don't forget to save the money in at the end of the unsolicited payment process
    * @returns {React.component} Display the component.
     */
-const MoneyIn: React.FC<MoneyInProps> = ({ activityHref }: MoneyInProps) => {
+const MoneyIn: React.FC<MoneyInProps> = ({ hRef }: MoneyInProps) => {
     const classes = useStyles();
     const { post, patch } = useAia();
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
-    const [response] = useResponse(activityHref);
+    const [response] = useResponse(hRef);
 
     const unsolicitedPaymentHref: string = getLink(response && response.data, 'self');
     const payerURI: string = getLink(response && response.data, 'premium:addressee_person');
@@ -49,7 +49,7 @@ const MoneyIn: React.FC<MoneyInProps> = ({ activityHref }: MoneyInProps) => {
     const onClose = async (name = 'default', response: any = false) => {
         if (name === 'UPPatch') {
             if (response && response.data && isResponseConsistent(response.data)) {
-                await patch(activityHref, { 'cscaia:money_in': moneyInHRef });
+                await patch(hRef, { 'cscaia:money_in': moneyInHRef });
             }
         }
         setIsOpen(false);
