@@ -1,8 +1,7 @@
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import { formatValue, getDescriptionFromOneOf, getLink, hasMethodInOptions } from 'utils/functions';
 
 import { DxcTable } from '@dxc-technology/halstack-react';
-import IconContainer from './IconContainer/IconContainer';
+import MoneyInListItem from './MoneyInListItem';
 import React from 'react';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     */
 const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
     const classes = useStyles();
-    const { post, patch, fetch } = useAia();
+    const { post, patch } = useAia();
     const {
         moneyInHref,
         onEdit,
@@ -71,16 +70,6 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
         await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
     }
 
-    const IsEditable: Function = async (href: string) => {
-        const res: any = await fetch(href);
-        if (hasMethodInOptions(res.data, 'PATCH')) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     return (
         <div className={classes.container}>
             <DxcTable>
@@ -99,14 +88,7 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
                         <tr>
                             {
                                 columns.map((item: any, key: number) => (
-                                    item.type && item.property ?
-                                        <td className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
-                                        item.property ?
-                                            <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
-                                            :
-                                            <td key={key}>
-                                                <IconContainer onDelete={onDelete} onEdit={IsEditable(getLink(response.data, 'self')) ? () => onEdit(getLink(response.data, 'self')) : false} />
-                                            </td>
+                                    <MoneyInListItem moneyInHref={moneyInHref} key={key} item={item} onEdit={onEdit} onDelete={onDelete} response={response} />
 
                                 ))
                             }
