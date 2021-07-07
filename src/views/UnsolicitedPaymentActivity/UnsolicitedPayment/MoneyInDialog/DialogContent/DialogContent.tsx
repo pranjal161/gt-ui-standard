@@ -94,7 +94,6 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
 
     const onChange: Function = React.useCallback((inputName: string) => (newValue: any) => {
         setFormData({ ...formData, [inputName]: newValue })
-
     }, [setFormData, formData]);
 
     return (

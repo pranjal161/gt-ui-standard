@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
+/**
+ * The component renders the money in part of the unsolicited payment
+  * @param {FormContentProps} props Props of the component.
+  * @description Please don't forget to save the money in at the end of the unsolicited payment process
+   * @returns {React.component} Display the component.
+    */
 const MoneyIn: React.FC<MoneyInProps> = ({ activityHref }: MoneyInProps) => {
     const classes = useStyles();
     const { post, patch } = useAia();
