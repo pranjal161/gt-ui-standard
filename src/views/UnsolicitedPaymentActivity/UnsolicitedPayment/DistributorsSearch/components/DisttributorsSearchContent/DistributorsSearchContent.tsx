@@ -1,3 +1,4 @@
+import { APIConfig } from 'configs/apiConfig';
 import { DxcInput } from '@dxc-technology/halstack-react';
 import React from 'react';
 import { SearchIcon } from 'assets/svg';
@@ -24,7 +25,7 @@ const DistributorsSearchContent = ({isSearching, setValue, onChange}: Distributo
     const [search, setSearch] = React.useState<string>('');
     const [distributor, setDistributor] = React.useState<foundDistributor>({rate: 0, distributor: {}});
     const [url, setUrl] = React.useState<string>('');
-    const baseUrl = 'http://20.33.40.147:13111/csc/insurance/distributors';
+    const baseUrl = APIConfig().defaultHostUrl + 'distributors';
 
     const handleRateChange = (newValue: string) => {
         let value = +newValue;
