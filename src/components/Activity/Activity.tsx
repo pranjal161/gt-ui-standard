@@ -48,9 +48,9 @@ export interface ActivityDetailProps {
     mainEntityHRef: string
 
     /**
-     * Mode of execution of the activity : view, insert, update
+     * Mode of execution of the activity : view, create, update
      */
-    mode: string
+    mode?: string
 
     /**
      * extraValues

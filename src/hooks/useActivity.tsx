@@ -12,8 +12,16 @@ const useActivity = () => {
     const baId: any = context.baId
     const {t} = useTranslation()
 
-    const startActivity = useCallback ((activityProps) => dispatch(aiaReducer.aiaBAStart({baId, activityProps})),[dispatch, baId])
+    const startActivity = useCallback ((activityProps) => {
+        dispatch(aiaReducer.aiaBAStart({baId, activityProps}))
+        const activityConf = getActivityConf(activityProps.activityCode)
+
+        return activityConf.mode
+    },[dispatch,getActivityConf, baId])
+
     const stopActivity = useCallback (() => dispatch(aiaReducer.aiaBAEnd({baId})),[dispatch, baId])
+    const updateActivityProps = useCallback ((activityProps) => dispatch(aiaReducer.aiaBAUpdateProps({baId, activityProps})),[dispatch, baId])
+
     const getSteps = useCallback((activityCode) => {
         const activityConf = getActivityConf(activityCode)
         if (activityConf)
@@ -25,6 +33,7 @@ const useActivity = () => {
         baId,
         startActivity,
         stopActivity,
+        updateActivityProps,
         getSteps
     }
 }

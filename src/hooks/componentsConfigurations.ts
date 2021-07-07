@@ -13,11 +13,13 @@ export const configs: any = {
     activities: {
         contract_view: {
             structure: ContractView,
+            mode: 'view',
             header: HeaderOfContractView,
             sidebar: SideBarOfContractView,
         },
         unsolicited_payment: {
             structure: ContractOperation,
+            mode: 'create',
             header: HeaderOfContractUpsert,
             sidebar: SideBarOfContractOperation,
             steps: [{
@@ -50,6 +52,7 @@ export const configs: any = {
         },
         search: {
             structure: SearchView,
+            mode: 'view',
         }
         ,
     }

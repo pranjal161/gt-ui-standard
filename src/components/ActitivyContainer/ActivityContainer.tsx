@@ -4,43 +4,36 @@ import {getLink} from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
+export interface ActivityContainerProps {
+    hRef?: string,
+
+    activityProps: ActivityDetailProps
+}
+
 /**
  * Wrap activity, manage the start and end activity for Redux
  * Do the POSt for mode === 'insert' || mode === 'update'
  * @param {ActivityProps} Activity props
  * @return {React.Component} Children activity content
  */
-const ActivityContainer: React.FC<ActivityDetailProps> = ({
-    hRef,
-    mainEntityHRef,
-    activityCode,
-    entityType,
-    mode,
-    title,
-    extraValues
-}: ActivityDetailProps) => {
+const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef, activityProps}: ActivityContainerProps) => {
     const {post} = useAia();
-    const {startActivity, stopActivity} = useActivity();
+    const {startActivity, stopActivity, updateActivityProps} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
-    const propsActivity: ActivityDetailProps = {
-        hRef: activityHRef,
-        entityType,
-        mainEntityHRef,
-        activityCode,
-        title,
-        mode,
-        extraValues
-    }
+    const newActivityProps: ActivityDetailProps = { ...activityProps, hRef: activityHRef}
 
     useEffect(() => {
-        startActivity(propsActivity);
-        if (['insert', 'update', 'upsert'].includes(mode)) {
+        const mode = startActivity(activityProps);
+        if (['create', 'update', 'upsert'].includes(mode)) {
             post(hRef, {}).then((res: any) => {
-                if (res && res.data && getLink(res.data, 'self'))
+                if (res && res.data && getLink(res.data, 'self')) {
+                    const newHRef = getLink(res.data, 'self')
                     //We got the Href of the new ressource
-                    setActivityHRef(getLink(res.data, 'self'));
-
+                    setActivityHRef(newHRef);
+                    //We update the props in redux store
+                    updateActivityProps({hRef : newHRef})
+                }
             });
         }
         else if (['view', 'storybook', 'search'].includes(mode)) {
@@ -51,10 +44,10 @@ const ActivityContainer: React.FC<ActivityDetailProps> = ({
         return () => {
             stopActivity()
         }
-    }, [hRef, mode, post, setActivityHRef, startActivity, stopActivity])
+    }, [hRef, post, setActivityHRef, startActivity, stopActivity])
 
     return (<>
-        {activityHRef ? <Activity hRef={activityHRef} activityProps={propsActivity}/> :
+        {activityHRef ? <Activity hRef={activityHRef} activityProps={newActivityProps}/> :
             <div>Activity is loading ...</div>}
     </>)
 }
