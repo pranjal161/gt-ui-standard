@@ -15,7 +15,7 @@ export interface StepProps {
     children: any
 }
 
-const Step = ({code, children}: any) => {
+const ActivityStep = ({code, children}: any) => {
     //This is used to mount and set current step before the inputs are bind to the step
     const [isMounted, setIsMounted] = useState(false)
     const {setCurentStep} = useStep()
@@ -28,4 +28,4 @@ const Step = ({code, children}: any) => {
     return isMounted ? children : <></>
 }
 
-export default React.memo(Step)
+export default React.memo(ActivityStep)

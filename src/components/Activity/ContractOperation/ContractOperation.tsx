@@ -4,7 +4,7 @@ import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
-import Step from './Step/Step';
+import ActivityStep from 'components/ActivityStep/ActivityStep';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
@@ -123,8 +123,8 @@ const ContractOperation: React.FC<any> = (props: any) => {
 
     const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
     const CurrentStep = currentStepConfig &&
-        <Step key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            {currentStepConfig[0].component}</Step> ||
+        <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
+            {currentStepConfig[0].component}</ActivityStep> ||
         <div/>
 
     return (
