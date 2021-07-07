@@ -5,6 +5,7 @@ import { ExpandMore } from 'assets/svg';
 import React from 'react';
 import Typo from 'components/Typography/Typo';
 import { makeStyles } from '@material-ui/core';
+import { uniqueId } from 'utils/system';
 
 export interface AccordionProps {
 
@@ -31,6 +32,10 @@ export interface AccordionProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: '15px 0',
+        boxShadow: '0px 3px 10px 0px rgb(0 0 0 / 25%)'
+    },
     header: {
         flex: '1 1 auto',
         display: 'flex',
@@ -65,17 +70,21 @@ const useStyles = makeStyles((theme) => ({
 const AccordionContainer = (props: AccordionProps) => {
     const classes = useStyles();
     const { title, prefixActions, actions, children } = props;
+    const domId = uniqueId()
+
+    //const handleOnChange = (event:any, expanded:boolean) => expanded && setTimeout(() => scrollIntoView(domId), 500)
+    const handleOnChange = () => ({})
 
     return (
         <>
-            <Accordion>
+            <Accordion className={classes.root} onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}}>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-label="Expand"
                     aria-controls="additional-actions1-content"
                     id="additional-actions1-header"
                 >
-                    <div className={classes.header}>
+                    <div id={domId} className={classes.header}>
                         <div className={classes.iconTitle}>
                             {prefixActions && <div className={classes.icon}>{prefixActions}</div>}
                             <Typo variant={'title'} value={title} />
@@ -89,6 +98,7 @@ const AccordionContainer = (props: AccordionProps) => {
                     {children}
                 </AccordionDetails>
             </Accordion>
+
         </>
     )
 };

@@ -1,17 +1,19 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
-
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
+import ActivityStep from 'components/ActivityStep/ActivityStep';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
+import {scrollIntoView} from 'utils/system';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import {useSelector} from 'react-redux';
+import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,30 +60,35 @@ const ContractOperation: React.FC<any> = (props: any) => {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
+    const {canValidateStep} = useStep()
+
     const steps = [
         {
             id: 0,
+            code: 'unsolicited_payment',
             label: t('common:_UNSOLICITED_PAYMENT'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <UnsolicitedPayment response={activityResponse}/>
+            component: <UnsolicitedPayment response={activityResponse} hRef={hRef}/>
         },
         {
             id: 1,
+            code: 'investment_split',
             label: t('common:_INVESTMENT_SPLIT'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <InvestmentSplit response={activityResponse}/>
+            component: <InvestmentSplit response={activityResponse} hRef={hRef}/>
         },
         {
             id: 2,
+            code: 'information_sheet',
             label: t('common:_INFORMATION_SHEET'),
             required: true,
             fullfilled: true,
             error: true,
-            component: <InformationSheet response={activityResponse}/>
+            component: <InformationSheet response={activityResponse} hRef={hRef}/>
         }
     ]
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -95,8 +102,15 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const SideBarConf = configurations.sidebar
 
     const nextStep = (index: number) => {
-        const step = index >= steps.length ? steps.length - 1 : index;
-        setCurrentStep(step);
+        const inputErrors = canValidateStep()
+        if (inputErrors.length === 0) {
+            const step = index >= steps.length ? steps.length - 1 : index;
+            setCurrentStep(step);
+        }
+        else {
+            //We scroll to view the first error
+            scrollIntoView(inputErrors[0])
+        }
     }
 
     const patchDate = (value: any, id: string) => {
@@ -107,6 +121,12 @@ const ContractOperation: React.FC<any> = (props: any) => {
         });
     }
 
+    const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
+    const CurrentStep = currentStepConfig &&
+        <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
+            {currentStepConfig[0].component}</ActivityStep> ||
+        <div/>
+
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
@@ -115,6 +135,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                     <div className="col-2">
                         {activityResponse &&
                         <DateInput propertyName="date_effect"
+                            hRef={hRef}
                             onChangeMethod={(value: any) => patchDate(value, 'date_effect')}
                             data={activityResponse.data}/>}
                     </div>
@@ -126,18 +147,12 @@ const ContractOperation: React.FC<any> = (props: any) => {
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {steps.map((step: StepProps, index) => (
-                            <div key={index}>
-                                {step.id === currentStep &&
-                                (
-                                    <>{step.component}</>
-                                )
-                                }
-                            </div>
-                        ))
-                        }
-                        <div className="m-2 p-1" style={{float: 'right'}}><Button
-                            onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/></div>
+
+                        {CurrentStep}
+
+                        <div className="m-2 p-1" style={{float: 'right'}}>
+                            <Button onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/>
+                        </div>
                     </WithScroll>
                 </div>
             </div>
@@ -149,4 +164,4 @@ const ContractOperation: React.FC<any> = (props: any) => {
     );
 }
 
-export default ContractOperation;
+export default React.memo(ContractOperation);
