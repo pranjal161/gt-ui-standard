@@ -9,7 +9,7 @@ import ManagementSelection from './ManagementSelection/ManagementSelection';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
 import Section from 'components/Section/Section';
-import useConfigurations from 'hooks/useConfigurations';
+import useActivity from 'hooks/useActivity';
 import useResponse from 'hooks/useResponse';
 
 interface SplitPoolInterface {
@@ -73,8 +73,8 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
     // To be picked from API after property allocation_type is available, harcoded for now
     const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
-    const {baId} = useConfigurations();
-    const contractUrl = baId && baId.split('/operations')[0];
+    const {baId} = useActivity();
+    const contractUrl = baId && baId.split('/operations')[0];//Todo : This is not good
     const poolSplit = props.response.data['main_pool_split'];
 
     return (

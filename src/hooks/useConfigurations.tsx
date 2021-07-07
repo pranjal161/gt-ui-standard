@@ -1,10 +1,7 @@
-import {useCallback, useContext} from 'react';
-import baContext from 'context/baContext';
 import {configs} from 'hooks/componentsConfigurations';
+import {useCallback} from 'react';
 
 const useConfigurations = () => {
-    const context = useContext(baContext)
-    const baId: any = context.baId
 
     /**
      * return the Skeleton according of the activity
@@ -14,7 +11,7 @@ const useConfigurations = () => {
     const getActivityConf = useCallback ((props:{activityCode:string}) => configs.activities[props.activityCode],[])
 
     return {
-        baId, getActivityConf
+        getActivityConf
     }
 }
 
