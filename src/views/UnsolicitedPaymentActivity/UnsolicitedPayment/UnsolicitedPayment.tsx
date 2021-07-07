@@ -1,4 +1,5 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -6,6 +7,7 @@ import GeneralInfo from './GeneralInfo';
 import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
+import { getLink } from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
 export interface UnsolicitedPaymentProps {
@@ -38,7 +40,7 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
                 </Section>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn response={response} />
+                <MoneyIn activityHref={getLink(response?.data, 'self')}/>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
