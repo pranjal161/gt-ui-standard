@@ -32,17 +32,20 @@ export interface ActivityContainerProps {
     extraValues?: any
 
     title?: string
-
-    children?: any
 }
 
+/**
+ * Wrap activity, manage the start and end activity for Redux
+ * Do the POSt for mode === 'insert' || mode === 'update'
+ * @param {ActivityContainerProps} Activity props
+ * @return {React.Component} Children activity content
+ */
 const ActivityContainer: React.FC<ActivityContainerProps> = ({
     hRef,
     mainEntityHRef,
     activityCode,
     mode,
     title,
-    children,
     extraValues
 }: ActivityContainerProps) => {
     const {post} = useAia();
@@ -53,42 +56,34 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
         hRef: activityHRef,
         mainEntityHRef: mainEntityHRef,
         action: 'fetch',
-        activityCode: activityCode,
-        title: title,
-        extraValues: extraValues
+        activityCode,
+        title,
+        extraValues
     }
 
     useEffect(() => {
         startActivity();
         if (mode === 'insert' || mode === 'update') {
             post(hRef, {}).then((res: any) => {
-                if (res && res.data && getLink(res.data, 'self')) {
+                if (res && res.data && getLink(res.data, 'self'))
                     //We got the Href of the new ressource
                     setActivityHRef(getLink(res.data, 'self'));
-                    // To ask API team to fix title of the
-                    // setTitle(getTitle(res.data))
-                }
-            });
 
+            });
         }
-        else if (mode === 'view' || mode === 'storybook') {
+        else if (['view', 'storybook', 'search'].includes(mode)) {
             //nothing to do the fetch will be done in the activity
-            setActivityHRef(hRef)
-        }
-        else if (mode === 'search') {
             setActivityHRef(hRef)
         }
 
         return () => {
-            stopActivity();
+            stopActivity()
         }
-    }, [hRef, mode, post, setActivityHRef])
+    }, [hRef, mode, post, setActivityHRef, startActivity, stopActivity])
 
-    return (
-        <>
-            {activityHRef ? <Activity {...propsActivity}>{children}</Activity> : <div>Loading the activity</div>
-            }
-        </>)
+    return (<>
+        {activityHRef ? <Activity {...propsActivity}/> : <div>Activity is loading ...</div>}
+    </>)
 
 }
 export default React.memo(ActivityContainer);
