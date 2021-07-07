@@ -1,6 +1,6 @@
-import { format, isValid } from 'date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { useState } from 'react';
+import { format, isValid } from 'date-fns';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
 import DateFnsUtils from '@date-io/date-fns';
 import useBindInputToStep from 'hooks/useBindInputToStep';

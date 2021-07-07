@@ -5,8 +5,8 @@ import DateInput from 'theme/components/material/DateInput/DateInput';
 import React from 'react';
 import SelectInput from 'components/SelectInput/SelectInput';
 import TextField from 'components/TextField/TextField';
-import { useTranslation } from 'react-i18next';
 import {getLink} from 'utils/functions';
+import { useTranslation } from 'react-i18next';
 
 export interface FormContentProps {
 
