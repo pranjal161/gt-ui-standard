@@ -6,6 +6,7 @@ import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'components/Button/Button';
 import ComplexTable from 'components/ComplexTable/ComplexTable';
 import {DxcSelect} from '@dxc-technology/halstack-react';
+import useActivity from 'hooks/useActivity';
 import ManagementSelection from './ManagementSelection/ManagementSelection';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
@@ -55,8 +56,9 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
     );
 }
 
-const InvestmentSplit: React.FC<ActivityProps> = ( props:ActivityProps) => {
-    const { hRef, activityProps } = props
+const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
+    const { hRef } = props
+    const { activityProps } = useActivity()
     const { mainEntityHRef } = activityProps
     const [response] = useResponse(hRef)
 

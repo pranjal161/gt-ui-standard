@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
-import {ActivityProps} from 'components/Activity/Activity';
 import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
@@ -42,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractOperation: React.FC<any> = (props: ActivityProps) => {
-    const {hRef, activityProps} = props
+const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
+    const {hRef} = props
+    const {activityProps} = useActivity()
     const {activityCode, mainEntityHRef } = activityProps
 
     const [contentOffsetTop, setContentOffsetTop] = useState()

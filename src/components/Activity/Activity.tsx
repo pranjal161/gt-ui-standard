@@ -1,6 +1,6 @@
+import useActivity from 'hooks/useActivity';
 import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import useConfigurations from 'hooks/useConfigurations';
 import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,11 +18,6 @@ export interface ActivityProps {
      * hRef of the activity
      */
     hRef : string
-
-    /**
-     * hRef of the main entity of the activity, can be the contract or the person
-     */
-    activityProps: ActivityDetailProps
 }
 
 export interface ActivityDetailProps {
@@ -64,11 +59,10 @@ export interface ActivityDetailProps {
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
-    const {hRef, activityProps} = props
+    const {hRef} = props
     const classes: any = useStyles()
 
-    const {getActivityConf} = useConfigurations()
-    const configurations = getActivityConf(activityProps.activityCode)
+    const {configurations} = useActivity()
 
     const {openNewTab, forOperation} = useTabs()
     const onLaunchActivity = useCallback((operation: any, entityType: string) => {
@@ -85,10 +79,10 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     return (
         <div className={classes.root}>
             <div className="col-12">
-                {Header && <Header hRef={hRef} activityProps={activityProps} onLaunchActivity={onLaunchActivity}/>}
+                {Header && <Header hRef={hRef} onLaunchActivity={onLaunchActivity}/>}
             </div>
             <div>
-                {Structure && <Structure hRef={hRef} activityProps={activityProps}/>}
+                {Structure && <Structure hRef={hRef}/>}
             </div>
         </div>
     )

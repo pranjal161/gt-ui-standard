@@ -3,7 +3,7 @@ import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
 import useConfigurations from 'hooks/useConfigurations';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const useActivity = () => {
     const {getActivityConf} = useConfigurations()
@@ -11,29 +11,34 @@ const useActivity = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const {t} = useTranslation()
+    const activityProps = useSelector((state: any) => state.aia[baId] && state.aia[baId].props)
+    const configurations = activityProps && getActivityConf(activityProps.activityCode)
 
-    const startActivity = useCallback ((activityProps) => {
-        dispatch(aiaReducer.aiaBAStart({baId, activityProps}))
-        const activityConf = getActivityConf(activityProps.activityCode)
+    const startActivity = useCallback((newActivityProps) => {
+        dispatch(aiaReducer.aiaBAStart({baId, activityProps: newActivityProps}))
+        const activityConf = getActivityConf(newActivityProps.activityCode)
 
         return activityConf.mode
-    },[dispatch,getActivityConf, baId])
+    }, [dispatch, getActivityConf, baId])
 
-    const stopActivity = useCallback (() => dispatch(aiaReducer.aiaBAEnd({baId})),[dispatch, baId])
-    const updateActivityProps = useCallback ((activityProps) => dispatch(aiaReducer.aiaBAUpdateProps({baId, activityProps})),[dispatch, baId])
+    const stopActivity = useCallback(() => dispatch(aiaReducer.aiaBAEnd({baId})), [dispatch, baId])
+    const updateActivityProps = useCallback((activityProps) => dispatch(aiaReducer.aiaBAUpdateProps({
+        baId,
+        activityProps
+    })), [dispatch, baId])
 
-    const getSteps = useCallback((activityCode) => {
-        const activityConf = getActivityConf(activityCode)
-        if (activityConf)
-            // We translate here the step labels
-            return activityConf.steps.map((step:any) => ({...step, label:t(step.label)}))
-    }, [getActivityConf])
+    const getSteps = useCallback((activityCode) => (
+        configurations && configurations.steps.map((step: any) => ({...step, label: t(step.label)
+        }))) // We translate here the step labels
+    , [getActivityConf])
 
     return {
         baId,
         startActivity,
         stopActivity,
         updateActivityProps,
+        configurations,
+        activityProps,
         getSteps
     }
 }

@@ -1,5 +1,6 @@
 import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
+import useActivity from 'hooks/useActivity';
 import { getLink, isResponseConsistent } from 'utils/functions';
 
 import {ActivityProps} from 'components/Activity/Activity';
@@ -25,8 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   * @description Please don't forget to save the money in at the end of the unsolicited payment process
    * @returns {React.component} Display the component.
     */
-const MoneyIn: React.FC<ActivityProps> = (props: ActivityProps) => {
-    const { hRef, activityProps } = props
+const MoneyIn: React.FC<ActivityProps> = ( props:{hRef:string}) => {
+    const { hRef } = props
+    const { activityProps } = useActivity()
     const { mainEntityHRef } = activityProps
     const classes = useStyles();
     const { post, patch } = useAia();

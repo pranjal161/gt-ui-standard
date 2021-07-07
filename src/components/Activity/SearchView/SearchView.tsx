@@ -1,4 +1,4 @@
-import {ActivityProps} from 'components/Activity/Activity';
+import useActivity from 'hooks/useActivity';
 import {PureContractSearch} from 'views/ContractSearch/ContractSearch';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
@@ -7,9 +7,8 @@ const useStyles = makeStyles(() => ({
     root: {},
 }))
 
-const SearchView = (props: ActivityProps) => {
-    console.log('props', props)
-    const {activityProps} = props
+const SearchView = () => {
+    const {activityProps} = useActivity()
     const {extraValues} = activityProps
     const classes = useStyles()
     let SearchComponent: any

@@ -21,8 +21,6 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef, activityProp
     const {startActivity, stopActivity, updateActivityProps} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
-    const newActivityProps: ActivityDetailProps = { ...activityProps, hRef: activityHRef}
-
     useEffect(() => {
         const mode = startActivity(activityProps);
         if (['create', 'update', 'upsert'].includes(mode)) {
@@ -47,7 +45,7 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef, activityProp
     }, [hRef, post, setActivityHRef, startActivity, stopActivity])
 
     return (<>
-        {activityHRef ? <Activity hRef={activityHRef} activityProps={newActivityProps}/> :
+        {activityHRef ? <Activity hRef={activityHRef}/> :
             <div>Activity is loading ...</div>}
     </>)
 }

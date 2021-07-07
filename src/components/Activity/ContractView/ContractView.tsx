@@ -1,5 +1,5 @@
+import useActivity from 'hooks/useActivity';
 import React, {useCallback, useState} from 'react';
-import {ActivityProps} from 'components/Activity/Activity';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
 import useConfigurations from 'hooks/useConfigurations';
@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractView: React.FC<any> = (props: ActivityProps) => {
-    const {hRef, activityProps } = props
+const ContractView: React.FC<any> = (props: { hRef :string}) => {
+    const {hRef } = props
+    const {activityProps} = useActivity()
     const {activityCode, mainEntityHRef } = activityProps
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
