@@ -1,9 +1,7 @@
 import React, {useCallback, useState} from 'react';
-
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
 import useConfigurations from 'hooks/useConfigurations';
-import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -39,12 +37,8 @@ const useStyles = makeStyles((theme) => ({
 const ContractView: React.FC<any> = (props: any) => {
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const { baId ,getActivityConf} = useConfigurations();
-    let newBaId = baId;
-    if (newBaId && newBaId.includes('_secondary')) {
-        newBaId= baId.split('_')[0];
-    }
-    const isSideBarOpen = useSelector((state: any) => (state.secondaryTabs.secondaryTabsIDs[newBaId] ? state.secondaryTabs.secondaryTabsIDs[newBaId].isSideBarOpen : state.newWindow.windowTabsIDs[newBaId].isSideBarOpen ))
+    const {getActivityConf} = useConfigurations();
+
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
@@ -53,6 +47,13 @@ const ContractView: React.FC<any> = (props: any) => {
     }, []);
 
     const configurations = getActivityConf(props)
+
+    const [isSideBarOpen, setIsSideBarOpen] = useState(true)
+    const handleSidebarChange = useCallback ((open:boolean) => {
+        setIsSideBarOpen(open)
+    },[setIsSideBarOpen])
+
+    console.log('isSideBarOpen', isSideBarOpen)
 
     const SideBarConf = configurations.sidebar
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -72,7 +73,7 @@ const ContractView: React.FC<any> = (props: any) => {
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef}/>
+                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );
