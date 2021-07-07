@@ -59,10 +59,11 @@ const useStyles = makeStyles(() => ({
  * Class is the entitytype : 'contract', 'person'
  * Instance is a specific Contract, person or else
  * @param {generateProps} items Item list
+ * @param {props} props of parent, we expect to have onChange callback
  * @param {boolean} defaultOpen  default value
  * @return {any} generated props
  */
-export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
+export const useSidebar = (items: generateProps, props :any, defaultOpen: boolean) => {
     const classes = useStyles()
     const [entityClass, setEntityClass] = useState(Object.keys(items)[0])
     const [open, setOpen]: [any, any] = useState(defaultOpen)
@@ -109,7 +110,7 @@ export const useSidebar = (items: generateProps, defaultOpen: boolean) => {
         setOpen((value: any) => !value)
     }, [setOpen])
 
-    return {toolbar, header, content, open, onToggle, value: currentInstance}
+    return {toolbar, header, content, open, onToggle, value: currentInstance, onChange: props.onChange}
 }
 
 const getIcon = (entityClass: string) => {

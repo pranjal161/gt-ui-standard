@@ -64,7 +64,7 @@ const SideBar = (props: any) => {
 
     items.person = personList
 
-    const sidebarProps = useSidebar(items, true)
+    const sidebarProps = useSidebar(items, props, true)
 
     const onOpenInNewTab = (item: any) => {
         if (item.entityType === 'contract')

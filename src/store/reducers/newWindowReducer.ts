@@ -20,7 +20,6 @@ export interface windowTabsObjsInt {
         href?: string,
         type: string,
         activityProps?:any,
-        isSideBarOpen: boolean
     }
 }
 
@@ -66,7 +65,6 @@ const newWindowSlice = createSlice({
                 type: action.payload.tabType,
                 href: URL,
                 activityProps:action.payload.activityProps,
-                isSideBarOpen: true
             };
         },
         removeWindowTabByID(state, action: PayloadAction<string>) {
@@ -92,9 +90,6 @@ const newWindowSlice = createSlice({
         setSelectedWindowTabByID(state, action: PayloadAction<string>) {
             state.selectedWindowTab.id = action.payload;
         },
-        setSideBarToggle(state: any, action) {  
-            state.windowTabsIDs[action.payload.tabId].isSideBarOpen = action.payload.isSideBarOpen;
-        }
     }
 });
 
@@ -105,5 +100,4 @@ export const {
     addWindowTabByID,
     removeWindowTabByID,
     setSelectedWindowTabByID,
-    setSideBarToggle
 } = newWindowSlice.actions;
