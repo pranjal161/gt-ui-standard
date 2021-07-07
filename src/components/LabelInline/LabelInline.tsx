@@ -31,6 +31,11 @@ export interface LabelInlineProps {
      * classname to add to Root classeName
      */
     className?: string
+
+    /**
+     * onClick callback
+     */
+    onClick?:any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.project.text.label,
         fontFamily: theme.typography.fontFamily,
         fontSize: 14,
-        flex:3,
+        flex: 3,
         textAlign: 'left',
         width: '50%',
         overflowWrap: 'break-word',
@@ -80,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     value: {
         color: theme.palette.text.primary,
         fontFamily: theme.typography.fontFamily,
-        flex:4,
+        flex: 4,
         fontSize: 14,
         textAlign: 'left',
         width: '50%',
@@ -128,12 +133,15 @@ const LabelInline: React.FC<LabelInlineProps> = ({
     data,
     loading,
     styleType = ['text'],
-    className
+    className,
+    onClick
 }: LabelInlineProps) => {
     const classes: any = useStyles();
     const {t} = useTranslation();
-    const SkeletonLabel = () => <div className={classes.loading}><span className={clsx(classes.loadingItem, classes.loadingItemLabel)}></span></div>
-    const SkeletonValue = () => <div className={classes.loading}><span className={clsx(classes.loadingItem, classes.loadingItemValue)}></span></div>
+    const SkeletonLabel = () => <div className={classes.loading}><span
+        className={clsx(classes.loadingItem, classes.loadingItemLabel)}></span></div>
+    const SkeletonValue = () => <div className={classes.loading}><span
+        className={clsx(classes.loadingItem, classes.loadingItemValue)}></span></div>
 
     /**
      * Retrieve description for a given data
@@ -153,11 +161,11 @@ const LabelInline: React.FC<LabelInlineProps> = ({
     }
 
     return (
-        <div className={clsx(classes.root, className)}>
+        <div className={clsx(classes.root, className)} onClick={onClick}>
             <div className={classes.label}>
                 {loading ? <SkeletonLabel/> : property && t(property)}
             </div>
-            <div className={classes.value}>
+            <div className={classes.value} onClick={onClick}>
                 {loading ? <SkeletonValue/> : <label dangerouslySetInnerHTML={{__html: processDataOutput()}}/>}
             </div>
         </div>

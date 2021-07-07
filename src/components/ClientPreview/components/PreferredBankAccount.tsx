@@ -14,7 +14,9 @@ const PreferredBankAccount = ({hRef}: any) => {
     const {t} = useTranslation()
 
     return <PanelSection title={t('common:preferredBankAccountLabel')}
-        content={<ContentList items={preferredBankAccount} data={response && response.data} loading={loading}/>}/>
+        content={<ContentList items={preferredBankAccount} data={response && response.data}
+            loading={loading}/>}/>
 }
 
 export default React.memo(PreferredBankAccount)
+

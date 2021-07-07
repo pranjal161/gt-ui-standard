@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import ExampleOfSideBar from 'stories/ExampleOfSideBar/ExampleOfSideBar';
 import FormDialog from 'views/Trainers/TrainingNorbert/FormDialog/FormDialog';
+import StatusReport from 'views/Trainers/TrainingNorbert/StatusReport/StatusReport';
 import Tabs from '../../../theme/components/material/Tabs/Tabs'
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -70,20 +71,25 @@ const TrainingNorbert = () => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="Theming" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Status report" {...a11yProps(0)} />
+                    <Tab label="Theming" {...a11yProps(1)} />
+                    <Tab label="Item Two" {...a11yProps(2)} />
+                    <Tab label="Item Three" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
+
             <TabPanel value={value} index={0}>
-                <Theming/>
+                <StatusReport/>
             </TabPanel>
             <TabPanel value={value} index={1}>
+                <Theming/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
                 <FormDialog/>
                 Item Two
             </TabPanel>
             <div className={classes.sidebar}>
-                <TabPanel value={value} index={2}>
+                <TabPanel value={value} index={3}>
                     <ExampleOfSideBar />
                 </TabPanel>
             </div>

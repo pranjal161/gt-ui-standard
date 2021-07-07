@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-
-import ReactDOM from 'react-dom';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+import ReactDOM from 'react-dom';
 import { create } from 'jss';
 import generateClassName from '../../theme/generateClassName';
 

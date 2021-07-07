@@ -20,6 +20,7 @@ const useStyles = makeStyles(() => ({
         placeSelf: 'stretch',
         height: '100%',
         overflowY: 'scroll',
+        overflowX: 'hidden',
     }
 }
 ));
