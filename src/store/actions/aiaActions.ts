@@ -100,12 +100,14 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
                 processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
             }
         }
-        if (response && response.data && !response.data.messages) {
+        // pick from the new resource created from location headers
+        if (response && response.headers && response.headers.location) {
+            let newResource = response.headers.location;
             dispatch(aiaReducer.aiaREFRESHSuccess({
                 data: response.data,
                 store: getState().aia,
                 params: params,
-                href,
+                href: newResource,
                 baId
             }))
         }
