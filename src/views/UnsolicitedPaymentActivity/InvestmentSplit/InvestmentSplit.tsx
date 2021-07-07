@@ -94,16 +94,14 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
                     contractUrl={contractUrl}
                 />
                 <BindToStep hRef={props.hRef} property={'main_pool_split'}/>
+                {poolSplit && poolSplit.map((pool: any, index: number) => (
+                    <MainSplitPool
+                        key={index}
+                        data={props.response.data['investment_split']}
+                        hRef={pool['product_component']}/>
+                )
+                )}
             </Section>
-
-            {poolSplit && poolSplit.map((pool: any, index: number) => (
-                <MainSplitPool
-                    key={index}
-                    data={props.response.data['investment_split']}
-                    hRef={pool['product_component']}/>
-            )
-            )}
-
         </div>
     )
 }
