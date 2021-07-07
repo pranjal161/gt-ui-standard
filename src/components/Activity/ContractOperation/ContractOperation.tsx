@@ -8,7 +8,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import {scrollIntoView} from 'utils/system';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
-import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
@@ -43,43 +42,35 @@ const useStyles = makeStyles((theme) => ({
 
 const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
     const {hRef} = props
-    const {activityProps} = useActivity()
-    const {activityCode, mainEntityHRef } = activityProps
-
-    const [contentOffsetTop, setContentOffsetTop] = useState()
-    const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
-
+    const {activityProps, getSteps, configurations} = useActivity()
+    const {mainEntityHRef } = activityProps
     const {t} = useTranslation()
-    const {getActivityConf} = useConfigurations();
-
-    const {getSteps} = useActivity()
-    const steps = getSteps(activityCode)
-
+    const steps = getSteps()
     const {canValidateStep} = useStep()
 
+    //------------- Side bar and dynamic layout management
+    const [contentOffsetTop, setContentOffsetTop] = useState()
+    const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
     const handleSidebarChange = useCallback((open: boolean) => {
         setIsSideBarOpen(open)
     }, [setIsSideBarOpen])
-
-    const [currentStep, setCurrentStep] = useState(0);
-    const [activityResponse] = useResponse(hRef);
-    const {patch} = useAia();
-
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
-
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
             setSideBarOffsetTop(node.offsetTop);
         }
     }, []);
+    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
+    //-------------
 
-    const configurations = getActivityConf(activityCode)
+    const [currentStep, setCurrentStep] = useState(0);
+    const [activityResponse] = useResponse(hRef);
+    const {patch} = useAia();
 
     const SideBarConf = configurations.sidebar
 
@@ -96,9 +87,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
     }, [steps, canValidateStep])
 
     const patchDate = useCallback((value: any, id: string) => {
-        const payload: any = {};
-        payload[id] = value;
-        patch(hRef, payload).then(() => {
+        patch(hRef, {[id] : value}).then(() => {
             setCurrentStep(0);
         });
     }, [hRef, patch])
@@ -107,15 +96,14 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
     const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            <CurrentStepComponent hRef={hRef} activityProps={props}/></ActivityStep> ||
-        <div/>
+            <CurrentStepComponent hRef={hRef} />
+        </ActivityStep> || <div/>
 
     const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
 
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
-
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse &&
@@ -128,7 +116,6 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}
                             onChange={handleStepperOnChange}/>
                     </div>
-
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>

@@ -6,11 +6,11 @@ import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'components/Button/Button';
 import ComplexTable from 'components/ComplexTable/ComplexTable';
 import {DxcSelect} from '@dxc-technology/halstack-react';
-import useActivity from 'hooks/useActivity';
 import ManagementSelection from './ManagementSelection/ManagementSelection';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
 import Section from 'components/Section/Section';
+import useActivity from 'hooks/useActivity';
 import useResponse from 'hooks/useResponse';
 
 interface SplitPoolInterface {

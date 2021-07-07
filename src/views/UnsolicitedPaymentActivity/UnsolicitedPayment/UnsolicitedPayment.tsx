@@ -1,4 +1,4 @@
-import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+import { AddBoxIcon, DistributorIcon } from 'assets/svg';
 import {ActivityProps} from 'components/Activity/Activity';
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
@@ -9,7 +9,7 @@ import React from 'react';
 import Section from 'components/Section/Section';
 import { useTranslation } from 'react-i18next';
 
-const UnsolicitedPayment: React.FC<ActivityProps> = (props: ActivityProps) => {
+const UnsolicitedPayment: React.FC<ActivityProps> = ({hRef}:any) => {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
@@ -21,12 +21,10 @@ const UnsolicitedPayment: React.FC<ActivityProps> = (props: ActivityProps) => {
     return (
         <>
             <div className="col-12 mb-4">
-                <Section title="General Information" icon={<PaymentIcon />} >
-                    <GeneralInfo {...props}/>
-                </Section>
+                <GeneralInfo hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn {...props}/>
+                <MoneyIn hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={

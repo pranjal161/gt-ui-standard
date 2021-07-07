@@ -1,9 +1,9 @@
-import {useTranslation} from 'react-i18next';
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import useConfigurations from 'hooks/useConfigurations';
-import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const useActivity = () => {
     const {getActivityConf} = useConfigurations()
@@ -27,10 +27,9 @@ const useActivity = () => {
         activityProps
     })), [dispatch, baId])
 
-    const getSteps = useCallback((activityCode) => (
-        configurations && configurations.steps.map((step: any) => ({...step, label: t(step.label)
-        }))) // We translate here the step labels
-    , [getActivityConf])
+    const getSteps = useCallback(() => (
+        configurations && configurations.steps.map((step: any) => ({...step, label: t(step.label)}))) // We translate here the step labels
+    , [t,configurations])
 
     return {
         baId,
