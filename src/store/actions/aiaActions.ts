@@ -125,40 +125,46 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
 
     dispatch(aiaReducer.aiaPATCHPending({href, baId}))
     const promise = APIActions.patch(href, payload, params);
-    promise.then((response: any) => {
-        // case1: modified headers recieved in response headers
-        if (response && response.headers && response.headers[modifiedHeaderTag.toLowerCase()]) {
-            const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
-            const existingHrefs = getState().aia[baId];
-            processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
-        }
-        // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
-        else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
-            refresh(href, 'refresh', baId);
-            const messages = response.data.messages;
-            const existingHrefs = getState().aia[baId];
-            const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
-            if (modifiedArray) {
-                processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
+
+    //To do : Rework that part. Final Promise doesn't solve the issue on createMoneyIn
+    const finalPromise = new Promise((resolve, reject) => {
+        promise.then((response: any) => {
+            // case1: modified headers recieved in response headers
+            if (response && response.headers && response.headers[modifiedHeaderTag.toLowerCase()]) {
+                const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
+                const existingHrefs = getState().aia[baId];
+                processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
             }
-        }
-        dispatch(aiaReducer.aiaPATCHSuccess({
-            data: response.data,
-            store: getState().aia,
-            params: params,
-            href,
-            baId
-        }))
-    })
-        .catch((error: any) => {
-            dispatch(aiaReducer.aiaPATCHError({
-                error,
+            // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
+            else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
+                refresh(href, 'refresh', baId);
+                const messages = response.data.messages;
+                const existingHrefs = getState().aia[baId];
+                const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
+                if (modifiedArray) {
+                    processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
+                }
+            }
+            dispatch(aiaReducer.aiaPATCHSuccess({
+                data: response.data,
+                store: getState().aia,
+                params: params,
                 href,
                 baId
             }))
+            resolve(response)
         })
+            .catch((error: any) => {
+                dispatch(aiaReducer.aiaPATCHError({
+                    error,
+                    href,
+                    baId
+                }))
+                reject(error)
+            })
+    })
 
-    return promise;
+    return finalPromise;
 }
 
 export const deleteRequest = (href: string, baId: string, params?: Object) => (dispatch: any, getState: any) => {
