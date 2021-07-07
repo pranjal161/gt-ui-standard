@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
-
 import { DxcTextarea } from '@dxc-technology/halstack-react';
+import useBindInputToStep from 'hooks/useBindInputToStep';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -11,7 +11,9 @@ import { useTranslation } from 'react-i18next';
  */
 const TextArea = (props: InputProps) => {
     const { t } = useTranslation();
-    const { propertyName, data, type, onChangeMethod, onBlurMethod } = props;
+    const { hRef, propertyName, data, type, onChangeMethod, onBlurMethod } = props;
+    const { inputId, errorMessage:errorMessageAPI}: any = useBindInputToStep({hRef, property: propertyName})
+
     const { FieldWrapper, Validation } = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type);
     const [showError, setError] = useState(false);
@@ -42,8 +44,14 @@ const TextArea = (props: InputProps) => {
         }
     }
 
+    useEffect(() => {
+        setError(!errorMessage)
+    }, [errorMessage])
+
+    const assistiveText = errorMessageAPI ? errorMessageAPI : showError ? errorMessage : null
+
     return (
-        <span hidden={!field.visible} data-testid={field.id}>
+        <span id={inputId} hidden={!field.visible} data-testid={field.id}>
             <DxcTextarea
                 label={t(propertyName)}
                 required={field?.required}
@@ -51,7 +59,7 @@ const TextArea = (props: InputProps) => {
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                assistiveText={showError ? errorMessage : null}
+                assistiveText={assistiveText}
                 invalid={showError}
             />
         </span>

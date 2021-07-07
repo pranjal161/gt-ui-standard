@@ -3,6 +3,7 @@ import { getLink, paginationLink } from 'utils/functions';
 
 import { DxcPaginator } from '@dxc-technology/halstack-react';
 import { StyledPaginator } from 'styles/global-style';
+import {makeStyles} from '@material-ui/core/styles';
 
 export interface PaginatorProps {
     
@@ -27,10 +28,19 @@ export interface PaginatorProps {
     handler: Function
 }
 
+const useStyles = makeStyles((theme) => ({
+    paginator: {
+        '& div': {
+            background: '#fff !important'
+        }
+    }
+}));
+
 const Paginator = (props: PaginatorProps) => {
     const { totalItems, itemsPerPage, data, handler } = props;
     const [page, changePage] = useState(1);
     const first = data && getLink(data, 'first') ? getLink(data, 'first') : '';
+    const classes: any = useStyles();
 
     useEffect(() => {
         changePage(1);
@@ -65,7 +75,7 @@ const Paginator = (props: PaginatorProps) => {
 
     return (
         <>
-            <StyledPaginator data-testid="paginator">
+            <StyledPaginator className={classes.paginator} data-testid="paginator">
                 <DxcPaginator
                     currentPage={page}
                     itemsPerPage={itemsPerPage}

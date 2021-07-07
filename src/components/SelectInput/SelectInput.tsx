@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
-
 import {DxcSelect} from '@dxc-technology/halstack-react';
+import useBindInputToStep from 'hooks/useBindInputToStep';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -11,7 +11,8 @@ import { useTranslation } from 'react-i18next';
  */
 const SelectInput = (props: InputProps) => {
     const { t } = useTranslation();
-    const { propertyName, data, onChangeMethod, onBlurMethod } = props;
+    const { hRef, propertyName, data, onChangeMethod, onBlurMethod } = props;
+    const { inputId } = useBindInputToStep({hRef, property : propertyName})
     const { FieldWrapper } = useValidator();
     const field: Field = FieldWrapper(data, propertyName);
     const [value, setValue] = useState(field?.value);
@@ -30,16 +31,16 @@ const SelectInput = (props: InputProps) => {
     }
 
     return (
-        <span hidden={!field.visible} data-testid={field.id}>
+        <span id={inputId} hidden={!field.visible} data-testid={field.id}>
             <DxcSelect
                 options={field.values}
                 required={field?.required}
                 disabled={field?.disabled}
-                value={value}
+                value={value || undefined}
                 onChange={onChange}
                 onBlur={onBlur}
                 label={t(propertyName)}
-            ></DxcSelect>
+            />
         </span>
     );
 };
