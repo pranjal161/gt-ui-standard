@@ -53,8 +53,6 @@ const ContractView: React.FC<any> = (props: any) => {
         setIsSideBarOpen(open)
     },[setIsSideBarOpen])
 
-    console.log('isSideBarOpen', isSideBarOpen)
-
     const SideBarConf = configurations.sidebar
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
