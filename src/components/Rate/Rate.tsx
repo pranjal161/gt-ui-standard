@@ -1,9 +1,9 @@
-// import { DxcInput } from '@dxc-technology/halstack-react';
-
+import {DxcInput} from '@dxc-technology/halstack-react';
 import React from 'react';
-import TextField from 'components/TextField/TextField';
-import { UpDownArrow } from 'assets/svg';
-import { makeStyles } from '@material-ui/core/styles';
+import {UpDownArrow} from 'assets/svg';
+import {makeStyles} from '@material-ui/core/styles';
+
+// import TextField from 'components/TextField/TextField';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -37,26 +37,29 @@ const useStyles = makeStyles(() => ({
         }
     }
 }));
-const Rate = (props: { propertyName: string, hRef: string, response: any, icon?: Boolean }) => {
+const Rate = (props: { property: string, hRef: string, response: any, icon?: Boolean }) => {
     const classes: any = useStyles();
     const onChange = (newValue: string) => {
         console.log(newValue);
     };
+    const inputValue = '100';
+
+    console.log('rate render')
 
     return (<div className={classes.root}>
-        <TextField
+        {/* <TextField
             hRef={props.hRef}
             onChangeMethod={onChange}
             propertyName={props.propertyName}
             type="text"
             data={props.response}
-        />
-        {/* <DxcInput
+        /> */}
+        <DxcInput
             value={inputValue}
             margin="xxsmall"
             onChange={onChange}
-        /> */}
-        {props.icon && <div className={classes.arrow}><UpDownArrow /></div>}
+        />
+        {props.icon && <div className={classes.arrow}><UpDownArrow/></div>}
         <b><p className={classes.m0}>%</p></b>
     </div>);
 }

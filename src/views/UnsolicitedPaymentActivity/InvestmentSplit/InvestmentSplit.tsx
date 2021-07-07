@@ -18,36 +18,39 @@ interface SplitPoolInterface {
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
-    const [poolResponse]: any = useResponse(props.hRef);
-    const header = [
-        {title: 'Funds'},
-        {title: 'Pending funds'},
-        {title: 'Rate'}
+    const [poolResponse] = useResponse(props.hRef);
+    const headers = [
+        { title: 'Funds' },
+        { title: 'Pending funds' },
+        { title: 'Rate' }
     ];
-    const column = [
-        {valueKey: 'coverage_fund:label'},
-        {valueKey: 'no'},
-        {valueKey: 'allocation:rate', component: Rate}
+    const columns = [
+        { valueKey: 'coverage_fund:label' },
+        { valueKey: 'no' },
+        { valueKey: 'allocation:rate', component: Rate }
     ];
-    const row = {hRefKey: 'allocation:coverage_fund'};
+    const rowExtraData = { hRefKey: 'allocation:coverage_fund' };
     const tableData = props.data.filter((funds: any) => funds['parent_product_component'] === props.hRef);
 
     const actions = <div className={'d-flex'}>
-        <label>Rate</label><Rate hRef={props.hRef} propertyName={'to_be_define'} response={[]}/>
+        <label>Rate</label><Rate hRef={props.hRef} property={'to_be_define'} response={[]}/>
     </div>
 
     return (
         <>
             {poolResponse && poolResponse.data &&
-            <AccordionContainer
-                title={poolResponse.data['coverage_fund:label']}
-                prefixActions={<AddFolderIcon/>}
-                actions={actions}>
+                <AccordionContainer
+                    title={poolResponse.data['coverage_fund:label']}
+                    prefixActions={<AddFolderIcon/>}
+                    actions={actions}>
 
-                <ComplexTable selection="multiple" tableColumn={column} tableRow={row} tableHeader={header}
-                    tableData={tableData} showSelectionLength={true}/>
-
-            </AccordionContainer>}
+                    <ComplexTable selectionMode="none"
+                        columns={columns} 
+                        rowExtraData={rowExtraData}
+                        headers={headers}
+                        data={tableData} />
+    
+                </AccordionContainer>}
         </>
     );
 }

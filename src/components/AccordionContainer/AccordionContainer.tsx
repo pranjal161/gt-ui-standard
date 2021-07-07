@@ -5,7 +5,7 @@ import { ExpandMore } from 'assets/svg';
 import React from 'react';
 import Typo from 'components/Typography/Typo';
 import { makeStyles } from '@material-ui/core';
-import { uniqueId} from 'utils/system';
+import { uniqueId } from 'utils/system';
 
 export interface AccordionProps {
 
@@ -32,6 +32,10 @@ export interface AccordionProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: '15px 0',
+        boxShadow: '0px 3px 10px 0px rgb(0 0 0 / 25%)'
+    },
     header: {
         flex: '1 1 auto',
         display: 'flex',
@@ -73,7 +77,7 @@ const AccordionContainer = (props: AccordionProps) => {
 
     return (
         <>
-            <Accordion onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}}>
+            <Accordion className={classes.root} onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}}>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-label="Expand"
