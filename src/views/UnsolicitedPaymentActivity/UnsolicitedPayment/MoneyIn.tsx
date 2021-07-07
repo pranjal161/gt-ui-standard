@@ -78,7 +78,7 @@ const MoneyIn: React.FC<MoneyInProps> = ({ activityHref }: MoneyInProps) => {
                     {
                         isOpen ?
                             <ActivityStep code={'up_create_money_in'}>
-                                <MoneyInDialog open={isOpen} onClose={onClose} href={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP}/>
+                                <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP}/>
                             </ActivityStep>
                             :
                             <div className={classes.avoidMovement} />

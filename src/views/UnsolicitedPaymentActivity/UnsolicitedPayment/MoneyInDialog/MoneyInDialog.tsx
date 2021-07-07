@@ -29,10 +29,10 @@ export interface MoneyInDialogProps {
     onClose: Function;
 
     /**
-        * href
+        * hRef
         * @description  Href of the current editable unsolicitedPayment 
     */
-    href: string;
+    hRef: string;
 
     /**
         * isEdit
@@ -72,17 +72,17 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const {
         open,
         onClose,
-        href,
+        hRef,
         isEdit,
         payerURI,
         amountUP
     } = props
 
     const [formData, setFormData]: [any, Function] = React.useState({});
-    const [response] = useResponse(href);
+    const [response] = useResponse(hRef);
 
     const addMoney = async () => {
-        const res = await patch(href, formData);
+        const res = await patch(hRef, formData);
         // const inputErrors = canValidateStep()
         // if (inputErrors.length === 0) {
         onClose('UPPatch', res);
@@ -132,6 +132,7 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
                     payerURI={payerURI}
                     amountUP={amountUP}
                     depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}
+                    hRef={hRef}
                 />
                 }
                 actions={<DialogActions onClose={onClose} addMoney={addMoney} isEdit={isEdit} />} />

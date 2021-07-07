@@ -33,7 +33,7 @@ export interface OneofInterface {
 }
 
 export interface InputProps {
-    hRef?: string;
+    hRef: string;
     propertyName: string;
     context?: string,
     data: any; 

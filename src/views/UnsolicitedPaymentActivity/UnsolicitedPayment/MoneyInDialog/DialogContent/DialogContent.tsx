@@ -46,6 +46,8 @@ export interface DialogContentProps {
        * @description href of the deposit account to display his value
        */
     depositAccountURI: string
+
+    hRef: string
 }
 const useStyles = makeStyles((theme: Theme) => ({
     formContainer: {
@@ -86,7 +88,8 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
         payerURI,
         amountUP,
         moneyInData,
-        depositAccountURI
+        depositAccountURI,
+        hRef
     } = props
 
     const onChange: Function = React.useCallback((inputName: string) => (newValue: any) => {
@@ -112,13 +115,14 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <div className="col-4">
                                 <TextField
                                     propertyName="operation:amount"
-                                    // type="number"
+                                    hRef={hRef}
                                     data={moneyInData}
                                     onChangeMethod={onChange('operation:amount')}
                                 />
                             </div>
                             <div className="col-4">
                                 <SelectInput
+                                    hRef={hRef}
                                     data={moneyInData}
                                     propertyName="operation:currency_code"
                                     onChangeMethod={onChange('operation:currency_code')}
@@ -126,6 +130,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4 mt-4">
                                 <SelectInput
+                                    hRef={hRef}
                                     data={moneyInData}
                                     propertyName="money_in:payment_type"
                                     onChangeMethod={onChange('money_in:payment_type')}
@@ -133,6 +138,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
+                                    hRef={hRef}
                                     propertyName="operation:accounting_date"
                                     data={moneyInData}
                                     onChangeMethod={onChange('operation:accounting_date')}
@@ -140,6 +146,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
+                                    hRef={hRef}
                                     propertyName="money_in:receipt_date"
                                     data={moneyInData}
                                     onChangeMethod={onChange('money_in:receipt_date')}
@@ -147,6 +154,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
+                                    hRef={hRef} 
                                     propertyName="money_in:deposit_date"
                                     data={moneyInData}
                                     onChangeMethod={onChange('money_in:deposit_date')}
@@ -154,6 +162,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
+                                    hRef={hRef}
                                     propertyName="operation:value_date"
                                     data={moneyInData}
                                     onChangeMethod={onChange('operation:value_date')}
@@ -164,6 +173,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <PayerInput href={payerURI} />
                             <div className="col-4 mt-4">
                                 <SelectInput
+                                    hRef={hRef}
                                     propertyName="money_in_administrator"
                                     data={moneyInData}
                                     onChangeMethod={onChange('money_in_administrator')}
