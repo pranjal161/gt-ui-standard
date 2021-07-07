@@ -62,7 +62,8 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {hRef} = props
     const classes: any = useStyles()
 
-    const {configurations} = useActivity()
+    const {configurations, activityProps} = useActivity()
+    const { title} = activityProps
 
     const {openNewTab, forOperation} = useTabs()
     const onLaunchActivity = useCallback((operation: any, entityType: string) => {
@@ -79,7 +80,7 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     return (
         <div className={classes.root}>
             <div className="col-12">
-                {Header && <Header hRef={hRef} onLaunchActivity={onLaunchActivity}/>}
+                {Header && <Header title={title} hRef={hRef} onLaunchActivity={onLaunchActivity}/>}
             </div>
             <div>
                 {Structure && <Structure hRef={hRef}/>}
