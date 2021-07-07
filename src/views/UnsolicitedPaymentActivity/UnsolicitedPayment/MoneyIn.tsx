@@ -53,4 +53,4 @@ const MoneyIn: React.FC<MoneyInProps> = ({response}: MoneyInProps) => {
     )
 }
 
-export default MoneyIn;
+export default React.memo(MoneyIn);

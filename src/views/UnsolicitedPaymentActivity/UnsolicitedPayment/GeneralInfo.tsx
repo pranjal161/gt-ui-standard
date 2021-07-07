@@ -93,4 +93,4 @@ const GeneralInfo = ({response}: any) => {
         </div>}
     </>
 }
-export default GeneralInfo;
+export default React.memo(GeneralInfo);

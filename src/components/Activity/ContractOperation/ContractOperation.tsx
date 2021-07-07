@@ -54,9 +54,9 @@ const ContractOperation: React.FC<any> = (props: any) => {
     const {getActivityConf} = useConfigurations();
 
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
-    const handleSidebarChange = useCallback ((open:boolean) => {
+    const handleSidebarChange = useCallback((open: boolean) => {
         setIsSideBarOpen(open)
-    },[setIsSideBarOpen])
+    }, [setIsSideBarOpen])
 
     const [currentStep, setCurrentStep] = useState(0);
     const [activityResponse] = useResponse(hRef);
@@ -69,7 +69,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
     }, []);
     const {canValidateStep} = useStep()
 
-    const steps = [
+    const initSteps = useCallback(() => [
         {
             id: 0,
             code: 'unsolicited_payment',
@@ -97,7 +97,10 @@ const ContractOperation: React.FC<any> = (props: any) => {
             error: true,
             component: <InformationSheet response={activityResponse} hRef={hRef}/>
         }
-    ]
+    ], [activityResponse, hRef, t])
+
+    const steps = initSteps()
+
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
             setSideBarOffsetTop(node.offsetTop);
@@ -118,21 +121,23 @@ const ContractOperation: React.FC<any> = (props: any) => {
             //We scroll to view the first error
             scrollIntoView(inputErrors[0])
         }
-    },[canValidateStep, scrollIntoView])
+    }, [steps, canValidateStep])
 
-    const patchDate = (value: any, id: string) => {
+    const patchDate = useCallback((value: any, id: string) => {
         const payload: any = {};
         payload[id] = value;
         patch(hRef, payload).then(() => {
             setCurrentStep(0);
         });
-    }
+    }, [hRef, patch])
 
     const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
             {currentStepConfig[0].component}</ActivityStep> ||
         <div/>
+
+    const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
 
     return (
         <div className={`col-12 ${classes.body}`}>
@@ -148,7 +153,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}
-                            onChange={(index: number) => setCurrentStep(index)}/>
+                            onChange={handleStepperOnChange}/>
                     </div>
 
                 </div>

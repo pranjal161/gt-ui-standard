@@ -59,4 +59,4 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
     )
 }
 
-export default UnsolicitedPayment;
+export default React.memo(UnsolicitedPayment);

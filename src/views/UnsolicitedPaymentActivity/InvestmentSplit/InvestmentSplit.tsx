@@ -106,4 +106,4 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
     )
 }
 
-export default InvestmentSplit;
+export default React.memo(InvestmentSplit);

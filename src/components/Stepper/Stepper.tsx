@@ -364,4 +364,4 @@ const Stepper = (props: StepperProps) => {
     </>);
 }
 
-export default Stepper;
+export default React.memo(Stepper);
