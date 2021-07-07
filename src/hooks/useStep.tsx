@@ -51,7 +51,7 @@ const useStep = () => {
     const getRessourceStatusReport = (hRef: string) => {
         const response = baIdRessources && baIdRessources[hRef]
 
-        return response && getStatusReport(response && response.data)
+        return response && getStatusReport(response.data)
     }
 
     const getPropertyStatusReport = (statusReport: any, property: string) => {
