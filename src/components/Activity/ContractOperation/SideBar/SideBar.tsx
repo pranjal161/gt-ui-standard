@@ -1,12 +1,10 @@
 import { getCollectionItems, getLink } from 'utils/functions';
-
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import OrganizationPreview from 'components/ClientPreview/OrganizationPreview';
 import PersonPreview from 'components/ClientPreview/PersonPreview';
 import React from 'react';
 import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
-import {getLink} from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
