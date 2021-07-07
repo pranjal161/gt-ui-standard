@@ -1,6 +1,6 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
+import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
-import {useContext} from 'react';
 import {useDispatch} from 'react-redux';
 
 const useActivity = () => {
@@ -8,13 +8,13 @@ const useActivity = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
 
-    return {
-        startActivity: () => {
-            dispatch(aiaReducer.aiaBAStart({baId}))
+    const startActivity = useCallback (() => dispatch(aiaReducer.aiaBAStart({baId})),[dispatch, baId])
+    const stopActivity = useCallback (() => dispatch(aiaReducer.aiaBAEnd({baId})),[dispatch, baId])
 
-            //return getActivityConfiguration({...params, baId})
-        },
-        stopActivity: () => dispatch(aiaReducer.aiaBAEnd({baId})),
+    return {
+        baId,
+        startActivity,
+        stopActivity
     }
 }
 
