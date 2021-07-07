@@ -1,3 +1,4 @@
+import {useTranslation} from 'react-i18next';
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
 import baContext from 'context/baContext';
@@ -9,13 +10,15 @@ const useActivity = () => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
+    const {t} = useTranslation()
 
     const startActivity = useCallback (() => dispatch(aiaReducer.aiaBAStart({baId})),[dispatch, baId])
     const stopActivity = useCallback (() => dispatch(aiaReducer.aiaBAEnd({baId})),[dispatch, baId])
     const getSteps = useCallback((activityCode) => {
         const activityConf = getActivityConf(activityCode)
         if (activityConf)
-            return activityConf.steps
+            // We translate here the step labels
+            return activityConf.steps.map((step:any) => ({...step, label:t(step.label)}))
     }, [getActivityConf])
 
     return {

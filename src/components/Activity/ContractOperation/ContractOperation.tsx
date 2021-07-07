@@ -53,7 +53,6 @@ const ContractOperation: React.FC<any> = (props: any) => {
 
     const {getSteps} = useActivity()
     const steps = getSteps(props)
-    console.log('step', steps)
 
     const {canValidateStep} = useStep()
 
