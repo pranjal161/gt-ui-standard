@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import DXCLogo from 'assets/dxc_logo.jpg';
 import { DxcSpinner } from '@dxc-technology/halstack-react';
 import SearchBar from '../SearchBar/SearchBar';
@@ -8,7 +8,6 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TopBar from './components/TopBar/TopBar';
 import { globalTokens } from 'theme/standard/palette';
-import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import useLoader from 'hooks/useLoader';
 import { useTranslation } from 'react-i18next';
@@ -135,8 +134,8 @@ const NavBar = () => {
                             classes={{indicator: classes.tabsIndicator}}
                             onChange={handleActiveTab}
                             disableRipple>
-                            <Tab classes={{root: classes.tabRoot}} label={t('common:myTicketsTab')} value={0}></Tab>
-                            <Tab classes={{root: classes.tabRoot}} label={t('common:myBasketsTab')} value={1}></Tab>
+                            <Tab classes={{root: classes.tabRoot}} label={t('common:myTicketsTab')} value={0}/>
+                            <Tab classes={{root: classes.tabRoot}} label={t('common:myBasketsTab')} value={1}/>
                         </Tabs>
                     </div>
                     <div className={classes.secondaryTabs}>

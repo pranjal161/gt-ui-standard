@@ -21,3 +21,16 @@ export const logErrorByMessage = (message?: string, extra?:any) => {
     if (message)
         console.error(message, extra)
 }
+
+/**
+ * Generate a random unique Id
+ * @param {string} prefix to add
+ * @return {string} id string
+ */
+export const uniqueId:any = (prefix?:string) => prefix + '_' + Math.random().toString(36).substr(2, 9);
+
+export const scrollIntoView = (id:string) => {
+    const element = document.getElementById(id)
+    if (element)
+        element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'})
+}

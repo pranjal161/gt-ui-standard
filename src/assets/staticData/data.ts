@@ -104,6 +104,22 @@ export const resource = {
                 'mediaType': 'application/vnd.hal+json',
                 'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu',
                 'title': 'Fetch Contract details'
+            },
+            {
+                'method': 'PATCH', //NP add for training, can be removed
+                'rel': 'fetch',
+                'mediaType': 'application/vnd.hal+json',
+                'href': 'http://20.33.40.147:13111/csc/insurance/contracts/ID-W4Fb6FAqu',
+                'title': 'Fetch Contract details',
+                'schema':{
+                    'properties':
+                        {'contract:status_date':true,
+                            'duration:renewal_month':true,
+                            'contract:number':true,
+                            'contract:product_label':true,
+                            'contract:start_date':true,
+                        }
+                }
             }
         ],
         'title': 'Contract resource interactions',

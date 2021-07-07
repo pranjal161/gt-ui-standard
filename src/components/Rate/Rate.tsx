@@ -37,7 +37,7 @@ const useStyles = makeStyles(() => ({
         }
     }
 }));
-const Rate = (props: { property: string, response: any, icon?: Boolean }) => {
+const Rate = (props: { property: string, hRef: string, response: any, icon?: Boolean }) => {
     const classes: any = useStyles();
     const onChange = (newValue: string) => {
         console.log(newValue);
@@ -47,6 +47,13 @@ const Rate = (props: { property: string, response: any, icon?: Boolean }) => {
     console.log('rate render')
 
     return (<div className={classes.root}>
+        {/* <TextField
+            hRef={props.hRef}
+            onChangeMethod={onChange}
+            propertyName={props.propertyName}
+            type="text"
+            data={props.response}
+        /> */}
         <DxcInput
             value={inputValue}
             margin="xxsmall"
