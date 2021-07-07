@@ -3,11 +3,11 @@ import './svg.css'
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const makeIcon = (svg: string,) => {
+const makeIcon = (svg: string, viewBox?: string) => {
     const Icon = ({size = 24, color = 'inherited'}) => (
         <svg
             className="SvgIcon-root"
-            viewBox={'0 0 24 24'}
+            viewBox={viewBox ? viewBox : '0 0 24 24'}
             height={size}
             width={size}
             focusable="false"
@@ -105,4 +105,6 @@ export const ContactsIcon = () => (
 export const SquaredAddIcon = makeIcon('M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z');
 export const ExpandMore = () => (
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
-)
+);
+export const UpDownArrow = makeIcon('M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z', '0 0 256 512');
+export const AddFolderIcon = makeIcon('M86.016 24.091H49.313c-1.979-2.37-4.013-4.865-4.541-5.624a3.18 3.18 0 00-2.875-1.808h-14.53c-.964 0-1.875.435-2.479 1.185l-5.021 6.247h-5.884a5.492 5.492 0 00-5.484 5.484v48.284a5.49 5.49 0 005.484 5.482h72.032a5.49 5.49 0 005.484-5.482V29.575a5.49 5.49 0 00-5.483-5.484zm-4.473 39.195a.649.649 0 01-.195.465.651.651 0 01-.464.194h-8.779v8.78c0 .174-.07.341-.193.466a.666.666 0 01-.465.193h-6.15a.66.66 0 01-.658-.659v-8.78h-8.78a.656.656 0 01-.465-.194.654.654 0 01-.193-.465v-6.149a.678.678 0 01.658-.659h8.779v-8.78c0-.363.294-.658.659-.658l6.15.001c.364 0 .659.293.659.658v8.778h8.78c.364 0 .659.294.659.659l-.002 6.15z', '0 0 100 100');

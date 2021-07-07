@@ -97,9 +97,14 @@ const useStyles = makeStyles<Theme, Props>((theme: Theme) => ({
 export interface StepProps {
 
     /**
-     * Unique ID - needed in case of Optional Step
+     * Unique ID - needed in case of Optional ActivityStep
      */
     id: number,
+
+    /**
+     * code for each step
+     */
+    code: string,
 
     /**
      * Title for each step
@@ -145,7 +150,7 @@ export interface StepperProps {
     steps: Array<StepProps>,
 
     /**
-     * Active Step - Step Count starts from 0
+     * Active ActivityStep - ActivityStep Count starts from 0
      */
     currentStep: number,
 

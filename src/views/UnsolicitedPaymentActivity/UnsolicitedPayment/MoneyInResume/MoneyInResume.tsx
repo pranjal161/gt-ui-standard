@@ -1,20 +1,21 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
-import { formatValue, getDescriptionFromOneOf } from 'utils/functions';
+import {Theme, makeStyles} from '@material-ui/core/styles';
+import {formatValue, getDescriptionFromOneOf} from 'utils/functions';
 
-import { DxcTable } from '@dxc-technology/halstack-react';
+import {DxcTable} from '@dxc-technology/halstack-react';
 import IconContainer from './IconContainer/IconContainer';
 import React from 'react';
 import useAia from 'hooks/useAia';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 export interface MoneyInResumeProps {
 
     /**
-         * responseUP
-         * @description The unsolictied payment API response when it is created
-              */
+     * responseUP
+     * @description The unsolictied payment API response when it is created
+     */
     responseUP: any
 }
+
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
         display: 'flex',
@@ -29,26 +30,25 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * EXPLAIN WHAT THE COMPONENT DOES
-  * @param {MoneyInResumeProps} props Props of the component.
-   * @returns {React.component} Display the component.
-    */
+ * @param {MoneyInResumeProps} props Props of the component.
+ * @returns {React.component} Display the component.
+ */
 const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) => {
     const classes = useStyles();
-    const { fetch, post, patch } = useAia();
+    const {fetch, post, patch} = useAia();
     const {
         responseUP
     } = props
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [myTable, setMyTable] = React.useState<any>(false);
 
     const columns: any = [
-        { label: t('payment_method'), property: 'money_in:payment_type' },
-        { label: t('amount'), property: 'operation:amount', type: 'currency' },
-        { label: t('currency'), property: 'operation:currency_code' },
-        { label: t('accounting_date'), property: 'operation:accounting_date', type: 'date' },
-        { label: t('value_date'), property: 'operation:value_date', type: 'date' },
-        { label: '', property: false }
+        {label: t('payment_method'), property: 'money_in:payment_type'},
+        {label: t('amount'), property: 'operation:amount', type: 'currency'},
+        {label: t('currency'), property: 'operation:currency_code'},
+        {label: t('accounting_date'), property: 'operation:accounting_date', type: 'date'},
+        {label: t('value_date'), property: 'operation:value_date', type: 'date'},
     ]
 
     const getMoneyIn = async (url: string) => {
@@ -66,7 +66,7 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
     const onDelete = async () => {
         console.log('delete');
         const deleteMoneyIn = await post(responseUP.data._links['cscaia:money_in'].href + '/cancel', {});
-        const deleteMoneyInUP = await patch(responseUP.data._links.self.href, { 'cscaia:money_in': '' })
+        const deleteMoneyInUP = await patch(responseUP.data._links.self.href, {'cscaia:money_in': ''})
         console.log(deleteMoneyIn);
         console.log(deleteMoneyInUP)
     }
@@ -78,33 +78,37 @@ const MoneyInResume: React.FC<MoneyInResumeProps> = (props: MoneyInResumeProps) 
     return (
         <div className={classes.container}>
             <DxcTable>
-                <tr>
+                <tbody>
+                    <tr>
+                        {
+                            columns.map((item: any, key: number) => (
+                                <th className={classes.itemTable} key={key}>{item.label}</th>
+                            ))
+                        }
+                    </tr>
                     {
-                        columns.map((item: any, key: number) => (
-                            <th className={classes.itemTable} key={key}>{item.label}</th>
-                        ))
-                    }
-                </tr>
-                {
-                    myTable && responseUP.data._links['cscaia:money_in'] &&
+                        myTable && responseUP.data._links['cscaia:money_in'] &&
                     <tr>
                         {
                             columns.map((item: any, key: number) => (
                                 item.type && item.property ?
-                                    <td className={classes.itemTable} key={key}>{formatValue(myTable.data[item.property], item.type)}</td> :
+                                    <td className={classes.itemTable}
+                                        key={key}>{formatValue(myTable.data[item.property], item.type)}</td> :
                                     item.property ?
 
-                                        <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(myTable.data[item.property], item.property, myTable.data)}</td>
+                                        <td className={classes.itemTable}
+                                            key={key}>{getDescriptionFromOneOf(myTable.data[item.property], item.property, myTable.data)}</td>
 
                                         :
                                         <td key={key}>
-                                            <IconContainer onDelete={onDelete} onEdit={onEdit} />
+                                            <IconContainer onDelete={onDelete} onEdit={onEdit}/>
                                         </td>
 
                             ))
                         }
                     </tr>
-                }
+                    }
+                </tbody>
             </DxcTable>
         </div>
     )

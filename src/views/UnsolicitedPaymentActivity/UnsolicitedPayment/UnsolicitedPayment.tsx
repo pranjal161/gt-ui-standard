@@ -1,5 +1,4 @@
 import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
-
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -15,6 +14,11 @@ export interface UnsolicitedPaymentProps {
      * API response of API for the entity
      */
     response: any
+
+    /**
+     * hRef of the activity
+     */
+    hRef : string
 }
 
 const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => {

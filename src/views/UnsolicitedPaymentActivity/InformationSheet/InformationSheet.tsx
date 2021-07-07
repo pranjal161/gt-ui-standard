@@ -7,6 +7,10 @@ export interface InformationSheetProps{
      */
     response:any
 
+    /**
+     * hRef of the activity
+     */
+    hRef : string
 }
 const InformationSheet:React.FC<InformationSheetProps> = ({response}:InformationSheetProps) => (
     <div>InformationSheet coming soon</div>

@@ -152,7 +152,13 @@ const project = {
             activatedColor : globalTokens.__purple_99,
         }
     },
-    skeleton : globalTokens.__grey_4
+    skeleton : globalTokens.__grey_4,
+    table: {
+        header: {
+            background: globalTokens.__grey_5,
+            fontColor: globalTokens.__grey_2
+        }
+    }
 
 };
 

@@ -80,6 +80,7 @@ const Quote = () => {
                 <div className="m-2">
                     <div>
                         <SelectInput
+                            hRef={url}
                             data={quoteResponse.data}
                             propertyName="quote:frequency"
                             onChangeMethod={patchFrequency}
@@ -87,12 +88,14 @@ const Quote = () => {
                     </div>
                     <div>
                         <TextArea
+                            hRef={url}
                             propertyName="quote:description"
                             data={quoteResponse.data}
                         />
                     </div>
                     <div>
                         <TextField
+                            hRef={url}
                             onChangeMethod={ownerUpdate}
                             propertyName="quote_owner:email"
                             type="email"
@@ -101,6 +104,7 @@ const Quote = () => {
                     </div>
                     <div>
                         <DateInput
+                            hRef={url}
                             propertyName="quote:contract_start_date"
                             data={quoteResponse.data}
                             onBlurMethod={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
@@ -108,6 +112,7 @@ const Quote = () => {
                     </div>
                     <div>
                         <DateInput
+                            hRef={url}
                             propertyName="quote_owner:birth_date"
                             data={owner}
                         />

@@ -1,32 +1,33 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
-import { getLink, isResponseConsistent } from 'utils/functions';
-
-import { APIConfig } from 'configs/apiConfig';
+import {Theme, makeStyles} from '@material-ui/core/styles';
+import {APIConfig} from 'configs/apiConfig';
 import ActionsModal from './ActionsModal/ActionsModal';
 import Dialog from 'theme/components/material/Dialog/Dialog';
 import MoneyInForm from './MoneyInForm/MoneyInForm';
 import React from 'react';
+import {getLink} from 'utils/functions';
+import {scrollIntoView} from 'utils/system';
 import useAia from 'hooks/useAia';
-import { useTranslation } from 'react-i18next';
+import useStep from 'hooks/useStep';
+import {useTranslation} from 'react-i18next';
 
 export interface CreateMoneyInProps {
 
     /**
-        * open
-        * @description  React state to define if dialog is open.
-    */
+     * open
+     * @description  React state to define if dialog is open.
+     */
     open: boolean;
 
     /**
-        * onClose
-        * @description  Function to close the dialog.
-    */
+     * onClose
+     * @description  Function to close the dialog.
+     */
     onClose: Function;
 
     /**
-        * response
-        * @description  Uncolicited Payment response on creation.
-    */
+     * response
+     * @description  Uncolicited Payment response on creation.
+     */
     response: any;
 }
 
@@ -38,13 +39,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 /**
  * The component renders a dialog that contains a form to create a money in.
-    * @param {CreateMoneyInProps} props Props of the component.
-    * @returns {React.component} Display the component.
-    */
+ * @param {CreateMoneyInProps} props Props of the component.
+ * @returns {React.component} Display the component.
+ */
 const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) => {
     const classes = useStyles();
-    const { t } = useTranslation();
-    const { post, patch, fetch } = useAia();
+    const {t} = useTranslation();
+    const {post, patch, fetch} = useAia();
     const {
         open,
         onClose,
@@ -59,21 +60,34 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
     const [bankAccountList, setBankAccountList]: [any, Function] = React.useState();
     const [moneyIn, setMoneyIn]: [any, Function] = React.useState();
     const [formData, setFormData]: [any, Function] = React.useState();
+    const {canValidateStep} = useStep()
 
     const addMoney = async () => {
         const moneyInHref = getLink(moneyIn, 'self');
-        const res = await patch(moneyInHref, formData);
+        await patch(moneyInHref, formData)
         // checking consistency & display error
-        if (res && res.data && isResponseConsistent(res.data)) {
-            await patch(UPHref , { 'cscaia:money_in': moneyInHref });
-            onClose();
+        const inputErrors = canValidateStep()
+        if (inputErrors.length === 0) {
+            //Todo : NOt to do here, to be done in UP level
+            await patch(UPHref, {'cscaia:money_in': moneyInHref});
+            onClose()
+        }
+        else {
+            //We scroll to view the first error
+            scrollIntoView(inputErrors[0])
         }
     };
 
     const getMoneyInsProps: Function = async () => {
         try {
             const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins'
-            const res = await post(moneyInCollection, { 'operation:contract': contractURI });
+            const res = await post(moneyInCollection, {'operation:contract': contractURI});
+
+            if (res && res.data && getLink(res.data, 'self')) {
+                //We got the Href of the new ressource
+                //Todo : to change
+                fetch(getLink(res.data, 'self'));
+            }
 
             setMoneyIn(res.data);
 
@@ -108,7 +122,7 @@ const CreateMoneyIn: React.FC<CreateMoneyInProps> = (props: CreateMoneyInProps) 
                     amountUP={amountUP}
                 />
                 }
-                actions={<ActionsModal onClose={onClose} addMoney={addMoney} />} />
+                actions={<ActionsModal onClose={onClose} addMoney={addMoney}/>}/>
         </div>
     )
 }
