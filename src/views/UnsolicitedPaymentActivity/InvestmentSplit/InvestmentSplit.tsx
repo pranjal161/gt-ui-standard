@@ -18,17 +18,17 @@ interface SplitPoolInterface {
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
     const [poolResponse] = useResponse(props.hRef);
-    const header = [
+    const headers = [
         { title: 'Funds' },
         { title: 'Pending funds' },
         { title: 'Rate' }
     ];
-    const column = [
+    const columns = [
         { valueKey: 'coverage_fund:label' },
         { valueKey: 'no' },
         { valueKey: 'allocation:rate', component: Rate }
     ];
-    const row = { hRefKey: 'allocation:coverage_fund' };
+    const rowExtraData = { hRefKey: 'allocation:coverage_fund' };
     const tableData = props.data.filter((funds: any) => funds['parent_product_component'] === props.hRef);
 
     return (
@@ -38,7 +38,11 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
                     <label>Rate</label><Rate property={''} response={[]} />
                 </div>}>
 
-                <ComplexTable selection="multiple" tableColumn={column} tableRow={row} tableHeader={header} tableData={tableData} showSelectionLength={true} />
+                <ComplexTable selectionMode="none"
+                    columns={columns} 
+                    rowExtraData={rowExtraData}
+                    headers={headers}
+                    data={tableData} />
     
             </AccordionContainer>}
         </>

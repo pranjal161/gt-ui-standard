@@ -31,6 +31,10 @@ export interface AccordionProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: '15px 0',
+        boxShadow: '0px 3px 10px 0px rgb(0 0 0 / 25%)'
+    },
     header: {
         flex: '1 1 auto',
         display: 'flex',
@@ -68,7 +72,7 @@ const AccordionContainer = (props: AccordionProps) => {
 
     return (
         <>
-            <Accordion>
+            <Accordion className={classes.root}>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-label="Expand"
