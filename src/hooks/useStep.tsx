@@ -31,7 +31,7 @@ const useStep = () => {
      * The messages are split into errors and warnings variables
      * @return {any} Return the message list
      */
-    const getMessages = () => {
+    const getMessages = useCallback(() => {
         const errors: any = []
         const warnings: any = []
 
@@ -46,15 +46,15 @@ const useStep = () => {
                 }))
 
         return {errors, warnings}
-    }
+    },[stepRessources])
 
-    const getRessourceStatusReport = (hRef: string) => {
+    const getRessourceStatusReport = useCallback( (hRef: string) => {
         const response = baIdRessources && baIdRessources[hRef]
 
         return response && getStatusReport(response.data)
-    }
+    },[baIdRessources])
 
-    const getPropertyStatusReport = (statusReport: any, property: string) => {
+    const getPropertyStatusReport = useCallback((statusReport: any, property: string) => {
         let result = undefined
         statusReport.messages && statusReport.messages.forEach((message: any) => {
             message.context.forEach((context: any) => {
@@ -67,7 +67,7 @@ const useStep = () => {
         })
 
         return result
-    }
+    },[])
 
     /**
      * We loop on all ressources used in the current step
@@ -77,7 +77,7 @@ const useStep = () => {
      * if no, we update their status with value = displayed
      * @return {boolean} indicates if the step can be validated or not
      */
-    const canValidateStep = () => {
+    const canValidateStep = useCallback ( () => {
         let inputErrors:any = []
 
         //We loop on all ressources used in the current step
@@ -117,7 +117,7 @@ const useStep = () => {
             })
 
         return inputErrors
-    }
+    },[getRessourceStatusReport, getPropertyStatusReport, setStatus, stepRessources])
 
     /**
      * We loop on all hRef of the current step. we check is its consistent, if not, we loop on all status_report

@@ -108,7 +108,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
 
     const SideBarConf = configurations.sidebar
 
-    const nextStep = (index: number) => {
+    const nextStep = useCallback((index: number) => {
         const inputErrors = canValidateStep()
         if (inputErrors.length === 0) {
             const step = index >= steps.length ? steps.length - 1 : index;
@@ -118,7 +118,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             //We scroll to view the first error
             scrollIntoView(inputErrors[0])
         }
-    }
+    },[canValidateStep, scrollIntoView])
 
     const patchDate = (value: any, id: string) => {
         const payload: any = {};
@@ -154,7 +154,6 @@ const ContractOperation: React.FC<any> = (props: any) => {
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {Date.now()}
                         {CurrentStep}
 
                         <div className="m-2 p-1" style={{float: 'right'}}>
