@@ -1,10 +1,11 @@
+import { getCollectionItems, getLink } from 'utils/functions';
+
 import ContractSideBar from './ContractSideBar/ContractSideBar';
 import GlobalSideBar from 'components/SideBar/SideBar';
 import OrganizationPreview from 'components/ClientPreview/OrganizationPreview';
 import PersonPreview from 'components/ClientPreview/PersonPreview';
 import React from 'react';
 import StatusReportPreview from 'components/StatusReportPreview/StatusReportPreview';
-import { getLink } from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 import { useSidebar } from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
@@ -58,9 +59,9 @@ const SideBar = (props: any) => {
         //This is a workaround for the initial state and to have contract define by default
         items.contract = [{ title: 'Loading', id: 'not_defined', controller: loadingController }]
 
-    let personList = [{ title: 'Loading', id: 'not_defined', controller: roleController }]
+    let personList:Array<any> = [{ title: 'Loading', id: 'not_defined', controller: loadingController }]
     if (rolePartiesResponse && rolePartiesResponse.data._count > 0) {
-        personList = rolePartiesResponse.data._links.item
+        personList = getCollectionItems(rolePartiesResponse.data)
             .filter((item: any) => (item.summary['party_role:party_type'] === 'person'
                 || item.summary['party_role:party_type'] === 'organization')
                 && item.summary['party_role:role_type'] === 'owner')
