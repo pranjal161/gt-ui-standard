@@ -12,12 +12,6 @@ export interface MoneyInListItemProps {
          * @description The money in href linked to the current unscolicited payment
               */         
     moneyInHref: string
-    
-    /**
-        * key
-        * @description Key to identify the value
-             */
-    key: number
 
     /**
         * item
@@ -59,7 +53,6 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     const { fetch } = useAia();
     const {
         moneyInHref,
-        key,
         item,
         onEdit,
         onDelete,
@@ -81,11 +74,11 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
 
             {
                 item.type && item.property ?
-                    <td className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                    <td className={classes.itemTable} >{formatValue(response.data[item.property], item.type)}</td> :
                     item.property ?
-                        <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
+                        <td className={classes.itemTable} >{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
                         :
-                        <td key={key}>
+                        <td >
                             <IconContainer onDelete={onDelete} onEdit={IsEditable(moneyInHref) ? () => onEdit(moneyInHref) : false} />
                         </td>
             }
