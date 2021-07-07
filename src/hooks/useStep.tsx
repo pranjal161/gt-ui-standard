@@ -1,7 +1,7 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
-import baContext from 'context/baContext';
 import {useDispatch, useSelector} from 'react-redux';
+import baContext from 'context/baContext';
 import {getStatusReport} from 'utils/functions';
 //import {getStatusReport, isResponseConsistent} from 'utils/functions';
 
@@ -124,8 +124,9 @@ const useStep = () => {
      * messages and se set the status on the bound inputs.
      * @return {boolean} indicates if it's validated or not
      */
+    //Todo : to finish
     const validate = () => {
-        let result = true
+        let result
 
         console.log('stepRessources', stepRessources)
         const {errors} = getMessages()

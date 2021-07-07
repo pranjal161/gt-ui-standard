@@ -5,7 +5,7 @@ import TextField from 'components/TextField/TextField';
 import { UpDownArrow } from 'assets/svg';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         alignItems: 'center',

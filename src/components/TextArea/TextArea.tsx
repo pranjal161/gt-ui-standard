@@ -1,8 +1,7 @@
-import useBindInputToStep from 'hooks/useBindInputToStep';
 import React, {useEffect, useState} from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
-
 import { DxcTextarea } from '@dxc-technology/halstack-react';
+import useBindInputToStep from 'hooks/useBindInputToStep';
 import { useTranslation } from 'react-i18next';
 
 /**
