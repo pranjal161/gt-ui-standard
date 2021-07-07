@@ -535,3 +535,40 @@ export const getActivities = (response: any) => {
 
     return activities;
 }
+
+/** To get main risk from risk collection
+ * @param  {any} riskResponse API Risk response provided from risks/ID
+ * @returns {Object} Main risk
+ */
+export const getMainRisk = (riskResponse: any) => {
+    if (riskResponse && riskResponse._links.item) {
+        let result = JSON.parse(JSON.stringify(riskResponse));
+        if (!Array.isArray(result['_links']['item'])) {
+            result['_links']['item'] = [result['_links']['item']];
+        }
+        const mainRiskItem = result._links.item.filter(
+            (item: { summary: { [x: string]: any } }) => (
+                item.summary['membership:main'] === true
+            ),
+        );
+        if (mainRiskItem && mainRiskItem.length > 0) {
+            return mainRiskItem;
+        }
+    }
+}
+
+/** To get items from collection
+ * @param  {any} response API collection response
+ * @returns {Object} Items array
+ */
+export const getCollectionItems = (response: any) => {
+    let items = [];
+    if (response && response._links && response._links.item) {
+        items = JSON.parse(JSON.stringify(response['_links']['item']));
+        if (!Array.isArray(items)) {
+            items = [items];
+        }
+    }
+    
+    return items;
+}
