@@ -1,5 +1,6 @@
-import { AddBoxIcon, PaymentIcon } from 'assets/svg';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import {AddBoxIcon, PaymentIcon} from 'assets/svg';
+import {Theme, makeStyles} from '@material-ui/core/styles';
+import ActivityStep from 'components/ActivityStep/ActivityStep';
 
 import Button from 'components/Button/Button';
 import CreateMoneyIn from './CreateMoneyIn/CreateMoneyIn';
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
+const MoneyIn: React.FC<MoneyInProps> = ({response}: MoneyInProps) => {
     const classes = useStyles();
     const [isMoneyInOpen, setIsMoneyInOpen]: [boolean, Function] = React.useState(false);
     const onClose = () => {
@@ -29,19 +30,20 @@ const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
     }
 
     return (
-        <Section title="Payment" icon={<PaymentIcon />} actions={
+        <Section title="Payment" icon={<PaymentIcon/>} actions={
             <Button onClick={() => setIsMoneyInOpen(true)} Icon={AddBoxIcon}
-                title="Collection" />} >
+                title="Collection"/>}>
             {
                 response &&
                 <>
-                    <MoneyInResume responseUP={response} />
+                    <MoneyInResume responseUP={response}/>
 
                     {
-                        isMoneyInOpen ?
-                            <CreateMoneyIn open={isMoneyInOpen} onClose={onClose} response={response} />
+                        isMoneyInOpen ? <ActivityStep code={'up_create_money_in'}>
+                            <CreateMoneyIn open={isMoneyInOpen} onClose={onClose} response={response}/>
+                        </ActivityStep>
                             :
-                            <div className={classes.avoidMovement} />
+                            <div className={classes.avoidMovement}/>
 
                     }
                 </>
