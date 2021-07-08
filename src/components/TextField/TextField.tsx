@@ -17,7 +17,6 @@ const TextField = (props: InputProps) => {
 
     const {FieldWrapper, Validation} = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type, list);
-    console.log(propertyName, field);
     const [showError, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState<String | null>(null);
     const [value, setValue] = useState(field?.value);
