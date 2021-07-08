@@ -1,5 +1,6 @@
-import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+import { AddBoxIcon, DistributorIcon } from 'assets/svg';
 
+import {ActivityProps} from 'components/Activity/Activity';
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -7,23 +8,9 @@ import GeneralInfo from './GeneralInfo';
 import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
-import { getLink } from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 
-export interface UnsolicitedPaymentProps {
-
-    /**
-     * API response of API for the entity
-     */
-    response: any
-
-    /**
-     * hRef of the activity
-     */
-    hRef : string
-}
-
-const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => {
+const UnsolicitedPayment: React.FC<ActivityProps> = ({hRef}:any) => {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
@@ -35,12 +22,10 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
     return (
         <>
             <div className="col-12 mb-4">
-                <Section title="General Information" icon={<PaymentIcon />} >
-                    <GeneralInfo response={response} />
-                </Section>
+                <GeneralInfo hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn activityHref={getLink(response?.data, 'self')}/>
+                <MoneyIn hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
@@ -53,7 +38,7 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
                         </Button>
                     </>
                 }>
-                    <DistributorsManagement />
+                    <DistributorsManagement hRef={hRef} />
                     <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({ distributor })} onCancel={() => setIsVisible(false)} />
                 </Section>
             </div>
@@ -61,4 +46,4 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
     )
 }
 
-export default UnsolicitedPayment;
+export default React.memo(UnsolicitedPayment);

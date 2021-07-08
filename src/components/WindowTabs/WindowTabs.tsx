@@ -8,22 +8,20 @@ import Tab from 'components/Tabs/Tab/Tab';
 import Tabs from 'components/Tabs/Tabs';
 import WithActivity from 'components/WithActivity';
 
-const SimpleComponent = React.memo((props: { tabId: string, href?: string, activityProps?: any }) => {
-    const {tabId, href = undefined} = props;
+const SimpleComponent = React.memo((props: { tabId: string, hRef?: string, activityProps?: any }) => {
+    const {tabId, hRef = undefined, activityProps} = props;
+    const baId = hRef + '_secondary'
 
     let component
-    let mode
-    switch (props.activityProps.entityType) {
+    switch (activityProps.entityType) {
         case 'ticket':
             component = <SampleTicket ticketId={tabId}/>
             break;
         case 'contract':
-            mode = (props.activityProps.activityCode === 'contract_view') ? 'view': 'update'
-            component = <WithActivity hRef={href+'_secondary'}><ActivityContainer mode={mode} {...{...props.activityProps, href}}/></WithActivity>
+            component = <WithActivity baId={baId}> <ActivityContainer hRef={hRef} activityProps={activityProps}/></WithActivity>
             break;
         case 'person':
-            mode = (props.activityProps.activityCode === 'person_view') ? 'view': 'update'
-            component = <WithActivity hRef={href+'_secondary'}><ActivityContainer mode={mode} {...{...props.activityProps, href}}/></WithActivity>
+            component = <WithActivity baId={baId}> <ActivityContainer hRef={hRef} activityProps={activityProps}/> </WithActivity>
 
     }
 
@@ -76,7 +74,7 @@ const WindowTabs = React.memo((props: {setWindowFocus?: Function}) => {
                         <SimpleComponent
                             key={tabId}
                             tabId={tabId}
-                            href={windowTabsIDObject[tabId].href}
+                            hRef={windowTabsIDObject[tabId].href}
                             activityProps={windowTabsIDObject[tabId].activityProps}
                         />
                     </Tab>

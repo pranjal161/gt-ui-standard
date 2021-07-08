@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import useValidator, {Field, InputProps} from 'hooks/useValidator';
+
 import {DxcInput} from '@dxc-technology/halstack-react';
 import useBindInputToStep from 'hooks/useBindInputToStep';
 import {useTranslation} from 'react-i18next';
@@ -11,11 +12,12 @@ import {useTranslation} from 'react-i18next';
  */
 const TextField = (props: InputProps) => {
     const {t} = useTranslation();
-    const {hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context = undefined} = props;
-    const {inputId, errorMessage : errorMessageAPI }: any = useBindInputToStep({hRef, property: propertyName})
+    const {hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context = undefined, list, size} = props;
+    const {inputId, status, statusMessage }: any = useBindInputToStep({hRef, property: propertyName})
 
     const {FieldWrapper, Validation} = useValidator();
-    const field: Field = FieldWrapper(data, propertyName, type);
+    const field: Field = FieldWrapper(data, propertyName, type, list);
+    console.log(propertyName, field);
     const [showError, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState<String | null>(null);
     const [value, setValue] = useState(field?.value);
@@ -49,7 +51,8 @@ const TextField = (props: InputProps) => {
         setError(!errorMessage)
     }, [errorMessage])
 
-    const assistiveText = errorMessageAPI ? errorMessageAPI : showError ? errorMessage : null
+    const invalid = status === 'error'
+    const assistiveText = statusMessage ? statusMessage : showError ? errorMessage : null
 
     return (
         <div id={inputId} hidden={!field.visible} data-testid={field.id} >
@@ -59,9 +62,10 @@ const TextField = (props: InputProps) => {
                 disabled={field?.disabled}
                 onChange={onChange}
                 onBlur={onBlur}
+                size={size? size : 'medium'}
                 value={value}
                 assistiveText={assistiveText}
-                invalid={(assistiveText)}
+                invalid={invalid}
             />
         </div>
     );

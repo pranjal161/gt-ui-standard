@@ -12,7 +12,7 @@ const ScheduledPayment = (props: { contractResponse: any }) => {
     const scheduledPaymentListUrl = contractResponse && getLink(contractResponse, 'contract:billing_list-scheduled_payment');
     const [scheduledPaymentListRes] = useResponse(scheduledPaymentListUrl);
     const item = scheduledPaymentListRes && scheduledPaymentListRes.data && scheduledPaymentListRes.data['_links'].item && scheduledPaymentListRes.data['_links'].item.href;
-    const [scheduledPayment]: any = useResponse(item);
+    const [scheduledPayment, loading]: any = useResponse(item);
 
     const Items: PanelSectionItem[] = [
         { id: 'billing:amount', styleType: ['currency'] },
@@ -25,7 +25,7 @@ const ScheduledPayment = (props: { contractResponse: any }) => {
         <>
             {scheduledPayment && (
                 <>
-                    <ContentList items={Items} data={scheduledPayment.data} />
+                    <ContentList items={Items} data={scheduledPayment.data} loading={loading}/>
                 </>
             )}
         </>

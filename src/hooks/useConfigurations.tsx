@@ -8,7 +8,7 @@ const useConfigurations = () => {
      * @param {object} props activityCode
      * @return {object} object with all Components to use for this activity code
      */
-    const getActivityConf = useCallback ((props:{activityCode:string}) => configs.activities[props.activityCode],[])
+    const getActivityConf = useCallback ((activityCode:string) => configs.activities[activityCode],[])
 
     return {
         getActivityConf
