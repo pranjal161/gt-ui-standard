@@ -1,6 +1,6 @@
+import useActivity from 'hooks/useActivity';
 import React, {useCallback} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import useConfigurations from 'hooks/useConfigurations';
 import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export interface ActivityProps {
+
+    /**
+     * hRef of the activity
+     */
+    hRef : string
+}
+
+export interface ActivityDetailProps {
 
     /**
      * code of the activity
@@ -30,28 +38,32 @@ export interface ActivityProps {
     hRef: string
 
     /**
-     * title
-     */
-    title: string
-
-    /**
      * hRef of the main entity
      */
     mainEntityHRef: string
+
+    /**
+     * Mode of execution of the activity : view, create, update
+     */
+    mode?: string
 
     /**
      * extraValues
      */
     extraValues?:any
 
+    /**
+     * title
+     */
+    title: string
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
-    const classes: any = useStyles()
     const {hRef} = props
+    const classes: any = useStyles()
 
-    const {getActivityConf} = useConfigurations()
-    const configurations = getActivityConf(props)
+    const {configurations, activityProps} = useActivity()
+    const { title} = activityProps
 
     const {openNewTab, forOperation} = useTabs()
     const onLaunchActivity = useCallback((operation: any, entityType: string) => {
@@ -68,10 +80,10 @@ const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     return (
         <div className={classes.root}>
             <div className="col-12">
-                {Header && <Header {...props} onLaunchActivity={onLaunchActivity}/>}
+                {Header && <Header title={title} hRef={hRef} onLaunchActivity={onLaunchActivity}/>}
             </div>
             <div>
-                {Structure && <Structure {...props}/>}
+                {Structure && <Structure hRef={hRef}/>}
             </div>
         </div>
     )

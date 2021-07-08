@@ -44,8 +44,6 @@ const Rate = (props: { property: string, hRef: string, response: any, icon?: Boo
     };
     const inputValue = '100';
 
-    console.log('rate render')
-
     return (<div className={classes.root}>
         {/* <TextField
             hRef={props.hRef}

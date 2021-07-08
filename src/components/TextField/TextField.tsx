@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 const TextField = (props: InputProps) => {
     const {t} = useTranslation();
     const {hRef, propertyName, data, type, onChangeMethod, onBlurMethod, context = undefined} = props;
-    const {inputId, errorMessage : errorMessageAPI }: any = useBindInputToStep({hRef, property: propertyName})
+    const {inputId, status, statusMessage }: any = useBindInputToStep({hRef, property: propertyName})
 
     const {FieldWrapper, Validation} = useValidator();
     const field: Field = FieldWrapper(data, propertyName, type);
@@ -49,7 +49,8 @@ const TextField = (props: InputProps) => {
         setError(!errorMessage)
     }, [errorMessage])
 
-    const assistiveText = errorMessageAPI ? errorMessageAPI : showError ? errorMessage : null
+    const invalid = status === 'error'
+    const assistiveText = statusMessage ? statusMessage : showError ? errorMessage : null
 
     return (
         <div id={inputId} hidden={!field.visible} data-testid={field.id} >
@@ -61,7 +62,7 @@ const TextField = (props: InputProps) => {
                 onBlur={onBlur}
                 value={value}
                 assistiveText={assistiveText}
-                invalid={(assistiveText)}
+                invalid={invalid}
             />
         </div>
     );

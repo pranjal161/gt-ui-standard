@@ -31,6 +31,7 @@ const AIASlice = createSlice({
             state[action.payload.baId] = {
                 status: {},
                 steps: {},
+                props : action.payload.activityProps,
                 current: undefined
             }
 
@@ -38,6 +39,11 @@ const AIASlice = createSlice({
         },
         aiaBAEnd(state: any, action: any) {
             delete state[action.payload.baId]
+        },
+        aiaBAUpdateProps(state: any , action) {
+            state[action.payload.baId].props = { ...state[action.payload.baId].props, ...action.payload.activityProps}
+
+            return state
         },
         aiaGETPending(state: any, action: any) {
             updateStatus(state, action, 'loading')
@@ -200,6 +206,7 @@ export const {
     aiaDELETEError,
     aiaBAStart,
     aiaBAEnd,
+    aiaBAUpdateProps,
     aiaStepSetCurrent,
     aiaStepAddInput,
     aiaStepRemoveInput,

@@ -10,13 +10,15 @@ const useBindInputToStep = ({hRef, property}: any) => {
     const baId: any = context.baId
     const [inputId] = useState(uniqueId(property))
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
-    const errorMessage = useSelector((state: any) => state.aia[baId] &&
+    const status = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
         state.aia[baId].steps[currentStep] &&
         state.aia[baId].steps[currentStep][hRef] &&
         state.aia[baId].steps[currentStep][hRef][property] &&
         state.aia[baId].steps[currentStep][hRef][property].status &&
-        state.aia[baId].steps[currentStep][hRef][property].status.value === 'error' &&
+        state.aia[baId].steps[currentStep][hRef][property].status.value)
+
+    const statusMessage = useSelector((state: any) => status === 'error' &&
         state.aia[baId].steps[currentStep][hRef][property].status.message)
 
     useEffect(() => {
@@ -27,7 +29,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
         }
     }, [])
 
-    return {inputId, errorMessage}
+    return {inputId, status, statusMessage}
 }
 
 export default useBindInputToStep;

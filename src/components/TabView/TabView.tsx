@@ -52,7 +52,7 @@ const TabView = () => {
                                     <MemoTabViewType 
                                         key={tabId}
                                         tabId={tabId}
-                                        href={availableTabsObject[tabId].href}
+                                        hRef={availableTabsObject[tabId].href}
                                         activityProps={availableTabsObject[tabId].activityProps}
                                     />
                                 </div>

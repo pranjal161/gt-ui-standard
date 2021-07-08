@@ -1,74 +1,37 @@
+import Activity, {ActivityDetailProps} from 'components/Activity/Activity';
 import React, {useEffect, useState} from 'react';
-import Activity from 'components/Activity/Activity';
 import {getLink} from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 
 export interface ActivityContainerProps {
+    hRef?: string,
 
-    /**
-     * activityCode code of the activity to display/Execute
-     */
-    activityCode: string
-
-    /**
-     * hRef of operation, for launch activity it's the href to POST
-     */
-    hRef: string
-
-    /**
-     * mainEntityHRef it will be the contract, the person or not defined
-     */
-    mainEntityHRef?: string,
-
-    /**
-     * Mode of execution of the activity : view, insert, update
-     */
-    mode: string
-
-    /**
-     * Extra Values
-     */
-    extraValues?: any
-
-    title?: string
+    activityProps: ActivityDetailProps
 }
 
 /**
  * Wrap activity, manage the start and end activity for Redux
  * Do the POSt for mode === 'insert' || mode === 'update'
- * @param {ActivityContainerProps} Activity props
+ * @param {ActivityProps} Activity props
  * @return {React.Component} Children activity content
  */
-const ActivityContainer: React.FC<ActivityContainerProps> = ({
-    hRef,
-    mainEntityHRef,
-    activityCode,
-    mode,
-    title,
-    extraValues
-}: ActivityContainerProps) => {
+const ActivityContainer: React.FC<ActivityContainerProps> = ({hRef, activityProps}: ActivityContainerProps) => {
     const {post} = useAia();
-    const {startActivity, stopActivity} = useActivity();
+    const {startActivity, stopActivity, updateActivityProps} = useActivity();
     const [activityHRef, setActivityHRef]: [any, any] = useState(undefined);
 
-    const propsActivity: any = {
-        hRef: activityHRef,
-        mainEntityHRef: mainEntityHRef,
-        action: 'fetch',
-        activityCode,
-        title,
-        extraValues
-    }
-
     useEffect(() => {
-        startActivity();
-        if (mode === 'insert' || mode === 'update') {
+        const mode = startActivity(activityProps);
+        if (['create', 'update', 'upsert'].includes(mode)) {
             post(hRef, {}).then((res: any) => {
-                if (res && res.data && getLink(res.data, 'self'))
+                if (res && res.data && getLink(res.data, 'self')) {
+                    const newHRef = getLink(res.data, 'self')
                     //We got the Href of the new ressource
-                    setActivityHRef(getLink(res.data, 'self'));
-
+                    setActivityHRef(newHRef);
+                    //We update the props in redux store
+                    updateActivityProps({hRef : newHRef})
+                }
             });
         }
         else if (['view', 'storybook', 'search'].includes(mode)) {
@@ -79,11 +42,12 @@ const ActivityContainer: React.FC<ActivityContainerProps> = ({
         return () => {
             stopActivity()
         }
-    }, [hRef, mode, post, setActivityHRef, startActivity, stopActivity])
+    }, [hRef, post, setActivityHRef, startActivity, stopActivity])
 
     return (<>
-        {activityHRef ? <Activity {...propsActivity}/> : <div>Activity is loading ...</div>}
+        {activityHRef ? <Activity hRef={activityHRef}/> :
+            <div>Activity is loading ...</div>}
     </>)
-
 }
+
 export default React.memo(ActivityContainer);
