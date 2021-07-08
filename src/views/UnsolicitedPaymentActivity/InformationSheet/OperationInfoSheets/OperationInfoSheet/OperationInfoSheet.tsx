@@ -109,4 +109,4 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
     );
 }
 
-export default OperationInfoSheet;
+export default React.memo(OperationInfoSheet);
