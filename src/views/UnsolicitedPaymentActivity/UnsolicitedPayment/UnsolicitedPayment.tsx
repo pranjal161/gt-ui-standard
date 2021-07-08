@@ -1,4 +1,5 @@
 import { AddBoxIcon, DistributorIcon } from 'assets/svg';
+
 import {ActivityProps} from 'components/Activity/Activity';
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
@@ -37,7 +38,7 @@ const UnsolicitedPayment: React.FC<ActivityProps> = ({hRef}:any) => {
                         </Button>
                     </>
                 }>
-                    <DistributorsManagement />
+                    <DistributorsManagement hRef={hRef} />
                     <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({ distributor })} onCancel={() => setIsVisible(false)} />
                 </Section>
             </div>
