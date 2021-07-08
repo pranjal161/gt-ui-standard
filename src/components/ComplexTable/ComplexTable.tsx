@@ -118,7 +118,6 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
 
     return (
         <>
-            {response &&
             <tr className={`${props.selected && 'selected'}`}>
                 {props.columns && props.columns.map((column: ComplexTableColumnItemProps, index: number) => {
                     const ColumnComponent = column.component
@@ -128,7 +127,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                             property={column.valueKey}
                             response={response && response[column.valueKey] ? response : undefined}
                             icon={false}/> :
-                        response.data[column.valueKey]
+                        <>{response && response.data[column.valueKey]}</>
 
                     return (
                         <td key={index}>
@@ -139,7 +138,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                             </div>
                         </td>)
                 })}
-            </tr>}
+            </tr>
         </>
     );
 })
