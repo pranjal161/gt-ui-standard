@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {
     getLink,
     getMaxLength,
@@ -51,7 +52,7 @@ export interface ErrorField {
 
 const useValidator = () => {
 
-    const FieldWrapper = ( data: any, propertyName: string, type?: string, list?: any) => {
+    const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any) => {
 
         let field: Field = {
             id: createId(data, propertyName),
@@ -68,7 +69,7 @@ const useValidator = () => {
         }
         
         return field;
-    }
+    }, [])
 
     const createId = (data: any, propertyName: string) => {
         let elementId = '';

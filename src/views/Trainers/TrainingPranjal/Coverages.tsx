@@ -53,8 +53,7 @@ const Coverages = (props: { risks: string }) => {
                 <div>
                     <SelectInput
                         hRef={risks}
-                        data={riskdata}
-                        propertyName="automobile:registration_type"
+                        property="automobile:registration_type"
                     ></SelectInput>
                 </div>
             </>

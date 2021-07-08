@@ -95,26 +95,22 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                             <RowProperties value={[
                                 <SelectInput
                                     hRef={hRef}
-                                    propertyName={'info_sheet_operation:fund_origin'}
-                                    data={response.data}
-                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:fund_origin')}/>,
+                                    property={'info_sheet_operation:fund_origin'}
+                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:fund_origin')}/>,
                             ]}/>
                             <RowProperties value={[
                                 <SelectInput
                                     hRef={hRef}
-                                    propertyName={'info_sheet_operation:consistent_operation'}
-                                    data={response.data}
-                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:consistent_operation')}/>,
+                                    property={'info_sheet_operation:consistent_operation'}
+                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:consistent_operation')}/>,
                                 <SelectInput
                                     hRef={hRef}
-                                    propertyName={'info_sheet_operation:atypical_operation'}
-                                    data={response.data}
-                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:atypical_operation')}/>,
+                                    property={'info_sheet_operation:atypical_operation'}
+                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:atypical_operation')}/>,
                                 <SelectInput
                                     hRef={hRef}
-                                    propertyName={'info_sheet_operation:operation_motive'}
-                                    data={response.data}
-                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:operation_motive')}/>,
+                                    property={'info_sheet_operation:operation_motive'}
+                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:operation_motive')}/>,
                             ]}/>
                         </>
                         }

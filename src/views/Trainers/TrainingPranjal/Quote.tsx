@@ -81,9 +81,8 @@ const Quote = () => {
                     <div>
                         <SelectInput
                             hRef={url}
-                            data={quoteResponse.data}
-                            propertyName="quote:frequency"
-                            onChangeMethod={patchFrequency}
+                            property="quote:frequency"
+                            onChange={patchFrequency}
                         ></SelectInput>
                     </div>
                     <div>
