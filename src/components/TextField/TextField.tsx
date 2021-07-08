@@ -73,6 +73,7 @@ const TextField = (props: InputProps) => {
         size={14}
         thickness={4}
     />
+    const otherProps = loading && {suffixIcon : <Skeleton/> }
 
     return (
         <div id={inputId} hidden={!field.visible && !loading} data-testid={field.id}>
@@ -82,11 +83,11 @@ const TextField = (props: InputProps) => {
                 disabled={field?.disabled}
                 onChange={onChange}
                 onBlur={onBlur}
-                suffixIcon={loading && <Skeleton/>}
                 size={size ? size : 'medium'}
                 value={loading ? value || ' ' : value}
                 assistiveText={assistiveText}
                 invalid={invalid}
+                {...otherProps}
             />
         </div>
     );

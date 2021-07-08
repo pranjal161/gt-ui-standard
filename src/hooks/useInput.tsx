@@ -40,7 +40,6 @@ const useInput = ({hRef, property, type, context, onChange }:any) => {
     },[field, type, validation, onChange])
 
     const label = t(property, {context})
-
     const invalid = !validationResult.valid || status === 'error'
     const errorMessage = validationResult.error || (status === 'error' && status.statusMessage)
 
