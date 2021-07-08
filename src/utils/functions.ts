@@ -343,7 +343,6 @@ export const isFieldRequired = (response: any, field: string) => (
 export const isFieldVisible = (response: any, field: string, list?: any): boolean => {
     if (list) {
         const options = getListProperties(response, list.listName);
-        console.log(options)
         if (options)
             return options.hasOwnProperty(field); 
     }
