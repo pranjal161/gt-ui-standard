@@ -82,19 +82,17 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
                         }
                     </tr>
                 </thead>
-                {
-                    response &&
-                    <tbody>
-                        <tr>
-                            {
-                                columns.map((item: any, key: number) => (
-                                    <MoneyInListItem moneyInHref={moneyInHref} key={key} item={item} onEdit={onEdit} onDelete={onDelete} response={response} />
+                <tbody>
+                    <tr>
+                        {
+                            response &&
+                            columns.map((item: any, key: number) => (
+                                <MoneyInListItem key={key} hRef={moneyInHref} item={item} onEdit={onEdit} onDelete={onDelete} />
 
-                                ))
-                            }
-                        </tr>
-                    </tbody>
-                }
+                            ))
+                        }
+                    </tr>
+                </tbody>
             </DxcTable>
         </div>
     )
