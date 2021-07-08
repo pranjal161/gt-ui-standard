@@ -1,3 +1,4 @@
+import useActivity from 'hooks/useActivity';
 import React, {useCallback, useState} from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
@@ -34,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractView: React.FC<any> = (props: any) => {
+const ContractView: React.FC<any> = (props: { hRef :string}) => {
+    const {hRef } = props
+    const {activityProps} = useActivity()
+    const {activityCode, mainEntityHRef } = activityProps
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {getActivityConf} = useConfigurations();
@@ -46,14 +50,12 @@ const ContractView: React.FC<any> = (props: any) => {
         }
     }, []);
 
-    const configurations = getActivityConf(props)
+    const configurations = getActivityConf(activityCode)
 
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
     const handleSidebarChange = useCallback ((open:boolean) => {
         setIsSideBarOpen(open)
     },[setIsSideBarOpen])
-
-    console.log('isSideBarOpen', isSideBarOpen)
 
     const SideBarConf = configurations.sidebar
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -73,7 +75,7 @@ const ContractView: React.FC<any> = (props: any) => {
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef} onChange={handleSidebarChange}/>
+                <SideBarConf mainEntityHRef={mainEntityHRef} hRef={hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );

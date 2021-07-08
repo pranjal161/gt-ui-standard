@@ -35,11 +35,11 @@ export interface BindToStep {
  */
 const BindToStep: React.FC<BindToStep> = ({hRef, property, children}: BindToStep) => {
     const classes = useStyles()
-    const {inputId, errorMessage} = useBindInputToStep({hRef, property})
+    const {inputId, statusMessage} = useBindInputToStep({hRef, property})
 
     return (
         <div id={inputId} className={classes.root}>
-            {errorMessage && <p className="MuiFormHelperText-root Mui-error">{errorMessage}</p>}
+            {statusMessage && <p className="MuiFormHelperText-root Mui-error">{statusMessage}</p>}
             {children}
         </div>
     );
