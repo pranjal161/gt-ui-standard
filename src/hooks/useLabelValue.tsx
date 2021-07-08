@@ -119,9 +119,11 @@ const useLabelValue = ({property, hRef, styleType, onClick, context}: useLabelVa
     }, [property, response, styleType])
 
     const options = context && {context}
-    const Label = () => property && t(property, {...options}) //(loading ? <Skeleton/> : property && t(property))
-    const Value = () => (loading ? <Skeleton/> :
-        <label dangerouslySetInnerHTML={{__html: getValue()}} onClick={onClick}/>)
+    const Label = React.memo(() => property && t(property, {...options})) //(loading ? <Skeleton/> : property && t(property))
+    Label.displayName='Label'
+    const Value = React.memo(() => (loading ? <Skeleton/> :
+        <label dangerouslySetInnerHTML={{__html: getValue()}} onClick={onClick}/>))
+    Value.displayName='Value'
 
     return {Label, Value}
 }
