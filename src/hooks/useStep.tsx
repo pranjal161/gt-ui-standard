@@ -88,7 +88,7 @@ const useStep = () => {
                 const statusReport = getRessourceStatusReport(hRef)
 
                 //We make a second loop on the properties we displayed and check if they are present in the status_report
-                Object.entries(boundInputs)
+                statusReport && Object.entries(boundInputs)
                     .forEach(([property, propertyDetail]: any) => {
                         const status: any = getPropertyStatusReport(statusReport, property)
 
