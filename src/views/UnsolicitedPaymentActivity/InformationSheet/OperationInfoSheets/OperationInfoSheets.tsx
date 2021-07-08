@@ -26,7 +26,7 @@ const OperationInfoSheets: React.FC<OperationInfoSheetsProps> = ({hRef}: Operati
     const [response] = useResponse(hRef)
     const {t} = useTranslation()
     const operationCount = response && response.data._count
-    const title = t('commom:operation_list', {count: operationCount, context: 'unsolicited_payment'})
+    const title = t('common:operation_list', {count: operationCount, context: 'unsolicited_payment'})
 
     const items = response && getCollectionItems(response.data)
 

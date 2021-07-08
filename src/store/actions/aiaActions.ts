@@ -137,7 +137,7 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
         }
         // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
         else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
-            refresh(href, 'refresh', baId);
+            refresh(href, baId);
             const messages = response.data.messages;
             const existingHrefs = getState().aia[baId];
             const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
@@ -203,7 +203,7 @@ const processModifiedHeaders = (modifiedArray: Array<Object | string>, existingM
         // eslint-disable-next-line array-callback-return
         modifiedArray.map((message: any) => {
             if (Object.keys(existingMap).includes(message)) {
-                requestArray.push(dispatch(refresh(message, 'refresh', baId)));
+                requestArray.push(dispatch(refresh(message, baId)));
             }
         })
         Promise.all(requestArray).then();

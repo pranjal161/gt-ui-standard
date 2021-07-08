@@ -20,7 +20,12 @@ export interface useLabelValueProps {
     /**
      * Style of the type + option
      */
-    styleType?: ['text' | 'currency' | 'percent' | 'decimal' | 'number' | 'date' | 'dateLong', any?]
+    styleType?: ['text' | 'currency' | 'percent' | 'decimal' | 'number' | 'date' | 'dateLong' | any, any?]
+
+    /**
+     * context used for translation
+     */
+    context?:string
 
     /**
      * onClick callback
@@ -96,7 +101,7 @@ const Skeleton = React.memo(() => {
 })
 Skeleton.displayName = 'Skeleton'
 
-const useLabelValue = ({property, hRef, styleType, onClick}: useLabelValueProps) => {
+const useLabelValue = ({property, hRef, styleType, onClick, context}: useLabelValueProps) => {
     const {t} = useTranslation();
     const [response, loading] = useResponse(hRef)
 
@@ -113,7 +118,8 @@ const useLabelValue = ({property, hRef, styleType, onClick}: useLabelValueProps)
         return ''
     }, [property, response, styleType])
 
-    const Label = () => (loading ? <Skeleton/> : property && t(property))
+    const options = context && {context}
+    const Label = () => property && t(property, {...options}) //(loading ? <Skeleton/> : property && t(property))
     const Value = () => (loading ? <Skeleton/> :
         <label dangerouslySetInnerHTML={{__html: getValue()}} onClick={onClick}/>)
 

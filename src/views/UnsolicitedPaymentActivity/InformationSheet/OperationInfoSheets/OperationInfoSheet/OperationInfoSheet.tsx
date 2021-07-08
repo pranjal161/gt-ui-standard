@@ -1,29 +1,24 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-key */
 import {makeStyles} from '@material-ui/core/styles';
-import Label from 'components/Label/Label';
+import LabelInBlock from 'components/LabelInBlock/LabelInBlock';
 import SelectInput from 'components/SelectInput/SelectInput';
-import TextField from 'components/TextField/TextField';
 import useResponse from 'hooks/useResponse';
-import React from 'react';
+import React, {useCallback} from 'react';
+import {getLink} from 'utils/functions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(0),
-        display: 'flex',
+        marginLeft: theme.spacing(3),
         alignItems: 'start',
-        flexDirection: 'row',
-        flex: '1 0 auto',
         height: '100%',
         width: '100%',
     },
-    subSection: {
-        marginBlock: theme.spacing(1)
-    },
+    subSection: {},
     subSectionTitle: {
         fontFamily: theme.typography.fontFamily,
         fontSize: '18px',
-        textAlign: 'right',
-        marginBlock: theme.spacing(3)
+        textAlign: 'left',
+        //marginBlock: theme.spacing(3)
     },
     subSectionContent: {
         marginLeft: theme.spacing(2)
@@ -45,9 +40,18 @@ export interface OperationInfoSheetProps {
  * @return {React.Component} its detail
  */
 const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: OperationInfoSheetProps) => {
-    const [response] = useResponse(hRef)
-    console.log('response', response)
     const classes = useStyles()
+    const [response] = useResponse(hRef)
+    const payerHRef = response && getLink(response.data,'info_sheet_operation:payer_person')
+
+    console.log('payerHRef', payerHRef)
+
+    const RowProperties = useCallback(({value}: any) => (
+        <div className="row mt-4 mb-4">
+            {value.map((component: any, index: number) => <div key={index} className="col-4">
+                {component}
+            </div>)}
+        </div>), [])
 
     return (
         <div className={classes.root}>
@@ -56,30 +60,48 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                     General information
                 </div>
                 <div className={classes.subSectionContent}>
-                    {response &&
-                    <div className="row">
-                        <div className="col-4">
-                            <Label
-                                data={response.data}
-                                property="info_sheet_operation:operation_type"
-                            />
-                        </div>
-                        <div className="col-4">
-                            <Label
-                                data={response.data}
-                                property="info_sheet_operation:operation_amount"
-                            />
-                        </div>
-                        <div className="col-4">
-                        </div>
-                    </div>}
+                    <RowProperties value={[
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_type'}/>,
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'}
+                            styleType={['currency']}/>,
+                        <LabelInBlock hRef={payerHRef} property={'person:display_id1'} context={'payer'}/>,
+                    ]}/>
+                    <RowProperties value={[
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:start_date'}
+                            styleType={['date']}/>,
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'}
+                            styleType={['currency']}/>,
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:tax_type_class'}/>,
+                    ]}/>
+                    <RowProperties value={[
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_date'}
+                            styleType={['date']}/>
+                    ]}/>
                 </div>
                 <div className={classes.subSection}>
                     <div className={classes.subSectionTitle}>
                         Additional information
                     </div>
                     <div className={classes.subSectionContent}>
-                        {response && JSON.stringify(response)}
+                        {response &&
+                                <>
+                                    <RowProperties value={[
+                                        <SelectInput hRef={hRef} propertyName={'info_sheet_operation:fund_origin'}
+                                            data={response.data}/>,
+                                    ]}/>
+                                    <RowProperties value={[
+                                        <SelectInput hRef={hRef}
+                                            propertyName={'info_sheet_operation:consistent_operation'}
+                                            data={response.data}/>,
+                                        <SelectInput hRef={hRef}
+                                            propertyName={'info_sheet_operation:atypical_operation'}
+                                            data={response.data}/>,
+                                        <SelectInput hRef={hRef} propertyName={'info_sheet_operation:operation_motive'}
+                                            data={response.data}/>
+                                    ]}/>
+                                </>
+                        }
+
                     </div>
                 </div>
             </div>
