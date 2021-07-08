@@ -3,14 +3,11 @@ import Stepper, {StepProps} from 'components/Stepper/Stepper';
 import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
-import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
-import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
-import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
 import {scrollIntoView} from 'utils/system';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
-import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
@@ -43,72 +40,41 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractOperation: React.FC<any> = (props: any) => {
-    const hRef = props.hRef
+const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
+    const {hRef} = props
+    const {activityProps, getSteps, configurations} = useActivity()
+    const {mainEntityHRef } = activityProps
+    const {t} = useTranslation()
+    const steps = getSteps()
+    const {canValidateStep} = useStep()
 
+    //------------- Side bar and dynamic layout management
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
-
-    const {t} = useTranslation()
-    const {getActivityConf} = useConfigurations();
-
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
-    const handleSidebarChange = useCallback ((open:boolean) => {
+    const handleSidebarChange = useCallback((open: boolean) => {
         setIsSideBarOpen(open)
-    },[setIsSideBarOpen])
-
-    const [currentStep, setCurrentStep] = useState(0);
-    const [activityResponse] = useResponse(hRef);
-    const {patch} = useAia();
-
+    }, [setIsSideBarOpen])
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
-    const {canValidateStep} = useStep()
-
-    const steps = [
-        {
-            id: 0,
-            code: 'unsolicited_payment',
-            label: t('common:_UNSOLICITED_PAYMENT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <UnsolicitedPayment response={activityResponse} hRef={hRef}/>
-        },
-        {
-            id: 1,
-            code: 'investment_split',
-            label: t('common:_INVESTMENT_SPLIT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InvestmentSplit response={activityResponse} hRef={hRef}/>
-        },
-        {
-            id: 2,
-            code: 'information_sheet',
-            label: t('common:_INFORMATION_SHEET'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InformationSheet response={activityResponse} hRef={hRef}/>
-        }
-    ]
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
             setSideBarOffsetTop(node.offsetTop);
         }
     }, []);
+    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
+    //-------------
 
-    const configurations = getActivityConf(props)
+    const [currentStep, setCurrentStep] = useState(0);
+    const [activityResponse] = useResponse(hRef);
+    const {patch} = useAia();
 
     const SideBarConf = configurations.sidebar
 
-    const nextStep = (index: number) => {
+    const nextStep = useCallback((index: number) => {
         const inputErrors = canValidateStep()
         if (inputErrors.length === 0) {
             const step = index >= steps.length ? steps.length - 1 : index;
@@ -118,26 +84,26 @@ const ContractOperation: React.FC<any> = (props: any) => {
             //We scroll to view the first error
             scrollIntoView(inputErrors[0])
         }
-    }
+    }, [steps, canValidateStep])
 
-    const patchDate = (value: any, id: string) => {
-        const payload: any = {};
-        payload[id] = value;
-        patch(hRef, payload).then(() => {
+    const patchDate = useCallback((value: any, id: string) => {
+        patch(hRef, {[id] : value}).then(() => {
             setCurrentStep(0);
         });
-    }
+    }, [hRef, patch])
 
     const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
+    const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
     const CurrentStep = currentStepConfig &&
         <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
-            {currentStepConfig[0].component}</ActivityStep> ||
-        <div/>
+            <CurrentStepComponent hRef={hRef} />
+        </ActivityStep> || <div/>
+
+    const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
 
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
-
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse &&
@@ -148,13 +114,11 @@ const ContractOperation: React.FC<any> = (props: any) => {
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}
-                            onChange={(index: number) => setCurrentStep(index)}/>
+                            onChange={handleStepperOnChange}/>
                     </div>
-
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {Date.now()}
                         {CurrentStep}
 
                         <div className="m-2 p-1" style={{float: 'right'}}>
@@ -165,7 +129,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef} onChange={handleSidebarChange}/>
+                <SideBarConf mainEntityHRef={mainEntityHRef} hRef={hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );

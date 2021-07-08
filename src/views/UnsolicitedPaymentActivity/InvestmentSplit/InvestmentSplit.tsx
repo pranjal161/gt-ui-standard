@@ -1,6 +1,7 @@
 import {AddBoxIcon, AddFolderIcon, PaymentIcon} from 'assets/svg';
 
 import AccordionContainer from 'components/AccordionContainer/AccordionContainer';
+import {ActivityProps} from 'components/Activity/Activity';
 import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'components/Button/Button';
 import ComplexTable from 'components/ComplexTable/ComplexTable';
@@ -55,27 +56,18 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
     );
 }
 
-export interface InvestmentSplitProps {
+const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
+    const { hRef } = props
+    const { activityProps } = useActivity()
+    const { mainEntityHRef } = activityProps
+    const [response] = useResponse(hRef)
 
-    /**
-     * API response of API for the entity
-     */
-    response: any
-
-    /**
-     * hRef of the activity
-     */
-    hRef: string
-}
-
-const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any, hRef: string }) => {
     const [isOpen, setOpen]: [boolean, Function] = React.useState(false);
     // To be picked from API after property allocation_type is available, harcoded for now
     const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
-    const {baId} = useActivity();
-    const contractUrl = baId && baId.split('/operations')[0];//Todo : This is not good
-    const poolSplit = props.response.data['main_pool_split'];
+    const contractHRef = mainEntityHRef
+    const poolSplit = response.data['main_pool_split'];
 
     return (
         <div className="col-12 mb-4">
@@ -91,13 +83,13 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
                 </div>
                 <ManagementSelection open={isOpen}
                     onCancel={() => setOpen(false)}
-                    contractUrl={contractUrl}
+                    contractUrl={contractHRef}
                 />
-                <BindToStep hRef={props.hRef} property={'main_pool_split'}/>
+                <BindToStep hRef={hRef} property={'main_pool_split'}/>
                 {poolSplit && poolSplit.map((pool: any, index: number) => (
                     <MainSplitPool
                         key={index}
-                        data={props.response.data['investment_split']}
+                        data={response.data['investment_split']}
                         hRef={pool['product_component']}/>
                 )
                 )}
@@ -106,4 +98,4 @@ const InvestmentSplit: React.FC<InvestmentSplitProps> = (props: { response: any,
     )
 }
 
-export default InvestmentSplit;
+export default React.memo(InvestmentSplit);
