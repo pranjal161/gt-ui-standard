@@ -14,20 +14,20 @@ import WithActivity from 'components/WithActivity';
  */
 const TabViewType = (props: { tabId: string, hRef?: string, activityProps?: any }) => {
     const {tabId, hRef = undefined, activityProps} = props;
-
+    const baId = hRef
     let component
     switch (props.activityProps.entityType) {
         case 'search':
-            component = <WithActivity baId={hRef}> <ActivityContainer hRef={hRef} activityProps={activityProps}/> </WithActivity>
+            component = <WithActivity baId={baId}> <ActivityContainer hRef={hRef} activityProps={activityProps}/> </WithActivity>
             break;
         case 'ticket':
             component = <SampleTicket ticketId={tabId}/>
             break;
         case 'contract':
-            component = <WithActivity baId={hRef}> <ActivityContainer hRef={hRef} activityProps={activityProps}/></WithActivity>
+            component = <WithActivity baId={baId}> <ActivityContainer hRef={hRef} activityProps={activityProps}/></WithActivity>
             break;
         case 'person':
-            component = <WithActivity baId={hRef}> <ActivityContainer hRef={hRef} activityProps={activityProps}/> </WithActivity>
+            component = <WithActivity baId={baId}> <ActivityContainer hRef={hRef} activityProps={activityProps}/> </WithActivity>
 
     }
 
