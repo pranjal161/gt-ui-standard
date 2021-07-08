@@ -4,6 +4,7 @@ import Paginator from 'components/Paginator/Paginator';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import useResponse from 'hooks/useResponse';
+import { useTranslation } from 'react-i18next';
 
 export interface ComplexTableHeaderProps {
     title: string
@@ -64,7 +65,26 @@ const useStyles = makeStyles((theme) => ({
             cursorPointer: 'default',
             pointerEvents: 'none'
         }
-    }
+    },
+    loading: {
+        animation: '$glow 1.5s ease-in-out infinite',
+        borderTop: '1px solid #f0f9fb',
+        background: '#eee',
+        height: '21px',
+        color: 'transparent',
+        cursor: 'progress',
+        display: 'inline-block',
+        width: '100%'
+    },
+    '@keyframes glow': {
+        '0%': {},
+        '100%': {
+            opacity: 1
+        },
+        '50%': {
+            opacity: 0.5
+        }
+    },
 }));
 
 const SelectionOption = React.memo((props: { selectionMode: any, value: any, onClick: Function }) => (
@@ -89,8 +109,9 @@ SelectionOption.displayName = 'SelectionOption'
 
 const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnItemProps>, row: any, rowExtraData:any, selectionMode: any, onClick: Function, selected: Boolean }) => {
     const hRef = props.rowExtraData.hRefKey && props.row[props.rowExtraData.hRefKey]
-    const [rowResponse] = useResponse(hRef);
+    const [rowResponse, loading] = useResponse(hRef);
     const response = hRef ? rowResponse : props.row
+    const classes: any = useStyles();
 
     const SelectionColumn = ({value}: any) => <SelectionOption selectionMode={props.selectionMode} value={value}
         onClick={props.onClick}/>
@@ -112,8 +133,9 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                     return (
                         <td key={index}>
                             <div className="d-flex align-items-center">
-                                {index === 0 && <SelectionColumn value={props.selected}/>}
-                                {cellValue}
+                                {loading ? <div className={classes.loading}></div> :
+                                    <>{index === 0 && <SelectionColumn value={props.selected}/>}
+                                        {cellValue}</>}
                             </div>
                         </td>)
                 })}
@@ -133,6 +155,7 @@ const ComplexTable = (props: ComplexTableProps) => {
     const {headers, columns, rowExtraData = {hRefKey: undefined}, data, selectionMode = 'none', itemsPerPage = 10} = props;
 
     const classes: any = useStyles();
+    const { t } = useTranslation();
 
     const [totalItems, setTotalItems] = React.useState(0);
 
@@ -155,8 +178,6 @@ const ComplexTable = (props: ComplexTableProps) => {
         else
             setSelectedRows({...selectedRows, [id]: row})
     };
-
-    // const component = (component: React.FunctionComponent, value: any) => component(value);
 
     const handleOnRowClick = (id: any, row: any) => {
         if (selectionMode === 'one')
@@ -181,20 +202,24 @@ const ComplexTable = (props: ComplexTableProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data && data.map((row: any, index: number) => {
-                        const isSelected = selectedRows[index]
+                    {data && data.length > 0 ? <>
+                        {data.map((row: any, index: number) => {
+                            const isSelected = selectedRows[index]
 
-                        return (
-                            <ComplexTableRow
-                                key={index}
-                                selected={isSelected}
-                                rowExtraData={rowExtraData}
-                                row={row}
-                                columns={columns}
-                                selectionMode={selectionMode}
-                                onClick={() => handleOnRowClick(index, row)}/>
-                        )
-                    })}
+                            return (
+                                <ComplexTableRow
+                                    key={index}
+                                    selected={isSelected}
+                                    rowExtraData={rowExtraData}
+                                    row={row}
+                                    columns={columns}
+                                    selectionMode={selectionMode}
+                                    onClick={() => handleOnRowClick(index, row)}/>
+                            )
+                        })}
+                    </> : <tr>
+                        <td colSpan={headers && headers.length}>{t('_NO_RECORDS_FOUND')}</td>
+                    </tr>}
                 </tbody>
             </DxcTable>
             <div className="row">
