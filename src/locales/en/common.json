@@ -55,6 +55,8 @@
   "preferredAddressLabel": "Preferred Address",
   "preferredContactLabel": "Contact",
   "_NEXT_BUTTON" : "Next",
+  "operation_list_unsolicited_payment" : "Operation : {{count}}",
+  "operation_list_unsolicited_payment_plural" : "Operations : {{count}}",
 
 
   "_REMINDERS": "_REMINDERS",
