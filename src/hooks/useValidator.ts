@@ -40,7 +40,8 @@ export interface InputProps {
     onChangeMethod?: any, 
     onBlurMethod?: any,
     list?: any,
-    size?:string
+    size?:string,
+    loading?: boolean
 }
 
 export interface ErrorField {
