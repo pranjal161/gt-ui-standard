@@ -22,17 +22,15 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
     const [poolResponse] = useResponse(props.hRef);
     const headers = [
         { title: 'Funds' },
-        { title: 'Pending funds' },
         { title: 'Rate' }
     ];
     const columns = [
-        { valueKey: 'coverage_fund:label' },
-        { valueKey: 'no' },
-        { valueKey: 'allocation:rate', component: Rate }
+        { valueKey: 'coverage_fund:label', hRefKey: true },
+        { valueKey: 'allocation:rate', component: Rate, list: true }
     ];
-    const rowExtraData = { hRefKey: 'allocation:coverage_fund' };
-    const tableData = props.data.filter((funds: any) => funds['parent_product_component'] === props.hRef);
-
+    const rowExtraData = { hRefKey: 'allocation:coverage_fund', list: 'investment_split' };
+    const tableData = props.data['investment_split'].filter((funds: any) => funds['parent_product_component'] === props.hRef);
+    const tableResponse = {...props.data, investment_split: tableData }
     const actions = <div className={'d-flex'}>
         <label>Rate</label><Rate hRef={props.hRef} property={'to_be_define'} response={[]}/>
     </div>
@@ -49,7 +47,7 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
                         columns={columns} 
                         rowExtraData={rowExtraData}
                         headers={headers}
-                        data={tableData} />
+                        data={tableResponse} />
     
                 </AccordionContainer>}
         </>
@@ -89,7 +87,7 @@ const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
                 {poolSplit && poolSplit.map((pool: any, index: number) => (
                     <MainSplitPool
                         key={index}
-                        data={response.data['investment_split']}
+                        data={response.data}
                         hRef={pool['product_component']}/>
                 )
                 )}
