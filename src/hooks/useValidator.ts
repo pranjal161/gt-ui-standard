@@ -1,5 +1,4 @@
 import {
-    getErrorMessage,
     getLink,
     getMaxLength,
     getMaxValue,
@@ -7,6 +6,7 @@ import {
     getMinValue,
     getOneOfFromResponse,
     getPropertyType,
+    getPropertyValue,
     isFieldEditable,
     isFieldRequired,
     isFieldVisible
@@ -23,8 +23,7 @@ export interface Field {
         maxLength: number,
         value: any,
         type: any,
-        values: Array<OneofInterface>,
-        error: any
+        values: Array<OneofInterface>
 }
 
 export interface OneofInterface {
@@ -39,7 +38,9 @@ export interface InputProps {
     data: any; 
     type?: string, 
     onChangeMethod?: any, 
-    onBlurMethod?: any
+    onBlurMethod?: any,
+    list?: any,
+    size?:string
 }
 
 export interface ErrorField {
@@ -49,20 +50,20 @@ export interface ErrorField {
 
 const useValidator = () => {
 
-    const FieldWrapper = ( data: any, propertyName: string, type?: string) => {
+    const FieldWrapper = ( data: any, propertyName: string, type?: string, list?: any) => {
+
         let field: Field = {
             id: createId(data, propertyName),
-            min: getMinValue(data, propertyName),
-            max: getMaxValue(data, propertyName),
-            visible: isFieldVisible(data, propertyName),
-            disabled: !isFieldEditable(data, propertyName),
+            min: getMinValue(data, propertyName, list),
+            max: getMaxValue(data, propertyName, list),
+            visible: isFieldVisible(data, propertyName, list),
+            disabled: !isFieldEditable(data, propertyName, list),
             required: isFieldRequired(data, propertyName),
-            minLength: getMinLength(data, propertyName),
-            maxLength: getMaxLength(data, propertyName),
-            value: data && data.hasOwnProperty(propertyName) ? data[propertyName] : undefined,
-            type: type? type: getPropertyType(data, propertyName),
-            values: getOneOfFromResponse(data, propertyName),
-            error: getErrorMessage(data, propertyName)
+            minLength: getMinLength(data, propertyName, list),
+            maxLength: getMaxLength(data, propertyName, list),
+            value: getPropertyValue(data, propertyName, list),
+            type: type? type: getPropertyType(data, propertyName, list),
+            values: getOneOfFromResponse(data, propertyName, list)
         }
         
         return field;
