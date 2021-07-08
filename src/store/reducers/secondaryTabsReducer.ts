@@ -49,7 +49,6 @@ const secondaryTabsSlice = createSlice({
                 type: action.payload.tabType,
                 href: contractURL,
                 activityProps:action.payload.activityProps,
-                isSideBarOpen: true
             };
         },
         removeSecondaryTabByID(state, action: PayloadAction<string>) {
@@ -75,9 +74,6 @@ const secondaryTabsSlice = createSlice({
         setSelectedSecondaryTabByID(state, action: PayloadAction<string>) {
             state.selectedSecondaryTab.id = action.payload;
         },
-        setSideBarToggle(state, action) {
-            state.secondaryTabsIDs[action.payload.tabId].isSideBarOpen = action.payload.isSideBarOpen;
-        }
     }
 });
 
@@ -88,5 +84,4 @@ export const {
     addSecondaryTabByID,
     removeSecondaryTabByID,
     setSelectedSecondaryTabByID,
-    setSideBarToggle
 } = secondaryTabsSlice.actions;

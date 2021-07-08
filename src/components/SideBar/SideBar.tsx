@@ -1,15 +1,9 @@
-import * as newWindowReducer from 'store/reducers/newWindowReducer';
-import * as secondaryTabsReducer from 'store/reducers/secondaryTabsReducer';
-
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
-
+import React, {useEffect} from 'react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
-import React from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import useConfigurations from 'hooks/useConfigurations';
-import {useDispatch} from 'react-redux';
 
 export interface SideBarProps {
 
@@ -42,6 +36,11 @@ export interface SideBarProps {
      * onToggle callback
      */
     onToggle?: () => void
+
+    /**
+     * onChange callback
+     */
+    onChange?: (open: boolean) => void
 
     /**
      * triggered when Open in new window icon is clicked.
@@ -180,22 +179,19 @@ export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
         value,
         open,
         onToggle,
+        onChange,
         onOpenInNewWindow,
         onOpenInNewTab,
         className = '',
     } = props
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const { baId } = useConfigurations();
     const handleToggle = () => {
-        if (baId && baId.includes('secondary')) {
-            let newBaId= baId.split('_')[0];
-            dispatch(newWindowReducer.setSideBarToggle({ tabId: newBaId, isSideBarOpen: !open}))
-        } 
-        else
-            dispatch(secondaryTabsReducer.setSideBarToggle({ tabId: baId,isSideBarOpen: !open}));
         onToggle && onToggle()
     }
+
+    useEffect(() => {
+        onChange && onChange(open === true)
+    }, [onChange, open])
 
     return (
         <div className={clsx(classes.root, className)}>

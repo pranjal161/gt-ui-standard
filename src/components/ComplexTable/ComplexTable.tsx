@@ -130,7 +130,7 @@ ComplexTableRow.displayName = 'ComplexTableRow'
  */
 const ComplexTable = (props: ComplexTableProps) => {
     //Todo : rename to : {headers, columns, rowHRefKey, data, itemsPerPage}
-    const {headers, columns, rowExtraData = {hRefKey: undefined}, data, itemsPerPage = 10} = props;
+    const {headers, columns, rowExtraData = {hRefKey: undefined}, data, selectionMode = 'none', itemsPerPage = 10} = props;
 
     const classes: any = useStyles();
 
@@ -159,9 +159,9 @@ const ComplexTable = (props: ComplexTableProps) => {
     // const component = (component: React.FunctionComponent, value: any) => component(value);
 
     const handleOnRowClick = (id: any, row: any) => {
-        if (props.selectionMode === 'one')
+        if (selectionMode === 'one')
             onRadioClick(id, row)
-        if (props.selectionMode === 'multiple')
+        if (selectionMode === 'multiple')
             onCheckboxClick(id, row)
     }
 
@@ -191,18 +191,18 @@ const ComplexTable = (props: ComplexTableProps) => {
                                 rowExtraData={rowExtraData}
                                 row={row}
                                 columns={columns}
-                                selectionMode={props.selectionMode}
+                                selectionMode={selectionMode}
                                 onClick={() => handleOnRowClick(index, row)}/>
                         )
                     })}
                 </tbody>
             </DxcTable>
             <div className="row">
-                {props.selectionMode && props.selectionMode === 'multiple' && <div className="col-4 mt-2">
+                {selectionMode && selectionMode === 'multiple' && <div className="col-4 mt-2">
                     <p>Selected Length: ({Object.values(selectedRows).length})</p>
                 </div>}
                 {totalItems && totalItems > itemsPerPage &&
-                <div className={`${props.selectionMode && props.selectionMode === 'multiple' ? 'col-8' : 'col-12'}`}>
+                <div className={`${selectionMode && selectionMode === 'multiple' ? 'col-8' : 'col-12'}`}>
                     <Paginator totalItems={totalItems} itemsPerPage={itemsPerPage} data={data} handler={getData}/>
                 </div>}
             </div>

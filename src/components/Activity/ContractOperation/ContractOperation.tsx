@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
+import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
 import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
-import ActivityStep from 'components/ActivityStep/ActivityStep';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
@@ -12,7 +12,6 @@ import {scrollIntoView} from 'utils/system';
 import useAia from 'hooks/useAia';
 import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
-import {useSelector} from 'react-redux';
 import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
 
@@ -45,16 +44,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ContractOperation: React.FC<any> = (props: any) => {
+    const hRef = props.hRef
+
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const hRef = props.hRef
-    const {t} = useTranslation()
-    const {baId, getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.secondaryTabsIDs[baId].isSideBarOpen);
-    const [currentStep, setCurrentStep] = useState(0);
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
+
+    const {t} = useTranslation()
+    const {getActivityConf} = useConfigurations();
+
+    const [isSideBarOpen, setIsSideBarOpen] = useState(true)
+    const handleSidebarChange = useCallback ((open:boolean) => {
+        setIsSideBarOpen(open)
+    },[setIsSideBarOpen])
+
+    const [currentStep, setCurrentStep] = useState(0);
     const [activityResponse] = useResponse(hRef);
     const {patch} = useAia();
+
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
@@ -147,7 +154,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-
+                        {Date.now()}
                         {CurrentStep}
 
                         <div className="m-2 p-1" style={{float: 'right'}}>
@@ -158,7 +165,7 @@ const ContractOperation: React.FC<any> = (props: any) => {
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef}/>
+                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );

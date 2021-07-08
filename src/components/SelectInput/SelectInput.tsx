@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import useValidator, { Field, InputProps } from 'hooks/useValidator';
 import {DxcSelect} from '@dxc-technology/halstack-react';
 import useBindInputToStep from 'hooks/useBindInputToStep';
@@ -17,18 +17,18 @@ const SelectInput = (props: InputProps) => {
     const field: Field = FieldWrapper(data, propertyName);
     const [value, setValue] = useState(field?.value);
 
-    const onChange = (value: any) => {
+    const onChange = useCallback((value: any) => {
         setValue(value);
         if (onChangeMethod) {
             onChangeMethod(value);
         }
-    }
+    },[onChangeMethod, setValue])
 
-    const onBlur = (value: any) => {
+    const onBlur = useCallback((value: any) => {
         if (onBlurMethod && value) {
             onBlurMethod(value);
         }
-    }
+    },[onBlurMethod])
 
     return (
         <span id={inputId} hidden={!field.visible} data-testid={field.id}>
