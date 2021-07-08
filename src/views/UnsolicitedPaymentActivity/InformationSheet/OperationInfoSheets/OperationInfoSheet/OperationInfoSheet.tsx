@@ -2,6 +2,7 @@
 import {makeStyles} from '@material-ui/core/styles';
 import LabelInBlock from 'components/LabelInBlock/LabelInBlock';
 import SelectInput from 'components/SelectInput/SelectInput';
+import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import React, {useCallback} from 'react';
 import {getLink} from 'utils/functions';
@@ -42,9 +43,15 @@ export interface OperationInfoSheetProps {
 const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: OperationInfoSheetProps) => {
     const classes = useStyles()
     const [response] = useResponse(hRef)
-    const payerHRef = response && getLink(response.data,'info_sheet_operation:payer_person')
+    const payerHRef = response && getLink(response.data, 'info_sheet_operation:payer_person')
 
-    console.log('payerHRef', payerHRef)
+    const {patch} = useAia();
+
+    const patchValue = (value: any, id: string) => {
+        const payload: any = {};
+        payload[id] = value;
+        patch(hRef, payload).then();
+    }
 
     const RowProperties = useCallback(({value}: any) => (
         <div className="row mt-4 mb-4">
@@ -84,22 +91,32 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                     </div>
                     <div className={classes.subSectionContent}>
                         {response &&
-                                <>
-                                    <RowProperties value={[
-                                        <SelectInput hRef={hRef} propertyName={'info_sheet_operation:fund_origin'}
-                                            data={response.data}/>,
-                                    ]}/>
-                                    <RowProperties value={[
-                                        <SelectInput hRef={hRef}
-                                            propertyName={'info_sheet_operation:consistent_operation'}
-                                            data={response.data}/>,
-                                        <SelectInput hRef={hRef}
-                                            propertyName={'info_sheet_operation:atypical_operation'}
-                                            data={response.data}/>,
-                                        <SelectInput hRef={hRef} propertyName={'info_sheet_operation:operation_motive'}
-                                            data={response.data}/>
-                                    ]}/>
-                                </>
+                        <>
+                            <RowProperties value={[
+                                <SelectInput
+                                    hRef={hRef}
+                                    propertyName={'info_sheet_operation:fund_origin'}
+                                    data={response.data}
+                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:fund_origin')}/>,
+                            ]}/>
+                            <RowProperties value={[
+                                <SelectInput
+                                    hRef={hRef}
+                                    propertyName={'info_sheet_operation:consistent_operation'}
+                                    data={response.data}
+                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:consistent_operation')}/>,
+                                <SelectInput
+                                    hRef={hRef}
+                                    propertyName={'info_sheet_operation:atypical_operation'}
+                                    data={response.data}
+                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:atypical_operation')}/>,
+                                <SelectInput
+                                    hRef={hRef}
+                                    propertyName={'info_sheet_operation:operation_motive'}
+                                    data={response.data}
+                                    onChangeMethod={(value: any) => patchValue(value, 'info_sheet_operation:operation_motive')}/>,
+                            ]}/>
+                        </>
                         }
 
                     </div>
