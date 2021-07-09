@@ -74,7 +74,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list }: useInpu
         onChange && onChange(newValue)
         //We patch immediately according API response
         const [isImmediatePatch, patchHRef] = field.immediatePatch
-        if (isImmediatePatch) {
+        if (false && isImmediatePatch) {
             patch(patchHRef, {[property]: newValue})
         }
         else
