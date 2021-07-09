@@ -65,8 +65,9 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
         { label: '', property: false }
     ]
 
-    const onDelete = async () => {
-        await post(moneyInHref + '/cancel', {});
+    const onDelete = async (hRef: string) => {
+        console.log('onDelete:', hRef)
+        await post(hRef + '/cancel', {});
         await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
     }
 
@@ -83,15 +84,16 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        {
-                            response &&
-                            columns.map((item: any, key: number) => (
-                                <MoneyInListItem key={key} hRef={moneyInHref} item={item} onEdit={onEdit} onDelete={onDelete} />
-
-                            ))
-                        }
-                    </tr>
+                    {
+                        response &&
+                        <MoneyInListItem hRef={moneyInHref} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+                        // Multiple MoneyIns are not integrate, still need to see one UP with multiple money in to know the architecture
+                        // it will look like following :
+                        // multiplesHRef &&
+                        //     multiplesHRef.map((item: string, key: number) => (
+                        //         <MoneyInListItem key={number} hRef={item} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+                        //     ))
+                    }
                 </tbody>
             </DxcTable>
         </div>

@@ -14,10 +14,10 @@ export interface MoneyInListItemProps {
     hRef: string
 
     /**
-        * item
-        * @description Value of column
+        * Columns
+        * @description Object, list all property needed
              */
-    item: any
+    columns: any
 
     /**
         * onEdit
@@ -46,7 +46,7 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     const classes = useStyles();
     const {
         hRef,
-        item,
+        columns,
         onEdit,
         onDelete,
     } = props
@@ -66,22 +66,24 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     }
 
     return (
-        <>
+        <tr>
 
             {
                 response &&
-
+                columns.map((item: any, key: number) => (
                     item.type && item.property ?
-                    <td className={classes.itemTable} >{formatValue(response.data[item.property], item.type)}</td> :
-                    item.property ?
-                        <td className={classes.itemTable} >{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
-                        :
-                        <td >
-                            <IconContainer onDelete={onDelete} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
-                        </td>
+                        <td className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                        item.property ?
+                            <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
+                            :
+                            <td key={key}>
+                                <IconContainer onDelete={() => onDelete(hRef)} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
+                            </td>
+                ))
             }
-        </>
+        </tr>
     )
 }
 
 export default MoneyInListItem;
+
