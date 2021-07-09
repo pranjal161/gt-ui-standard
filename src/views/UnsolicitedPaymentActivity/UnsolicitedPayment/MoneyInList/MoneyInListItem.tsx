@@ -3,21 +3,21 @@ import { formatValue, getDescriptionFromOneOf, hasMethodInOptions } from 'utils/
 import IconContainer from './IconContainer/IconContainer';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 
 export interface MoneyInListItemProps {
 
     /**
          * moneyInHref
          * @description The money in href linked to the current unscolicited payment
-              */         
-    moneyInHref: string
+              */
+    hRef: string
 
     /**
-        * item
-        * @description Value of column
+        * Columns
+        * @description Object, list all property needed
              */
-    item: any
+    columns: any
 
     /**
         * onEdit
@@ -30,12 +30,6 @@ export interface MoneyInListItemProps {
        * @description Delete function for moneyIn
             */
     onDelete: Function
-
-    /**
-        * response
-        * @description money in object
-             */
-    response: any
 }
 const useStyles = makeStyles(() => ({
     itemTable: {
@@ -50,17 +44,16 @@ const useStyles = makeStyles(() => ({
     */
 const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemProps) => {
     const classes = useStyles();
-    const { fetch } = useAia();
     const {
-        moneyInHref,
-        item,
+        hRef,
+        columns,
         onEdit,
         onDelete,
-        response
     } = props
 
-    const IsEditable: Function = async (href: string) => {
-        const res: any = await fetch(href);
+    const [response] = useResponse(hRef);
+
+    const IsEditable: Function = (res: any) => {
         if (hasMethodInOptions(res.data, 'PATCH')) {
             return true;
         }
@@ -70,20 +63,24 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     }
 
     return (
-        <>
+        <tr data-testid="money-item-container">
 
             {
-                item.type && item.property ?
-                    <td className={classes.itemTable} >{formatValue(response.data[item.property], item.type)}</td> :
-                    item.property ?
-                        <td className={classes.itemTable} >{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
-                        :
-                        <td >
-                            <IconContainer onDelete={onDelete} onEdit={IsEditable(moneyInHref) ? () => onEdit(moneyInHref) : false} />
-                        </td>
+                response &&
+                columns.map((item: any, key: number) => (
+                    item.type && item.property ?
+                        <td data-testid="test-content" className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                        item.property ?
+                            <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
+                            :
+                            <td key={key}>
+                                <IconContainer onDelete={() => onDelete(hRef)} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
+                            </td>
+                ))
             }
-        </>
+        </tr>
     )
 }
 
 export default MoneyInListItem;
+

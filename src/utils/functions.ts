@@ -95,6 +95,31 @@ export const getDescriptionValue = (value: any, id: string, response: any, type?
 }
 
 /**
+ *
+ * @param {value} value Value of the field
+ * @param {id} id ID of the field whose oneOf should be picked
+ * @param {response} response Response of the HTTP request
+ * @param {string} list pass the name of the list from which value needs to be integrated
+ * @param {type} type if needs to be formatted to any specific format like date or currency
+ * @returns {options} Title from oneOf Object for the list type object
+ */
+export const getDescriptionValueFromList = (value: any, id: string, response: any, list: string, type?: string, ) => {
+    const options = getListProperties(response, list);
+    if (options && options[id] && options[id].oneOf) {
+        for (const item of options[id].oneOf) {
+            if (item.enum[0] === value) {
+                value = item.title;
+            }
+        }
+    }
+    else if (type) {
+        value = formatValue(value, type);
+    }
+
+    return value ? value : '';
+}
+
+/**
  * Format given value according the given style.
  * It's based on locale parametrization
  * @param {any} value Value to format
