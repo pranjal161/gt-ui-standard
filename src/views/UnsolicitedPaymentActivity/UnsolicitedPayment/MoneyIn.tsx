@@ -1,16 +1,16 @@
 import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import useActivity from 'hooks/useActivity';
 import { getLink, isResponseConsistent } from 'utils/functions';
 
-import {ActivityProps} from 'components/Activity/Activity';
 import { APIConfig } from 'configs/apiConfig';
+import { ActivityProps } from 'components/Activity/Activity';
 import Button from 'theme/components/material/Button/Button';
 import DialogActivityStep from 'components/DialogActivityStep/DialogActivityStep';
 import MoneyInDialog from './MoneyInDialog/MoneyInDialog';
 import MoneyInList from './MoneyInList/MoneyInList';
 import React from 'react';
 import Section from 'components/Section/Section';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   * @description Please don't forget to save the money in at the end of the unsolicited payment process
    * @returns {React.component} Display the component.
     */
-const MoneyIn: React.FC<ActivityProps> = ( props:{hRef:string}) => {
+const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const { hRef } = props
     const { activityProps } = useActivity()
     const { mainEntityHRef } = activityProps
@@ -53,8 +53,10 @@ const MoneyIn: React.FC<ActivityProps> = ( props:{hRef:string}) => {
         setIsEdit(false);
     }
 
-    const onEdit = () => {
+    const onEdit = (hRef: string) => {
         setIsEdit(true);
+        console.log('onEdit:', hRef)
+        setMoneyInHRef(hRef);
         setIsOpen(true);
     }
 
@@ -76,12 +78,12 @@ const MoneyIn: React.FC<ActivityProps> = ( props:{hRef:string}) => {
             {
                 response &&
                 <>
-                    <MoneyInList moneyInHref={getLink(response.data, 'cscaia:money_in')} onEdit={onEdit} unsolicitedPaymentHref={unsolicitedPaymentHref} />
+                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} unsolicitedPaymentHref={unsolicitedPaymentHref} />
 
                     {
                         isOpen ?
                             <DialogActivityStep code={'up_create_money_in'}>
-                                <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP}/>
+                                <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
                             </DialogActivityStep>
                             :
                             <div className={classes.avoidMovement} />

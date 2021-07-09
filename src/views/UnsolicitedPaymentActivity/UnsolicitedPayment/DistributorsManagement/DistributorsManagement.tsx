@@ -23,8 +23,8 @@ const DistributorsManagement = (props: { hRef:string }) => {
         { valueKey: 'distributor_detail:identifier', hRefKey: true },
         { valueKey: 'role', list: true },
         { valueKey: 'rate', component: Rate , list: true },
-        { valueKey: 'start_date', list: true },
-        { valueKey: 'end_date', list: true }
+        { valueKey: 'start_date', list: true, format: 'date' },
+        { valueKey: 'end_date', list: true, format: 'date' }
     ];
 
     const rowExtraData = { hRefKey: 'distributor', list: 'distributor_list' }
