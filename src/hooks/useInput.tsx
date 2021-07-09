@@ -1,3 +1,4 @@
+import useStep from 'hooks/useStep';
 import {useCallback, useEffect, useState} from 'react';
 import useValidator, {Field} from 'hooks/useValidator';
 import useAia from 'hooks/useAia';
@@ -18,6 +19,7 @@ const useInput = ({hRef, property, type, i18nOptions, onChange}: any) => {
     const {t} = useTranslation();
     const {patch} = useAia();
     const [response, loading] = useResponse(hRef)
+    const {setDataToPatch} = useStep()
     const {FieldWrapper: fieldWrapper, Validation: validation} = useValidator();
     const {inputId, status} = useBindInputToStep({hRef, property})
     const [field, setField]: any = useState({})
@@ -40,6 +42,8 @@ const useInput = ({hRef, property, type, i18nOptions, onChange}: any) => {
         if (isImmediatePatch) {
             patch(patchHRef, {[property]: newValue})
         }
+        else
+            setDataToPatch({hRef, property, value:newValue})
     },[property, field, onChange, patch])
 
     const setValue = useCallback((newValue: any) => {

@@ -46,7 +46,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
     const {mainEntityHRef } = activityProps
     const {t} = useTranslation()
     const steps = getSteps()
-    const {canValidateStep} = useStep()
+    const {canValidateStep, validateStep} = useStep()
 
     //------------- Side bar and dynamic layout management
     const [contentOffsetTop, setContentOffsetTop] = useState()
@@ -77,6 +77,8 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
     const nextStep = useCallback((index: number) => {
         const inputErrors = canValidateStep()
         if (inputErrors.length === 0) {
+            validateStep()
+
             const step = index >= steps.length ? steps.length - 1 : index;
             setCurrentStep(step);
         }
@@ -84,7 +86,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
             //We scroll to view the first error
             scrollIntoView(inputErrors[0])
         }
-    }, [steps, canValidateStep])
+    }, [steps, canValidateStep, validateStep])
 
     const patchDate = useCallback((value: any, id: string) => {
         patch(hRef, {[id] : value}).then(() => {
