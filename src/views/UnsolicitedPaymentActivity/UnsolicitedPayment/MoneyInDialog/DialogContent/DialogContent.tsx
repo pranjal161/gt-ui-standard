@@ -12,18 +12,6 @@ import { useTranslation } from 'react-i18next';
 export interface DialogContentProps {
 
     /**
-     * formData
-     * @description Object where I feed the value of the Money In form
-    */
-    formData: any
-
-    /**
-     * setFormData
-     * @description React setter for formData state
-    */
-    setFormData: Function
-
-    /**
     * payerURI
     * @description href of the contract's owner to display his name
     */
@@ -36,17 +24,15 @@ export interface DialogContentProps {
     amountUP: number
 
     /**
-       * moneyInData
-       * @description The response of new money in resource
-       */
-    moneyInData: any
-
-    /**
        * depositAccountURI
        * @description href of the deposit account to display his value
        */
     depositAccountURI: string
 
+    /**
+       * hRef
+       * @description href of current money in
+       * */
     hRef: string
 }
 const useStyles = makeStyles((theme: Theme) => ({
@@ -83,112 +69,99 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
     const { t } = useTranslation();
 
     const {
-        formData,
-        setFormData,
         payerURI,
         amountUP,
-        moneyInData,
         depositAccountURI,
         hRef
     } = props
 
-    const onChange: Function = React.useCallback((inputName: string) => (newValue: any) => {
-        setFormData({ ...formData, [inputName]: newValue })
-    }, [setFormData, formData]);
-
     return (
         <>
             <div className={classes.formContainer}>
-                {
-                    moneyInData &&
-                    <>
-                        <div className={classes.category1}>{t('money_in')}</div>
-                        <div className="w-100 row">
-                            <div className="col-4">
-                                <DxcInput
-                                    label={t('amount_to_pay')}
-                                    value={amountUP + ''}
-                                    disabled={true}
-                                />
-                            </div>
-                            <div className="col-4">
-                                <TextField
-                                    property="operation:amount"
-                                    hRef={hRef}
-                                    onChange={onChange('operation:amount')}
-                                />
-                            </div>
-                            <div className="col-4">
-                                <SelectInput
-                                    hRef={hRef}
-                                    property="operation:currency_code"
-                                    onChange={onChange('operation:currency_code')}
-                                />
-                            </div>
-                            <div className="col-4 mt-4">
-                                <SelectInput
-                                    hRef={hRef}
-                                    property="money_in:payment_type"
-                                    onChange={onChange('money_in:payment_type')}
-                                />
-                            </div>
-                            <div className="col-4 mt-4">
-                                <DateInput
-                                    hRef={hRef}
-                                    property="operation:accounting_date"
-                                />
-                            </div>
-                            <div className="col-4 mt-4">
-                                <DateInput
-                                    hRef={hRef}
-                                    property="money_in:receipt_date"
-                                />
-                            </div>
-                            <div className="col-4 mt-4">
-                                <DateInput
-                                    hRef={hRef} 
-                                    property="money_in:deposit_date"
-                                />
-                            </div>
-                            <div className="col-4 mt-4">
-                                <DateInput
-                                    hRef={hRef}
-                                    property="operation:value_date"
-                                />
-                            </div>
+                <>
+                    <div className={classes.category1}>{t('money_in')}</div>
+                    <div className="w-100 row">
+                        <div className="col-4">
+                            <DxcInput
+                                label={t('amount_to_pay')}
+                                value={amountUP + ''}
+                                disabled={true}
+                            />
                         </div>
-                        <div className="w-100 row">
-                            <PayerInput href={payerURI} />
-                            <div className="col-4 mt-4">
-                                <SelectInput
-                                    hRef={hRef}
-                                    property="money_in_administrator"
-                                    onChange={onChange('money_in_administrator')}
-                                />
-                            </div>
-                            <DepositAccountInput href={depositAccountURI} formData={formData} onChange={onChange} />
+                        <div className="col-4">
+                            <TextField
+                                property="operation:amount"
+                                type="number"
+                                hRef={hRef}
+                            />
                         </div>
-                        <div className={classes.category2 + ' mt-4'}>Payment type Details</div>
-                        <div className="row w-100">
-                            <div className="col-4">
-                                <DxcInput
-                                    label={t('cheque_number')}
-                                    required={true}
-                                    onChange={() => null}
-                                />
-                            </div>
-                            <div className="col-4">
-                                <DxcDate
-                                    label={t('signature_date')}
-                                    placeholder
-                                    required={true}
-                                    format="yyyy-MM-dd"
-                                    onChange={() => null}
-                                />
-                            </div>
+                        <div className="col-4">
+                            <SelectInput
+                                hRef={hRef}
+                                property="operation:currency_code"
+                            />
                         </div>
-                    </>
-                }
+                        <div className="col-4 mt-4">
+                            <SelectInput
+                                hRef={hRef}
+                                property="money_in:payment_type"
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                hRef={hRef}
+                                property="operation:accounting_date"
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                hRef={hRef}
+                                property="money_in:receipt_date"
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                hRef={hRef}
+                                property="money_in:deposit_date"
+                            />
+                        </div>
+                        <div className="col-4 mt-4">
+                            <DateInput
+                                hRef={hRef}
+                                property="operation:value_date"
+                            />
+                        </div>
+                    </div>
+                    <div className="w-100 row">
+                        <PayerInput href={payerURI} />
+                        <div className="col-4 mt-4">
+                            <SelectInput
+                                hRef={hRef}
+                                property="money_in_administrator"
+                            />
+                        </div>
+                        <DepositAccountInput hRef={depositAccountURI} />
+                    </div>
+                    <div className={classes.category2 + ' mt-4'}>Payment type Details</div>
+                    <div className="row w-100">
+                        <div className="col-4">
+                            <DxcInput
+                                label={t('cheque_number')}
+                                required={true}
+                                onChange={() => null}
+                            />
+                        </div>
+                        <div className="col-4">
+                            <DxcDate
+                                label={t('signature_date')}
+                                placeholder
+                                required={true}
+                                format="yyyy-MM-dd"
+                                onChange={() => null}
+                            />
+                        </div>
+                    </div>
+                </>
             </div>
         </>
     )
