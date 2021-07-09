@@ -11,6 +11,7 @@ import {
     isFieldRequired,
     isFieldVisible
 } from 'utils/functions';
+import {useCallback} from 'react';
 
 export interface Field {
         id: string,
@@ -18,6 +19,7 @@ export interface Field {
         max: number,
         visible: boolean,
         disabled: boolean,
+        immediatePatch: [boolean, string | undefined],
         required: boolean,
         minLength: number,
         maxLength: number,
@@ -34,7 +36,7 @@ export interface OneofInterface {
 export interface InputProps {
     hRef: string;
     propertyName: string;
-    context?: string,
+    i18nOptions?: any,
     data: any; 
     type?: string, 
     onChangeMethod?: any, 
@@ -51,14 +53,17 @@ export interface ErrorField {
 
 const useValidator = () => {
 
-    const FieldWrapper = ( data: any, propertyName: string, type?: string, list?: any) => {
+    const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any) => {
+
+        const [editable, immediatePatch] = isFieldEditable(data, propertyName, list)
 
         let field: Field = {
             id: createId(data, propertyName),
             min: getMinValue(data, propertyName, list),
             max: getMaxValue(data, propertyName, list),
             visible: isFieldVisible(data, propertyName, list),
-            disabled: !isFieldEditable(data, propertyName, list),
+            disabled: !editable,
+            immediatePatch,
             required: isFieldRequired(data, propertyName),
             minLength: getMinLength(data, propertyName, list),
             maxLength: getMaxLength(data, propertyName, list),
@@ -68,7 +73,7 @@ const useValidator = () => {
         }
         
         return field;
-    }
+    }, [])
 
     const createId = (data: any, propertyName: string) => {
         let elementId = '';
@@ -82,7 +87,7 @@ const useValidator = () => {
         return elementId;
     }
 
-    const Validation = (InputWrapper: Field, newValue: any, type?:string) => {
+    const Validation = useCallback ((InputWrapper: Field, newValue: any, type?:string) => {
         let validate: ErrorField = {
             error: '',
             valid: true
@@ -100,7 +105,7 @@ const useValidator = () => {
         }
         
         return validate;
-    }
+    },[])
 
     const ValidateMinMaxValue = (InputWrapper: Field, value: any, errorField: ErrorField): ErrorField => {
         //Check for max and min values
@@ -142,7 +147,7 @@ const useValidator = () => {
         if (value && value !== '') {
             const emailRegex = new RegExp('^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$');
             const emailValidation = emailRegex.test(value);
-            if (emailValidation === false) {
+            if (!emailValidation) {
                 errorField.error = '_ENTER_VALID_EMAIL';
                 errorField.valid = false;
             }

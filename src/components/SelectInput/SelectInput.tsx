@@ -1,36 +1,21 @@
-import React, {useCallback, useState} from 'react';
-import useValidator, { Field, InputProps } from 'hooks/useValidator';
+import useInput from 'hooks/useInput';
+import React from 'react';
 import {DxcSelect} from '@dxc-technology/halstack-react';
-import useBindInputToStep from 'hooks/useBindInputToStep';
-import { useTranslation } from 'react-i18next';
+
+export interface SelectInputProps {
+    hRef: string;
+    property: string;
+    context?: string,
+    onChange?: any,
+}
 
 /**
  * Display a Input field
  * @param {props} props Contains information related to the input
  * @returns {*} Return the Input
  */
-const SelectInput = (props: InputProps) => {
-    const { t } = useTranslation();
-    const { hRef, propertyName, data, onChangeMethod, onBlurMethod } = props;
-    const { inputId, status} = useBindInputToStep({hRef, property : propertyName})
-    const { FieldWrapper } = useValidator();
-    const field: Field = FieldWrapper(data, propertyName);
-    const [value, setValue] = useState(field?.value);
-
-    const onChange = useCallback((value: any) => {
-        setValue(value);
-        if (onChangeMethod) {
-            onChangeMethod(value);
-        }
-    },[onChangeMethod, setValue])
-
-    const onBlur = useCallback((value: any) => {
-        if (onBlurMethod && value) {
-            onBlurMethod(value);
-        }
-    },[onBlurMethod])
-
-    const invalid = status === 'error'
+const SelectInput = (props: SelectInputProps) => {
+    const {inputId, value, label, field, invalid, setValue} = useInput(props)
 
     return (
         <span id={inputId} hidden={!field.visible} data-testid={field.id}>
@@ -39,9 +24,9 @@ const SelectInput = (props: InputProps) => {
                 required={field?.required}
                 disabled={field?.disabled}
                 value={value || undefined}
-                onChange={onChange}
-                onBlur={onBlur}
-                label={t(propertyName)}
+                onChange={setValue}
+                onBlur={setValue}
+                label={label}
                 invalid={invalid}
             />
         </span>

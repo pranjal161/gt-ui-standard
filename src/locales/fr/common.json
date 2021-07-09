@@ -153,6 +153,8 @@
   "_INFORMATION_SHEET": "Information clients",
   "_INVESTMENT_SPLIT": "Details des investissements",
   "_UNSOLICITED_PAYMENT": "Versement libre",
+  "operation_list_unsolicited_payment" : "Opération : {{count}}",
+  "operation_list_unsolicited_payment_plural" : "Opérations : {{count}}",
 
   "money_in": "Dépot d'argent",
   "amount_to_pay": "Montant à payer",

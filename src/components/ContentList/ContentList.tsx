@@ -6,7 +6,7 @@ export interface ContentListProps {
     /**
      * property list to display
      */
-    items : any[],
+    items: any[],
 
     /**
      * API response data
@@ -16,20 +16,19 @@ export interface ContentListProps {
     /**
      * Status of API data
      */
-    loading : boolean,
+    loading: boolean,
 
     /**
      * onClick callback
      */
 
-    onClick:any
+    onClick: any
 }
 
-const ContentList = ({items, data, loading, onClick}: any) => items.map(
+const ContentList = ({items, onClick}: any) => items.map(
     (item: any) => <LabelInline key={item.id}
         property={item.id}
-        data={data}
-        loading={loading}
+        hRef={item.hRef}
         styleType={item.styleType}
         onClick={() => onClick(item)}
     />)
