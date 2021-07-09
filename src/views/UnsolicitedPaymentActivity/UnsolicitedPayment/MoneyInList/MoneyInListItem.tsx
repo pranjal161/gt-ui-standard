@@ -33,7 +33,7 @@ export interface MoneyInListItemProps {
 }
 const useStyles = makeStyles(() => ({
     itemTable: {
-        textAlign: 'left',
+        // textAlign: 'left',
     },
 }));
 
@@ -52,7 +52,7 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     } = props
 
     const [response] = useResponse(hRef);
-
+    
     const IsEditable: Function = (res: any) => {
         if (hasMethodInOptions(res.data, 'PATCH')) {
             return true;

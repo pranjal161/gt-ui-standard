@@ -41,7 +41,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const amountUP: number = response?.data['operation:amount'];
     const contractHRef: string = mainEntityHRef
 
-    const [moneyInHRef, setMoneyInHRef]: [any, Function] = React.useState();
+    const [moneyInHRef, setMoneyInHRef] = React.useState<string>('');
 
     const onClose = async (name = 'default', response: any = false) => {
         if (name === 'UPPatch') {
@@ -68,6 +68,13 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
         setIsOpen(true);
     }
 
+    const onDelete = async (hRef: string) => {
+        console.log('onDelete:', hRef)
+        await post(hRef + '/cancel', {});
+        await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
+        setMoneyInHRef('');
+    }
+
     return (
         <Section title="Payment" icon={<PaymentIcon />} actions={
             <>
@@ -78,7 +85,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
             {
                 response &&
                 <>
-                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} unsolicitedPaymentHref={unsolicitedPaymentHref} />
+                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} onDelete={onDelete} />
 
                     {
                         isOpen ?

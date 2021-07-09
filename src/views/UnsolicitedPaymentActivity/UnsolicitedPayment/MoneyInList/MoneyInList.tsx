@@ -1,9 +1,6 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
-
 import { DxcTable } from '@dxc-technology/halstack-react';
 import MoneyInListItem from './MoneyInListItem';
 import React from 'react';
-import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
@@ -22,22 +19,11 @@ export interface MoneyInListProps {
     onEdit: Function
 
     /**
-        * unsolicitedPaymentHref
-        * @description The unsolicited payment HRef 
+        * onDelete
+        * @description Delete function for moneyIn
              */
-    unsolicitedPaymentHref: string
+    onDelete: Function
 }
-const useStyles = makeStyles((theme: Theme) => ({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: theme.spacing(2)
-    },
-    itemTable: {
-        textAlign: 'left',
-    },
-}));
 
 /**
  * The component display a table that contains money in informations
@@ -45,12 +31,10 @@ const useStyles = makeStyles((theme: Theme) => ({
    * @returns {React.component} Display the component.
     */
 const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
-    const classes = useStyles();
-    const { post, patch } = useAia();
     const {
         moneyInHref,
         onEdit,
-        unsolicitedPaymentHref
+        onDelete
     } = props
 
     const { t } = useTranslation();
@@ -65,20 +49,14 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
         { label: '', property: false }
     ]
 
-    const onDelete = async (hRef: string) => {
-        console.log('onDelete:', hRef)
-        await post(hRef + '/cancel', {});
-        await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
-    }
-
     return (
-        <div className={classes.container} data-testid="money-list-container">
+        <div data-testid="money-list-container">
             <DxcTable>
                 <thead>
                     <tr>
                         {
                             columns.map((item: any, key: number) => (
-                                <th className={classes.itemTable} key={key}>{item.label}</th>
+                                <th style={{ padding: 16 }} key={key}>{item.label}</th>
                             ))
                         }
                     </tr>
@@ -86,7 +64,7 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
                 <tbody>
                     {
                         response &&
-                        <MoneyInListItem hRef={moneyInHref} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+                        <MoneyInListItem hRef={moneyInHref ?? ''} columns={columns} onEdit={onEdit} onDelete={onDelete} />
                         // Multiple MoneyIns are not integrate, still need to see one UP with multiple money in to know the architecture
                         // it will look like following :
                         // multiplesHRef &&
