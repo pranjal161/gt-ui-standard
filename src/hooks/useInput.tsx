@@ -1,10 +1,10 @@
-import useStep from 'hooks/useStep';
 import {useCallback, useEffect, useState} from 'react';
 import useValidator, {Field} from 'hooks/useValidator';
 
 import useAia from 'hooks/useAia';
 import useBindInputToStep from 'hooks/useBindInputToStep';
 import useResponse from 'hooks/useResponse';
+import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
 
 /**
@@ -48,9 +48,14 @@ export interface useInputValueProps {
      * List object consisting current list item & List name
      */
      list?: any
+
+    /**
+     * patch immdediately
+     */
+     immediatePatch?: boolean
 }
 
-const useInput = ( {hRef, property, type, i18nOptions, onChange, list }: useInputValueProps) => {
+const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediatePatch }: useInputValueProps) => {
     const {t} = useTranslation();
     const {patch} = useAia();
     const [response, loading] = useResponse(hRef)
@@ -63,7 +68,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list }: useInpu
 
     useEffect(() => {
         if (!value && response && response.data) {
-            const field: Field = fieldWrapper(response.data, property, type, list);
+            const field: Field = fieldWrapper(response.data, property, type, list, immediatePatch);
             setField(field)
             _setValue(field.value)
         }
@@ -73,9 +78,9 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list }: useInpu
     const handleOnChange = useCallback((newValue: any) => {
         onChange && onChange(newValue)
         //We patch immediately according API response
-        const [isImmediatePatch, patchHRef] = field.immediatePatch
-        if (isImmediatePatch) {
-            patch(patchHRef, {[property]: newValue})
+        // to add influencer check here later
+        if (field.immediatePatch) {
+            patch(hRef, {[property]: newValue})
         }
         else
             setDataToPatch({hRef, property, value:newValue})
