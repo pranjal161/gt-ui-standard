@@ -31,7 +31,6 @@ const Quote = () => {
     const [risksUrl, setRiskUrl] = useState<string>();
     // hardcoding ARG url to define diff. use cases
     const ownerUrl = 'http://20.33.40.95:13211/csc/insurance/quotes/ID-mrMxYT5Q/owners/ID-iy5KKS9M';
-    const [owner, setOwner] = useState<string>();
     useEffect(() => {
         startActivity({});
         getData();
@@ -40,9 +39,7 @@ const Quote = () => {
     const getData = () => {
         fetch(url).then((quoteRes: any) => {
             setQuote(url);
-            fetch(ownerUrl).then((response: any) => {
-                setOwner(response.data);
-            })
+            fetch(ownerUrl).then()
             if (getLink(quoteRes.data, 'quote:quote_risk_list')) {
                 fetch(getLink(quoteRes.data, 'quote:quote_risk_list')).then((risksRes: any) => {
                     if (risksRes && risksRes.data && risksRes.data._links.item) {
@@ -103,15 +100,13 @@ const Quote = () => {
                         <DateInput
                             hRef={url}
                             property="quote:contract_start_date"
-                            data={quoteResponse.data}
-                            onBlur={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
+                            onChange={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
                         />
                     </div>
                     <div>
                         <DateInput
                             hRef={url}
                             property="quote_owner:birth_date"
-                            data={owner}
                         />
                     </div>
                     <div>
