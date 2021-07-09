@@ -1,10 +1,11 @@
 /* eslint-disable */
-import {makeStyles} from '@material-ui/core/styles';
-import * as resource from 'assets/staticData/data';
-import clsx from 'clsx';
+
+import React, {createContext, useCallback, useContext, useEffect, useState} from 'react';
+
 import Button from 'components/Button/Button';
 import TextField from 'components/TextField/TextField';
-import React, {createContext, useCallback, useContext, useEffect, useState} from 'react';
+import clsx from 'clsx';
+import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -57,9 +58,8 @@ const Input = React.memo(({property}: any) => {
 
     return (<div className={clsx({[classes.focus]: focus})}><TextField
         hRef={'kjkjkjkjk'}
-        data={resource.resource}
-        propertyName={property}
-        onBlurMethod={onBlur}
+        property={property}
+        onChange={onBlur}
     /></div>)
 })
 

@@ -1,6 +1,6 @@
-import useInput from 'hooks/useInput';
-import React from 'react';
 import {DxcSelect} from '@dxc-technology/halstack-react';
+import React from 'react';
+import useInput from 'hooks/useInput';
 
 export interface SelectInputProps {
     hRef: string;

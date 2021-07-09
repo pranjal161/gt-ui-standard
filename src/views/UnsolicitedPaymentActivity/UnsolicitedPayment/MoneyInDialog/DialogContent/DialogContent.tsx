@@ -113,10 +113,9 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             </div>
                             <div className="col-4">
                                 <TextField
-                                    propertyName="operation:amount"
+                                    property="operation:amount"
                                     hRef={hRef}
-                                    data={moneyInData}
-                                    onChangeMethod={onChange('operation:amount')}
+                                    onChange={onChange('operation:amount')}
                                 />
                             </div>
                             <div className="col-4">
@@ -136,33 +135,33 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef}
-                                    propertyName="operation:accounting_date"
+                                    property="operation:accounting_date"
                                     data={moneyInData}
-                                    onChangeMethod={onChange('operation:accounting_date')}
+                                    onChange={onChange('operation:accounting_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef}
-                                    propertyName="money_in:receipt_date"
+                                    property="money_in:receipt_date"
                                     data={moneyInData}
-                                    onChangeMethod={onChange('money_in:receipt_date')}
+                                    onChange={onChange('money_in:receipt_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef} 
-                                    propertyName="money_in:deposit_date"
+                                    property="money_in:deposit_date"
                                     data={moneyInData}
-                                    onChangeMethod={onChange('money_in:deposit_date')}
+                                    onChange={onChange('money_in:deposit_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef}
-                                    propertyName="operation:value_date"
+                                    property="operation:value_date"
                                     data={moneyInData}
-                                    onChangeMethod={onChange('operation:value_date')}
+                                    onChange={onChange('operation:value_date')}
                                 />
                             </div>
                         </div>

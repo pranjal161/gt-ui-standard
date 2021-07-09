@@ -88,31 +88,29 @@ const Quote = () => {
                     <div>
                         <TextArea
                             hRef={url}
-                            propertyName="quote:description"
-                            data={quoteResponse.data}
+                            property="quote:description"
                         />
                     </div>
                     <div>
                         <TextField
                             hRef={url}
-                            onChangeMethod={ownerUpdate}
-                            propertyName="quote_owner:email"
+                            onChange={ownerUpdate}
+                            property="quote_owner:email"
                             type="email"
-                            data={owner}
                         />
                     </div>
                     <div>
                         <DateInput
                             hRef={url}
-                            propertyName="quote:contract_start_date"
+                            property="quote:contract_start_date"
                             data={quoteResponse.data}
-                            onBlurMethod={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
+                            onBlur={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
                         />
                     </div>
                     <div>
                         <DateInput
                             hRef={url}
-                            propertyName="quote_owner:birth_date"
+                            property="quote_owner:birth_date"
                             data={owner}
                         />
                     </div>
