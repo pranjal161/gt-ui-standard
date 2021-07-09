@@ -291,6 +291,16 @@ export const processOneof = (oneOfArray: Array<any>) => {
     return enumItemList;
 }
 
+export const getPatchHRef = (response: any) => {
+    if (response && response['_options']) {
+        const patchLink = response['_options']['links'].find((item: any) => item.method === 'PATCH');
+
+        return patchLink && patchLink.href
+    }
+
+    return undefined
+}
+
 /** Check whether a PATCH operation can be performed on the field provided
  * @param  {any} response provided response
  * @param {object} list List object consisting current list item & List name

@@ -3,12 +3,13 @@ import {useCallback, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import {getStatusReport} from 'utils/functions';
-//import {getStatusReport, isResponseConsistent} from 'utils/functions';
+import useAia from 'hooks/useAia';
 
 const useStep = () => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
+    const {patch} = useAia()
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
     const stepRessources = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
@@ -124,6 +125,46 @@ const useStep = () => {
     },[getRessourceStatusReport, getPropertyStatusReport, setStatus, stepRessources])
 
     /**
+     * We loop on all ressources used in the current step
+     * For each ressources, we have to find the property with values in dataToPatch
+     * When we got all data, we do the patch it.
+     * @return {void} indicates if the step can be validated or not
+     */
+    const validateStep = () => {
+
+        //We loop on all ressources used in the current step
+        stepRessources && Object.entries(stepRessources)
+            .forEach(([hRef, boundInputs]: any) => {
+                const payload:any = {}
+
+                boundInputs && Object.entries(boundInputs)
+                    .forEach(([property, propertyDetail]: any) => {
+                        if (propertyDetail.dataToPatch)
+                            payload[property] = propertyDetail.dataToPatch
+
+                    })
+                if (Object.values(payload).length > 0){
+                    // Here the assume that the patchHref is the same as the hRef, otherwise we have to use getPatchHRef
+                    // on response
+                    const patchHRef = hRef
+                    //This is a workaround, because can't loop  inside redux store to reset all dataToPatch
+                    const newValues:any = {}
+                    boundInputs && Object.entries(boundInputs)
+                        .forEach(([property, propertyDetail]: any) => {
+                            // eslint-disable-next-line no-unused-vars
+                            const {dataToPatch, ...rest} = propertyDetail
+
+                            newValues[property] = rest
+                        })
+
+                    patch(patchHRef, payload).then(
+                        dispatch(aiaReducer.aiaStepClearDataToPatch({baId, hRef, newValues}))
+                    )
+                }
+            })
+    }
+
+    /**
      * We loop on all hRef of the current step. we check is its consistent, if not, we loop on all status_report
      * messages and se set the status on the bound inputs.
      * @return {boolean} indicates if it's validated or not
@@ -168,7 +209,7 @@ const useStep = () => {
         return result
     }
 
-    return {currentStep, canValidateStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch}
+    return {currentStep, canValidateStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch, validateStep}
 }
 
 export default useStep;
