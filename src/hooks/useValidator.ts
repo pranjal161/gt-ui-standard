@@ -11,6 +11,7 @@ import {
     isFieldRequired,
     isFieldVisible
 } from 'utils/functions';
+
 import {useCallback} from 'react';
 
 export interface Field {
@@ -35,12 +36,11 @@ export interface OneofInterface {
 
 export interface InputProps {
     hRef: string;
-    propertyName: string;
+    property: string;
+    context?: string,
     i18nOptions?: any,
-    data: any; 
     type?: string, 
-    onChangeMethod?: any, 
-    onBlurMethod?: any,
+    onChange?: any, 
     list?: any,
     size?:string,
     loading?: boolean
@@ -54,7 +54,6 @@ export interface ErrorField {
 const useValidator = () => {
 
     const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any) => {
-
         const [editable, immediatePatch] = isFieldEditable(data, propertyName, list)
 
         let field: Field = {

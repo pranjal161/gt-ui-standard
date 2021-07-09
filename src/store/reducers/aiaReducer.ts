@@ -145,7 +145,7 @@ const AIASlice = createSlice({
                 state[baId].steps[step][hRef] = {}
 
             if (!state[baId].steps[step][hRef][property])
-                state[baId].steps[step][hRef][property] = {status: {}}
+                state[baId].steps[step][hRef][property] = {status: {}, dataToPatch: undefined}
 
             state[baId].steps[step][hRef][property].status = {value: 'displayed', inputId}
 
@@ -164,15 +164,10 @@ const AIASlice = createSlice({
 
                 delete state[baId].steps[step][hRef][property]
             }
-            
+
             return state;
         },
-        aiaStepSetInputStatus(state
-                                      :
-                                      any, action
-                                      :
-                                      any
-        ) {
+        aiaStepSetInputStatus(state: any, action: any) {
             const {baId, hRef, property, status} = action.payload
             const currentStep = state[baId].steps.current
 
@@ -186,9 +181,39 @@ const AIASlice = createSlice({
             state[baId].steps[currentStep][hRef][property].status.message = status.message
 
             return state;
-        }
-        ,
+        },
+        aiaStepSetInputDataToPatch(state: any, action: any) {
+            {
+                const {baId, hRef, property, dataToPatch} = action.payload
+                const currentStep = state[baId].steps.current
 
+                if (!state[baId].steps[currentStep])
+                    state[baId].steps[currentStep] = {}
+
+                if (!state[baId].steps[currentStep][hRef])
+                    state[baId].steps[currentStep][hRef] = {}
+
+                state[baId].steps[currentStep][hRef][property].dataToPatch = dataToPatch.value
+
+                return state;
+            }
+        },
+        aiaStepClearDataToPatch(state: any, action: any) {
+            {
+                const {baId, hRef, newValues} = action.payload
+                const currentStep = state[baId].steps.current
+
+                if (!state[baId].steps[currentStep])
+                    state[baId].steps[currentStep] = {}
+
+                if (!state[baId].steps[currentStep][hRef])
+                    state[baId].steps[currentStep][hRef] = {}
+
+                state[baId].steps[currentStep][hRef] = newValues
+
+                return state;
+            }
+        },
     }
 })
 ;
@@ -217,5 +242,7 @@ export const {
     aiaStepSetCurrent,
     aiaStepAddInput,
     aiaStepRemoveInput,
-    aiaStepSetInputStatus
+    aiaStepSetInputStatus,
+    aiaStepSetInputDataToPatch,
+    aiaStepClearDataToPatch
 } = AIASlice.actions;

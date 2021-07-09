@@ -1,4 +1,5 @@
 import {PaymentIcon, PencilIcon} from 'assets/svg';
+
 import BindToStep from 'components/BindToStep/BindToStep';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import EditPayer from './EditPayer/EditPayer';
@@ -15,7 +16,7 @@ const GeneralInfo = ({hRef}: any) => {
     const [response] = useResponse(hRef)
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
-    const [payerResponse, payerLoading] = useResponse(payerLink)
+    const [payerLoading] = useResponse(payerLink)
 
     const {patch} = useAia();
 
@@ -35,10 +36,8 @@ const GeneralInfo = ({hRef}: any) => {
             <div className="p-3 row">
                 <div className="col-4">
                     <TextField
-                        data={response.data}
                         hRef={hRef}
-                        propertyName="operation:amount"
-                        onBlurMethod={(value: any) => patchValue(value, 'operation:amount')}
+                        property="operation:amount"
                     />
                 </div>
                 <div className="col-4">
@@ -60,11 +59,10 @@ const GeneralInfo = ({hRef}: any) => {
                         <div className="row">
                             <div className="col-9">
                                 <TextField
-                                    hRef={hRef}
-                                    data={payerResponse && payerResponse.data}
+                                    hRef={payerLink}
                                     loading={payerLoading}
                                     i18nOptions={{context: 'payer'}}
-                                    propertyName="person:display_id1"
+                                    property="person:display_id1"
                                 />
                             </div>
                             <div className="col-3 pt-3 ml-3">
@@ -84,8 +82,8 @@ const GeneralInfo = ({hRef}: any) => {
                     <DateInput
                         hRef={hRef}
                         data={response.data}
-                        propertyName="operation:signature_date"
-                        onChangeMethod={(value: any) => patchValue(value, 'operation:signature_date')}
+                        property="operation:signature_date"
+                        onChange={(value: any) => patchValue(value, 'operation:signature_date')}
                     />
                 </div>
             </div>

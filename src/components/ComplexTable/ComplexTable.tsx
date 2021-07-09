@@ -103,8 +103,6 @@ const useStyles = makeStyles((theme) => ({
     tableCover: {
         width: '100%',
         '& table thead tr th': {
-            backgroundColor: theme.palette.project.table.header.background,
-            color: theme.palette.project.table.header.fontColor,
             padding: theme.spacing(2, 2)
         },
         '& tbody tr': {
