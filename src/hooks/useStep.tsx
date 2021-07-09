@@ -163,12 +163,10 @@ const useStep = () => {
                         newValues[property] = rest
                     })
 
-                console.log('A')
                 //Here the PATCH
                 // eslint-disable-next-line no-await-in-loop
                 const patchResponse = await patch(patchHRef, payload)
                 statusReport = getStatusReport(patchResponse.data)
-                console.log('B')
 
                 //remove all dataToPatch
                 boundInputs && Object.keys(boundInputs)
@@ -176,7 +174,6 @@ const useStep = () => {
                         dispatch(aiaReducer.aiaStepClearDataToPatch({baId, hRef, property}))
                     })
             }
-            console.log('C')
             //Here the update the status of bound input accoring the last status report we get on the patch
             boundInputs && Object.entries(boundInputs)
                 .forEach(([property, propertyDetail]: any) => {

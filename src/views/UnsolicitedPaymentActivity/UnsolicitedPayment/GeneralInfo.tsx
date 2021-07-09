@@ -20,12 +20,6 @@ const GeneralInfo = ({hRef}: any) => {
 
     const {patch} = useAia();
 
-    const patchValue = (value: any, id: string) => {
-        const payload: any = {};
-        payload[id] = value;
-        patch(hRef, payload).then();
-    }
-
     const patchPayer = async (person: any = {}) => {
         await patch(hRef, {'premium:addressee_person': person.href});
     }
@@ -45,14 +39,12 @@ const GeneralInfo = ({hRef}: any) => {
                     <SelectInput
                         hRef={hRef}
                         property="operation:currency_code"
-                        onChange={(value: any) => patchValue(value, 'operation:currency_code')}
                     />
                 </div>
                 <div className="col-4">
                     <SelectInput
                         hRef={hRef}
                         property="operation:payment_source"
-                        onChange={(value: any) => patchValue(value, 'operation:payment_source')}
                     />
                 </div>
                 <div className="d-flex col-4 pt-3">
