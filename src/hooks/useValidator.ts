@@ -83,7 +83,7 @@ const useValidator = () => {
         return elementId;
     }
 
-    const Validation = (InputWrapper: Field, newValue: any, type?:string) => {
+    const Validation = useCallback ((InputWrapper: Field, newValue: any, type?:string) => {
         let validate: ErrorField = {
             error: '',
             valid: true
@@ -101,7 +101,7 @@ const useValidator = () => {
         }
         
         return validate;
-    }
+    },[])
 
     const ValidateMinMaxValue = (InputWrapper: Field, value: any, errorField: ErrorField): ErrorField => {
         //Check for max and min values
