@@ -34,7 +34,7 @@ const useInput = ({hRef, property, type, i18nOptions, onChange}: any) => {
     }, [response, fieldWrapper, property, value])
 
     const handleOnChange = useCallback((newValue: any) => {
-        onChange(newValue)
+        onChange && onChange(newValue)
         //We patch immediately according API response
         const [isImmediatePatch, patchHRef] = field.immediatePatch
         if (isImmediatePatch) {
