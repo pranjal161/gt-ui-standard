@@ -114,22 +114,20 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <div className="col-4">
                                 <TextField
                                     property="operation:amount"
+                                    type="number"
                                     hRef={hRef}
-                                    onChange={onChange('operation:amount')}
                                 />
                             </div>
                             <div className="col-4">
                                 <SelectInput
                                     hRef={hRef}
                                     property="operation:currency_code"
-                                    onChange={onChange('operation:currency_code')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <SelectInput
                                     hRef={hRef}
                                     property="money_in:payment_type"
-                                    onChange={onChange('money_in:payment_type')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
@@ -163,7 +161,6 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                                 <SelectInput
                                     hRef={hRef}
                                     property="money_in_administrator"
-                                    onChange={onChange('money_in_administrator')}
                                 />
                             </div>
                             <DepositAccountInput href={depositAccountURI} formData={formData} onChange={onChange} />

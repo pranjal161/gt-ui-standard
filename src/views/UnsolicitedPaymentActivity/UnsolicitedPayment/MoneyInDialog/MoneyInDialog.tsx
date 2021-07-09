@@ -6,7 +6,6 @@ import DialogContent from './DialogContent/DialogContent';
 import React from 'react';
 import { getLink } from 'utils/functions';
 import { scrollIntoView } from 'utils/system';
-import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
 import { useTranslation } from 'react-i18next';
@@ -64,8 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
-    const { patch } = useAia();
-    const { canValidateStep } = useStep();
+    const { validateStep, canValidateStep } = useStep();
     const {
         open,
         onClose,
@@ -78,16 +76,15 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const [formData, setFormData]: [any, Function] = React.useState({});
     const [response] = useResponse(hRef);
 
-    const addMoney = async () => {
-        const res = await patch(hRef, formData);
-        const inputErrors = canValidateStep()
-        console.log('inputErrors', inputErrors)
+    const addMoney = () => {
+        const inputErrors = canValidateStep() // canChangeStep
+        console.log('inputErrors', inputErrors);
 
         if (inputErrors.length === 0) {
-            onClose('UPPatch', res);
+            validateStep();
+            onClose('PATCH', response);
         }
         else {
-            //We scroll to view the first error
             scrollIntoView(inputErrors[0])
         }
     };

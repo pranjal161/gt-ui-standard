@@ -53,6 +53,12 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
         setIsEdit(false);
     }
 
+    // const onClose = () => {
+    //     // setMoneyInHRef(getLink(response.data, 'cscaia:money_in'));
+    //     setIsOpen(false);
+    //     setIsEdit(false);
+    // }
+
     const onEdit = (hRef: string) => {
         setIsEdit(true);
         console.log('onEdit:', hRef)
@@ -62,7 +68,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef, 'operation:amount': 1 });
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);
