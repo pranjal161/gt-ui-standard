@@ -1,7 +1,7 @@
+import {useCallback, useEffect, useState} from 'react';
+import useValidator, {Field} from 'hooks/useValidator';
 import useBindInputToStep from 'hooks/useBindInputToStep';
 import useResponse from 'hooks/useResponse';
-import useValidator, {Field} from 'hooks/useValidator';
-import {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
 /**
@@ -9,11 +9,11 @@ import {useTranslation} from 'react-i18next';
  * @param {string} hRef ressource bind the the property
  * @param {string} property property To bind
  * @param {string} type Type of value
- * @param {string} context usefull to precise context for i18n
+ * @param {string} i18nOptions usefull to precise context for i18n
  * @param {any} onChange callback
  * @return {any} array of features
  */
-const useInput = ({hRef, property, type, context, onChange }:any) => {
+const useInput = ({hRef, property, type, i18nOptions, onChange }:any) => {
     const { t } = useTranslation();
     const [response, loading ] = useResponse(hRef)
     const { FieldWrapper : fieldWrapper , Validation : validation } = useValidator();
@@ -29,7 +29,7 @@ const useInput = ({hRef, property, type, context, onChange }:any) => {
             _setValue(field.value)
         }
 
-    }, [response])
+    }, [response, fieldWrapper, property, value])
 
     const setValue = useCallback ((newValue:any) => {
         const result = validation(field, newValue, type)
@@ -39,7 +39,7 @@ const useInput = ({hRef, property, type, context, onChange }:any) => {
             onChange(newValue)
     },[field, type, validation, onChange])
 
-    const label = t(property, {context})
+    const label = t(property, i18nOptions)
     const invalid = !validationResult.valid || status === 'error'
     const errorMessage = validationResult.error || (status === 'error' && status.statusMessage)
 

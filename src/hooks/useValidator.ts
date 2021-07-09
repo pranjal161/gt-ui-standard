@@ -1,4 +1,3 @@
-import {useCallback} from 'react';
 import {
     getLink,
     getMaxLength,
@@ -12,6 +11,7 @@ import {
     isFieldRequired,
     isFieldVisible
 } from 'utils/functions';
+import {useCallback} from 'react';
 
 export interface Field {
         id: string,
@@ -35,7 +35,7 @@ export interface OneofInterface {
 export interface InputProps {
     hRef: string;
     propertyName: string;
-    context?: string,
+    i18nOptions?: any,
     data: any; 
     type?: string, 
     onChangeMethod?: any, 
@@ -143,7 +143,7 @@ const useValidator = () => {
         if (value && value !== '') {
             const emailRegex = new RegExp('^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$');
             const emailValidation = emailRegex.test(value);
-            if (emailValidation === false) {
+            if (!emailValidation) {
                 errorField.error = '_ENTER_VALID_EMAIL';
                 errorField.valid = false;
             }
