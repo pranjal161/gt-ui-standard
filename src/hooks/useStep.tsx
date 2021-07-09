@@ -51,13 +51,13 @@ const useStep = () => {
                 }))
 
         return {errors, warnings}
-    },[stepRessources])
+    }, [stepRessources])
 
-    const getRessourceStatusReport = useCallback( (hRef: string) => {
+    const getRessourceStatusReport = useCallback((hRef: string) => {
         const response = baIdRessources && baIdRessources[hRef]
 
         return response && getStatusReport(response.data)
-    },[baIdRessources])
+    }, [baIdRessources])
 
     const getPropertyStatusReport = useCallback((statusReport: any, property: string) => {
         let result = undefined
@@ -72,7 +72,7 @@ const useStep = () => {
         })
 
         return result
-    },[])
+    }, [])
 
     /**
      * We loop on all ressources used in the current step
@@ -82,8 +82,8 @@ const useStep = () => {
      * if no, we update their status with value = displayed
      * @return {boolean} indicates if the step can be validated or not
      */
-    const canValidateStep = useCallback ( () => {
-        let inputErrors:any = []
+    const canChangeStep = useCallback(() => {
+        let inputErrors: any = []
 
         //We loop on all ressources used in the current step
         stepRessources && Object.entries(stepRessources)
@@ -122,7 +122,7 @@ const useStep = () => {
             })
 
         return inputErrors
-    },[getRessourceStatusReport, getPropertyStatusReport, setStatus, stepRessources])
+    }, [getRessourceStatusReport, getPropertyStatusReport, setStatus, stepRessources])
 
     /**
      * We loop on all ressources used in the current step
@@ -130,38 +130,84 @@ const useStep = () => {
      * When we got all data, we do the patch it.
      * @return {void} indicates if the step can be validated or not
      */
-    const validateStep = () => {
+    const validateStep = async () => {
+        let inputErrors: any = []
 
         //We loop on all ressources used in the current step
-        stepRessources && Object.entries(stepRessources)
-            .forEach(([hRef, boundInputs]: any) => {
-                const payload:any = {}
+        for (const item of Object.entries(stepRessources)) {
+            const [hRef, boundInputs]:any = item
+            const payload: any = {}
 
+            //For each ressources, we have to get its status_report from the baId.
+            let statusReport = getRessourceStatusReport(hRef)
+
+            boundInputs && Object.entries(boundInputs)
+                .forEach(([property, propertyDetail]: any) => {
+
+                    if (propertyDetail.dataToPatch)
+                        payload[property] = propertyDetail.dataToPatch
+
+                })
+
+            if (Object.values(payload).length > 0) {
+                // Here the assume that the patchHref is the same as the hRef, otherwise we have to use getPatchHRef
+                // on response
+                const patchHRef = hRef
+                //This is a workaround, because can't loop  inside redux store to reset all dataToPatch
+                const newValues: any = {}
                 boundInputs && Object.entries(boundInputs)
                     .forEach(([property, propertyDetail]: any) => {
-                        if (propertyDetail.dataToPatch)
-                            payload[property] = propertyDetail.dataToPatch
+                        // eslint-disable-next-line no-unused-vars
+                        const {dataToPatch, ...rest} = propertyDetail
 
+                        newValues[property] = rest
                     })
-                if (Object.values(payload).length > 0){
-                    // Here the assume that the patchHref is the same as the hRef, otherwise we have to use getPatchHRef
-                    // on response
-                    const patchHRef = hRef
-                    //This is a workaround, because can't loop  inside redux store to reset all dataToPatch
-                    const newValues:any = {}
-                    boundInputs && Object.entries(boundInputs)
-                        .forEach(([property, propertyDetail]: any) => {
-                            // eslint-disable-next-line no-unused-vars
-                            const {dataToPatch, ...rest} = propertyDetail
 
-                            newValues[property] = rest
+                console.log('A')
+                //Here the PATCH
+                // eslint-disable-next-line no-await-in-loop
+                const patchResponse = await patch(patchHRef, payload)
+                statusReport = getStatusReport(patchResponse.data)
+                console.log('B')
+
+                //remove all dataToPatch
+                boundInputs && Object.keys(boundInputs)
+                    .forEach((property: any) => {
+                        dispatch(aiaReducer.aiaStepClearDataToPatch({baId, hRef, property}))
+                    })
+            }
+            console.log('C')
+            //Here the update the status of bound input accoring the last status report we get on the patch
+            boundInputs && Object.entries(boundInputs)
+                .forEach(([property, propertyDetail]: any) => {
+                    const status: any = statusReport && getPropertyStatusReport(statusReport, property)
+
+                    //if yes, we update their status with the severity getting from status_report
+                    if (status) {
+                        if (status.severity === 'error')
+                            inputErrors.push(propertyDetail.status.inputId)
+
+                        setStatus({
+                            hRef,
+                            property,
+                            status: status.severity,
+                            message: status.message
                         })
+                    }
+                    else {
+                        //if no, we update their status with value = displayed
+                        setStatus({
+                            hRef,
+                            property,
+                            status: 'displayed',
+                            message: ''
+                        })
+                    }
 
-                    patch(patchHRef, payload).then(
-                        dispatch(aiaReducer.aiaStepClearDataToPatch({baId, hRef, newValues}))
-                    )
-                }
-            })
+                })
+        }
+
+        return inputErrors
     }
 
     /**
@@ -179,37 +225,37 @@ const useStep = () => {
         console.log('errors', errors)
 
         /*
-                stepRessources && Object.entries(stepRessources)
-                    .forEach(([hRef, response]: any) => {
-                        if (!isResponseConsistent(response.data)) {
-                            const statusReport = getStatusReport(response && response.data) || []
+                            stepRessources && Object.entries(stepRessources)
+                                .forEach(([hRef, response]: any) => {
+                                    if (!isResponseConsistent(response.data)) {
+                                        const statusReport = getStatusReport(response && response.data) || []
 
-                            statusReport &&
-                            statusReport.messages &&
-                            statusReport.messages
-                                .forEach(
-                                    (message: any) => {
-                                        message.context.forEach(
-                                            (line: any) => (
-                                                setStatus({
-                                                    hRef,
-                                                    property: line.propertyNames[0],
-                                                    status: message.severity,
-                                                    message:message.message})
+                                        statusReport &&
+                                        statusReport.messages &&
+                                        statusReport.messages
+                                            .forEach(
+                                                (message: any) => {
+                                                    message.context.forEach(
+                                                        (line: any) => (
+                                                            setStatus({
+                                                                hRef,
+                                                                property: line.propertyNames[0],
+                                                                status: message.severity,
+                                                                message:message.message})
+                                                        )
+                                                    )
+                                                }
                                             )
-                                        )
+                                        console.log('statusReport', statusReport)
+                                        result = false
                                     }
-                                )
-                            console.log('statusReport', statusReport)
-                            result = false
-                        }
-                    })
-        */
+                                })
+                    */
 
         return result
     }
 
-    return {currentStep, canValidateStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch, validateStep}
+    return {currentStep, canChangeStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch, validateStep}
 }
 
 export default useStep;

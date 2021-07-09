@@ -163,6 +163,15 @@ const AIASlice = createSlice({
                     state[baId].steps[step][hRef] = {}
 
                 delete state[baId].steps[step][hRef][property]
+
+                //Remove the ressource if no more input inside
+                if (Object.keys(state[baId].steps[step][hRef]).length === 0)
+                    delete state[baId].steps[step][hRef]
+
+                //Remove the ressource if no more input inside
+                if (Object.keys(state[baId].steps[step]).length === 0)
+                    delete state[baId].steps[step]
+
             }
 
             return state;
@@ -200,8 +209,10 @@ const AIASlice = createSlice({
         },
         aiaStepClearDataToPatch(state: any, action: any) {
             {
-                const {baId, hRef, newValues} = action.payload
+                const {baId, hRef, property} = action.payload
                 const currentStep = state[baId].steps.current
+
+                console.log('currentStep', currentStep)
 
                 if (!state[baId].steps[currentStep])
                     state[baId].steps[currentStep] = {}
@@ -209,7 +220,7 @@ const AIASlice = createSlice({
                 if (!state[baId].steps[currentStep][hRef])
                     state[baId].steps[currentStep][hRef] = {}
 
-                state[baId].steps[currentStep][hRef] = newValues
+                delete state[baId].steps[currentStep][hRef][property].dataToPatch
 
                 return state;
             }
