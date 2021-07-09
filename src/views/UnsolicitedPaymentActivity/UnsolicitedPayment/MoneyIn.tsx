@@ -41,7 +41,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const amountUP: number = response?.data['operation:amount'];
     const contractHRef: string = mainEntityHRef
 
-    const [moneyInHRef, setMoneyInHRef] = React.useState<string>('');
+    const [moneyInHRef, setMoneyInHRef] = React.useState<any>();
 
     const onClose = async (name = 'default', response: any = false) => {
         if (name === 'UPPatch') {
@@ -62,14 +62,13 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractHRef, 'operation:amount': 1 });
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef});
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);
     }
 
     const onDelete = async (hRef: string) => {
-        console.log('onDelete:', hRef)
         await post(hRef + '/cancel', {});
         await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
         setMoneyInHRef('');

@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
-    const { validateStep, canChangeStep } = useStep();
+    const { validateStep } = useStep();
     const {
         onClose,
         hRef,
@@ -65,40 +65,52 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
         payerURI,
         amountUP
     } = props;
-    
+
     const [response] = useResponse(hRef);
 
-    const addMoney = async () => {
-        const inputErrors = canChangeStep()
-        console.log('inputErrors', inputErrors);
+    // const addMoney = async () => {
+    //     const inputErrors = canChangeStep()
+    //     console.log('inputErrors', inputErrors);
 
-        if (inputErrors.length === 0) {
-            await validateStep();
-            onClose('PATCH', response);
-        }
-        else {
-            scrollIntoView(inputErrors[0])
-        }
+    //     if (inputErrors.length === 0) {
+    //         await validateStep();
+    //         onClose('PATCH', response);
+    //     }
+    //     else {
+    //         scrollIntoView(inputErrors[0])
+    //     }
+    // };
+
+    const addMoney = () => {
+        validateStep().then((inputErrors: any) => {
+            if (inputErrors.length === 0) {
+                onClose('UPPatch', inputErrors);
+            }
+            else {
+                //We scroll to view the first error
+                scrollIntoView(inputErrors[0])
+            }
+        })
     };
 
     return (
         <div className={classes.container}>
-            <Dialog
-                open={true}
-                maxWidth="md"
-                fullWidth={false}
-                title={t('money_in')}
-                content={<DialogContent
-                    // formData={response && formData}
-                    moneyInData={response && response.data}
-                    // setFormData={setFormData}
-                    payerURI={payerURI}
-                    amountUP={amountUP}
-                    depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}
-                    hRef={hRef}
-                />
-                }
-                actions={<DialogActions onClose={onClose} addMoney={addMoney} isEdit={isEdit} />} />
+            {
+                <Dialog
+                    open={true}
+                    maxWidth="md"
+                    fullWidth={false}
+                    title={t('money_in')}
+                    content={response && <DialogContent
+                        payerURI={payerURI}
+                        amountUP={amountUP}
+                        depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}
+                        hRef={hRef}
+                    />
+                    }
+                    actions={<DialogActions onClose={onClose} addMoney={addMoney} isEdit={isEdit} />} />
+            }
+
         </div>
     )
 }

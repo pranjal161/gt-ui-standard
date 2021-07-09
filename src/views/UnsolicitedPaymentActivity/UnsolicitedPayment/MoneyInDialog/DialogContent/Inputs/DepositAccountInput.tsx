@@ -9,7 +9,7 @@ export interface DepositAccountInputProps {
        * href
        * @description href of the deposit account to display his value
        */
-    href: string
+    hRef: string
 }
 
 /**
@@ -20,10 +20,10 @@ export interface DepositAccountInputProps {
 const DepositAccountInput: React.FC<DepositAccountInputProps> = (props: DepositAccountInputProps) => {
     const { t } = useTranslation();
     const {
-        href,
+        hRef,
     } = props
 
-    const [response] = useResponse(href);
+    const [response] = useResponse(hRef);
     const [bankAccountList, setBankAccountList] = React.useState<any>([])
 
     React.useEffect(() => {
@@ -34,12 +34,12 @@ const DepositAccountInput: React.FC<DepositAccountInputProps> = (props: DepositA
             }]);
         }
     }, [response])
-    
+
     return (
         <div className="col-4 mt-4">
             <DxcSelect
                 options={response ? bankAccountList : [{value: '', label: ''}]}
-                value={response.data._links.self.href}
+                value={response ? response.data._links.self.href : ''}
                 label={t('deposit_account')}
             />
         </div>
