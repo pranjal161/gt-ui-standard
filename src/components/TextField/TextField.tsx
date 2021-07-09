@@ -20,7 +20,7 @@ const TextField = (props: InputProps) => {
         type,
         onChangeMethod,
         onBlurMethod,
-        context = undefined,
+        i18nOptions = undefined,
         list,
         size,
         loading = false
@@ -73,20 +73,21 @@ const TextField = (props: InputProps) => {
         size={14}
         thickness={4}
     />
+    const otherProps = loading && {suffixIcon : <Skeleton/> }
 
     return (
         <div id={inputId} hidden={!field.visible && !loading} data-testid={field.id}>
             <DxcInput
-                label={t(propertyName, {context})}
+                label={t(propertyName, i18nOptions)}
                 required={field?.required}
                 disabled={field?.disabled}
                 onChange={onChange}
                 onBlur={onBlur}
-                suffixIcon={loading && <Skeleton/>}
                 size={size ? size : 'medium'}
                 value={loading ? value || ' ' : value}
                 assistiveText={assistiveText}
                 invalid={invalid}
+                {...otherProps}
             />
         </div>
     );

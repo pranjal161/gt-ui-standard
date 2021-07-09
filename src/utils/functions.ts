@@ -295,31 +295,38 @@ export const processOneof = (oneOfArray: Array<any>) => {
  * @param  {any} response provided response
  * @param {object} list List object consisting current list item & List name
  * @param  {string} field field which should be checked for edit capability
- * @returns {boolean} true, if PATCH operation is available for the provided field
+ * @returns {[boolean, [boolean, string | undefined]]} true, if PATCH operation is available for the provided field, the second value if it's the field is
+ * immediatePatch and the hRef for patching
  */
 
-export const isFieldEditable = (response: any, field: string, list?:any): boolean => {
+export const isFieldEditable = (response: any, field: string, list?:any): [boolean, [boolean, string | undefined]] => {
     if (response && response['_options']) {
         const patchLink = response['_options']['links'].find((item: any) => item.method === 'PATCH');
         if (!patchLink) {
-            return false;
+            return [false, [false, undefined]];
         }
+
+        const immediatePatch = patchLink &&
+            patchLink['schema'] &&
+            patchLink['schema']['influencers'] &&
+            (patchLink['schema']['influencers'].find((item: any) => item === field) !== undefined)
+
         if (patchLink &&
             patchLink['schema'] &&
             patchLink['schema']['properties'] &&
             patchLink['schema']['properties'][field]) {
-            return true;
+            return [true, [immediatePatch, patchLink.href]]
         }
         else if (list && patchLink &&
             patchLink['schema'] &&
             patchLink['schema']['properties'] &&
             patchLink['schema']['properties'][list.listName] &&
             patchLink['schema']['properties'][list.listName].items.items[field]) {
-            return true;
+            return [true, [immediatePatch, patchLink.href]]
         }
     }
     
-    return false;
+    return [false, [false, undefined]];
 }
 
 /**Whether the propertyName provided is a required field.

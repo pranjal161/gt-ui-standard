@@ -103,13 +103,7 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
         // pick from the new resource created from location headers
         if (response && response.headers && response.headers.location) {
             let newResource = response.headers.location;
-            dispatch(aiaReducer.aiaREFRESHSuccess({
-                data: response.data,
-                store: getState().aia,
-                params: params,
-                href: newResource,
-                baId
-            }))
+            refresh(newResource, baId)
         }
         dispatch(aiaReducer.aiaPOSTSuccess({href, baId}))
     })
@@ -128,45 +122,40 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
     dispatch(aiaReducer.aiaPATCHPending({href, baId}))
     const promise = APIActions.patch(href, payload, params);
 
-    //To do : Rework that part. Final Promise doesn't solve the issue on createMoneyIn
-    const finalPromise = new Promise((resolve, reject) => {
-        promise.then((response: any) => {
-            // case1: modified headers recieved in response headers
-            if (response && response.headers && response.headers[modifiedHeaderTag.toLowerCase()]) {
-                const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
-                const existingHrefs = getState().aia[baId];
-                processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
+    promise.then((response: any) => {
+        // case1: modified headers recieved in response headers
+        if (response && response.headers && response.headers[modifiedHeaderTag.toLowerCase()]) {
+            const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
+            const existingHrefs = getState().aia[baId];
+            processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
+        }
+        // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
+        else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
+            refresh(href, baId);
+            const messages = response.data.messages;
+            const existingHrefs = getState().aia[baId];
+            const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
+            if (modifiedArray) {
+                processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
             }
-            // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
-            else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
-                refresh(href, 'refresh', baId);
-                const messages = response.data.messages;
-                const existingHrefs = getState().aia[baId];
-                const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
-                if (modifiedArray) {
-                    processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
-                }
-            }
-            dispatch(aiaReducer.aiaPATCHSuccess({
-                data: response.data,
-                store: getState().aia,
-                params: params,
+        }
+        dispatch(aiaReducer.aiaPATCHSuccess({
+            data: response.data,
+            store: getState().aia,
+            params: params,
+            href,
+            baId
+        }))
+    })
+        .catch((error: any) => {
+            dispatch(aiaReducer.aiaPATCHError({
+                error,
                 href,
                 baId
             }))
-            resolve(response)
         })
-            .catch((error: any) => {
-                dispatch(aiaReducer.aiaPATCHError({
-                    error,
-                    href,
-                    baId
-                }))
-                reject(error)
-            })
-    })
 
-    return finalPromise;
+    return promise;
 }
 
 export const deleteRequest = (href: string, baId: string, params?: Object) => (dispatch: any, getState: any) => {
@@ -208,7 +197,7 @@ const processModifiedHeaders = (modifiedArray: Array<Object | string>, existingM
         // eslint-disable-next-line array-callback-return
         modifiedArray.map((message: any) => {
             if (Object.keys(existingMap).includes(message)) {
-                requestArray.push(dispatch(refresh(message, 'refresh', baId)));
+                requestArray.push(dispatch(refresh(message, baId)));
             }
         })
         Promise.all(requestArray).then();

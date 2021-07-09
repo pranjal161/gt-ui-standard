@@ -4,7 +4,6 @@ import {ThemeProvider as MatThemeProvider, StylesProvider, createMuiTheme} from 
 import App from './App'
 import {ThemeProvider as CdkThemeProvider} from '@dxc-technology/halstack-react';
 import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
-import FirebaseProvider from 'configs/FirebaseProvider';
 import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -22,15 +21,13 @@ ReactDOM.render(
     <React.StrictMode>
         <React.Suspense fallback={<CentralSpinner/>}>
             <Provider store={store}>
-                <FirebaseProvider dispatch={store.dispatch}>
-                    <StylesProvider generateClassName={generateClassName}>
-                        <MatThemeProvider theme={matMuiTheme}>
-                            <CdkThemeProvider theme={themes.cdkTheme}>
-                                <App/>
-                            </CdkThemeProvider>
-                        </MatThemeProvider>
-                    </StylesProvider>
-                </FirebaseProvider>
+                <StylesProvider generateClassName={generateClassName}>
+                    <MatThemeProvider theme={matMuiTheme}>
+                        <CdkThemeProvider theme={themes.cdkTheme}>
+                            <App/>
+                        </CdkThemeProvider>
+                    </MatThemeProvider>
+                </StylesProvider>
             </Provider>
         </React.Suspense>
     </React.StrictMode>,
