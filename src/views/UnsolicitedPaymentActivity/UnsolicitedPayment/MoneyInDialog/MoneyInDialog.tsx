@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
-    const { validateStep, canValidateStep } = useStep();
+    const { validateStep, canChangeStep } = useStep();
     const {
         open,
         onClose,
@@ -76,17 +76,26 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const [formData, setFormData]: [any, Function] = React.useState({});
     const [response] = useResponse(hRef);
 
-    const addMoney = () => {
-        const inputErrors = canValidateStep() // canChangeStep
+    const addMoney = async () => {
+        const inputErrors = canChangeStep()
         console.log('inputErrors', inputErrors);
 
         if (inputErrors.length === 0) {
-            validateStep();
+            await validateStep();
             onClose('PATCH', response);
         }
         else {
             scrollIntoView(inputErrors[0])
         }
+        // validateStep().then((inputErrors:any) => {
+        //     if (inputErrors.length === 0) {
+        //         onClose('UPPatch', inputErrors);
+        //     }
+        //     else{
+        //         //We scroll to view the first error
+        //         scrollIntoView(inputErrors[0])
+        //     }
+        // })
     };
 
     const getFormData: Function = () => {
