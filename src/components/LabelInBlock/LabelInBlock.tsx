@@ -7,11 +7,10 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0),
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: 'left',
+        flexDirection: 'column',
         flex: '1 1 auto',
         width: '100%',
-        height: theme.spacing(3),
     },
     label: {
         color: theme.palette.project.text.label,
@@ -19,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         flex: 3,
         textAlign: 'left',
-        width: '50%',
         overflowWrap: 'break-word',
     },
     value: {
@@ -28,17 +26,16 @@ const useStyles = makeStyles((theme) => ({
         flex: 4,
         fontSize: 14,
         textAlign: 'left',
-        width: '50%',
         overflowWrap: 'break-word',
     },
 }));
 
 /**
- * Display a LabelInline
- * @param {props} props Contains information related to the LabelInline
- * @returns {*} Return the LabelInline
+ * Display a Label and its value verticaly
+ * @param {props} props Contains information related to the component
+ * @returns {*} Return the label and its value
  */
-const LabelInline: React.FC<useLabelValueProps> = (props: useLabelValueProps) => {
+const LabelInBlock: React.FC<useLabelValueProps> = (props: useLabelValueProps) => {
     const classes: any = useStyles();
     const {Label, Value} = useLabelValue(props)
 
@@ -54,4 +51,4 @@ const LabelInline: React.FC<useLabelValueProps> = (props: useLabelValueProps) =>
     );
 };
 
-export default React.memo(LabelInline);
+export default React.memo(LabelInBlock);

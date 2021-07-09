@@ -8,6 +8,7 @@ import contract from './contract.json'
 import coverage from './coverage.json'
 import duration from './duration.json'
 import e_mail_address from 'locales/en/e_mail_address.json'
+import info_sheet_operation from './info_sheet_operation.json'
 import membership from './membership.json'
 import money_in from './money_in.json'
 import operation from './operation.json'
@@ -33,6 +34,7 @@ export default {
     coverage,
     duration,
     e_mail_address,
+    info_sheet_operation,
     membership,
     money_in,
     phone_address,

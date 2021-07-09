@@ -122,17 +122,15 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <div className="col-4">
                                 <SelectInput
                                     hRef={hRef}
-                                    data={moneyInData}
-                                    propertyName="operation:currency_code"
-                                    onChangeMethod={onChange('operation:currency_code')}
+                                    property="operation:currency_code"
+                                    onChange={onChange('operation:currency_code')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <SelectInput
                                     hRef={hRef}
-                                    data={moneyInData}
-                                    propertyName="money_in:payment_type"
-                                    onChangeMethod={onChange('money_in:payment_type')}
+                                    property="money_in:payment_type"
+                                    onChange={onChange('money_in:payment_type')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
@@ -173,9 +171,8 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                             <div className="col-4 mt-4">
                                 <SelectInput
                                     hRef={hRef}
-                                    propertyName="money_in_administrator"
-                                    data={moneyInData}
-                                    onChangeMethod={onChange('money_in_administrator')}
+                                    property="money_in_administrator"
+                                    onChange={onChange('money_in_administrator')}
                                 />
                             </div>
                             <DepositAccountInput href={depositAccountURI} formData={formData} onChange={onChange} />

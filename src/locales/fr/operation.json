@@ -11,6 +11,5 @@
   "currency_code": "Devise",
   "payment_source": "Source",
   "signature_date": "Date de signature",
-  "accounting_date": "Date de comptabilisation",
-  "value_date": "Date d'effet"
+  "accounting_date": "Date de comptabilisation"
 }

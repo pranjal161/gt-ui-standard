@@ -1,10 +1,10 @@
+import {PaymentIcon, PencilIcon} from 'assets/svg';
 import BindToStep from 'components/BindToStep/BindToStep';
-import Section from 'components/Section/Section';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import EditPayer from './EditPayer/EditPayer';
 import IconButton from 'theme/components/material/IconButton/IconButton';
-import {PaymentIcon, PencilIcon} from 'assets/svg';
 import React from 'react';
+import Section from 'components/Section/Section';
 import SelectInput from 'components/SelectInput/SelectInput';
 import TextField from 'components/TextField/TextField';
 import {getLink} from 'utils/functions';
@@ -15,7 +15,7 @@ const GeneralInfo = ({hRef}: any) => {
     const [response] = useResponse(hRef)
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
-    const [payerResponse] = useResponse(payerLink)
+    const [payerResponse, payerLoading] = useResponse(payerLink)
 
     const {patch} = useAia();
 
@@ -44,28 +44,26 @@ const GeneralInfo = ({hRef}: any) => {
                 <div className="col-4">
                     <SelectInput
                         hRef={hRef}
-                        data={response.data}
-                        propertyName="operation:currency_code"
-                        onChangeMethod={(value: any) => patchValue(value, 'operation:currency_code')}
+                        property="operation:currency_code"
+                        onChange={(value: any) => patchValue(value, 'operation:currency_code')}
                     />
                 </div>
                 <div className="col-4">
                     <SelectInput
                         hRef={hRef}
-                        data={response.data}
-                        propertyName="operation:payment_source"
-                        onChangeMethod={(value: any) => patchValue(value, 'operation:payment_source')}
+                        property="operation:payment_source"
+                        onChange={(value: any) => patchValue(value, 'operation:payment_source')}
                     />
                 </div>
                 <div className="d-flex col-4 pt-3">
-                    {payerResponse &&
                     <BindToStep hRef={hRef} property={'premium:addressee_person'}>
                         <div className="row">
                             <div className="col-9">
                                 <TextField
                                     hRef={hRef}
-                                    data={payerResponse.data}
-                                    context={'payer'}
+                                    data={payerResponse && payerResponse.data}
+                                    loading={payerLoading}
+                                    i18nOptions={{context: 'payer'}}
                                     propertyName="person:display_id1"
                                 />
                             </div>
@@ -81,7 +79,6 @@ const GeneralInfo = ({hRef}: any) => {
                             />
                         </div>
                     </BindToStep>
-                    }
                 </div>
                 <div className="col-4 pt-3">
                     <DateInput
