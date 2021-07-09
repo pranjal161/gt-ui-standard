@@ -212,8 +212,6 @@ const AIASlice = createSlice({
                 const {baId, hRef, property} = action.payload
                 const currentStep = state[baId].steps.current
 
-                console.log('currentStep', currentStep)
-
                 if (!state[baId].steps[currentStep])
                     state[baId].steps[currentStep] = {}
 
