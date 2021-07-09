@@ -9,7 +9,7 @@ import {useTranslation} from 'react-i18next';
  * @param {string} hRef ressource bind the the property
  * @param {string} property property To bind
  * @param {string} type Type of value
- * @param {string} i18nOptions usefull to precise context for i18n
+ * @param {any} i18nOptions usefull to precise context for i18n
  * @param {any} onChange callback
  * @return {any} array of features
  */
