@@ -136,32 +136,24 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                                 <DateInput
                                     hRef={hRef}
                                     property="operation:accounting_date"
-                                    data={moneyInData}
-                                    onChange={onChange('operation:accounting_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef}
                                     property="money_in:receipt_date"
-                                    data={moneyInData}
-                                    onChange={onChange('money_in:receipt_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef} 
                                     property="money_in:deposit_date"
-                                    data={moneyInData}
-                                    onChange={onChange('money_in:deposit_date')}
                                 />
                             </div>
                             <div className="col-4 mt-4">
                                 <DateInput
                                     hRef={hRef}
                                     property="operation:value_date"
-                                    data={moneyInData}
-                                    onChange={onChange('operation:value_date')}
                                 />
                             </div>
                         </div>
