@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
+
 import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
@@ -109,9 +110,9 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse &&
-                        <DateInput propertyName="date_effect"
+                        <DateInput property="date_effect"
                             hRef={hRef}
-                            onChangeMethod={(value: any) => patchDate(value, 'date_effect')}
+                            onChange={(value: any) => patchDate(value, 'date_effect')}
                             data={activityResponse.data}/>}
                     </div>
                     <div className="col-10">
