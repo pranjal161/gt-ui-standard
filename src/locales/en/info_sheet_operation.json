@@ -1,0 +1,12 @@
+{
+  "value_date": "Value date",
+  "start_date": "Start date",
+  "operation_type": "Operation type",
+  "operation_amount" : "Amount",
+  "tax_type_class": "Tax type",
+  "operation_date": "Operation date",
+  "fund_origin": "Funds origin",
+  "consistent_operation": "Consistent operation",
+  "atypical_operation": "Atypical operation",
+  "operation_motive": "Operation motive"
+}

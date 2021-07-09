@@ -31,7 +31,7 @@ const AIASlice = createSlice({
             state[action.payload.baId] = {
                 status: {},
                 steps: {},
-                props : action.payload.activityProps,
+                props: action.payload.activityProps,
                 current: undefined
             }
 
@@ -40,8 +40,8 @@ const AIASlice = createSlice({
         aiaBAEnd(state: any, action: any) {
             delete state[action.payload.baId]
         },
-        aiaBAUpdateProps(state: any , action) {
-            state[action.payload.baId].props = { ...state[action.payload.baId].props, ...action.payload.activityProps}
+        aiaBAUpdateProps(state: any, action) {
+            state[action.payload.baId].props = {...state[action.payload.baId].props, ...action.payload.activityProps}
 
             return state
         },
@@ -136,38 +136,43 @@ const AIASlice = createSlice({
             return state;
         },
         aiaStepAddInput(state: any, action: any) {
-            const {baId, hRef, property, inputId} = action.payload
-            const currentStep = state[baId].steps.current
+            const {baId, hRef, property, step, inputId} = action.payload
 
-            if (!state[baId].steps[currentStep])
-                state[baId].steps[currentStep] = {}
+            if (!state[baId].steps[step])
+                state[baId].steps[step] = {}
 
-            if (!state[baId].steps[currentStep][hRef])
-                state[baId].steps[currentStep][hRef] = {}
+            if (!state[baId].steps[step][hRef])
+                state[baId].steps[step][hRef] = {}
 
-            if (!state[baId].steps[currentStep][hRef][property])
-                state[baId].steps[currentStep][hRef][property] = {status: {}}
+            if (!state[baId].steps[step][hRef][property])
+                state[baId].steps[step][hRef][property] = {status: {}}
 
-            state[baId].steps[currentStep][hRef][property].status = {value: 'displayed', inputId}
+            state[baId].steps[step][hRef][property].status = {value: 'displayed', inputId}
 
             return state;
         },
         aiaStepRemoveInput(state: any, action: any) {
-            const {baId, hRef, property} = action.payload
-            const currentStep = state[baId] && state[baId].steps.current
-            if (currentStep) {
-                if (!state[baId].steps[currentStep])
-                    state[baId].steps[currentStep] = {}
+            const {baId, hRef, property, step} = action.payload
 
-                if (!state[baId].steps[currentStep][hRef])
-                    state[baId].steps[currentStep][hRef] = {}
+            //This test is important, because if we close a Tab, the state[baId] doesn't exist any more
+            if (state[baId] && state[baId].steps) {
+                if (!state[baId].steps[step])
+                    state[baId].steps[step] = {}
 
-                delete state[baId].steps[currentStep][hRef][property]
+                if (!state[baId].steps[step][hRef])
+                    state[baId].steps[step][hRef] = {}
+
+                delete state[baId].steps[step][hRef][property]
             }
-
+            
             return state;
         },
-        aiaStepSetInputStatus(state: any, action: any) {
+        aiaStepSetInputStatus(state
+                                      :
+                                      any, action
+                                      :
+                                      any
+        ) {
             const {baId, hRef, property, status} = action.payload
             const currentStep = state[baId].steps.current
 
@@ -181,10 +186,12 @@ const AIASlice = createSlice({
             state[baId].steps[currentStep][hRef][property].status.message = status.message
 
             return state;
-        },
+        }
+        ,
 
     }
-});
+})
+;
 
 export default AIASlice.reducer;
 export const {
