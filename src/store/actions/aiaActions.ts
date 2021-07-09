@@ -103,13 +103,7 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
         // pick from the new resource created from location headers
         if (response && response.headers && response.headers.location) {
             let newResource = response.headers.location;
-            dispatch(aiaReducer.aiaREFRESHSuccess({
-                data: response.data,
-                store: getState().aia,
-                params: params,
-                href: newResource,
-                baId
-            }))
+            refresh(newResource, baId)
         }
         dispatch(aiaReducer.aiaPOSTSuccess({href, baId}))
     })

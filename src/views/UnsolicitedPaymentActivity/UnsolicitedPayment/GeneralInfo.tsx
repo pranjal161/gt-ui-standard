@@ -63,7 +63,7 @@ const GeneralInfo = ({hRef}: any) => {
                                     hRef={hRef}
                                     data={payerResponse && payerResponse.data}
                                     loading={payerLoading}
-                                    i18nOptions={{context:'payer'}}
+                                    i18nOptions={{context: 'payer'}}
                                     propertyName="person:display_id1"
                                 />
                             </div>

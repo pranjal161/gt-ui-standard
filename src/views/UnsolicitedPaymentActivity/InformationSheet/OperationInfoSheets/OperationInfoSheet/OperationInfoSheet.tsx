@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-key */
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useCallback} from 'react';
 import LabelInBlock from 'components/LabelInBlock/LabelInBlock';
 import SelectInput from 'components/SelectInput/SelectInput';
-import useAia from 'hooks/useAia';
-import useResponse from 'hooks/useResponse';
-import React, {useCallback} from 'react';
 import {getLink} from 'utils/functions';
+import {makeStyles} from '@material-ui/core/styles';
+import useResponse from 'hooks/useResponse';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,14 +43,6 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
     const classes = useStyles()
     const [response] = useResponse(hRef)
     const payerHRef = response && getLink(response.data, 'info_sheet_operation:payer_person')
-
-    const {patch} = useAia();
-
-    const patchValue = (value: any, id: string) => {
-        const payload: any = {};
-        payload[id] = value;
-        patch(hRef, payload).then();
-    }
 
     const RowProperties = useCallback(({value}: any) => (
         <div className="row mt-4 mb-4">
@@ -95,22 +86,18 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                             <RowProperties value={[
                                 <SelectInput
                                     hRef={hRef}
-                                    property={'info_sheet_operation:fund_origin'}
-                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:fund_origin')}/>,
+                                    property={'info_sheet_operation:fund_origin'}/>,
                             ]}/>
                             <RowProperties value={[
                                 <SelectInput
                                     hRef={hRef}
-                                    property={'info_sheet_operation:consistent_operation'}
-                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:consistent_operation')}/>,
+                                    property={'info_sheet_operation:consistent_operation'}/>,
                                 <SelectInput
                                     hRef={hRef}
-                                    property={'info_sheet_operation:atypical_operation'}
-                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:atypical_operation')}/>,
+                                    property={'info_sheet_operation:atypical_operation'}/>,
                                 <SelectInput
                                     hRef={hRef}
-                                    property={'info_sheet_operation:operation_motive'}
-                                    onChange={(value: any) => patchValue(value, 'info_sheet_operation:operation_motive')}/>,
+                                    property={'info_sheet_operation:operation_motive'}/>,
                             ]}/>
                         </>
                         }

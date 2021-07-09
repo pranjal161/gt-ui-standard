@@ -19,6 +19,7 @@ export interface Field {
         max: number,
         visible: boolean,
         disabled: boolean,
+        immediatePatch: [boolean, string | undefined],
         required: boolean,
         minLength: number,
         maxLength: number,
@@ -54,12 +55,15 @@ const useValidator = () => {
 
     const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any) => {
 
+        const [editable, immediatePatch] = isFieldEditable(data, propertyName, list)
+
         let field: Field = {
             id: createId(data, propertyName),
             min: getMinValue(data, propertyName, list),
             max: getMaxValue(data, propertyName, list),
             visible: isFieldVisible(data, propertyName, list),
-            disabled: !isFieldEditable(data, propertyName, list),
+            disabled: !editable,
+            immediatePatch,
             required: isFieldRequired(data, propertyName),
             minLength: getMinLength(data, propertyName, list),
             maxLength: getMaxLength(data, propertyName, list),
