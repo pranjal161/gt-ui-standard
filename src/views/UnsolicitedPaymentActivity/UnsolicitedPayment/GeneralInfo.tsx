@@ -44,17 +44,15 @@ const GeneralInfo = ({hRef}: any) => {
                 <div className="col-4">
                     <SelectInput
                         hRef={hRef}
-                        data={response.data}
-                        propertyName="operation:currency_code"
-                        onChangeMethod={(value: any) => patchValue(value, 'operation:currency_code')}
+                        property="operation:currency_code"
+                        onChange={(value: any) => patchValue(value, 'operation:currency_code')}
                     />
                 </div>
                 <div className="col-4">
                     <SelectInput
                         hRef={hRef}
-                        data={response.data}
-                        propertyName="operation:payment_source"
-                        onChangeMethod={(value: any) => patchValue(value, 'operation:payment_source')}
+                        property="operation:payment_source"
+                        onChange={(value: any) => patchValue(value, 'operation:payment_source')}
                     />
                 </div>
                 <div className="d-flex col-4 pt-3">
@@ -65,7 +63,7 @@ const GeneralInfo = ({hRef}: any) => {
                                     hRef={hRef}
                                     data={payerResponse && payerResponse.data}
                                     loading={payerLoading}
-                                    context={'payer'}
+                                    i18nOptions={{context: 'payer'}}
                                     propertyName="person:display_id1"
                                 />
                             </div>

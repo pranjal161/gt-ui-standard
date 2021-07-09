@@ -5,7 +5,6 @@ import LabelInline from 'components/LabelInline/LabelInline';
 import React from 'react';
 import SideBar from 'components/SideBar/SideBar';
 import {makeStyles} from '@material-ui/core/styles';
-import {resource} from 'assets/staticData/data';
 import {useSidebar} from 'hooks/useSidebar';
 
 let mockLoading = false
@@ -45,14 +44,17 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
+const hRef='NP_to_define'
+
 const sectionItems: PanelSectionItem[] = [
-    {id: 'contract:number', styleType: ['text']},
-    {id: 'contract:product_identifier', styleType: ['text']},
-    {id: 'contract:product_type', styleType: ['text']},
-    {id: 'contract:status', styleType: ['text']},
-    {id: 'contract:start_date', styleType: ['date']},
-    {id: 'contract:amount', styleType: ['currency']},
-    {id: 'loan_account:total_amount_due', styleType: ['percent']}
+    {hRef, id: 'contract:number', styleType: ['text']},
+    {hRef, id: 'contract:product_identifier', styleType: ['text']},
+    {hRef, id: 'contract:product_type', styleType: ['text']},
+    {hRef, id: 'contract:status', styleType: ['text']},
+    {hRef, id: 'contract:start_date', styleType: ['date']},
+    {hRef, id: 'contract:amount', styleType: ['currency']},
+    {hRef, id: 'loan_account:total_amount_due', styleType: ['percent']}
 ]
 
 const ContentController = () => {
@@ -61,9 +63,8 @@ const ContentController = () => {
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
             property={item.id}
-            data={resource}
+            hRef
             styleType={item.styleType}
-            loading={mockLoading}
         />)}</div>
 
     return (<div className={classes.content}>

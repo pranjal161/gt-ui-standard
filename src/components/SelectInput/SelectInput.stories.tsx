@@ -1,27 +1,24 @@
-import * as contractResponse from 'assets/staticData/data';
-import * as resource from 'assets/staticData/serverResponse';
-
 import { Meta, Story } from '@storybook/react';
-
-import { InputProps } from 'hooks/useValidator';
 import React from 'react';
-import SelectInput from './SelectInput';
+import SelectInput, {SelectInputProps} from './SelectInput';
 
 export default {
     title: 'Components/Inputs/Select',
     component: SelectInput,
 } as Meta;
 
-const Template: Story<InputProps> = (args) => <SelectInput {...args} />;
+const Template: Story<SelectInputProps> = (args) => <SelectInput {...args} />;
+
+const hRef = 'NP_to_define'
 
 export const Default = Template.bind({});
 Default.args = {
-    data: resource.response,
-    propertyName: 'quote:status'
+    hRef,
+    property: 'quote:status'
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    data: contractResponse.resource,
-    propertyName: 'contract:product_type'
+    hRef,
+    property: 'contract:product_type'
 };
