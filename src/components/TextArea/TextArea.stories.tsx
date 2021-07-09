@@ -1,5 +1,3 @@
-import * as serverResponse from 'assets/staticData/serverResponse';
-
 import { Meta, Story } from '@storybook/react';
 
 import { InputProps } from 'hooks/useValidator';
@@ -16,31 +14,27 @@ const Template: Story<InputProps> = (args) => <TextArea {...args} />;
 //Render TextArea if present in Response
 export const Default = Template.bind({});
 Default.args = {
-    propertyName: 'quote:description',
-    onChangeMethod: () => console.log('change'),
-    data: serverResponse.response
+    property: 'quote:description',
+    onChange: () => console.log('change')
 };
 
 //Disable TextArea if present in Patch Schema of Response
 export const Disabled = Template.bind({});
 Disabled.args = {
-    propertyName: 'quote:description',
-    onChangeMethod: () => console.log('change'),
-    data: serverResponse.disableResponse,
+    property: 'quote:description',
+    onChange: () => console.log('change')
 };
 
 //Show Prefilled Value in TextArea
 export const PrefilledTextarea = Template.bind({});
 PrefilledTextarea.args = {
-    propertyName: 'quote:description',
-    onChangeMethod: () => console.log('change'),
-    data: serverResponse.prefilled,
+    property: 'quote:description',
+    onChange: () => console.log('change')
 };
 
 //Show Error when Max Character Limit exceeds
 export const ErrorTextarea = Template.bind({});
 ErrorTextarea.args = {
-    propertyName: 'quote:description',
-    onChangeMethod: () => console.log('change'),
-    data: serverResponse.errorResponse,
+    property: 'quote:description',
+    onChange: () => console.log('change')
 };

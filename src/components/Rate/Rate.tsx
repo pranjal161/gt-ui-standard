@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from 'components/TextField/TextField';
 import {UpDownArrow} from 'assets/svg';
+import { getLink } from 'utils/functions';
 import {makeStyles} from '@material-ui/core/styles';
 
 // import TextField from 'components/TextField/TextField';
@@ -37,21 +38,21 @@ const useStyles = makeStyles(() => ({
         }
     }
 }));
-const Rate = (props: { property: string, hRef: string, response: any, icon?: Boolean, list?:any }) => {
+const Rate = (props: { property: string, response: any, icon?: Boolean, list?:any }) => {
     const classes: any = useStyles();
+    const hRef = props.response && getLink(props.response, 'self');
     const onChange = (newValue: string) => {
         console.log(newValue);
     };
 
     return (<div className={classes.root}>
         <TextField
-            hRef={props.hRef}
-            onChangeMethod={onChange}
-            propertyName={props.property}
+            hRef={hRef}
+            onChange={onChange}
+            property={props.property}
             type="text"
             size="small"
             list={props.list}
-            data={props.response}
         />
         {/* <DxcInput
             value={inputValue}
