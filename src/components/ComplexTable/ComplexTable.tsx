@@ -1,4 +1,5 @@
 import { DxcCheckbox, DxcRadio, DxcTable } from '@dxc-technology/halstack-react';
+import { getDescriptionValue, getDescriptionValueFromList } from 'utils/functions';
 
 import Paginator from 'components/Paginator/Paginator';
 import React from 'react';
@@ -7,30 +8,94 @@ import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
 export interface ComplexTableHeaderProps {
+
+    /**
+     * Label for each column of the Table
+     */
     title: string
 }
 
 export interface ComplexTableColumnItemProps {
+
+    /**
+     * Custom Component to get rendered in any column of each row
+     */
     component?: any,
+
+    /**
+     * Key name of the response data that you want to get key's value from and show its value in column of each row
+     */
     valueKey: any,
+
+    /**
+     * If data for key that was specified in valueKey should be fetched from list whose name is specified in ComplexTableRowItemProps
+     */
     list?: boolean,
-    hRefKey?: boolean
+
+    /**
+     * If data for key that was specified in valueKey should be fetched from response of hRefKey whose name is specified in ComplexTableRowItemProps
+     */
+    hRefKey?: boolean,
+
+    /**
+     * Possible values: text | currency | percent | decimal | number | date
+     */
+    format?: string,
 }
 
 export interface ComplexTableRowItemProps {
+
+    /**
+     * Name of the key to get hRef for calling the response for each row of the table
+     */
     hRefKey: string,
+
+    /**
+     * Name of the key to get list(array of data for each row)
+     */
     list?: string
 }
 
 export interface ComplexTableProps {
+
+    /**
+     * Table headers
+     */
     headers: Array<ComplexTableHeaderProps>,
+
+    /**
+     * For column wise data
+     */
     columns: Array<ComplexTableColumnItemProps>,
+
+    /**
+     * For row wise data
+     */
     rowExtraData?: ComplexTableRowItemProps,
+
+    /**
+     * hRef required for Pagination
+     */
     hRef?: string,
+
+    /**
+     * Response of the request
+     */
     data?: any,
+
+    /**
+     * To show selection radio or checkbox or nothing
+     */
     selectionMode?: 'one' | 'multiple' | 'none',
+
+    /**
+     * To get the selected list(array) after selection
+     */
     onSelectionSubmit?: Function,
-    disabledRow?: Function,
+
+    /**
+     * Items per page 
+     */
     itemsPerPage?: number
 }
 
@@ -110,10 +175,22 @@ const SelectionOption = React.memo((props: { selectionMode: any, value: any, onC
 ))
 SelectionOption.displayName = 'SelectionOption'
 
+const FormatColumnValue = (props: { property: string, value: any, data: any, list?: string, format?: undefined | string}) => {
+    const { property, data, value, format } = props;
+    let columnValue = value;
+    if (props.list) {
+        columnValue = getDescriptionValueFromList(value, property, data, props.list, format);
+    } 
+    else {
+        columnValue = getDescriptionValue(value, property, data, format);
+    }
+
+    return <>{columnValue}</>;
+}
+
 const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnItemProps>, row: any, rowExtraData: any, selectionMode: any, onClick: Function, selected: Boolean, data: any }) => {
     const hRef = props.rowExtraData.hRefKey && props.row[props.rowExtraData.hRefKey]
     const [rowResponse, loading] = useResponse(hRef);
-    // const response = hRef ? rowResponse : props.row
     const classes: any = useStyles();
 
     const SelectionColumn = ({ value }: any) => <SelectionOption selectionMode={props.selectionMode} value={value}
@@ -129,6 +206,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                     <>{props.columns && props.columns.map((column: ComplexTableColumnItemProps, index: number) => {
                         const ColumnComponent = column.component;
                         const columnResponse = column.list ? { ...props.row, listName: props.rowExtraData.list } : column.hRefKey ? rowResponse : props.data;
+                        const columnData = column.list ? columnResponse : columnResponse.data;
                         const cellValue = ColumnComponent ?
                             <ColumnComponent
                                 key={index}
@@ -136,8 +214,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                                 response={props.data}
                                 list={columnResponse}
                                 icon={false} /> :
-                            column.list ? columnResponse[column.valueKey] :
-                                columnResponse.data[column.valueKey]
+                            <FormatColumnValue data={props.data} value={columnData[column.valueKey]} property={column.valueKey} list={props.rowExtraData.list} format={column.format} />
                         
                         return (
                             <td key={index}>
