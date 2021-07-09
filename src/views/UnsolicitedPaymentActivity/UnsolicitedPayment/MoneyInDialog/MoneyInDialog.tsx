@@ -13,12 +13,6 @@ import { useTranslation } from 'react-i18next';
 export interface MoneyInDialogProps {
 
     /**
-        * open
-        * @description  React state to define if dialog is open.
-    */
-    open: boolean;
-
-    /**
         * onClose
         * @description  Function to close the dialog.
     */
@@ -65,15 +59,13 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const { t } = useTranslation();
     const { validateStep, canChangeStep } = useStep();
     const {
-        open,
         onClose,
         hRef,
         isEdit,
         payerURI,
         amountUP
-    } = props
-
-    const [formData, setFormData]: [any, Function] = React.useState({});
+    } = props;
+    
     const [response] = useResponse(hRef);
 
     const addMoney = async () => {
@@ -87,53 +79,19 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
         else {
             scrollIntoView(inputErrors[0])
         }
-        // validateStep().then((inputErrors:any) => {
-        //     if (inputErrors.length === 0) {
-        //         onClose('UPPatch', inputErrors);
-        //     }
-        //     else{
-        //         //We scroll to view the first error
-        //         scrollIntoView(inputErrors[0])
-        //     }
-        // })
     };
-
-    const getFormData: Function = () => {
-        try {
-            if (response) {
-                const depositAccountURI = getLink(response.data, 'money_in:deposit_bank_account');
-                setFormData({
-                    ...formData,
-                    'money_in:deposit_bank_account': depositAccountURI,
-                    'operation:currency_code': response.data['operation:currency_code'],
-                    'operation:amount': response.data['operation:amount'],
-                    'money_in:payment_type': response.data['money_in:payment_type']
-                });
-            }
-
-        }
-        catch (err) {
-            return err;
-        }
-    }
-
-    React.useEffect(() => {
-        if (response) {
-            getFormData();
-        }
-    }, [response])
 
     return (
         <div className={classes.container}>
             <Dialog
-                open={open}
+                open={true}
                 maxWidth="md"
                 fullWidth={false}
                 title={t('money_in')}
                 content={<DialogContent
-                    formData={response && formData}
+                    // formData={response && formData}
                     moneyInData={response && response.data}
-                    setFormData={setFormData}
+                    // setFormData={setFormData}
                     payerURI={payerURI}
                     amountUP={amountUP}
                     depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}

@@ -12,18 +12,6 @@ import { useTranslation } from 'react-i18next';
 export interface DialogContentProps {
 
     /**
-     * formData
-     * @description Object where I feed the value of the Money In form
-    */
-    formData: any
-
-    /**
-     * setFormData
-     * @description React setter for formData state
-    */
-    setFormData: Function
-
-    /**
     * payerURI
     * @description href of the contract's owner to display his name
     */
@@ -83,18 +71,12 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
     const { t } = useTranslation();
 
     const {
-        formData,
-        setFormData,
         payerURI,
         amountUP,
         moneyInData,
         depositAccountURI,
         hRef
     } = props
-
-    const onChange: Function = React.useCallback((inputName: string) => (newValue: any) => {
-        setFormData({ ...formData, [inputName]: newValue })
-    }, [setFormData, formData]);
 
     return (
         <>
@@ -163,7 +145,7 @@ const DialogContent: React.FC<DialogContentProps> = (props: DialogContentProps) 
                                     property="money_in_administrator"
                                 />
                             </div>
-                            <DepositAccountInput href={depositAccountURI} formData={formData} onChange={onChange} />
+                            <DepositAccountInput href={depositAccountURI}/>
                         </div>
                         <div className={classes.category2 + ' mt-4'}>Payment type Details</div>
                         <div className="row w-100">

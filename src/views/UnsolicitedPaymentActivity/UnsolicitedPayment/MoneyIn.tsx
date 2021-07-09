@@ -53,12 +53,6 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
         setIsEdit(false);
     }
 
-    // const onClose = () => {
-    //     // setMoneyInHRef(getLink(response.data, 'cscaia:money_in'));
-    //     setIsOpen(false);
-    //     setIsEdit(false);
-    // }
-
     const onEdit = (hRef: string) => {
         setIsEdit(true);
         console.log('onEdit:', hRef)
@@ -96,7 +90,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
                     {
                         isOpen ?
                             <DialogActivityStep code={'up_create_money_in'}>
-                                <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
+                                <MoneyInDialog onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
                             </DialogActivityStep>
                             :
                             <div className={classes.avoidMovement} />
