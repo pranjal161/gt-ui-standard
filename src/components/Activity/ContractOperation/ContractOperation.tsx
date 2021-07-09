@@ -111,8 +111,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
                         {activityResponse &&
                         <DateInput property="date_effect"
                             hRef={hRef}
-                            onChange={(value: any) => patchDate(value, 'date_effect')}
-                            data={activityResponse.data}/>}
+                            onChange={(value: any) => patchDate(value, 'date_effect')} />}
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}

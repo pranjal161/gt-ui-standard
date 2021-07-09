@@ -38,6 +38,7 @@ const GeneralInfo = ({hRef}: any) => {
                     <TextField
                         hRef={hRef}
                         property="operation:amount"
+                        immediatePatch={true}
                     />
                 </div>
                 <div className="col-4">
@@ -81,9 +82,8 @@ const GeneralInfo = ({hRef}: any) => {
                 <div className="col-4 pt-3">
                     <DateInput
                         hRef={hRef}
-                        data={response.data}
                         property="operation:signature_date"
-                        onChange={(value: any) => patchValue(value, 'operation:signature_date')}
+                        immediatePatch={true}
                     />
                 </div>
             </div>

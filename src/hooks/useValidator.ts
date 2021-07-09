@@ -20,7 +20,7 @@ export interface Field {
         max: number,
         visible: boolean,
         disabled: boolean,
-        immediatePatch: [boolean, string | undefined],
+        immediatePatch: boolean | undefined,
         required: boolean,
         minLength: number,
         maxLength: number,
@@ -40,7 +40,8 @@ export interface InputProps {
     context?: string,
     i18nOptions?: any,
     type?: string, 
-    onChange?: any, 
+    onChange?: any,
+    immediatePatch?:boolean | undefined, 
     list?: any,
     size?:string,
     loading?: boolean
@@ -53,8 +54,8 @@ export interface ErrorField {
 
 const useValidator = () => {
 
-    const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any) => {
-        const [editable, immediatePatch] = isFieldEditable(data, propertyName, list)
+    const FieldWrapper = useCallback ( ( data: any, propertyName: string, type?: string, list?: any, immediatePatch?:boolean) => {
+        const [ editable ] = isFieldEditable(data, propertyName, list)
 
         let field: Field = {
             id: createId(data, propertyName),
@@ -62,7 +63,7 @@ const useValidator = () => {
             max: getMaxValue(data, propertyName, list),
             visible: isFieldVisible(data, propertyName, list),
             disabled: !editable,
-            immediatePatch,
+            immediatePatch: immediatePatch,
             required: isFieldRequired(data, propertyName),
             minLength: getMinLength(data, propertyName, list),
             maxLength: getMaxLength(data, propertyName, list),
