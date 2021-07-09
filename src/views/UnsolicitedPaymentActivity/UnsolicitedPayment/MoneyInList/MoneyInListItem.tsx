@@ -53,9 +53,6 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
 
     const [response] = useResponse(hRef);
 
-    React.useEffect(() => {
-        console.log(response)
-    }, [response])
     const IsEditable: Function = (res: any) => {
         if (hasMethodInOptions(res.data, 'PATCH')) {
             return true;
@@ -66,13 +63,13 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     }
 
     return (
-        <tr>
+        <tr data-testid="money-item-container">
 
             {
                 response &&
                 columns.map((item: any, key: number) => (
                     item.type && item.property ?
-                        <td className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                        <td data-testid="test-content" className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
                         item.property ?
                             <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
                             :

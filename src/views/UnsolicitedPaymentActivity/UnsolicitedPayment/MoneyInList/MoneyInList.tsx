@@ -72,7 +72,7 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
     }
 
     return (
-        <div className={classes.container}>
+        <div className={classes.container} data-testid="money-list-container">
             <DxcTable>
                 <thead>
                     <tr>
