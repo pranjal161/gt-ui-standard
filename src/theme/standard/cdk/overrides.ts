@@ -80,8 +80,8 @@ const overrides = {
         checkedBaseColor: palette.primary.main, // switch's checked base color theme input
     },
     table: {
-        baseColor: palette.primary.main, // table's base color theme input
-        fontColor: palette.background.paper, // table's font color theme input
+        baseColor: palette.project.table.header.background, // table's base color theme input
+        fontColor: palette.project.table.header.fontColor, // table's font color theme input
     },
     tabs: {
         baseColor: palette.primary.main, // tabs' base color theme input

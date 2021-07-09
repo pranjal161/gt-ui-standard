@@ -53,15 +53,15 @@ const IconContainer: React.FC<IconContainerProps> = (props: IconContainerProps) 
     } = props
 
     return (
-        <div className={classes.container}>
+        <div className={classes.container} data-testid="icon-container">
             {
                 onEdit &&
-                <span className={classes.editIcon} onClick={onEdit}>
+                <span className={classes.editIcon} onClick={onEdit} data-testid="edit-icon">
                     <PencilIcon />
                 </span>
             }
 
-            <span className={classes.deleteIcon} onClick={onDelete}>
+            <span className={classes.deleteIcon} onClick={onDelete} data-testid="delete-icon">
                 <DeleteIcon />
             </span>
         </div>
