@@ -184,7 +184,7 @@ const AIASlice = createSlice({
         },
         aiaStepSetInputDataToPatch(state: any, action: any) {
             {
-                const {baId, hRef, property, value} = action.payload
+                const {baId, hRef, property, dataToPatch} = action.payload
                 const currentStep = state[baId].steps.current
 
                 if (!state[baId].steps[currentStep])
@@ -193,7 +193,7 @@ const AIASlice = createSlice({
                 if (!state[baId].steps[currentStep][hRef])
                     state[baId].steps[currentStep][hRef] = {}
 
-                state[baId].steps[currentStep][hRef][property].dataToPatch = value
+                state[baId].steps[currentStep][hRef][property].dataToPatch = dataToPatch.value
 
                 return state;
             }
