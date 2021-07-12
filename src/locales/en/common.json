@@ -55,6 +55,7 @@
   "preferredAddressLabel": "Preferred Address",
   "preferredContactLabel": "Contact",
   "_NEXT_BUTTON" : "Next",
+  "_VALIDATE_BUTTON" : "Validate",
   "operation_list_unsolicited_payment" : "Operation ({{count}})",
   "operation_list_unsolicited_payment_plural" : "Operations ({{count}})",
 
@@ -151,6 +152,7 @@
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
   "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
+  "_VALIDATION" : "Validation",
   "amount_to_pay": "Amount to pay",
   "payment_amount": "Payment Amount",
   "currency": "Currrency",

@@ -103,6 +103,9 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
 
     const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
 
+    const TitleOfNextValidateButton = currentStepConfig && currentStepConfig[0].isValidationStep ?
+        t('common:_VALIDATE_BUTTON'):t('common:_NEXT_BUTTON')
+
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
@@ -123,7 +126,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
                         {CurrentStep}
 
                         <div className="m-2 p-1" style={{float: 'right'}}>
-                            <Button onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/>
+                            <Button onClick={() => nextStep(currentStep + 1)} title={TitleOfNextValidateButton}/>
                         </div>
                     </WithScroll>
                 </div>

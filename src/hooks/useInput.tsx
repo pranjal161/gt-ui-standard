@@ -67,7 +67,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
     const [validationResult, setValidationResult]: any = useState({valid: true, error: undefined});
 
     useEffect(() => {
-        if ((value !== undefined || value !== null) && response && response.data) {
+        if ((value === undefined || value === null) && response && response.data) {
             const field: Field = fieldWrapper(response.data, property, type, list, immediatePatch);
             setField(field)
             _setValue(field.value)
