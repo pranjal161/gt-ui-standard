@@ -1,9 +1,12 @@
 /* eslint-disable react/jsx-key */
-import React, {useCallback} from 'react';
+
+import React, { useCallback } from 'react';
+
+import ControlDataList from './ControlDataList';
 import LabelInBlock from 'components/LabelInBlock/LabelInBlock';
 import SelectInput from 'components/SelectInput/SelectInput';
-import {getLink} from 'utils/functions';
-import {makeStyles} from '@material-ui/core/styles';
+import { getLink } from 'utils/functions';
+import { makeStyles } from '@material-ui/core/styles';
 import useResponse from 'hooks/useResponse';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,12 +42,12 @@ export interface OperationInfoSheetProps {
  * @param {OperationInfoSheetsProps} hRef as a operation info sheet
  * @return {React.Component} its detail
  */
-const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: OperationInfoSheetProps) => {
+const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({ hRef }: OperationInfoSheetProps) => {
     const classes = useStyles()
     const [response, loading] = useResponse(hRef)
-    const payerHRef = response && getLink(response.data, 'info_sheet_operation:payer_person')
+    const payerHRef = response && getLink(response.data, 'info_sheet_operation:payer_person');
 
-    const RowProperties = useCallback(({value}: any) => (
+    const RowProperties = useCallback(({ value }: any) => (
         <div className="row mt-4 mb-4">
             {value.map((component: any, index: number) => <div key={index} className="col-4">
                 {component}
@@ -89,26 +92,29 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                     </div>
                     <div className={classes.subSectionContent}>
                         {response &&
-                        <>
-                            <RowProperties value={[
-                                <SelectInput
-                                    hRef={hRef}
-                                    property={'info_sheet_operation:fund_origin'}/>,
-                            ]}/>
-                            <RowProperties value={[
-                                <SelectInput
-                                    hRef={hRef}
-                                    property={'info_sheet_operation:consistent_operation'}/>,
-                                <SelectInput
-                                    hRef={hRef}
-                                    property={'info_sheet_operation:atypical_operation'}/>,
-                                <SelectInput
-                                    hRef={hRef}
-                                    property={'info_sheet_operation:operation_motive'}/>,
-                            ]}/>
-                        </>
+                            <>
+                                <RowProperties value={[
+                                    <SelectInput
+                                        hRef={hRef}
+                                        property={'info_sheet_operation:fund_origin'} />,
+                                ]} />
+                                <RowProperties value={[
+                                    <SelectInput
+                                        hRef={hRef}
+                                        property={'info_sheet_operation:consistent_operation'} />,
+                                    <SelectInput
+                                        hRef={hRef}
+                                        property={'info_sheet_operation:atypical_operation'} />,
+                                    <SelectInput
+                                        hRef={hRef}
+                                        property={'info_sheet_operation:operation_motive'} />,
+                                ]} />
+                            </>
                         }
 
+                    </div>
+                    <div>
+                        <ControlDataList hRef={hRef} />
                     </div>
                 </div>
             </div>
