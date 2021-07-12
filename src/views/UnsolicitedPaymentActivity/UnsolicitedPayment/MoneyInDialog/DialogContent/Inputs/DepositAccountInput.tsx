@@ -3,27 +3,13 @@ import React from 'react';
 import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
-// import { getActivities } from 'utils/functions';
-
 export interface DepositAccountInputProps {
 
     /**
        * href
        * @description href of the deposit account to display his value
        */
-    href: string
-
-    /**
-   * formData
-   * @description Object where I feed the value of the Money In form
-  */
-    formData: any
-
-    /**
-   * onChange
-   * @description Function to change the value of the input
-  */
-    onChange: Function
+    hRef: string
 }
 
 /**
@@ -34,12 +20,10 @@ export interface DepositAccountInputProps {
 const DepositAccountInput: React.FC<DepositAccountInputProps> = (props: DepositAccountInputProps) => {
     const { t } = useTranslation();
     const {
-        href,
-        formData,
-        onChange
+        hRef,
     } = props
 
-    const [response] = useResponse(href);
+    const [response] = useResponse(hRef);
     const [bankAccountList, setBankAccountList] = React.useState<any>([])
 
     React.useEffect(() => {
@@ -55,10 +39,8 @@ const DepositAccountInput: React.FC<DepositAccountInputProps> = (props: DepositA
         <div className="col-4 mt-4">
             <DxcSelect
                 options={response ? bankAccountList : [{value: '', label: ''}]}
-                onChange={onChange('money_in:deposit_bank_account')}
-                value={formData['money_in:deposit_bank_account']}
+                value={response ? response.data._links.self.href : ''}
                 label={t('deposit_account')}
-                onChangeMethod={onChange('money_in:deposit_bank_account')}
             />
         </div>
     )

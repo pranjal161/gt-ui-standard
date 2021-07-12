@@ -6,18 +6,11 @@ import DialogContent from './DialogContent/DialogContent';
 import React from 'react';
 import { getLink } from 'utils/functions';
 import { scrollIntoView } from 'utils/system';
-import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
 import { useTranslation } from 'react-i18next';
 
 export interface MoneyInDialogProps {
-
-    /**
-        * open
-        * @description  React state to define if dialog is open.
-    */
-    open: boolean;
 
     /**
         * onClose
@@ -64,77 +57,60 @@ const useStyles = makeStyles((theme: Theme) => ({
 const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
-    const { patch } = useAia();
-    const { canValidateStep } = useStep();
+    const { validateStep } = useStep();
     const {
-        open,
         onClose,
         hRef,
         isEdit,
         payerURI,
         amountUP
-    } = props
+    } = props;
 
-    const [formData, setFormData]: [any, Function] = React.useState({});
     const [response] = useResponse(hRef);
 
-    const addMoney = async () => {
-        const res = await patch(hRef, formData);
-        const inputErrors = canValidateStep()
-        console.log('inputErrors', inputErrors)
+    // const addMoney = async () => {
+    //     const inputErrors = canChangeStep()
+    //     console.log('inputErrors', inputErrors);
 
-        if (inputErrors.length === 0) {
-            onClose('UPPatch', res);
-        }
-        else {
-            //We scroll to view the first error
-            scrollIntoView(inputErrors[0])
-        }
-    };
+    //     if (inputErrors.length === 0) {
+    //         await validateStep();
+    //         onClose('PATCH', response);
+    //     }
+    //     else {
+    //         scrollIntoView(inputErrors[0])
+    //     }
+    // };
 
-    const getFormData: Function = () => {
-        try {
-            if (response) {
-                const depositAccountURI = getLink(response.data, 'money_in:deposit_bank_account');
-                setFormData({
-                    ...formData,
-                    'money_in:deposit_bank_account': depositAccountURI,
-                    'operation:currency_code': response.data['operation:currency_code'],
-                    'operation:amount': response.data['operation:amount'],
-                    'money_in:payment_type': response.data['money_in:payment_type']
-                });
+    const addMoney = () => {
+        validateStep().then((inputErrors: any) => {
+            if (inputErrors.length === 0) {
+                onClose('UPPatch', inputErrors);
             }
-
-        }
-        catch (err) {
-            return err;
-        }
-    }
-
-    React.useEffect(() => {
-        if (response) {
-            getFormData();
-        }
-    }, [response])
+            else {
+                //We scroll to view the first error
+                scrollIntoView(inputErrors[0])
+            }
+        })
+    };
 
     return (
         <div className={classes.container}>
-            <Dialog
-                open={open}
-                maxWidth="md"
-                fullWidth={false}
-                title={t('money_in')}
-                content={<DialogContent
-                    formData={response && formData}
-                    moneyInData={response && response.data}
-                    setFormData={setFormData}
-                    payerURI={payerURI}
-                    amountUP={amountUP}
-                    depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}
-                    hRef={hRef}
-                />
-                }
-                actions={<DialogActions onClose={onClose} addMoney={addMoney} isEdit={isEdit} />} />
+            {
+                <Dialog
+                    open={true}
+                    maxWidth="md"
+                    fullWidth={false}
+                    title={t('money_in')}
+                    content={response && <DialogContent
+                        payerURI={payerURI}
+                        amountUP={amountUP}
+                        depositAccountURI={getLink(response?.data, 'money_in:deposit_bank_account')}
+                        hRef={hRef}
+                    />
+                    }
+                    actions={<DialogActions onClose={onClose} addMoney={addMoney} isEdit={isEdit} />} />
+            }
+
         </div>
     )
 }
