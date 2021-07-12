@@ -28,7 +28,9 @@ export interface ContentListProps {
 const ContentList = ({items, onClick}: any) => items.map(
     (item: any) => <LabelInline key={item.id}
         property={item.id}
-        hRef={item.hRef}
+        hRef={item.hRef} 
+        response={item.response}
+        loading={item.loading}
         styleType={item.styleType}
         onClick={() => onClick(item)}
     />)

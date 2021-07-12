@@ -6,15 +6,15 @@ import useResponse from 'hooks/useResponse';
 import {useTranslation} from 'react-i18next';
 
 const ContractSideBar = ({hRef}: any) => {
-    const [response] = useResponse(hRef);
+    const [response, loading] = useResponse(hRef);
     const {t} = useTranslation()
     const contractGeneralItems: PanelSectionItem[] = [
-        {hRef, id: 'contract:number', styleType: ['text']},
-        {hRef, id: 'contract:product_identifier', styleType: ['text']},
-        {hRef, id: 'contract:product_type', styleType: ['text']},
-        {hRef, id: 'contract:status', styleType: ['text']},
-        {hRef, id: 'contract:start_date', styleType: ['date']},
-        {hRef, id: 'contract:currency_code', styleType: ['text']}
+        {hRef, id: 'contract:number', styleType: ['text'], response, loading},
+        {hRef, id: 'contract:product_identifier', styleType: ['text'], response, loading},
+        {hRef, id: 'contract:product_type', styleType: ['text'], response, loading},
+        {hRef, id: 'contract:status', styleType: ['text'], response, loading},
+        {hRef, id: 'contract:start_date', styleType: ['date'], response, loading},
+        {hRef, id: 'contract:currency_code', styleType: ['text'], response, loading},
     ];
 
     const ContractGeneralSection = ({hRef}: any) => <PanelSection title={'Detail'}
