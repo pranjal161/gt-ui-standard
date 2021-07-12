@@ -16,11 +16,11 @@ const ScheduledPayment = (props:any) => {
     const item = scheduledPaymentListRes && scheduledPaymentListRes.data && scheduledPaymentListRes.data['_links'].item && scheduledPaymentListRes.data['_links'].item.href;
     const [scheduledPayment, loading]: any = useResponse(item);
 
-    const Items: PanelSectionItem[] = [
-        { id: 'billing:amount', styleType: ['currency'], hRef },
-        { id: 'billing:payment_type', styleType: ['text'], hRef },
-        { id: 'billing:frequency', styleType: ['text'], hRef },
-        { id: 'billing:next_due_date', styleType: ['date'], hRef }
+    const Items: PanelSectionItem[] = scheduledPayment && [
+        { id: 'billing:amount', styleType: ['currency'], hRef , response:scheduledPayment, loading},,
+        { id: 'billing:payment_type', styleType: ['text'], hRef , response:scheduledPayment, loading},,
+        { id: 'billing:frequency', styleType: ['text'], hRef , response:scheduledPayment, loading},,
+        { id: 'billing:next_due_date', styleType: ['date'], hRef , response:scheduledPayment, loading},
     ];
 
     return (
