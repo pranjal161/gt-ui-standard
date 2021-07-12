@@ -128,7 +128,7 @@ export const getDescriptionValueFromList = (value: any, id: string, response: an
  * @return {string | undefined} formatted value | undefined
  */
 export const formatValue = (value: any, style?: string | undefined, option?: string) => {
-    if (!value)
+    if (value === undefined || value === null)
         return
 
     if (!style)
