@@ -41,7 +41,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const amountUP: number = response?.data['operation:amount'];
     const contractHRef: string = mainEntityHRef
 
-    const [moneyInHRef, setMoneyInHRef]: [any, Function] = React.useState();
+    const [moneyInHRef, setMoneyInHRef] = React.useState<any>();
 
     const onClose = async (name = 'default', response: any = false) => {
         if (name === 'UPPatch') {
@@ -62,10 +62,16 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef});
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);
+    }
+
+    const onDelete = async (hRef: string) => {
+        await post(hRef + '/cancel', {});
+        await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
+        setMoneyInHRef('');
     }
 
     return (
@@ -78,12 +84,12 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
             {
                 response &&
                 <>
-                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} unsolicitedPaymentHref={unsolicitedPaymentHref} />
+                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} onDelete={onDelete} />
 
                     {
                         isOpen ?
                             <DialogActivityStep code={'up_create_money_in'}>
-                                <MoneyInDialog open={isOpen} onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
+                                <MoneyInDialog onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
                             </DialogActivityStep>
                             :
                             <div className={classes.avoidMovement} />
