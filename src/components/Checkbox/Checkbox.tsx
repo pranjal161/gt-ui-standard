@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { DxcCheckbox } from '@dxc-technology/halstack-react';
 import { InputProps } from 'hooks/useValidator';
 import useInput from 'hooks/useInput';
 
 const Checkbox = (props: InputProps) => {
-    const { inputId, field, setValue } = useInput(props);
+    const { inputId, field, value, setValue } = useInput(props);
     
     // to handle yes/no API value alongwith true/false
     const checkValue = (fieldValue: any) => {
@@ -20,16 +20,7 @@ const Checkbox = (props: InputProps) => {
         return value;
     }
 
-    let value = checkValue(field.value);
-    const [checked, changeChecked] = useState<boolean>(value);
-    const onChange = (newValue: boolean) => {
-        setValue(newValue);
-    };
-
-    useEffect(() => {
-        let value = checkValue(field.value);
-        changeChecked(value);
-    }, [field]);
+    let checked = checkValue(value);
 
     return (
         <span id={inputId} hidden={!field.visible} data-testid={field.id}>
@@ -37,7 +28,7 @@ const Checkbox = (props: InputProps) => {
                 checked={checked}
                 required={field.required}
                 disabled={field.editable}
-                onChange={onChange}
+                onChange={setValue}
             />
         </span>
     )
