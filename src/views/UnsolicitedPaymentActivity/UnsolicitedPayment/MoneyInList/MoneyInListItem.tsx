@@ -1,8 +1,8 @@
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import { formatValue, getDescriptionFromOneOf, hasMethodInOptions } from 'utils/functions';
 
 import IconContainer from './IconContainer/IconContainer';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import useResponse from 'hooks/useResponse';
 
 export interface MoneyInListItemProps {
@@ -31,10 +31,11 @@ export interface MoneyInListItemProps {
             */
     onDelete: Function
 }
-const useStyles = makeStyles(() => ({
-    itemTable: {
-        // textAlign: 'left',
-    },
+
+const useStyles = makeStyles((theme: Theme) => ({
+    row: {
+        padding: `${theme.spacing(2)}px !important`
+    }
 }));
 
 /**
@@ -69,11 +70,11 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
                 response &&
                 columns.map((item: any, key: number) => (
                     item.type && item.property ?
-                        <td data-testid="test-content" className={classes.itemTable} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                        <td className={classes.row} data-testid="test-content" key={key}>{formatValue(response.data[item.property], item.type)}</td> :
                         item.property ?
-                            <td className={classes.itemTable} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
+                            <td className={classes.row} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
                             :
-                            <td key={key}>
+                            <td key={key} className={classes.row}>
                                 <IconContainer onDelete={() => onDelete(hRef)} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
                             </td>
                 ))

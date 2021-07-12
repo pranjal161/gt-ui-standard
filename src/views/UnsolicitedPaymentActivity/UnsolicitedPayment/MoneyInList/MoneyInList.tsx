@@ -63,7 +63,7 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
                 </thead>
                 <tbody>
                     {
-                        response &&
+                        response && response.data['operation:amount'] !== 0 &&
                         <MoneyInListItem hRef={moneyInHref ?? ''} columns={columns} onEdit={onEdit} onDelete={onDelete} />
                         // Multiple MoneyIns are not integrate, still need to see one UP with multiple money in to know the architecture
                         // it will look like following :
