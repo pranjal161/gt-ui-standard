@@ -43,14 +43,12 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const [moneyInHRef, setMoneyInHRef] = React.useState<any>();
 
-    const onClose = React.useCallback((name = 'default', response: any = false) => {
+    const onClose = React.useCallback((name = 'default') => {
+        if (name === 'UPPatch') {
+            patch(hRef, { 'cscaia:money_in': moneyInHRef });
+        }
         setIsOpen(false);
         setIsEdit(false);
-        if (name === 'UPPatch') {
-            if (response) {
-                patch(hRef, { 'cscaia:money_in': moneyInHRef });
-            }
-        }
     }, [hRef, moneyInHRef, patch])
 
     const onEdit = (hRef: string) => {
@@ -61,7 +59,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractHRef});
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);
@@ -72,11 +70,6 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
         await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
         setMoneyInHRef('');
     }
-
-    React.useEffect(() => {
-        console.log({response});
-
-    }, [response])
 
     return (
         <Section title="Payment" icon={<PaymentIcon />} actions={

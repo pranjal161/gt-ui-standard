@@ -71,7 +71,7 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const addMoney = () => {
         validateStep().then((inputErrors: any) => {
             if (inputErrors.length === 0) {
-                onClose('UPPatch', response);
+                onClose('UPPatch');
             }
             else {
                 //We scroll to view the first error
