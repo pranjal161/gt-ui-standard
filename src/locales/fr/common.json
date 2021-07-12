@@ -59,6 +59,7 @@
   "scheduledPaymentLabel_plural": "Paiements programmés",
   "preferredBankAccountLabel": "Compte bancaire préféré",
   "_NEXT_BUTTON" : "Suivant",
+  "_VALIDATE_BUTTON" : "Validate",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -153,6 +154,7 @@
   "_INFORMATION_SHEET": "Information clients",
   "_INVESTMENT_SPLIT": "Details des investissements",
   "_UNSOLICITED_PAYMENT": "Versement libre",
+  "_VALIDATION" : "Validation",
   "operation_list_unsolicited_payment" : "Opération : {{count}}",
   "operation_list_unsolicited_payment_plural" : "Opérations : {{count}}",
 
