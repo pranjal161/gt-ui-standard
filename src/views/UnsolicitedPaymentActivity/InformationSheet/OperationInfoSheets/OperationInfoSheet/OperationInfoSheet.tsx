@@ -41,7 +41,7 @@ export interface OperationInfoSheetProps {
  */
 const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: OperationInfoSheetProps) => {
     const classes = useStyles()
-    const [response] = useResponse(hRef)
+    const [response, loading] = useResponse(hRef)
     const payerHRef = response && getLink(response.data, 'info_sheet_operation:payer_person')
 
     const RowProperties = useCallback(({value}: any) => (
@@ -59,20 +59,27 @@ const OperationInfoSheet: React.FC<OperationInfoSheetProps> = ({hRef}: Operation
                 </div>
                 <div className={classes.subSectionContent}>
                     <RowProperties value={[
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_type'}/>,
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'}
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_type'} response={response}
+                            loading={loading}/>,
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'} response={response}
+                            loading={loading}
                             styleType={['currency']}/>,
-                        <LabelInBlock hRef={payerHRef} property={'person:display_id1'} context={'payer'}/>,
+                        <LabelInBlock hRef={payerHRef} property={'person:display_id1'} response={response}
+                            loading={loading} context={'payer'}/>,
                     ]}/>
                     <RowProperties value={[
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:start_date'}
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:start_date'} response={response}
+                            loading={loading}
                             styleType={['date']}/>,
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'}
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_amount'} response={response}
+                            loading={loading}
                             styleType={['currency']}/>,
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:tax_type_class'}/>,
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:tax_type_class'} response={response}
+                            loading={loading}/>,
                     ]}/>
                     <RowProperties value={[
-                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_date'}
+                        <LabelInBlock hRef={hRef} property={'info_sheet_operation:operation_date'} response={response}
+                            loading={loading}
                             styleType={['date']}/>
                     ]}/>
                 </div>

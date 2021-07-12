@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {formatValue, getDescriptionFromOneOf} from 'utils/functions';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import useResponse from 'hooks/useResponse';
 import {useTranslation} from 'react-i18next';
 
 export interface useLabelValueProps {
@@ -13,9 +12,19 @@ export interface useLabelValueProps {
     property: any
 
     /**
-     * hRef of the label
+     * hRef of the label, the fetch has to be done outside
      */
     hRef: any
+
+    /**
+     * response of the hRef, requitred
+     */
+    response : any
+
+    /**
+     * loading
+     */
+    loading : boolean
 
     /**
      * Style of the type + option
@@ -101,9 +110,8 @@ const Skeleton = React.memo(() => {
 })
 Skeleton.displayName = 'Skeleton'
 
-const useLabelValue = ({property, hRef, styleType, onClick, context}: useLabelValueProps) => {
+const useLabelValue = ({property, hRef, response, loading, styleType, onClick, context}: useLabelValueProps) => {
     const {t} = useTranslation();
-    const [response, loading] = useResponse(hRef)
 
     const getValue = useCallback(() => {
         if (response && response.data[property]) {

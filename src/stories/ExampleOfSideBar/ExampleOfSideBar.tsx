@@ -14,7 +14,7 @@ export interface ExampleOfSideBarProps {
     /**
      * To test loading skeleton
      */
-    loading?:boolean
+    loading?: boolean
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -45,16 +45,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const hRef='NP_to_define'
+const hRef = 'NP_to_define'
 
 const sectionItems: PanelSectionItem[] = [
-    {hRef, id: 'contract:number', styleType: ['text']},
-    {hRef, id: 'contract:product_identifier', styleType: ['text']},
-    {hRef, id: 'contract:product_type', styleType: ['text']},
-    {hRef, id: 'contract:status', styleType: ['text']},
-    {hRef, id: 'contract:start_date', styleType: ['date']},
-    {hRef, id: 'contract:amount', styleType: ['currency']},
-    {hRef, id: 'loan_account:total_amount_due', styleType: ['percent']}
+    {hRef, id: 'contract:number', styleType: ['text'], response:{}, loading:false},
+    {hRef, id: 'contract:product_identifier', styleType: ['text'], response:{}, loading:false},
+    {hRef, id: 'contract:product_type', styleType: ['text'], response:{}, loading:false},
+    {hRef, id: 'contract:status', styleType: ['text'], response:{}, loading:false},
+    {hRef, id: 'contract:start_date', styleType: ['date'], response:{}, loading:false},
+    {hRef, id: 'contract:amount', styleType: ['currency'], response:{}, loading:false},
+    {hRef, id: 'loan_account:total_amount_due', styleType: ['percent'], response:{}, loading:false},
 ]
 
 const ContentController = () => {
@@ -62,9 +62,11 @@ const ContentController = () => {
 
     const FirstSectionContent = () => <div className={classes.firstSectionContent}>{sectionItems.map(
         (item) => <LabelInline key={item.id}
-            property={item.id}
-            hRef
-            styleType={item.styleType}
+                               property={item.id}
+                               hRef
+                               response={{}}
+                               loading={false}
+                               styleType={item.styleType}
         />)}</div>
 
     return (<div className={classes.content}>
@@ -79,7 +81,7 @@ const controller = () => <ContentController/>
 const items = {
     contract:
         [
-            {title: 'Contract A', display:'Contract A', id: 'contractA', controller},
+            {title: 'Contract A', display: 'Contract A', id: 'contractA', controller},
             {title: 'Contract B', display: 'Contract B', id: 'contractB', controller},
             {title: 'Contract C', display: 'Contract B', id: 'contractC', controller}],
     person: [
@@ -91,7 +93,7 @@ const items = {
             {title: 'Ticket 1', display: 'Ticket 1', id: 'ticket1', controller}]
 }
 
-const ExampleOfSideBar:React.FC<ExampleOfSideBarProps> = ({loading=false}:ExampleOfSideBarProps) => {
+const ExampleOfSideBar: React.FC<ExampleOfSideBarProps> = ({loading = false}: ExampleOfSideBarProps) => {
     const classes = useStyles();
     const sidebarProps = useSidebar(items, {}, true)
     mockLoading = loading
