@@ -35,8 +35,6 @@ const DateInput = (props: InputProps) => {
         }
     }
 
-    console.log('value', value)
-
     return (
         <span id={inputId} hidden={!field.visible} data-testid={inputId}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
