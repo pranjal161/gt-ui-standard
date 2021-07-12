@@ -68,23 +68,10 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
 
     const [response] = useResponse(hRef);
 
-    // const addMoney = async () => {
-    //     const inputErrors = canChangeStep()
-    //     console.log('inputErrors', inputErrors);
-
-    //     if (inputErrors.length === 0) {
-    //         await validateStep();
-    //         onClose('PATCH', response);
-    //     }
-    //     else {
-    //         scrollIntoView(inputErrors[0])
-    //     }
-    // };
-
     const addMoney = () => {
         validateStep().then((inputErrors: any) => {
             if (inputErrors.length === 0) {
-                onClose('UPPatch', inputErrors);
+                onClose('UPPatch');
             }
             else {
                 //We scroll to view the first error

@@ -1,6 +1,5 @@
 import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import { getLink, isResponseConsistent } from 'utils/functions';
 
 import { APIConfig } from 'configs/apiConfig';
 import { ActivityProps } from 'components/Activity/Activity';
@@ -10,6 +9,7 @@ import MoneyInDialog from './MoneyInDialog/MoneyInDialog';
 import MoneyInList from './MoneyInList/MoneyInList';
 import React from 'react';
 import Section from 'components/Section/Section';
+import { getLink } from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
@@ -43,26 +43,23 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
 
     const [moneyInHRef, setMoneyInHRef] = React.useState<any>();
 
-    const onClose = async (name = 'default', response: any = false) => {
+    const onClose = React.useCallback((name = 'default') => {
         if (name === 'UPPatch') {
-            if (response && response.data && isResponseConsistent(response.data)) {
-                await patch(hRef, { 'cscaia:money_in': moneyInHRef });
-            }
+            patch(hRef, { 'cscaia:money_in': moneyInHRef });
         }
         setIsOpen(false);
         setIsEdit(false);
-    }
+    }, [hRef, moneyInHRef, patch])
 
     const onEdit = (hRef: string) => {
         setIsEdit(true);
-        console.log('onEdit:', hRef)
         setMoneyInHRef(hRef);
         setIsOpen(true);
     }
 
     const onCreate = async () => {
         const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
-        const res = await post(moneyInCollection, { 'operation:contract': contractHRef});
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
         setMoneyInHRef(getLink(res.data, 'self'));
 
         setIsOpen(true);
