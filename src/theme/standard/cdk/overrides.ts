@@ -16,7 +16,7 @@ const overrides = {
         textHoverFontColor: palette.project.button.textFont, // button's text hover font color theme input
     },
     checkbox: {
-        baseColor: palette.secondary.main, // checkbox's base color theme input
+        baseColor: palette.black, // checkbox's base color theme input
         checkColor: palette.secondary.contrastText, // checkbox's check color theme input
     },
     chip: {
