@@ -7,6 +7,7 @@ export let country: string
 
 export const allLanguages = ['en', 'fr']
 
+//This is the main entry point to change the language
 export const changeLanguageCountry = (lng?: string, cntry?: string) => {
     if (lng) {
         language = lng
