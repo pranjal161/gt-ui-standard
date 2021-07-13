@@ -62,6 +62,11 @@
   "preferredBankAccountLabel": "Compte bancaire préféré",
   "_NEXT_BUTTON" : "Suivant",
   "_VALIDATE_BUTTON" : "Validate",
+  "personPreviewGeneralInformation" : "Informations générales",
+  "age": "{{count}} an",
+  "age_plural": "{{count}} ans",
+  "duration_year": "{{count}} an",
+  "duration_year_plural": "{{count}} ans",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
