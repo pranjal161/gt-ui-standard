@@ -1,6 +1,6 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import {getStatusReport} from 'utils/functions';
 import useAia from 'hooks/useAia';
@@ -10,20 +10,16 @@ const useStep = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const {patch} = useAia()
-    const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
+    const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current, shallowEqual)
     const stepRessources = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
-        state.aia[baId].steps[currentStep])
+        state.aia[baId].steps[currentStep], shallowEqual)
 
     const baIdRessources = useSelector((state: any) => state.aia[baId] &&
-        state.aia[baId])
+        state.aia[baId], shallowEqual)
 
     const setStatus = useCallback(({hRef, property, status, message}: any) => {
         dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status: {value: status, message}}))
-    }, [baId, dispatch])
-
-    const setDataToPatch = useCallback(({hRef, property, value}: any) => {
-        dispatch(aiaReducer.aiaStepSetInputDataToPatch({baId, hRef, property, dataToPatch: {value}}))
     }, [baId, dispatch])
 
     const setCurentStep = useCallback((current: string) => {
@@ -255,7 +251,7 @@ const useStep = () => {
         return result
     }
 
-    return {currentStep, canChangeStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch, validateStep}
+    return {currentStep, canChangeStep, validate, getMessages, setStatus, setCurentStep, validateStep}
 }
 
 export default useStep;
