@@ -4,7 +4,7 @@ import useValidator, {Field} from 'hooks/useValidator';
 import useAia from 'hooks/useAia';
 import useBindInputToStep from 'hooks/useBindInputToStep';
 import useResponse from 'hooks/useResponse';
-import useStep from 'hooks/useStep';
+import useSetDataToPatch from 'hooks/useSetDataToPatch';
 import {useTranslation} from 'react-i18next';
 
 /**
@@ -59,7 +59,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
     const {t} = useTranslation();
     const {patch} = useAia();
     const [response, loading] = useResponse(hRef)
-    const {setDataToPatch} = useStep()
+    const {setDataToPatch} = useSetDataToPatch()
     const {FieldWrapper: fieldWrapper, Validation: validation} = useValidator();
     const {inputId, status, statusMessage} = useBindInputToStep({hRef, property})
     const [field, setField]: any = useState({})

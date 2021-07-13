@@ -22,10 +22,6 @@ const useStep = () => {
         dispatch(aiaReducer.aiaStepSetInputStatus({baId, hRef, property, status: {value: status, message}}))
     }, [baId, dispatch])
 
-    const setDataToPatch = useCallback(({hRef, property, value}: any) => {
-        dispatch(aiaReducer.aiaStepSetInputDataToPatch({baId, hRef, property, dataToPatch: {value}}))
-    }, [baId, dispatch])
-
     const setCurentStep = useCallback((current: string) => {
         dispatch(aiaReducer.aiaStepSetCurrent({baId, current}))
     }, [baId, dispatch])
@@ -255,7 +251,7 @@ const useStep = () => {
         return result
     }
 
-    return {currentStep, canChangeStep, validate, getMessages, setStatus, setCurentStep, setDataToPatch, validateStep}
+    return {currentStep, canChangeStep, validate, getMessages, setStatus, setCurentStep, validateStep}
 }
 
 export default useStep;
