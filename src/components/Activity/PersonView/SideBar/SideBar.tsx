@@ -48,7 +48,7 @@ const SideBar = (props: any) => {
 
     return (
         <>
-            <GlobalSideBar {...sidebarProps} {...{onOpenInNewTab, onOpenInNewWindow}}/>
+            <GlobalSideBar {...sidebarProps} {...{onOpenInNewTab, onOpenInNewWindow}} position={'left'}/>
         </>
     )
 }
