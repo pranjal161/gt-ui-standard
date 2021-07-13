@@ -1,6 +1,6 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useContext, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import baContext from 'context/baContext';
 import {uniqueId} from 'utils/system';
 
@@ -9,7 +9,7 @@ const useBindInputToStep = ({hRef, property}: any) => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const [inputId] = useState(uniqueId(property))
-    const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current)
+    const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current, shallowEqual)
     const [step, setStep] = useState(currentStep) //Important : Save the step when AddInput, it will be used when unmount.
     // It's prevent the effect of changing current step
 
@@ -19,10 +19,10 @@ const useBindInputToStep = ({hRef, property}: any) => {
         state.aia[baId].steps[currentStep][hRef] &&
         state.aia[baId].steps[currentStep][hRef][property] &&
         state.aia[baId].steps[currentStep][hRef][property].status &&
-        state.aia[baId].steps[currentStep][hRef][property].status.value)
+        state.aia[baId].steps[currentStep][hRef][property].status.value, shallowEqual)
 
     const statusMessage = useSelector((state: any) => status === 'error' &&
-        state.aia[baId].steps[currentStep][hRef][property].status.message)
+        state.aia[baId].steps[currentStep][hRef][property].status.message, shallowEqual)
 
     useEffect(() => {
         dispatch(aiaReducer.aiaStepAddInput({baId, hRef, property, step:currentStep, inputId}))
