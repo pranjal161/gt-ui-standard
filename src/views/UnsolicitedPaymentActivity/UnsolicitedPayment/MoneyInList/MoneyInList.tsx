@@ -78,4 +78,4 @@ const MoneyInList: React.FC<MoneyInListProps> = (props: MoneyInListProps) => {
     )
 }
 
-export default MoneyInList;
+export default React.memo(MoneyInList);

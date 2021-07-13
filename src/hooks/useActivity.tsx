@@ -1,6 +1,6 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useCallback, useContext} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import useConfigurations from 'hooks/useConfigurations';
 import {useTranslation} from 'react-i18next';
@@ -11,7 +11,7 @@ const useActivity = () => {
     const context = useContext(baContext)
     const baId: any = context.baId
     const {t} = useTranslation()
-    const activityProps = useSelector((state: any) => state.aia[baId] && state.aia[baId].props)
+    const activityProps = useSelector((state: any) => state.aia[baId] && state.aia[baId].props, shallowEqual)
     const configurations = activityProps && getActivityConf(activityProps.activityCode)
 
     const startActivity = useCallback((newActivityProps) => {
@@ -32,7 +32,6 @@ const useActivity = () => {
     , [t,configurations])
 
     return {
-        baId,
         startActivity,
         stopActivity,
         updateActivityProps,
