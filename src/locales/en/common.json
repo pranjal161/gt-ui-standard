@@ -182,5 +182,6 @@
   "start_date": "Start Date",
   "add_distributor": "Add Distributor",
   "search_distributor": "Search distributor",
-  "person/org": "Persons/Organisations"
+  "person/org": "Persons/Organisations",
+  "charge_management": "Charge Management"
 }
