@@ -61,7 +61,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
     const [response, loading] = useResponse(hRef)
     const {setDataToPatch} = useStep()
     const {FieldWrapper: fieldWrapper, Validation: validation} = useValidator();
-    const {inputId, status} = useBindInputToStep({hRef, property})
+    const {inputId, status, statusMessage} = useBindInputToStep({hRef, property})
     const [field, setField]: any = useState({})
     const [value, _setValue] = useState(undefined);
     const [validationResult, setValidationResult]: any = useState({valid: true, error: undefined});
@@ -96,7 +96,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
 
     const label = t(property, i18nOptions)
     const invalid = !validationResult.valid || status === 'error'
-    const errorMessage = validationResult.error || (status === 'error' && status.statusMessage)
+    const errorMessage = validationResult.error || (status === 'error' && statusMessage)
 
     return {value, setValue, loading, field, inputId, invalid, label, errorMessage}
 }

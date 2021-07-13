@@ -99,5 +99,5 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     )
 }
 
-export default MoneyIn;
+export default React.memo(MoneyIn);
 
