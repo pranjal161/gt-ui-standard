@@ -461,7 +461,7 @@ export const getTitle = (response: any): string | null => {
         return response._links['self'].title;
     }
     else {
-        return null;
+        return '';
     }
 }
 

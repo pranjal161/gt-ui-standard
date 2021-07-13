@@ -174,5 +174,6 @@
   "rate": "Rate",
   "start_date": "Start Date",
   "add_distributor": "Add Distributor",
-  "search_distributor": "Search distributor"
+  "search_distributor": "Search distributor",
+  "person/org": "Persons/Organisations"
 }
