@@ -133,6 +133,9 @@ const useStep = () => {
     const validateStep = async () => {
         let inputErrors: any = []
 
+        if (!stepRessources)
+            return []
+
         //We loop on all ressources used in the current step
         for (const item of Object.entries(stepRessources)) {
             const [hRef, boundInputs]:any = item
