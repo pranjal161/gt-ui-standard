@@ -16,6 +16,7 @@ const GeneralInfo = ({hRef}: any) => {
     const [response] = useResponse(hRef)
     const [isVisible, setIsVisible] = React.useState(false);
     const payerLink = response && getLink(response.data, 'premium:addressee_person');
+    const payerOrgLink = response && getLink(response.data, 'premium:addressee_organization');
 
     const {patch} = useAia();
 
@@ -46,7 +47,7 @@ const GeneralInfo = ({hRef}: any) => {
                         property="operation:payment_source"
                     />
                 </div>
-                <div className="d-flex col-4 pt-3">
+                {payerLink && <div className="d-flex col-4 pt-3">
                     <BindToStep hRef={hRef} property={'premium:addressee_person'}>
                         <div className="row">
                             <div className="col-9">
@@ -68,7 +69,31 @@ const GeneralInfo = ({hRef}: any) => {
                             />
                         </div>
                     </BindToStep>
-                </div>
+                </div>}
+                {payerOrgLink && <div className="d-flex col-4 pt-3">
+                    <BindToStep hRef={hRef} property={'premium:addressee_organization'}>
+                        <div className="row">
+                            <div className="col-9">
+                                <TextField
+                                    hRef={payerOrgLink}
+                                    i18nOptions={{context: 'payer'}}
+                                    property="organization:display_id1"
+                                />
+                            </div>
+                            <div className="col-3 pt-3 ml-3">
+                                <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
+                                    <PencilIcon size={24}/>
+                                </IconButton>
+                            </div>
+                            {/* To add organization search for payer as organization: IMC00000585 */}
+                            <EditPayer
+                                isVisible={isVisible}
+                                setIsVisible={setIsVisible}
+                                onChange={(person: any) => patchPayer(person)}
+                            />
+                        </div>
+                    </BindToStep>
+                </div>}
                 <div className="col-4 pt-3">
                     <DateInput
                         hRef={hRef}

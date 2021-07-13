@@ -12,7 +12,7 @@ export interface AccordionProps {
     /**
      * Title
      */
-    title: string;
+    title: string | undefined;
 
     /**
      * It can be an icon or component to add in front of title
