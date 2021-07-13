@@ -8,6 +8,7 @@ import SearchView from 'components/Activity/SearchView/SearchView';
 import SideBarOfContractOperation from 'components/Activity/ContractOperation/SideBar/SideBar';
 import SideBarOfContractView from 'components/Activity/ContractView/SideBar/SideBar';
 import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
+import Validation from 'views/UnsolicitedPaymentActivity/Validation/Validation';
 
 export const configs: any = {
     activities: {
@@ -48,7 +49,18 @@ export const configs: any = {
                 fulfilled: true,
                 error: true,
                 component: InformationSheet
-            }]
+            },
+            {
+                id: 3,
+                code: 'validation',
+                label: 'common:_VALIDATION',
+                required: true,
+                fulfilled: true,
+                error: true,
+                isValidationStep : true,
+                component: Validation
+            }
+            ]
         },
         search: {
             structure: SearchView,
