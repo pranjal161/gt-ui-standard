@@ -49,7 +49,7 @@ const GeneralInfo = (props: { hRef: string }) => {
                             </IconButton>
                         </div>
                         <Dialog
-                            icon={<HelpIcon size={24} />}
+                            icon={<HelpIcon size={30} />}
                             title={t('common:charge_management')}
                             content={<ChargeManagement hRef={hRef} />}
                             onClose={() => setChargesVisible(false)}
