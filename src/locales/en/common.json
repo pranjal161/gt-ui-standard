@@ -60,6 +60,11 @@
   "_VALIDATE_BUTTON" : "Validate",
   "operation_list_unsolicited_payment" : "Operation ({{count}})",
   "operation_list_unsolicited_payment_plural" : "Operations ({{count}})",
+  "personPreviewGeneralInformation" : "General information",
+  "age": "{{count}} year old",
+  "age_plural": "{{count}} years old",
+  "duration_year": "{{count}} year old",
+  "duration_year_plural": "{{count}} years old",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
