@@ -53,7 +53,7 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
     } = props
 
     const [response] = useResponse(hRef);
-    
+
     const IsEditable: Function = (res: any) => {
         if (hasMethodInOptions(res.data, 'PATCH')) {
             return true;
@@ -70,9 +70,9 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
                 response &&
                 columns.map((item: any, key: number) => (
                     item.type && item.property ?
-                        <td className={classes.row} data-testid="test-content" key={key}>{formatValue(response.data[item.property], item.type)}</td> :
+                        <td className={classes.row} data-testid={item.property} key={key}>{formatValue(response.data[item.property], item.type)}</td> :
                         item.property ?
-                            <td className={classes.row} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
+                            <td className={classes.row} data-testid={item.property} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
                             :
                             <td key={key} className={classes.row}>
                                 <IconContainer onDelete={() => onDelete(hRef)} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
