@@ -80,7 +80,7 @@ const GeneralInfo = (props: { hRef: string }) => {
                                     property="person:display_id1"
                                 />
                             </div>
-                            <div className="col-3 pt-3 ml-3">
+                            <div className="col-3 pt-3 ml-3 px-1">
                                 <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
                                     <PencilIcon size={24} />
                                 </IconButton>
