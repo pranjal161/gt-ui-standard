@@ -547,14 +547,14 @@ export const mockData: any =
                     'oneOf': [
                         {
                             'description': 'language:en-GB',
-                            'title': 'Contract: "Farmers"',
+                            'title': 'Contract: Farmers',
                             'enum': [
                                 'agriculteurs'
                             ]
                         },
                         {
                             'description': 'language:en-GB',
-                            'title': 'Contract: "Article 83"',
+                            'title': 'Contract: Article 83',
                             'enum': [
                                 'article_83'
                             ]
@@ -652,14 +652,14 @@ export const mockData: any =
                         },
                         {
                             'description': 'language:en-GB',
-                            'title': 'Contract: "Retirement Savings Plan"',
+                            'title': 'Contract: Retirement Savings Plan',
                             'enum': [
                                 'per'
                             ]
                         },
                         {
                             'description': 'language:en-GB',
-                            'title': 'Contract: "Savings plan for group retirement"',
+                            'title': 'Contract: Savings plan for group retirement',
                             'enum': [
                                 'perco'
                             ]
@@ -1562,5 +1562,702 @@ export const mockData: any =
             'title': 'Operation collection interactions'
         }
     },
-    'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc': { "operation:debit_credit": "credit", "money_in:payment_type_label": null, "operation:value_date": "2021-07-20", "_links": { "operation:contract": { "href": "http://20.33.40.147:13113/csc/insurance/contracts/ID-W4Fb6AUGf" }, "cscaia:save": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/save" }, "curies": [{ "templated": true, "name": "operation", "href": "/rel/operation/{rel}" }, { "templated": true, "name": "money_in", "href": "/rel/money_in/{rel}" }, { "templated": true, "name": "cscaia", "href": "/rel/cscaia/{rel}" }], "money_in:payer_person": { "href": "http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel" }, "cscaia:operations": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/operations" }, "self": { "name": "operation --- [operation:identifier = \"21000009oLc\",operation:unreconciled_amount = 0.0,operation:currency_code = \"EUR\",operation:debit_credit = \"credit2\",object = [[$finactvy:cp_actvty_mny_in$9oLc,cr", "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc", "title": "operation --- [operation:identifier = \"21000009oLc\",operation:unreconciled_amount = 0.0,operation:currency_code = \"EUR\",operation:debit_credit = \"credit2\",object = [[$finactvy:cp_actvty_mny_in$9oLc,cr" }, "money_in:deposit_bank_account": { "href": "http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A" }, "cscaia:cancel": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/cancel" }, "up": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins" }, "collection": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins" }, "type": { "href": "http://20.33.40.147:13113/csc/insurance/schemas/financials/moneyInDocument" }, "cscaia:status_report": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/status_report" } }, "_options": { "links": [{ "method": "GET", "rel": "fetch", "mediaType": "application/vnd.hal+json", "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc", "title": "Obtenir MoneyIn détails" }, { "schema": { "influencers": ["money_in_administrator", "money_in_mngmnt_unit", "offer", "money_in:deposit_bank_account", "money_in:payer_organization", "money_in:payer_person", "operation:bank_account", "operation:contract", "money_in:bank_check_number", "money_in:deposit_date", "money_in:payment_type", "money_in:receipt_date", "money_in:receipt_number", "money_in:type", "operation:amount", "operation:currency_code", "operation:input_date", "operation:signature_date", "operation:value_date"], "properties": { "money_in:bank_check_number": { "type": "string", "maxLength": 20 }, "operation:contract": { "format": "uri", "type": "string" }, "operation:value_date": { "format": "date", "type": "string" }, "operation:signature_date": { "format": "date", "type": "string" }, "cscaia:offer": { "format": "uri", "type": "string" }, "money_in:receipt_number": { "type": "string", "maxLength": 20 }, "money_in_mngmnt_unit": { "oneOf": [{ "title": "BU UK : Business Unit - UK", "enum": ["BU UK"] }, { "title": "UG 2 : UNITE DE GESTION 2", "enum": ["UG 2"] }, { "title": "UG 1 : UNITE DE GESTION 1", "enum": ["UG 1"] }], "type": "string" }, "money_in:receipt_date": { "format": "date", "type": "string" }, "money_in:deposit_date": { "format": "date", "type": "string" }, "money_in:payment_type": { "oneOf": [{ "description": "language:fr-FR", "title": "Remise chèque", "enum": ["check_deposit"] }, { "description": "language:fr-FR", "title": "Espèces", "enum": ["cash"] }, { "description": "language:fr-FR", "title": "Virement", "enum": ["direct_credit"] }, { "description": "language:fr-FR", "title": "Prélèvement", "enum": ["direct_debit"] }, { "description": "language:fr-FR", "title": "Mandat", "enum": ["money_order"] }], "type": "string" }, "operation:input_date": { "format": "date", "type": "string" }, "money_in:type": { "oneOf": [{ "description": "language:fr-FR", "title": "Indu", "enum": ["excess"] }, { "description": "language:fr-FR", "title": "Remboursement d'octroi", "enum": ["loan_repayment"] }, { "description": "language:fr-FR", "title": "Autre", "enum": ["other"] }, { "description": "language:fr-FR", "title": "Prime", "enum": ["premium"] }], "type": "string" }, "money_in:payer_person": { "format": "uri", "type": "string" }, "operation:amount": { "maximum": 999999999999.99999E0, "type": "number" }, "operation:bank_account": { "format": "uri", "type": "string", "enum": ["http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel/bank_accounts/ID-EIBbf5PEZ"] }, "operation:currency_code": { "oneOf": [{ "description": "language:fr-FR", "title": "CHF", "enum": ["chf"] }, { "description": "language:fr-FR", "title": "EUR", "enum": ["eur"] }, { "description": "language:fr-FR", "title": "FRF", "enum": ["frf"] }, { "description": "language:fr-FR", "title": "GBP", "enum": ["gbp"] }, { "description": "language:n/a", "title": "huf", "enum": ["huf"] }, { "description": "language:fr-FR", "title": "RUB", "enum": ["rub"] }, { "description": "language:fr-FR", "title": "SEK", "enum": ["sek"] }, { "description": "language:fr-FR", "title": "USD", "enum": ["usd"] }], "type": "string" }, "money_in:payer_organization": { "format": "uri", "type": "string" }, "money_in:deposit_bank_account": { "format": "uri", "type": "string", "enum": ["http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A"] }, "money_in_administrator": { "oneOf": [{ "title": "SA ASSURANCES CAPITALISATION, EPARGNE ET PREVOYANCE", "enum": ["ASSURANCES"] }], "type": "string" } } }, "method": "PATCH", "rel": "update", "mediaType": "application/json", "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc", "title": "Modifier MoneyIn" }, { "method": "DELETE", "rel": "delete", "mediaType": "application/json", "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc", "title": "Supprimer MoneyIn" }], "title": "MoneyIn interactions de ressources", "properties": { "operation:debit_credit": { "oneOf": [{ "description": "language:fr-FR", "title": "crédit", "enum": ["credit"] }, { "description": "language:fr-FR", "title": "débit", "enum": ["debit"] }], "type": "string" }, "operation:contract": { "format": "uri", "type": "string" }, "money_in:payment_type_label": { "type": "string", "maxLength": 40 }, "operation:value_date": { "format": "date", "type": "string" }, "_embed": { "oneOf": [{ "const": "none" }, { "type": "array", "items": { "type": "string" } }] }, "money_in:pay_point": { "format": "uri", "type": "string", "enum": null }, "cscaia:offer": { "format": "uri", "type": "string" }, "operation:identifier": { "type": "string", "maxLength": 12 }, "money_in:receipt_date": { "format": "date", "type": "string" }, "money_in_mngmnt_unit": { "oneOf": [{ "title": "BU UK : Business Unit - UK", "enum": ["BU UK"] }, { "title": "UG 2 : UNITE DE GESTION 2", "enum": ["UG 2"] }, { "title": "UG 1 : UNITE DE GESTION 1", "enum": ["UG 1"] }], "type": "string" }, "money_in:status_label": { "type": "string", "maxLength": 15 }, "money_in:deposit_date": { "format": "date", "type": "string" }, "money_in:payment_type": { "oneOf": [{ "description": "language:fr-FR", "title": "Remise chèque", "enum": ["check_deposit"] }, { "description": "language:fr-FR", "title": "Espèces", "enum": ["cash"] }, { "description": "language:fr-FR", "title": "Virement", "enum": ["direct_credit"] }, { "description": "language:fr-FR", "title": "Prélèvement", "enum": ["direct_debit"] }, { "description": "language:fr-FR", "title": "Mandat", "enum": ["money_order"] }], "type": "string" }, "money_in:type": { "oneOf": [{ "description": "language:fr-FR", "title": "Indu", "enum": ["excess"] }, { "description": "language:fr-FR", "title": "Remboursement d'octroi", "enum": ["loan_repayment"] }, { "description": "language:fr-FR", "title": "Autre", "enum": ["other"] }, { "description": "language:fr-FR", "title": "Prime", "enum": ["premium"] }], "type": "string" }, "operation:amount": { "maximum": 999999999999.99999E0, "type": "number" }, "money_in:payer_person": { "format": "uri", "type": "string" }, "money_in:type_label": { "type": "string", "maxLength": 22 }, "operation:bank_account": { "format": "uri", "type": "string", "enum": ["http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel/bank_accounts/ID-EIBbf5PEZ"] }, "money_in:status": { "oneOf": [{ "description": "language:fr-FR", "title": "annulé", "enum": ["cancelled"] }, { "description": "language:fr-FR", "title": "annulant", "enum": ["cancelling"] }, { "description": "language:fr-FR", "title": "soldé", "enum": ["paid"] }, { "description": "language:fr-FR", "title": "part. remboursé", "enum": ["partly_refunded"] }, { "description": "language:fr-FR", "title": "en instance", "enum": ["pending"] }, { "description": "language:fr-FR", "title": "remboursé", "enum": ["refunded"] }], "type": "string" }, "operation:currency_code": { "oneOf": [{ "description": "language:fr-FR", "title": "CHF", "enum": ["chf"] }, { "description": "language:fr-FR", "title": "EUR", "enum": ["eur"] }, { "description": "language:fr-FR", "title": "FRF", "enum": ["frf"] }, { "description": "language:fr-FR", "title": "GBP", "enum": ["gbp"] }, { "description": "language:n/a", "title": "huf", "enum": ["huf"] }, { "description": "language:fr-FR", "title": "RUB", "enum": ["rub"] }, { "description": "language:fr-FR", "title": "SEK", "enum": ["sek"] }, { "description": "language:fr-FR", "title": "USD", "enum": ["usd"] }], "type": "string" }, "money_in:payer_organization": { "format": "uri", "type": "string" }, "operation:accounting_date": { "format": "date", "type": "string" }, "money_in:deposit_bank_account": { "format": "uri", "type": "string", "enum": ["http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A"] }, "money_in_administrator": { "oneOf": [{ "title": "SA ASSURANCES CAPITALISATION, EPARGNE ET PREVOYANCE", "enum": ["ASSURANCES"] }], "type": "string" } }, "required": ["operation:amount", "operation:currency_code", "money_in:payment_type", "money_in_administrator"] }, "operation:identifier": "21000009oLc", "money_in_mngmnt_unit": null, "money_in:receipt_date": "2021-07-12", "money_in:status_label": null, "money_in:deposit_date": "2021-07-20", "money_in:payment_type": "check_deposit", "money_in:type": "premium", "operation:amount": 125555.0E0, "money_in:type_label": null, "money_in:status": "pending", "_embedded": { "cscaia:status_report": { "_links": { "self": { "name": "status_report", "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/status_report", "title": "status_report" }, "up": { "href": "http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc" }, "type": { "href": "http://20.33.40.147:13113/csc/insurance/schemas/financials/statusReportDocument" } }, "messages": null, "consistent": true } }, "operation:currency_code": "eur", "operation:accounting_date": "2021-07-12", "money_in_administrator": "ASSURANCES" }
+    'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc': {
+        'operation:debit_credit': 'credit',
+        'money_in:payment_type_label': null,
+        'operation:value_date': '2021-07-20',
+        '_links': {
+            'operation:contract': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/contracts/ID-W4Fb6AUGf'
+            },
+            'cscaia:save': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/save'
+            },
+            'curies': [
+                {
+                    'templated': true,
+                    'name': 'operation',
+                    'href': '/rel/operation/{rel}'
+                },
+                {
+                    'templated': true,
+                    'name': 'money_in',
+                    'href': '/rel/money_in/{rel}'
+                },
+                {
+                    'templated': true,
+                    'name': 'cscaia',
+                    'href': '/rel/cscaia/{rel}'
+                }
+            ],
+            'money_in:payer_person': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel'
+            },
+            'cscaia:operations': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/operations'
+            },
+            'self': {
+                'name': 'operation --- [operation:identifier = \'21000009oLc\',operation:unreconciled_amount = 0.0,operation:currency_code = \'EUR\',operation:debit_credit = \'credit2\',object = [[$finactvy:cp_actvty_mny_in$9oLc,cr',
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc',
+                'title': 'operation --- [operation:identifier = \'21000009oLc\',operation:unreconciled_amount = 0.0,operation:currency_code = \'EUR\',operation:debit_credit = \'credit2\',object = [[$finactvy:cp_actvty_mny_in$9oLc,cr'
+            },
+            'money_in:deposit_bank_account': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A'
+            },
+            'cscaia:cancel': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/cancel'
+            },
+            'up': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins'
+            },
+            'collection': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins'
+            },
+            'type': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/schemas/financials/moneyInDocument'
+            },
+            'cscaia:status_report': {
+                'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/status_report'
+            }
+        },
+        '_options': {
+            'links': [
+                {
+                    'method': 'GET',
+                    'rel': 'fetch',
+                    'mediaType': 'application/vnd.hal+json',
+                    'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc',
+                    'title': 'Obtenir MoneyIn détails'
+                },
+                {
+                    'schema': {
+                        'influencers': [
+                            'money_in_administrator',
+                            'money_in_mngmnt_unit',
+                            'offer',
+                            'money_in:deposit_bank_account',
+                            'money_in:payer_organization',
+                            'money_in:payer_person',
+                            'operation:bank_account',
+                            'operation:contract',
+                            'money_in:bank_check_number',
+                            'money_in:deposit_date',
+                            'money_in:payment_type',
+                            'money_in:receipt_date',
+                            'money_in:receipt_number',
+                            'money_in:type',
+                            'operation:amount',
+                            'operation:currency_code',
+                            'operation:input_date',
+                            'operation:signature_date',
+                            'operation:value_date'
+                        ],
+                        'properties': {
+                            'money_in:bank_check_number': {
+                                'type': 'string',
+                                'maxLength': 20
+                            },
+                            'operation:contract': {
+                                'format': 'uri',
+                                'type': 'string'
+                            },
+                            'operation:value_date': {
+                                'format': 'date',
+                                'type': 'string'
+                            },
+                            'operation:signature_date': {
+                                'format': 'date',
+                                'type': 'string'
+                            },
+                            'cscaia:offer': {
+                                'format': 'uri',
+                                'type': 'string'
+                            },
+                            'money_in:receipt_number': {
+                                'type': 'string',
+                                'maxLength': 20
+                            },
+                            'money_in_mngmnt_unit': {
+                                'oneOf': [
+                                    {
+                                        'title': 'BU UK : Business Unit - UK',
+                                        'enum': [
+                                            'BU UK'
+                                        ]
+                                    },
+                                    {
+                                        'title': 'UG 2 : UNITE DE GESTION 2',
+                                        'enum': [
+                                            'UG 2'
+                                        ]
+                                    },
+                                    {
+                                        'title': 'UG 1 : UNITE DE GESTION 1',
+                                        'enum': [
+                                            'UG 1'
+                                        ]
+                                    }
+                                ],
+                                'type': 'string'
+                            },
+                            'money_in:receipt_date': {
+                                'format': 'date',
+                                'type': 'string'
+                            },
+                            'money_in:deposit_date': {
+                                'format': 'date',
+                                'type': 'string'
+                            },
+                            'money_in:payment_type': {
+                                'oneOf': [
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Remise chèque',
+                                        'enum': [
+                                            'check_deposit'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Espèces',
+                                        'enum': [
+                                            'cash'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Virement',
+                                        'enum': [
+                                            'direct_credit'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Prélèvement',
+                                        'enum': [
+                                            'direct_debit'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Mandat',
+                                        'enum': [
+                                            'money_order'
+                                        ]
+                                    }
+                                ],
+                                'type': 'string'
+                            },
+                            'operation:input_date': {
+                                'format': 'date',
+                                'type': 'string'
+                            },
+                            'money_in:type': {
+                                'oneOf': [
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Indu',
+                                        'enum': [
+                                            'excess'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Remboursement d octroi',
+                                        'enum': [
+                                            'loan_repayment'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Autre',
+                                        'enum': [
+                                            'other'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'Prime',
+                                        'enum': [
+                                            'premium'
+                                        ]
+                                    }
+                                ],
+                                'type': 'string'
+                            },
+                            'money_in:payer_person': {
+                                'format': 'uri',
+                                'type': 'string'
+                            },
+                            'operation:amount': {
+                                'maximum': 999999999999.99999E0,
+                                'type': 'number'
+                            },
+                            'operation:bank_account': {
+                                'format': 'uri',
+                                'type': 'string',
+                                'enum': [
+                                    'http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel/bank_accounts/ID-EIBbf5PEZ'
+                                ]
+                            },
+                            'operation:currency_code': {
+                                'oneOf': [
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'CHF',
+                                        'enum': [
+                                            'chf'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'EUR',
+                                        'enum': [
+                                            'eur'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'FRF',
+                                        'enum': [
+                                            'frf'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'GBP',
+                                        'enum': [
+                                            'gbp'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:n/a',
+                                        'title': 'huf',
+                                        'enum': [
+                                            'huf'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'RUB',
+                                        'enum': [
+                                            'rub'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'SEK',
+                                        'enum': [
+                                            'sek'
+                                        ]
+                                    },
+                                    {
+                                        'description': 'language:fr-FR',
+                                        'title': 'USD',
+                                        'enum': [
+                                            'usd'
+                                        ]
+                                    }
+                                ],
+                                'type': 'string'
+                            },
+                            'money_in:payer_organization': {
+                                'format': 'uri',
+                                'type': 'string'
+                            },
+                            'money_in:deposit_bank_account': {
+                                'format': 'uri',
+                                'type': 'string',
+                                'enum': [
+                                    'http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A'
+                                ]
+                            },
+                            'money_in_administrator': {
+                                'oneOf': [
+                                    {
+                                        'title': 'SA ASSURANCES CAPITALISATION, EPARGNE ET PREVOYANCE',
+                                        'enum': [
+                                            'ASSURANCES'
+                                        ]
+                                    }
+                                ],
+                                'type': 'string'
+                            }
+                        }
+                    },
+                    'method': 'PATCH',
+                    'rel': 'update',
+                    'mediaType': 'application/json',
+                    'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc',
+                    'title': 'Modifier MoneyIn'
+                },
+                {
+                    'method': 'DELETE',
+                    'rel': 'delete',
+                    'mediaType': 'application/json',
+                    'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc',
+                    'title': 'Supprimer MoneyIn'
+                }
+            ],
+            'title': 'MoneyIn interactions de ressources',
+            'properties': {
+                'operation:debit_credit': {
+                    'oneOf': [
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'crédit',
+                            'enum': [
+                                'credit'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'débit',
+                            'enum': [
+                                'debit'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'operation:contract': {
+                    'format': 'uri',
+                    'type': 'string'
+                },
+                'money_in:payment_type_label': {
+                    'type': 'string',
+                    'maxLength': 40
+                },
+                'operation:value_date': {
+                    'format': 'date',
+                    'type': 'string'
+                },
+                '_embed': {
+                    'oneOf': [
+                        {
+                            'const': 'none'
+                        },
+                        {
+                            'type': 'array',
+                            'items': {
+                                'type': 'string'
+                            }
+                        }
+                    ]
+                },
+                'money_in:pay_point': {
+                    'format': 'uri',
+                    'type': 'string',
+                    'enum': null
+                },
+                'cscaia:offer': {
+                    'format': 'uri',
+                    'type': 'string'
+                },
+                'operation:identifier': {
+                    'type': 'string',
+                    'maxLength': 12
+                },
+                'money_in:receipt_date': {
+                    'format': 'date',
+                    'type': 'string'
+                },
+                'money_in_mngmnt_unit': {
+                    'oneOf': [
+                        {
+                            'title': 'BU UK : Business Unit - UK',
+                            'enum': [
+                                'BU UK'
+                            ]
+                        },
+                        {
+                            'title': 'UG 2 : UNITE DE GESTION 2',
+                            'enum': [
+                                'UG 2'
+                            ]
+                        },
+                        {
+                            'title': 'UG 1 : UNITE DE GESTION 1',
+                            'enum': [
+                                'UG 1'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'money_in:status_label': {
+                    'type': 'string',
+                    'maxLength': 15
+                },
+                'money_in:deposit_date': {
+                    'format': 'date',
+                    'type': 'string'
+                },
+                'money_in:payment_type': {
+                    'oneOf': [
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Remise chèque',
+                            'enum': [
+                                'check_deposit'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Espèces',
+                            'enum': [
+                                'cash'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Virement',
+                            'enum': [
+                                'direct_credit'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Prélèvement',
+                            'enum': [
+                                'direct_debit'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Mandat',
+                            'enum': [
+                                'money_order'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'money_in:type': {
+                    'oneOf': [
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Indu',
+                            'enum': [
+                                'excess'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Remboursement d octroi',
+                            'enum': [
+                                'loan_repayment'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Autre',
+                            'enum': [
+                                'other'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'Prime',
+                            'enum': [
+                                'premium'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'operation:amount': {
+                    'maximum': 999999999999.99999E0,
+                    'type': 'number'
+                },
+                'money_in:payer_person': {
+                    'format': 'uri',
+                    'type': 'string'
+                },
+                'money_in:type_label': {
+                    'type': 'string',
+                    'maxLength': 22
+                },
+                'operation:bank_account': {
+                    'format': 'uri',
+                    'type': 'string',
+                    'enum': [
+                        'http://20.33.40.147:13113/csc/insurance/persons/ID-wJsQCAJel/bank_accounts/ID-EIBbf5PEZ'
+                    ]
+                },
+                'money_in:status': {
+                    'oneOf': [
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'annulé',
+                            'enum': [
+                                'cancelled'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'annulant',
+                            'enum': [
+                                'cancelling'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'soldé',
+                            'enum': [
+                                'paid'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'part. remboursé',
+                            'enum': [
+                                'partly_refunded'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'en instance',
+                            'enum': [
+                                'pending'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'remboursé',
+                            'enum': [
+                                'refunded'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'operation:currency_code': {
+                    'oneOf': [
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'CHF',
+                            'enum': [
+                                'chf'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'EUR',
+                            'enum': [
+                                'eur'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'FRF',
+                            'enum': [
+                                'frf'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'GBP',
+                            'enum': [
+                                'gbp'
+                            ]
+                        },
+                        {
+                            'description': 'language:n/a',
+                            'title': 'huf',
+                            'enum': [
+                                'huf'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'RUB',
+                            'enum': [
+                                'rub'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'SEK',
+                            'enum': [
+                                'sek'
+                            ]
+                        },
+                        {
+                            'description': 'language:fr-FR',
+                            'title': 'USD',
+                            'enum': [
+                                'usd'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                },
+                'money_in:payer_organization': {
+                    'format': 'uri',
+                    'type': 'string'
+                },
+                'operation:accounting_date': {
+                    'format': 'date',
+                    'type': 'string'
+                },
+                'money_in:deposit_bank_account': {
+                    'format': 'uri',
+                    'type': 'string',
+                    'enum': [
+                        'http://20.33.40.147:13113/csc/insurance/organizations/ID-qjmjF2VN/bank_accounts/ID-8xduB16A'
+                    ]
+                },
+                'money_in_administrator': {
+                    'oneOf': [
+                        {
+                            'title': 'SA ASSURANCES CAPITALISATION, EPARGNE ET PREVOYANCE',
+                            'enum': [
+                                'ASSURANCES'
+                            ]
+                        }
+                    ],
+                    'type': 'string'
+                }
+            },
+            'required': [
+                'operation:amount',
+                'operation:currency_code',
+                'money_in:payment_type',
+                'money_in_administrator'
+            ]
+        },
+        'operation:identifier': '21000009oLc',
+        'money_in_mngmnt_unit': null,
+        'money_in:receipt_date': '2021-07-12',
+        'money_in:status_label': null,
+        'money_in:deposit_date': '2021-07-20',
+        'money_in:payment_type': 'check_deposit',
+        'money_in:type': 'premium',
+        'operation:amount': 125555.0E0,
+        'money_in:type_label': null,
+        'money_in:status': 'pending',
+        '_embedded': {
+            'cscaia:status_report': {
+                '_links': {
+                    'self': {
+                        'name': 'status_report',
+                        'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc/status_report',
+                        'title': 'status_report'
+                    },
+                    'up': {
+                        'href': 'http://20.33.40.147:13113/csc/insurance/financials/money_ins/ID-Yobyv9oLc'
+                    },
+                    'type': {
+                        'href': 'http://20.33.40.147:13113/csc/insurance/schemas/financials/statusReportDocument'
+                    }
+                },
+                'messages': null,
+                'consistent': true
+            }
+        },
+        'operation:currency_code': 'eur',
+        'operation:accounting_date': '2021-07-12',
+        'money_in_administrator': 'ASSURANCES'
+    }
 }
