@@ -49,7 +49,7 @@ const GeneralInfo = (props: { hRef: string }) => {
                             </IconButton>
                         </div>
                         <Dialog
-                            icon={<HelpIcon size={24} />}
+                            icon={<HelpIcon size={30} />}
                             title={t('common:charge_management')}
                             content={<ChargeManagement hRef={hRef} />}
                             onClose={() => setChargesVisible(false)}
@@ -80,7 +80,7 @@ const GeneralInfo = (props: { hRef: string }) => {
                                     property="person:display_id1"
                                 />
                             </div>
-                            <div className="col-3 pt-3 ml-3">
+                            <div className="col-3 pt-3 ml-3 px-1">
                                 <IconButton color={'inherit'} onClick={() => setIsVisible(true)} size={'small'}>
                                     <PencilIcon size={24} />
                                 </IconButton>
