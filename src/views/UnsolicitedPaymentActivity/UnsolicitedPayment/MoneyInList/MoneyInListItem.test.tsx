@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react';
 
 import MoneyInListItem from './MoneyInListItem';
+import React from 'react';
 import { mockData } from 'assets/staticData/mockData';
 
 // HERE DEFINE OUR PROPS 
