@@ -6,7 +6,7 @@ import useResponse from 'hooks/useResponse';
 const ChargeManagement = (props: { hRef: string }) => {
     const { hRef } = props;
     const [response] = useResponse(hRef);
-    const poolSplit = response.data['main_pool_split'];
+    const poolSplit = response && response.data['main_pool_split'];
 
     const PoolLabel = (props: { hRef: string }) => {
         const [poolResponse] = useResponse(props.hRef);
