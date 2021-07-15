@@ -4,7 +4,7 @@ import useValidator, {Field} from 'hooks/useValidator';
 import useAia from 'hooks/useAia';
 import useBindInputToStep from 'hooks/useBindInputToStep';
 import useResponse from 'hooks/useResponse';
-import useStep from 'hooks/useStep';
+import useSetDataToPatch from 'hooks/useSetDataToPatch';
 import {useTranslation} from 'react-i18next';
 
 /**
@@ -59,15 +59,15 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
     const {t} = useTranslation();
     const {patch} = useAia();
     const [response, loading] = useResponse(hRef)
-    const {setDataToPatch} = useStep()
+    const {setDataToPatch} = useSetDataToPatch()
     const {FieldWrapper: fieldWrapper, Validation: validation} = useValidator();
-    const {inputId, status} = useBindInputToStep({hRef, property})
+    const {inputId, status, statusMessage} = useBindInputToStep({hRef, property})
     const [field, setField]: any = useState({})
     const [value, _setValue] = useState(undefined);
     const [validationResult, setValidationResult]: any = useState({valid: true, error: undefined});
 
     useEffect(() => {
-        if (!value && response && response.data) {
+        if ((value === undefined || value === null) && response && response.data) {
             const field: Field = fieldWrapper(response.data, property, type, list, immediatePatch);
             setField(field)
             _setValue(field.value)
@@ -96,7 +96,7 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
 
     const label = t(property, i18nOptions)
     const invalid = !validationResult.valid || status === 'error'
-    const errorMessage = validationResult.error || (status === 'error' && status.statusMessage)
+    const errorMessage = validationResult.error || (status === 'error' && statusMessage)
 
     return {value, setValue, loading, field, inputId, invalid, label, errorMessage}
 }

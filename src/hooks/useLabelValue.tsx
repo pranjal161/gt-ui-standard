@@ -113,7 +113,7 @@ Skeleton.displayName = 'Skeleton'
 const useLabelValue = ({property, hRef, response, loading, styleType, onClick, context}: useLabelValueProps) => {
     const {t} = useTranslation();
 
-    const getValue = useCallback(() => {
+    const getValue:any = useCallback(() => {
         if (response && response.data[property]) {
             let value = getDescriptionFromOneOf(response.data[property], property, response.data);
 
@@ -127,10 +127,17 @@ const useLabelValue = ({property, hRef, response, loading, styleType, onClick, c
     }, [property, response, styleType])
 
     const options = context && {context}
+    let valueToDisplay:any
+    if (styleType && styleType[0] === 'age') {
+        valueToDisplay = t('common:age', {count:getValue()})
+    }
+    else
+        valueToDisplay = getValue()
+
     const Label = React.memo(() => property && t(property, {...options})) //(loading ? <Skeleton/> : property && t(property))
     Label.displayName='Label'
     const Value = React.memo(() => (loading ? <Skeleton/> :
-        <label dangerouslySetInnerHTML={{__html: getValue()}} onClick={onClick}/>))
+        <label dangerouslySetInnerHTML={{__html: valueToDisplay}} onClick={onClick}/>))
     Value.displayName='Value'
 
     return {Label, Value}

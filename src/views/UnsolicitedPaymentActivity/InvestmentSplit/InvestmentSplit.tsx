@@ -5,11 +5,11 @@ import {ActivityProps} from 'components/Activity/Activity';
 import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'components/Button/Button';
 import ComplexTable from 'components/ComplexTable/ComplexTable';
-import {DxcSelect} from '@dxc-technology/halstack-react';
 import ManagementSelection from './ManagementSelection/ManagementSelection';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
 import Section from 'components/Section/Section';
+import SelectInput from 'components/SelectInput/SelectInput';
 import useActivity from 'hooks/useActivity';
 import useResponse from 'hooks/useResponse';
 
@@ -61,8 +61,6 @@ const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
     const [response] = useResponse(hRef)
 
     const [isOpen, setOpen]: [boolean, Function] = React.useState(false);
-    // To be picked from API after property allocation_type is available, harcoded for now
-    const allocationTypes = [{value: 'by_rate', label: 'Free allocation by rate'}];
 
     const contractHRef = mainEntityHRef
     const poolSplit = response.data['main_pool_split'];
@@ -70,11 +68,10 @@ const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
     return (
         <div className="col-12 mb-4">
             <Section title="Investment Split" icon={<PaymentIcon/>}>
-                <DxcSelect
-                    options={allocationTypes}
-                    label="Allocation type"
-                    value="by_rate"
-                />
+                {/* API need to add oneOf instead of type string */}
+                <SelectInput
+                    property="allocation_type"
+                    hRef={hRef} />
                 <div style={{float: 'right'}}>
                     <Button onClick={() => setOpen(true)} Icon={AddBoxIcon}
                         title="Management Selection"/>

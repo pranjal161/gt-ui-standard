@@ -18,8 +18,7 @@ const ManagementSelectionContent = (props: { contractUrl: string }) => {
 
     const [productComponentListResponse] = useResponse(productComponentListHRef);
     if (productComponentListResponse) {
-        const list = getCollectionItems(productComponentListResponse);
-
+        const list = getCollectionItems(productComponentListResponse.data);
         savingsPoolProductList = list
             .filter((element: { summary: { [x: string]: string } }) => (
                 element.summary &&

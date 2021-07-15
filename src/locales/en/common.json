@@ -14,9 +14,11 @@
   "personTab": "Client N° {{value}}",
   "person_operationTab": "$t({{activity}}) on {{value}}",
   "contract_viewTab" : "Contract N° {{value}}",
+  "person_viewTab" : "Person N° {{value}}",
   "unsolicited_paymentTab" : "Unsolicited Payment",
   "activities": "Activities",
   "contractViewLabel": "Contract view",
+  "personViewLabel" : "Person view",
   "operationEmptyList": "No operation available",
   "businessActivityLabel": "Business activity",
   "date_effect": "Date d'effet",
@@ -55,8 +57,14 @@
   "preferredAddressLabel": "Preferred Address",
   "preferredContactLabel": "Contact",
   "_NEXT_BUTTON" : "Next",
+  "_VALIDATE_BUTTON" : "Validate",
   "operation_list_unsolicited_payment" : "Operation ({{count}})",
   "operation_list_unsolicited_payment_plural" : "Operations ({{count}})",
+  "personPreviewGeneralInformation" : "General information",
+  "age": "{{count}} year old",
+  "age_plural": "{{count}} years old",
+  "duration_year": "{{count}} year old",
+  "duration_year_plural": "{{count}} years old",
 
   "_REMINDERS": "_REMINDERS",
   "_TICKET": "_TICKET",
@@ -151,6 +159,7 @@
   "_INFORMATION_SHEET": "Information Sheet",
   "_INVESTMENT_SPLIT": "Investment Split",
   "_UNSOLICITED_PAYMENT": "Unsolicited Payment",
+  "_VALIDATION" : "Validation",
   "amount_to_pay": "Amount to pay",
   "payment_amount": "Payment Amount",
   "currency": "Currrency",
@@ -172,5 +181,7 @@
   "rate": "Rate",
   "start_date": "Start Date",
   "add_distributor": "Add Distributor",
-  "search_distributor": "Search distributor"
+  "search_distributor": "Search distributor",
+  "person/org": "Persons/Organisations",
+  "charge_management": "Charge Management"
 }

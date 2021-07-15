@@ -4,7 +4,7 @@
   "client_number": "Client number",
   "last_name": "Last Name",
   "marital_status": "Marital status",
-  "professional_status": "Prof.status",
+  "professional_status": "Professional status",
   "legal_name": "Legal Name",
   "first_name": "First Name",
   "trade_name": "Trade Name",
@@ -17,5 +17,8 @@
   "display_id1": "Person",
   "display_id1_payer": "Payer",
   "gender" : "Gender",
-  "language": "Language"
+  "language": "Language",
+  "seniority__not_int_api": "Seniority",
+  "sensitive_client": "V.I.P",
+  "status__not_int_api": "Status"
 }

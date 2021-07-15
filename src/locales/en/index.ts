@@ -15,6 +15,7 @@ import money_in from './money_in.json'
 import operation from './operation.json'
 import organization from './organization.json'
 import person from './person.json'
+import person_detail from './person_detail.json'
 import phone_address from './phone_address.json'
 import postal_address from './postal_address.json'
 import premium from './premium.json'
@@ -43,6 +44,7 @@ export default {
     operation,
     organization,
     person,
+    person_detail,
     premium,
     quote,
     quote_owner,
