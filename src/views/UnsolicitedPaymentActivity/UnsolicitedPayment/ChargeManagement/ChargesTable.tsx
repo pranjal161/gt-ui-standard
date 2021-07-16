@@ -33,8 +33,7 @@ const ChargesTable = (props: { poolhRef: string, data: any }) => {
                 headers={headers}
                 data={tableResponse}
                 extraRow={<tr>
-                    <td><Typo value="Total" variant={'secondaryBody'} /></td>
-                    <td></td><td></td>
+                    <td colSpan={3}><Typo value="Total" variant={'secondaryBody'} /></td>
                     <td><Typo value={formatValue(total, 'percent')} variant={'secondaryBody'} /></td>
                 </tr>} />
         </>
