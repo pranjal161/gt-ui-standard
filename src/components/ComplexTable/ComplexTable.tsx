@@ -97,6 +97,11 @@ export interface ComplexTableProps {
      * Items per page 
      */
     itemsPerPage?: number
+
+    /**
+     * Add custom row
+     */
+    extraRow?: JSX.Element
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -236,7 +241,7 @@ ComplexTableRow.displayName = 'ComplexTableRow'
  */
 const ComplexTable = (props: ComplexTableProps) => {
     //Todo : rename to : {headers, columns, rowHRefKey, data, itemsPerPage}
-    const { headers, columns, data, selectionMode = 'none', itemsPerPage = 10, rowExtraData = { hRefKey: undefined, list: undefined } } = props;
+    const { headers, columns, data, selectionMode = 'none', itemsPerPage = 10, rowExtraData = { hRefKey: undefined, list: undefined }, extraRow } = props;
     const dataList = data && rowExtraData.list && data[rowExtraData.list] ? data[rowExtraData.list] : data;
 
     const classes: any = useStyles();
@@ -303,6 +308,8 @@ const ComplexTable = (props: ComplexTableProps) => {
                                     onClick={() => handleOnRowClick(index, row)} />
                             )
                         })}
+                        {extraRow && 
+                        <>{extraRow}</>}
                     </> : <tr>
                         <td colSpan={headers && headers.length}>{t('_NO_RECORDS_FOUND')}</td>
                     </tr>}
