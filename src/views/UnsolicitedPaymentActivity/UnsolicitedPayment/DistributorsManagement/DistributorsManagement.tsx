@@ -1,30 +1,41 @@
 // import { ContactsIcon, SquaredAddIcon } from 'assets/svg';
 
 import ComplexTable from 'components/ComplexTable/ComplexTable';
+import { DeleteIcon } from 'assets/svg';
 import Rate from 'components/Rate/Rate';
 import React from 'react';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 
 const DistributorsManagement = (props: { hRef:string }) => {
     // const {t} = useTranslation();
     const classes = useStyles();
     const [response] = useResponse(props.hRef);
-
+    const { patch } = useAia();
+    
+    const deleteDistributor = (row: any) => {
+        const payloadData = JSON.parse(JSON.stringify(response.data['distributor_list']));
+        const payload = payloadData.filter((data: { distributor: string; }) => data.distributor !== row.distributor);
+        patch(props.hRef, {'distributor_list' : payload}).then()
+    }
+    
     const headers = [
         { title: 'Distributor' },
         { title: 'Role'},
         { title: 'Rate' },
         { title: 'Start Date' },
         { title: 'End Date' },
+        { title: ''}
     ];
     const columns = [
         { valueKey: 'distributor_detail:identifier', hRefKey: true },
         { valueKey: 'role', list: true },
         { valueKey: 'rate', component: Rate , list: true },
         { valueKey: 'start_date', list: true, format: 'date' },
-        { valueKey: 'end_date', list: true, format: 'date' }
+        { valueKey: 'end_date', list: true, format: 'date' },
+        { valueKey: 'action', actions: [{icon: <DeleteIcon />, method: deleteDistributor }]}
     ];
 
     const rowExtraData = { hRefKey: 'distributor', list: 'distributor_list' }

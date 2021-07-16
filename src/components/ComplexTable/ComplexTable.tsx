@@ -1,6 +1,7 @@
 import { DxcCheckbox, DxcRadio, DxcTable } from '@dxc-technology/halstack-react';
 import { getDescriptionValue, getDescriptionValueFromList } from 'utils/functions';
 
+import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,6 +42,11 @@ export interface ComplexTableColumnItemProps {
      * Possible values: text | currency | percent | decimal | number | date
      */
     format?: string,
+        
+    /**
+     * To perform any action 
+     */
+    actions?: Array<any>,
 }
 
 export interface ComplexTableRowItemProps {
@@ -191,6 +197,22 @@ const FormatColumnValue = (props: { property: string, value: any, data: any, lis
     return <>{columnValue}</>;
 }
 
+const ActionsColumn = (props: { actions: any, row: any}) => {
+    const { actions, row } = props;
+    const column = actions.map((action: any, index: number) => (
+        <span key={index}>
+            <IconButton 
+                color={'primary'}
+                size={'small'}
+                onClick={() => action.method(row)}>
+                {action.icon}
+            </IconButton>
+        </span>
+    ));
+
+    return column;
+}
+
 const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnItemProps>, row: any, rowExtraData: any, selectionMode: any, onClick: Function, selected: Boolean, data: any }) => {
     const hRef = props.rowExtraData.hRefKey && props.row[props.rowExtraData.hRefKey]
     const [rowResponse, loading] = useResponse(hRef);
@@ -208,6 +230,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                     </td> :
                     <>{props.columns && props.columns.map((column: ComplexTableColumnItemProps, index: number) => {
                         const ColumnComponent = column.component;
+                        const ColumnActions = column.actions;
                         const columnResponse = column.list ? { ...props.row, listName: props.rowExtraData.list } : column.hRefKey ? rowResponse : props.data;
                         const columnData = column.list ? columnResponse : columnResponse.data;
                         const cellValue = ColumnComponent ?
@@ -217,7 +240,8 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                                 response={props.data}
                                 list={columnResponse}
                                 icon={false} /> :
-                            <FormatColumnValue data={props.data} value={columnData[column.valueKey]} property={column.valueKey} list={props.rowExtraData.list} format={column.format} />
+                            ColumnActions ? <ActionsColumn actions={ColumnActions} row={props.row} /> :
+                                <FormatColumnValue data={props.data} value={columnData[column.valueKey]} property={column.valueKey} list={props.rowExtraData.list} format={column.format} />
                         
                         return (
                             <td key={index}>
