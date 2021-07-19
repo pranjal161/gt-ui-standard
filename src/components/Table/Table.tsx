@@ -218,6 +218,11 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 }
                             </tbody>
                         </DxcTable>
+                        {
+                            showPaginator && totalItems > 0 && (
+                                <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
+                            )
+                        }
 
                         {/* {totalItems && (
                             <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={onPagination} />
@@ -242,12 +247,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                             </tr>
                         </tbody>
                     </DxcTable>
-                )
-            }
-            
-            {
-                showPaginator && totalItems > 0 && (
-                    <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
                 )
             }
         </>
