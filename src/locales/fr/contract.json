@@ -1,0 +1,17 @@
+{
+  "amount": "Montant",
+  "currency_code": "Devise",
+  "end_validity_date": "Fin de validité",
+  "number": "Numéro de contrat",
+  "offer_number": "Numéro d'offre",
+  "product_identifier": "Produit",
+  "product_label": "Produit",
+  "product_type": "Produit type",
+  "proposition_number": "Proposition identifier",
+  "proposition_status": "statut de proposition",
+  "renewal_date": "Date de renouvellement",
+  "start_date": "Date d'effet",
+  "status": "Statut du contrat",
+  "status_date": "Date de statut",
+  "status_motive": "Détail du statut"
+}

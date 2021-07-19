@@ -1,0 +1,15 @@
+{
+  "activities": "Activités",
+  "amount": "Montant",
+  "contract_title": "Affichage du contrat",
+  "identifier": "Identifier",
+  "net_amount": "Net amount",
+  "operation_empty_list": "Aucune opération disponible",
+  "start_date": "Effective date",
+  "status_date": "Status date",
+  "status_label": "Status",
+  "currency_code": "Devise",
+  "payment_source": "Source",
+  "signature_date": "Date de signature",
+  "accounting_date": "Date de comptabilisation"
+}
