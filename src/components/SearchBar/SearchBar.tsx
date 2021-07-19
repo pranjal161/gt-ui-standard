@@ -1,5 +1,6 @@
 import {FilterIcon, SearchIcon} from 'assets/svg';
 import React, {useRef, useState} from 'react';
+
 import Badge from '@material-ui/core/Badge';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -28,23 +29,19 @@ const useStyles = makeStyles((theme) => ({
     inputBase: {
         flex: 1,
         fontSize: 13,
-        fontFamily: theme.typography.fontFamily,
 
-        '::placeholder': {
-            fontStyle: 'italic'
-        }
-    },
-    input: {
-        '&::placeholder': {
-            fontStyle: 'italic'
-        }
+        '& input': {
+            '&::placeholder': {
+                fontStyle: 'italic'
+            }
+        },
     },
     divider: {
         border: 'none',
         height: 28,
         width: 1,
-        marginLeft: theme.spacing(2),
-        backgroundColor: globalTokens.__grey_5
+        backgroundColor: globalTokens.__grey_5,
+        marginLeft: theme.spacing(2)
     },
     iconButtonML: {
         marginLeft: theme.spacing(2),
@@ -52,12 +49,13 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButtonMR: {
         marginLeft: theme.spacing(0.5),
-        marginRight: theme.spacing(1.5)
+        marginRight: theme.spacing(2)
     },
     nativeSelect: {
         fontSize: 13,
         fontFamily: theme.typography.fontFamily,
         marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(1),
 
         '&:focus': {
             backgroundColor: globalTokens.white
@@ -209,7 +207,7 @@ const SearchBar = () => {
                 <SearchIcon/>
             </IconButton>
             <InputBase
-                classes={{root: classes.inputBase, input: classes.input}}
+                className={classes.inputBase}
                 placeholder="Search for tickets, contracts, persons, etc."
                 onChange={handleSearchStringInput}
                 onKeyDown={handleSubmitSearch}/>

@@ -1,49 +1,52 @@
-import { AddBoxIcon, DistributorIcon, PaymentIcon } from 'assets/svg';
+import { AddBoxIcon, DistributorIcon } from 'assets/svg';
 
-import Button from 'components/Button/Button';
+import {ActivityProps} from 'components/Activity/Activity';
+import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
 import GeneralInfo from './GeneralInfo';
 import MoneyIn from './MoneyIn';
 import React from 'react';
 import Section from 'components/Section/Section';
+import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
-export interface UnsolicitedPaymentProps {
-
-    /**
-     * API response of API for the entity
-     */
-    response: any
-}
-
-const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: UnsolicitedPaymentProps) => {
+const UnsolicitedPayment: React.FC<ActivityProps> = (props: { hRef:string }) => {
+    const { hRef } = props;
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = React.useState<boolean>(false);
+    const [response] = useResponse(hRef);
+    const { patch } = useAia();
 
     const validateDistributor = (obj: any) => {
-        console.log({ obj });
+        const allDistributor = JSON.parse(JSON.stringify(response.data['distributor_list']));
+        const distributorPayload = { distributor: obj.distributor.distributor.href, rate: obj.distributor.rate }
+        const payload = [...allDistributor, distributorPayload]
+        patch(props.hRef, {'distributor_list': payload }).then();
         setIsVisible(false);
     }
 
     return (
         <>
-            <div className="col-12">
-                <Section title="General Information" icon={<PaymentIcon />} >
-                    <GeneralInfo response={response} />
-                </Section>
+            <div className="col-12 mb-4">
+                <GeneralInfo hRef={hRef}/>
             </div>
-            <div className="col-12">
-                <MoneyIn response={response} />
+            <div className="col-12 mb-4">
+                <MoneyIn hRef={hRef}/>
             </div>
-            <div className="col-12">
+            <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={
                     <>
-                        <Button onClick={() => setIsVisible(true)} Icon={AddBoxIcon}
-                            title={t('add')} />
+                        <Button
+                            color="primary"
+                            onClick={() => setIsVisible(true)}
+                            endIcon={<AddBoxIcon />}>
+                            {t('add')}
+                        </Button>
                     </>
                 }>
-                    <DistributorsManagement />
+                    <DistributorsManagement hRef={hRef} />
                     <DistributorsSearch open={isVisible} onValidate={(distributor: any) => validateDistributor({ distributor })} onCancel={() => setIsVisible(false)} />
                 </Section>
             </div>
@@ -51,4 +54,4 @@ const UnsolicitedPayment: React.FC<UnsolicitedPaymentProps> = ({ response }: Uns
     )
 }
 
-export default UnsolicitedPayment;
+export default React.memo(UnsolicitedPayment);

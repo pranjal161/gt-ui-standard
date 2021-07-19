@@ -1,11 +1,9 @@
-import * as sideBarReducer from 'store/reducers/secondaryTabsReducer';
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon, OpenInNewTabIcon, OpenInNewWindowIcon} from 'assets/svg';
+import React, {useEffect} from 'react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
-import React from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import {useDispatch} from 'react-redux';
 
 export interface SideBarProps {
 
@@ -40,6 +38,11 @@ export interface SideBarProps {
     onToggle?: () => void
 
     /**
+     * onChange callback
+     */
+    onChange?: (open: boolean) => void
+
+    /**
      * triggered when Open in new window icon is clicked.
      * The current value object is passed
      */
@@ -56,6 +59,10 @@ export interface SideBarProps {
      */
     className?: string
 
+    /**
+     * position of the sidebar
+     */
+    position? : 'left' | 'right' | any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -166,6 +173,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {function} onOpenInNewWindow Callback when the open in new window is clicked
  * @param {function} onOpenInNewTab Callback when the open in new tab is clicked
  * @param {string} className className to add with of the root CSS
+ * @param {string} position Position pof the sidebar
  * @constructor
  */
 export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
@@ -176,25 +184,36 @@ export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
         value,
         open,
         onToggle,
+        onChange,
         onOpenInNewWindow,
         onOpenInNewTab,
         className = '',
+        position = 'right'
     } = props
     const classes = useStyles();
-    const dispatch = useDispatch();
     const handleToggle = () => {
-        dispatch(sideBarReducer.setSideBarToggle(!open));
         onToggle && onToggle()
     }
 
+    useEffect(() => {
+        onChange && onChange(open === true)
+    }, [onChange, open])
+
+    const arrowIcons = (position === 'right') ?
+        [<DoubleArrowRightIcon key={'opened'}/>, <DoubleArrowLeftIcon key={'closed'}/>]:
+        [<DoubleArrowLeftIcon key={'opened'}/>, <DoubleArrowRightIcon key={'closed'}/>]
+
+    const Toolbar = () => <div className={classes.toolbar}>
+        <div className={classes.toggle} onClick={() => handleToggle()} data-testid="sidebarToggle">
+            {open ? arrowIcons[0] : arrowIcons[1]}
+        </div>
+        {toolbar}
+    </div>
+
     return (
         <div className={clsx(classes.root, className)}>
-            <div className={classes.toolbar}>
-                <div className={classes.toggle} onClick={() => handleToggle()} data-testid="sidebarToggle">
-                    {open ? <DoubleArrowRightIcon/> : <DoubleArrowLeftIcon/>}
-                </div>
-                {toolbar}
-            </div>
+            {position === 'right' && <Toolbar/>}
+
             <div className={clsx(classes.headerAndContent, {
                 [classes.contentOpen]: open,
                 [classes.contentClose]: !open,
@@ -218,6 +237,8 @@ export const PureSideBar: React.FC<SideBarProps> = (props: SideBarProps) => {
                     </WithScroll>
                 </div>
             </div>
+
+            {position === 'left' && <Toolbar/>}
         </div>
     )
 }

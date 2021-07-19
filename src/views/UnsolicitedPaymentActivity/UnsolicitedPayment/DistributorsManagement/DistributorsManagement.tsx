@@ -1,62 +1,54 @@
 // import { ContactsIcon, SquaredAddIcon } from 'assets/svg';
 
-import DistributorsSearch from '../DistributorsSearch/DistributorsSearch';
+import ComplexTable from 'components/ComplexTable/ComplexTable';
+import { DeleteIcon } from 'assets/svg';
+import Rate from 'components/Rate/Rate';
 import React from 'react';
-import Table from 'components/Table/Table';
-import { distributorManagementColumns } from './distributorColumns';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 
-// import {DxcButton} from '@dxc-technology/halstack-react';
-
-// import Typo from 'components/Typography/Typo';
-
-// import { useTranslation } from 'react-i18next';
-
-// interface DistributorsManagementProps {
-
-// }
-
-const DistributorsManagement = () => {
+const DistributorsManagement = (props: { hRef:string }) => {
     // const {t} = useTranslation();
     const classes = useStyles();
-    const url = '';
-    // const url = 'http://20.33.40.147:13111/csc/insurance/distributors';
+    const [response] = useResponse(props.hRef);
+    const { patch } = useAia();
     
-    const [isVisible, setIsVisible] = React.useState<boolean>(false);
-    const [distributors, setDistributors] = React.useState<Array<any>>([]);
-
-    const manageDistributors = (dist: any) => {
-        console.log(dist);
-        const arr = distributors;
-        arr.push({...dist});
-        setDistributors(arr);
-        setIsVisible(false);
+    const deleteDistributor = (row: any) => {
+        const payloadData = JSON.parse(JSON.stringify(response.data['distributor_list']));
+        const payload = payloadData.filter((data: { distributor: string; }) => data.distributor !== row.distributor);
+        patch(props.hRef, {'distributor_list' : payload}).then()
     }
+    
+    const headers = [
+        { title: 'Distributor' },
+        { title: 'Role'},
+        { title: 'Rate' },
+        { title: 'Start Date' },
+        { title: 'End Date' },
+        { title: ''}
+    ];
+    const columns = [
+        { valueKey: 'distributor_detail:identifier', hRefKey: true },
+        { valueKey: 'role', list: true },
+        { valueKey: 'rate', component: Rate , list: true },
+        { valueKey: 'start_date', list: true, format: 'date' },
+        { valueKey: 'end_date', list: true, format: 'date' },
+        { valueKey: 'action', actions: [{icon: <DeleteIcon />, method: deleteDistributor }]}
+    ];
+
+    const rowExtraData = { hRefKey: 'distributor', list: 'distributor_list' }
 
     return (
         <>
             <div className={classes.root}>
-                {/* <div className={classes.rowTitle}>
-                    <div className={classes.title}>
-                        <div className={classes.icon}>
-                            <ContactsIcon />
-                        </div>
-                        <Typo variant="title" value={t('distributor_management')} />
-                    </div>
-
-                    <div className={classes.actions}>
-                        <DxcButton iconPosition="after" label={t('add')} icon={<SquaredAddIcon size={24}/>} onClick={() => setIsVisible(true)} />
-                    </div>
-                </div>
-                <div className={classes.divider} /> */}
-                <Table url={url} columnId={distributorManagementColumns} itemsByPage={10}/>
+                {response && <ComplexTable selectionMode="none"
+                    columns={columns}
+                    headers={headers}
+                    rowExtraData={rowExtraData}
+                    data={response.data} />}
             </div>
-
-            <DistributorsSearch open={isVisible}
-                onCancel={() => setIsVisible(false)}
-                onValidate={(value: any) => manageDistributors({...value})}
-            />
         </>
     )
 }

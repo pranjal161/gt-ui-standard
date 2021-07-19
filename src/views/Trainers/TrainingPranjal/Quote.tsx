@@ -31,18 +31,15 @@ const Quote = () => {
     const [risksUrl, setRiskUrl] = useState<string>();
     // hardcoding ARG url to define diff. use cases
     const ownerUrl = 'http://20.33.40.95:13211/csc/insurance/quotes/ID-mrMxYT5Q/owners/ID-iy5KKS9M';
-    const [owner, setOwner] = useState<string>();
     useEffect(() => {
-        startActivity();
+        startActivity({});
         getData();
     }, []);
 
     const getData = () => {
         fetch(url).then((quoteRes: any) => {
             setQuote(url);
-            fetch(ownerUrl).then((response: any) => {
-                setOwner(response.data);
-            })
+            fetch(ownerUrl).then()
             if (getLink(quoteRes.data, 'quote:quote_risk_list')) {
                 fetch(getLink(quoteRes.data, 'quote:quote_risk_list')).then((risksRes: any) => {
                     if (risksRes && risksRes.data && risksRes.data._links.item) {
@@ -80,36 +77,36 @@ const Quote = () => {
                 <div className="m-2">
                     <div>
                         <SelectInput
-                            data={quoteResponse.data}
-                            propertyName="quote:frequency"
-                            onChangeMethod={patchFrequency}
+                            hRef={url}
+                            property="quote:frequency"
+                            onChange={patchFrequency}
                         ></SelectInput>
                     </div>
                     <div>
                         <TextArea
-                            propertyName="quote:description"
-                            data={quoteResponse.data}
+                            hRef={url}
+                            property="quote:description"
                         />
                     </div>
                     <div>
                         <TextField
-                            onChangeMethod={ownerUpdate}
-                            propertyName="quote_owner:email"
+                            hRef={url}
+                            onChange={ownerUpdate}
+                            property="quote_owner:email"
                             type="email"
-                            data={owner}
                         />
                     </div>
                     <div>
                         <DateInput
-                            propertyName="quote:contract_start_date"
-                            data={quoteResponse.data}
-                            onBlurMethod={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
+                            hRef={url}
+                            property="quote:contract_start_date"
+                            onChange={(newValue: any) => updateDate(newValue, 'quote:contract_start_date')}
                         />
                     </div>
                     <div>
                         <DateInput
-                            propertyName="quote_owner:birth_date"
-                            data={owner}
+                            hRef={url}
+                            property="quote_owner:birth_date"
                         />
                     </div>
                     <div>

@@ -8,11 +8,14 @@ import contract from './contract.json'
 import coverage from './coverage.json'
 import duration from './duration.json'
 import e_mail_address from 'locales/en/e_mail_address.json'
+import info_sheet_operation from './info_sheet_operation.json'
 import loan_account from './loan_account.json'
 import membership from './membership.json'
+import money_in from './money_in.json'
 import operation from './operation.json'
 import organization from './organization.json'
 import person from './person.json'
+import person_detail from './person_detail.json'
 import phone_address from './phone_address.json'
 import postal_address from './postal_address.json'
 import premium from './premium.json'
@@ -33,6 +36,7 @@ export default {
     coverage,
     duration,
     e_mail_address,
+    info_sheet_operation,
     loan_account,
     membership,
     phone_address,
@@ -40,10 +44,12 @@ export default {
     operation,
     organization,
     person,
+    person_detail,
     premium,
     quote,
     quote_owner,
     quote_risk,
     system,
-    w_m_activity
+    w_m_activity,
+    money_in
 }

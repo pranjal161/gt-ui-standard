@@ -1,3 +1,4 @@
+import useActivity from 'hooks/useActivity';
 import {PureContractSearch} from 'views/ContractSearch/ContractSearch';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
@@ -6,12 +7,14 @@ const useStyles = makeStyles(() => ({
     root: {},
 }))
 
-const SearchView = (props: any) => {
+const SearchView = () => {
+    const {activityProps} = useActivity()
+    const {extraValues} = activityProps
     const classes = useStyles()
     let SearchComponent: any
     const NotDefinedSearchComponent = ({entityType}:any) => (<div>Search component not defined for {entityType}</div>)
 
-    if (props.extraValues.entityType === 'contract')
+    if (extraValues.entityType === 'contract')
         SearchComponent = PureContractSearch
     else {
         SearchComponent = NotDefinedSearchComponent
@@ -19,7 +22,7 @@ const SearchView = (props: any) => {
     
     return (
         <div className={classes.root}>
-            <SearchComponent entityType={props.extraValues.entityType} searchString={props.extraValues.searchString}/>
+            <SearchComponent entityType={extraValues.entityType} searchString={extraValues.searchString}/>
         </div>)
 }
 

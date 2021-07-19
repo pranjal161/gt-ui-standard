@@ -95,6 +95,31 @@ export const getDescriptionValue = (value: any, id: string, response: any, type?
 }
 
 /**
+ *
+ * @param {value} value Value of the field
+ * @param {id} id ID of the field whose oneOf should be picked
+ * @param {response} response Response of the HTTP request
+ * @param {string} list pass the name of the list from which value needs to be integrated
+ * @param {type} type if needs to be formatted to any specific format like date or currency
+ * @returns {options} Title from oneOf Object for the list type object
+ */
+export const getDescriptionValueFromList = (value: any, id: string, response: any, list: string, type?: string, ) => {
+    const options = getListProperties(response, list);
+    if (options && options[id] && options[id].oneOf) {
+        for (const item of options[id].oneOf) {
+            if (item.enum[0] === value) {
+                value = item.title;
+            }
+        }
+    }
+    else if (type) {
+        value = formatValue(value, type);
+    }
+
+    return value ? value : '';
+}
+
+/**
  * Format given value according the given style.
  * It's based on locale parametrization
  * @param {any} value Value to format
@@ -103,7 +128,7 @@ export const getDescriptionValue = (value: any, id: string, response: any, type?
  * @return {string | undefined} formatted value | undefined
  */
 export const formatValue = (value: any, style?: string | undefined, option?: string) => {
-    if (!value)
+    if (value === undefined || value === null)
         return
 
     if (!style)
@@ -246,50 +271,97 @@ export const getValues = (array: Array<any>, filterBy: string, matchingValue: st
 /**
  * Get Options for OneOf(Select) type field
  * @param {response} response Response of the HTTP request
+ * @param {object} list List object consisting current list item & List name
  * @param {id} id ID of the field
  * @returns {list} Array to populate select dropdown
  */
-export const getOneOfFromResponse = (response: any, id: string) => {
-    const enumItemList = [];
+
+export const getOneOfFromResponse = (response: any, id: string, list?:any) => {
+    let enumItemList: { value: any; label: any; }[] = [];
     if (response && response._options &&
         response._options.properties &&
         response._options.properties[id] &&
         response._options.properties[id]['oneOf']) {
         const oneOfArray: Array<any> = response._options.properties[id]['oneOf'];
-        const processedList = [];
-        for (const item of oneOfArray) {
-            // to add check for current lang when picking enum title
-            const isExisting = processedList.filter((array: any) => array.enum === item.enum);
-            if (isExisting.length === 0) {
-                processedList.push(item);
-                enumItemList.push({ value: item.enum[0], label: item.title });
-            }
-        }
+        enumItemList = processOneof(oneOfArray);
+    } 
+    else if (list) {
+        const options = getListProperties(response, list.listName);
+        if (options && options[id] && options[id]['oneOf']) {
+            const oneOfArray: Array<any> = options[id]['oneOf'];
+            enumItemList = processOneof(oneOfArray);
+        } 
     }
 
     return enumItemList;
 }
 
+/**
+ * Process one of into value-label pair
+ * @param {Array<any>} oneOfArray oneOfArray from response
+ * @returns {enumlist} Array to populate oneof items
+ */
+export const processOneof = (oneOfArray: Array<any>) => {
+    let enumItemList= [];
+    const processedList = [];
+    for (const item of oneOfArray) {
+        // to add check for current lang when picking enum title
+        const isExisting = processedList.filter((array: any) => array.enum === item.enum);
+        if (isExisting.length === 0) {
+            processedList.push(item);
+            enumItemList.push({ value: item.enum[0], label: item.title });
+        }
+    }
+    
+    return enumItemList;
+}
+
+export const getPatchHRef = (response: any) => {
+    if (response && response['_options']) {
+        const patchLink = response['_options']['links'].find((item: any) => item.method === 'PATCH');
+
+        return patchLink && patchLink.href
+    }
+
+    return undefined
+}
+
 /** Check whether a PATCH operation can be performed on the field provided
  * @param  {any} response provided response
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} field field which should be checked for edit capability
- * @returns {boolean} true, if PATCH operation is available for the provided field
+ * @returns {[boolean, [boolean, string | undefined]]} true, if PATCH operation is available for the provided field, the second value if it's the field is
+ * immediatePatch and the hRef for patching
  */
-export const isFieldEditable = (response: any, field: string): boolean => {
+
+export const isFieldEditable = (response: any, field: string, list?:any): [boolean, [boolean, string | undefined]] => {
     if (response && response['_options']) {
         const patchLink = response['_options']['links'].find((item: any) => item.method === 'PATCH');
         if (!patchLink) {
-            return false;
+            return [false, [false, undefined]];
         }
 
-        return !!(patchLink &&
+        const immediatePatch = patchLink &&
+            patchLink['schema'] &&
+            patchLink['schema']['influencers'] &&
+            (patchLink['schema']['influencers'].find((item: any) => item === field) !== undefined)
+
+        if (patchLink &&
             patchLink['schema'] &&
             patchLink['schema']['properties'] &&
-            patchLink['schema']['properties'][field]);
+            patchLink['schema']['properties'][field]) {
+            return [true, [immediatePatch, patchLink.href]]
+        }
+        else if (list && patchLink &&
+            patchLink['schema'] &&
+            patchLink['schema']['properties'] &&
+            patchLink['schema']['properties'][list.listName] &&
+            patchLink['schema']['properties'][list.listName].items.items[field]) {
+            return [true, [immediatePatch, patchLink.href]]
+        }
     }
-
-    return false;
-
+    
+    return [false, [false, undefined]];
 }
 
 /**Whether the propertyName provided is a required field.
@@ -305,10 +377,17 @@ export const isFieldRequired = (response: any, field: string) => (
 
 /**Whether the propertyName provided is available for GET. If avaiable for GET, it should be visible, else not.
  * @param  {any} response provided response
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} field the field/propertyName which should be checked for visibility
  * @returns {boolean} true, if allowed for GET and therefore should be visible on screen
  */
-export const isFieldVisible = (response: any, field: string): boolean => {
+
+export const isFieldVisible = (response: any, field: string, list?: any): boolean => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if (options)
+            return options.hasOwnProperty(field); 
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][field]) {
@@ -382,16 +461,24 @@ export const getTitle = (response: any): string | null => {
         return response._links['self'].title;
     }
     else {
-        return null;
+        return '';
     }
 }
 
 /** Fetches allowed minlength from API for a property
  * @param  {any} response API response provided
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed min Length value
  */
-export const getMinLength = (response: any, propertyName: string) => {
+
+export const getMinLength = (response: any, propertyName: string, list?: any) => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if(options && options[propertyName] && options[propertyName].minLength) {
+            return options[propertyName].minLength
+        }
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][propertyName] &&
@@ -402,10 +489,18 @@ export const getMinLength = (response: any, propertyName: string) => {
 
 /** Fetches allowed maxlength from API for a property
  * @param  {any} response API response provided
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed maxLength value
  */
-export const getMaxLength = (response: any, propertyName: string) => {
+
+export const getMaxLength = (response: any, propertyName: string, list?:any) => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if(options && options[propertyName] && options[propertyName].maxLength) {
+            return options[propertyName].maxLength
+        }
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][propertyName] &&
@@ -416,10 +511,18 @@ export const getMaxLength = (response: any, propertyName: string) => {
 
 /** Fetches allowed minimum allowed value from API for a property
  * @param  {any} response API response provided
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed minimum value
  */
-export const getMinValue = (response: any, propertyName: string) => {
+
+export const getMinValue = (response: any, propertyName: string, list?:any) => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if(options && options[propertyName] && options[propertyName].minimum) {
+            return options[propertyName].minimum
+        }
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][propertyName] &&
@@ -430,10 +533,18 @@ export const getMinValue = (response: any, propertyName: string) => {
 
 /** Fetches allowed maximum allowed value from API for a property
  * @param  {any} response API response provided
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} propertyName concerned propertyName
  * @returns {number| null} allowed maximum value
  */
-export const getMaxValue = (response: any, propertyName: string) => {
+
+export const getMaxValue = (response: any, propertyName: string, list?:any) => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if(options && options[propertyName] && options[propertyName].maximum) {
+            return options[propertyName].maximum
+        }
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][propertyName] &&
@@ -444,10 +555,17 @@ export const getMaxValue = (response: any, propertyName: string) => {
 
 /** Returns the type of property
  * @param  {any} response API response provided
+ * @param {object} list List object consisting current list item & List name
  * @param  {string} propertyName concerned propertyName
  * @returns {string} type like number, array, string etc
  */
-export const getPropertyType = (response: any, propertyName: string) => {
+
+export const getPropertyType = (response: any, propertyName: string, list?: any) => {
+    if (list) {
+        const options = getListProperties(response, list.listName);
+        if (options && options[propertyName] && options[propertyName].type)
+            return options[propertyName].type; 
+    }
     if (response && response['_options'] &&
         response['_options']['properties'] &&
         response['_options']['properties'][propertyName] &&
@@ -534,4 +652,73 @@ export const getActivities = (response: any) => {
     }
 
     return activities;
+}
+
+/** To get main risk from risk collection
+ * @param  {any} riskResponse API Risk response provided from risks/ID
+ * @returns {Object} Main risk
+ */
+export const getMainRisk = (riskResponse: any) => {
+    if (riskResponse && riskResponse._links.item) {
+        let result = JSON.parse(JSON.stringify(riskResponse));
+        if (!Array.isArray(result['_links']['item'])) {
+            result['_links']['item'] = [result['_links']['item']];
+        }
+        const mainRiskItem = result._links.item.filter(
+            (item: { summary: { [x: string]: any } }) => (
+                item.summary['membership:main'] === true
+            ),
+        );
+        if (mainRiskItem && mainRiskItem.length > 0) {
+            return mainRiskItem;
+        }
+    }
+}
+
+/** To get items from collection
+ * @param  {any} response API collection response
+ * @returns {Object} Items array
+ */
+export const getCollectionItems = (response: any) => {
+    let items = [];
+    if (response && response._links && response._links.item) {
+        items = JSON.parse(JSON.stringify(response['_links']['item']));
+        if (!Array.isArray(items)) {
+            items = [items];
+        }
+    }
+    
+    return items;
+}
+
+/** To get list properties
+ * @param  {any} response 
+ * @returns {Object} Items array
+ */
+
+export const getListProperties = (response: any, list: string) => {
+    if (response && response['_options'] &&
+        response['_options']['properties'] &&
+        response['_options']['properties'][list] &&
+        response['_options']['properties'][list].items && 
+        response['_options']['properties'][list].items.items) {
+        return response['_options']['properties'][list].items.items;
+    }
+}
+
+/** Get property value from response
+ * @param  {any} response provided response
+ * @param {object} list List object consisting current list item & List name
+ * @param  {string} field field which should be checked for edit capability
+ * @returns {any} current value of property
+ */
+
+export const getPropertyValue = ( data:any, propertyName: string, list?: any) => {
+    if (list && list[propertyName]) {
+        return list[propertyName];
+    }
+    else if (data && data.hasOwnProperty(propertyName)) {
+        return data[propertyName]; 
+    }  
+    else return undefined;
 }

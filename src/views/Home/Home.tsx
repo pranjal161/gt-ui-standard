@@ -22,11 +22,11 @@ const Home = () => {
     const {openNewTab, openNewTabInSecondaryWindow} = useTabs()
 
     const openTicketInNewTab = (tabId: string, subTitle: string) => {
-        openNewTab({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', hRef:tabId, mainEntityHRef:tabId}})
+        openNewTab({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', mode:'view', hRef:tabId, mainEntityHRef:tabId}})
     }
 
     const openTicketInNewWindow = (tabId: string, subTitle: string) => {
-        openNewTabInSecondaryWindow({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view', hRef:tabId, mainEntityHRef:tabId}})
+        openNewTabInSecondaryWindow({id:tabId, subTitle, activityProps:{ title:'Ticket N° '+tabId, entityType:'ticket', activityCode:'ticket_view',  mode:'view', hRef:tabId, mainEntityHRef:tabId}})
     }
 
     /*

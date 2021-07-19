@@ -1,9 +1,6 @@
-import React, {useCallback, useEffect} from 'react';
-
-import {makeStyles} from '@material-ui/core/styles';
 import useActivity from 'hooks/useActivity';
-import useAia from 'hooks/useAia';
-import useConfigurations from 'hooks/useConfigurations';
+import React, {useCallback} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import useTabs from 'hooks/useTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,27 +9,18 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#F2F5F7'
-    },
-    header: {
-        display: 'flex',
-        alignContent: 'center',
-        justifyItems: 'left',
-        marginTop: theme.spacing(4),
-        marginBottom: theme.spacing(3),
-        '& > *': {
-            marginRight: theme.spacing(2)
-        }
-    },
-    body: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'stretch',
-        height: '100%'
-    },
-
+    }
 }))
 
 export interface ActivityProps {
+
+    /**
+     * hRef of the activity
+     */
+    hRef : string
+}
+
+export interface ActivityDetailProps {
 
     /**
      * code of the activity
@@ -50,70 +38,55 @@ export interface ActivityProps {
     hRef: string
 
     /**
-     * title
-     */
-    title: string
-
-    /**
      * hRef of the main entity
      */
     mainEntityHRef: string
+
+    /**
+     * Mode of execution of the activity : view, create, update
+     */
+    mode?: string
 
     /**
      * extraValues
      */
     extraValues?:any
 
+    /**
+     * title
+     */
+    title: string
 }
 
 const Activity: React.FC<ActivityProps> = (props: ActivityProps) => {
     const {hRef} = props
-    const {startActivity, stopActivity} = useActivity()
-    const aia: any = useAia()
-
     const classes: any = useStyles()
-    const {getActivityConf} = useConfigurations()
 
-    const configurations = getActivityConf(props) // activityCode can also be store in redux
+    const {configurations, activityProps} = useActivity()
+    const { title} = activityProps
+
     const {openNewTab, forOperation} = useTabs()
-
-    useEffect(() => {
-
-        /**
-         * Main API call
-         *
-         */
-
-        //todo : change it
-        // For the moment, Search is also an activity but we dont have hRef for it.
-        // So we must not fetch on hRef, it's set with search_WORDTOSEARCH
-        if (hRef.slice(0,7) !== 'search_')
-            aia.fetch(hRef)
-
-    }, [aia, hRef, stopActivity, startActivity])
-
-    const SkeletonConf = configurations && configurations.skeleton
-    const HeaderConf = configurations && configurations.header
-
     const onLaunchActivity = useCallback((operation: any, entityType: string) => {
         openNewTab(forOperation({
             entityType,
-            mainEntityHRef: props.hRef,
+            mainEntityHRef: hRef,
             operation
         }))
-    }, [openNewTab]
-    )
+    }, [openNewTab, forOperation, hRef])
+
+    const Structure = configurations && configurations.structure
+    const Header = configurations && configurations.header
 
     return (
         <div className={classes.root}>
             <div className="col-12">
-                {HeaderConf && <HeaderConf {...props} onLaunchActivity={onLaunchActivity}/>}
+                {Header && <Header title={title} hRef={hRef} onLaunchActivity={onLaunchActivity}/>}
             </div>
-            <div className={classes.skeleton}>
-                {SkeletonConf && <SkeletonConf {...props}/>}
+            <div>
+                {Structure && <Structure hRef={hRef}/>}
             </div>
         </div>
     )
 }
 
-export default Activity;
+export default React.memo(Activity);

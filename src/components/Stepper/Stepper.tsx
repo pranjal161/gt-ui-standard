@@ -97,9 +97,14 @@ const useStyles = makeStyles<Theme, Props>((theme: Theme) => ({
 export interface StepProps {
 
     /**
-     * Unique ID - needed in case of Optional Step
+     * Unique ID - needed in case of Optional ActivityStep
      */
     id: number,
+
+    /**
+     * code for each step
+     */
+    code: string,
 
     /**
      * Title for each step
@@ -114,7 +119,7 @@ export interface StepProps {
     /**
      * if step is validated and correct
      */
-    fullfilled: boolean,
+    fulfilled: boolean,
 
     /**
      * if step is disabled
@@ -145,7 +150,7 @@ export interface StepperProps {
     steps: Array<StepProps>,
 
     /**
-     * Active Step - Step Count starts from 0
+     * Active ActivityStep - ActivityStep Count starts from 0
      */
     currentStep: number,
 
@@ -227,7 +232,7 @@ const Stepper = (props: StepperProps) => {
         let counter = 0;
         const updatedSteps: any = mainsteps.map((step: any) => {
             if (step.error) step.valid = !step.error;
-            if (step.fullfilled) step.valid = step.fullfilled;
+            if (step.fulfilled) step.valid = step.fulfilled;
             if (step.required) counter = counter + 1;
             step.description = `${counter}/${mainsteps.length}`;
             if (counter+1 < currentStep) step.iconSrc = PencilIcon;
@@ -359,4 +364,4 @@ const Stepper = (props: StepperProps) => {
     </>);
 }
 
-export default Stepper;
+export default React.memo(Stepper);

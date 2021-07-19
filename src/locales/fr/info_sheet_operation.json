@@ -1,0 +1,12 @@
+{
+  "value_date": "Date d'effet",
+  "start_date": "Date de début",
+  "operation_type": "Type d'opération",
+  "operation_amount": "Montant brut de l'opération",
+  "tax_type_class": "Tax type",
+  "operation_date": "Date d'opération",
+  "fund_origin": "Origine des fonds",
+  "consistent_operation": "Operation cohérente",
+  "atypical_operation": "Operation atypique",
+  "operation_motive": "Raison de l'opération"
+}
