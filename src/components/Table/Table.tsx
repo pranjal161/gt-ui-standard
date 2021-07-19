@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
@@ -36,7 +37,7 @@ type SelectedRow = {
     person: any
 }
 
-interface TableProps {
+export interface TableProps {
 
     /**
      * Url to fetch
@@ -217,11 +218,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 }
                             </tbody>
                         </DxcTable>
-                        {
-                            showPaginator && totalItems > 0 && (
-                                <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
-                            )
-                        }
 
                         {/* {totalItems && (
                             <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={onPagination} />
@@ -246,6 +242,12 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                             </tr>
                         </tbody>
                     </DxcTable>
+                )
+            }
+            
+            {
+                showPaginator && totalItems > 0 && (
+                    <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
                 )
             }
         </>
