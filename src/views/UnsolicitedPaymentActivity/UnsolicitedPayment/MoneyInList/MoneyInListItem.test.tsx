@@ -25,10 +25,10 @@ let mockUseResponse: any = {
 }
 
 // HERE MODIFY THE DEFAULT IMPORT IN THE COMPONENT TO SET YOUR OWN FUNCTION/HOOKS
-// jest.mock('hooks/useResponse', () => ({
-//     __esModule: true,
-//     default: () => [mockUseResponse]
-// }))
+jest.mock('hooks/useResponse', () => ({
+    __esModule: true,
+    default: () => [mockUseResponse]
+}))
 
 jest.mock('utils/functions', () => ({
     __esModule: true,
