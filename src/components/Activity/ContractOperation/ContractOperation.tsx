@@ -71,14 +71,19 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
 
     const [currentStep, setCurrentStep] = useState(0);
     const [activityResponse] = useResponse(hRef);
-    const {patch} = useAia();
+    const {patch, post} = useAia();
 
     const SideBarConf = configurations.sidebar
 
     const nextStep = useCallback ((index: number) => {
-        validateStep().then((inputErrors:any) => {
+        validateStep().then(async(inputErrors:any) => {
             if (inputErrors.length === 0) {
                 const step = index >= steps.length ? steps.length - 1 : index;
+                // HERE I check if the current UP has a money in
+                if(activityResponse.data._links['cscaia:money_in']) {
+                    // HERE I save the money in in API to unlock some parts in the UP
+                    await post(`${activityResponse.data._links['cscaia:money_in'].href}/save`, {})
+                }
                 setCurrentStep(step);
             }
             else {
