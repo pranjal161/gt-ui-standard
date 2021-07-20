@@ -53,9 +53,14 @@ export interface useInputValueProps {
      * patch immdediately
      */
      immediatePatch?: boolean
+
+     /**
+     * Store in Redux or not to patch it further
+     */
+    notToStore?: boolean
 }
 
-const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediatePatch }: useInputValueProps) => {
+const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediatePatch, notToStore }: useInputValueProps) => {
     const {t} = useTranslation();
     const {patch} = useAia();
     const [response, loading] = useResponse(hRef)
@@ -79,11 +84,13 @@ const useInput = ( {hRef, property, type, i18nOptions, onChange, list, immediate
         onChange && onChange(newValue)
         //We patch immediately according API response
         // to add influencer check here later
-        if (field.immediatePatch) {
-            patch(hRef, {[property]: newValue})
+        if (!notToStore) {
+            if (field.immediatePatch) {
+                patch(hRef, {[property]: newValue})
+            }
+            else
+                setDataToPatch({hRef, property, value:newValue})
         }
-        else
-            setDataToPatch({hRef, property, value:newValue})
     },[property, field, onChange, patch])
 
     const setValue = useCallback((newValue: any) => {
