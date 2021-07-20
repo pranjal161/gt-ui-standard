@@ -1,3 +1,5 @@
+import { ArrowDropDownIcon, ArrowDropUpIcon, BlankIcon } from 'assets/svg';
+
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
@@ -88,6 +90,11 @@ interface TableCellProps {
     column: Column
 }
 
+interface SortingObjProps {
+    property: string,
+    orientation: string
+}
+
 const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
 
     if (column.label === '_ACTIONS') {
@@ -134,7 +141,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
     const classes = useStyles();
 
     const [hRef, setHRef]:[any, any] = React.useState()
-    const [sortingProperty, setSortingProperty] = React.useState<string>('');
+    const [sortingObj, setSortingObj] = React.useState<SortingObjProps>({property: '', orientation: 'ASC'});
     const [tableData, setTableData] = React.useState<undefined | any>();
     const { t } = useTranslation();
     const [totalItems, setTotalItems] = React.useState(0);
@@ -162,29 +169,36 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
 
     }, [response])
 
-    const sortData = React.useCallback((data, property) => {
-        console.log({data});
+    const sortData = React.useCallback((data: any, sortObj: SortingObjProps) => {
         const obj = data;
         const sortedData = obj._links.item.sort((a: any, b: any) => {
-            if (a.summary[property] < b.summary[property]) {
-                return -1;
-            } if (b.summary[property] < a.summary[property]) {
-                return 1;
+            if (sortObj.orientation === 'ASC') {
+                if (a.summary[sortObj.property] < b.summary[sortObj.property]) {
+                    return -1;
+                } if (b.summary[sortObj.property] < a.summary[sortObj.property]) {
+                    return 1;
+                }
+            }
+            else if (sortObj.orientation === 'DESC') {
+                if (b.summary[sortObj.property] < a.summary[sortObj.property]) {
+                    return -1;
+                } if (a.summary[sortObj.property] < b.summary[sortObj.property]) {
+                    return 1;
+                }
             }
             
             return 0;
         });
-        console.log({sortedData});
         obj._links.item = sortedData;
         setTableData(obj);
-    }, [])
+    }, [sortingObj])
 
     React.useEffect(() => {
-        if (tableData && tableData._links && tableData._links.item && tableData._links.item.length > 0 && (sortingProperty !== '' || sortingProperty !== undefined)) {
-            sortData({...tableData}, sortingProperty);
-            console.log({sortingProperty})
+        if (tableData && tableData._links && tableData._links.item && tableData._links.item.length > 0 && (sortingObj.property !== '' || sortingObj.property !== undefined)) {
+            console.log({tableData});
+            sortData({...tableData}, sortingObj);
         }
-    }, [sortData, sortingProperty, tableData])
+    }, [sortingObj])
 
     const onPagination = (link: string) => {
         if (link.includes('_num=')) {
@@ -210,9 +224,19 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
         }
     }
 
-    const setProperty = (val: any) => {
+    const setProperty = (val: any) => {    
         console.log({val});
-        setSortingProperty(typeof val === 'string' ? val : '')
+        
+        let orientation = '';
+
+        if (sortingObj.property !== val || sortingObj.orientation === 'DESC') {
+            orientation = 'ASC';
+        }
+        else if (sortingObj.property === val || sortingObj.orientation === 'ASC') {
+            orientation = 'DESC';
+        }
+
+        setSortingObj(typeof val === 'string' ? {property: val, orientation} : {property: '', orientation: 'ASC'});
     }
 
     return (
@@ -225,7 +249,20 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 <tr>
                                     {
                                         columnId.map((columnItem, index) => (
-                                            <th className={classes.columnHeader} onClick={() => setProperty(columnItem.property)} key={columnItem.label + index}>{t(columnItem['label'])}</th>
+                                            <th className={classes.columnHeader} onClick={() => setProperty(columnItem.property)} key={columnItem.label + index}>
+                                                <span>
+                                                    {t(columnItem['label'])}
+                                                    {
+                                                        sortingObj.orientation === 'ASC' && columnItem.property === sortingObj.property && <ArrowDropUpIcon />
+                                                    }
+                                                    {
+                                                        sortingObj.orientation === 'DESC' && columnItem.property === sortingObj.property && <ArrowDropDownIcon />
+                                                    }
+                                                    {
+                                                        sortingObj.property === '' || columnItem.property !== sortingObj.property && <BlankIcon />
+                                                    }
+                                                </span>
+                                            </th>
                                         ))
                                     }
                                 </tr>
@@ -293,6 +330,10 @@ const useStyles = makeStyles({
 
     selectedRow: {
         backgroundColor: `${globalTokens.__grey_6} !important`,
+    },
+
+    flippedArrow: {
+        transform: 'rotate(180degree)'
     }
 })
 
