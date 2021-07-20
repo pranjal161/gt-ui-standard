@@ -53,7 +53,9 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
 
     useEffect(() => {
         let formatResponse = getActivities(response);
-        setActivities(formatResponse);
+        if (formatResponse) {
+            setActivities(formatResponse);
+        }
     }, [response])
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
