@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
+import React from 'react';
 import { getDescriptionValue } from 'utils/functions';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -134,19 +133,19 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
 const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage = 0}: TableProps) => {
     const classes = useStyles();
 
-    const [hRef, setHRef]:[any, any] = useState()
-
-    const [tableData, setTableData] = useState<undefined | any>();
+    const [hRef, setHRef]:[any, any] = React.useState()
+    const [sortingProperty, setSortingProperty] = React.useState<string>('');
+    const [tableData, setTableData] = React.useState<undefined | any>();
     const { t } = useTranslation();
-    const [totalItems, setTotalItems] = useState(0);
+    const [totalItems, setTotalItems] = React.useState(0);
     const [selectedRow, setSelectedRow] = React.useState<any>({});
     const [response] = useResponse(hRef)
 
-    useEffect(() => {
-        setHRef(url)
+    React.useEffect(() => {
+        setHRef(url);
     }, [url])
 
-    useEffect(() => {
+    React.useEffect(() => {
 
         if (response && response.data['_links']['item']) {
             let result = JSON.parse(JSON.stringify(response));
@@ -162,6 +161,30 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
         }
 
     }, [response])
+
+    const sortData = React.useCallback((data, property) => {
+        console.log({data});
+        const obj = data;
+        const sortedData = obj._links.item.sort((a: any, b: any) => {
+            if (a.summary[property] < b.summary[property]) {
+                return -1;
+            } if (b.summary[property] < a.summary[property]) {
+                return 1;
+            }
+            
+            return 0;
+        });
+        console.log({sortedData});
+        obj._links.item = sortedData;
+        setTableData(obj);
+    }, [])
+
+    React.useEffect(() => {
+        if (tableData && tableData._links && tableData._links.item && tableData._links.item.length > 0 && (sortingProperty !== '' || sortingProperty !== undefined)) {
+            sortData({...tableData}, sortingProperty);
+            console.log({sortingProperty})
+        }
+    }, [sortData, sortingProperty, tableData])
 
     const onPagination = (link: string) => {
         if (link.includes('_num=')) {
@@ -187,6 +210,11 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
         }
     }
 
+    const setProperty = (val: any) => {
+        console.log({val});
+        setSortingProperty(typeof val === 'string' ? val : '')
+    }
+
     return (
         <>
             {
@@ -197,7 +225,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 <tr>
                                     {
                                         columnId.map((columnItem, index) => (
-                                            <th className={classes.columnHeader} key={columnItem.label + index}>{t(columnItem['label'])}</th>
+                                            <th className={classes.columnHeader} onClick={() => setProperty(columnItem.property)} key={columnItem.label + index}>{t(columnItem['label'])}</th>
                                         ))
                                     }
                                 </tr>
@@ -223,10 +251,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 <Paginator totalItems={totalItems} itemsPerPage={itemsByPage} data={tableData} handler={onPagination} />
                             )
                         }
-
-                        {/* {totalItems && (
-                            <Paginator totalItems={totalItems} itemsPerPage={5} data={tableData} handler={onPagination} />
-                        )} */}
                     </>
                 ) : (
                     <DxcTable>
@@ -263,7 +287,8 @@ const useStyles = makeStyles({
 
     columnHeader: {
         backgroundColor: `${globalTokens.__grey_5} !important`,
-        color: `${globalTokens.__grey_2} !important`
+        color: `${globalTokens.__grey_2} !important`,
+        cursor: 'pointer !important'
     },
 
     selectedRow: {
