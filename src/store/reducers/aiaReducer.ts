@@ -5,11 +5,11 @@ const initialState = {};
 const updateResponse = (newState: any, action: any) => {
     // eslint-disable-next-line array-callback-return
     Object.keys(action.store).forEach((baId: any) => {
-        if (baId && action.store[baId][action.href]) {
-            newState[baId][action.href] = {data: {...action.data}}
+        if (baId && action.store[baId].resources[action.href]) {
+            newState[baId].resources[action.href] = {data: {...action.data}}
         }
         else {
-            newState[action.baId][action.href] = {data: {...action.data}}
+            newState[action.baId].resources[action.href] = {data: {...action.data}}
         }
     })
 
@@ -31,6 +31,7 @@ const AIASlice = createSlice({
             state[action.payload.baId] = {
                 status: {},
                 steps: {},
+                resources: {},
                 props: action.payload.activityProps,
                 current: undefined
             }
@@ -119,9 +120,9 @@ const AIASlice = createSlice({
             return state;
         },
         aiaDELETESuccess(state: any, action: any) {
-            let resources = state[action.payload.baId] || {};
+            let resources = state[action.payload.baId].resources || {};
             delete resources[action.payload.href];
-            state[action.payload.baId] = resources;
+            state[action.payload.baId].resources = resources;
         },
         aiaDELETEError(state, action) {
             console.log('Error in BA_DELETE', action);
