@@ -13,12 +13,12 @@ export const fetch = (href: string, baId: string, params?: Object) => (dispatch:
 
         // Will return always undefined, the promise code will be resolved with undefined.
         // The right solution is to be able to link the result as the first call promise
-        return Promise.resolve(getState().aia[baId][href]);
+        return Promise.resolve(getState().aia[baId].resources[href]);
 
     }
 
     //Search if we have already fetch this href
-    if (getState().aia[baId] && getState().aia[baId][href]) {
+    if (getState().aia[baId].resources && getState().aia[baId].resources[href]) {
         dispatch(aiaReducer.aiaGETSuccessCache())
 
         /*dispatch(aiaReducer.aiaGETSuccess(
@@ -31,7 +31,7 @@ export const fetch = (href: string, baId: string, params?: Object) => (dispatch:
             }
         ))*/
 
-        return Promise.resolve(getState().aia[baId][href]);
+        return Promise.resolve(getState().aia[baId].resources[href]);
     }
     else {
         dispatch(aiaReducer.aiaGETPending({href, baId}))
@@ -94,7 +94,7 @@ export const post = (href: string, body: Object, baId: string, params?: Object) 
         // case1: modified headers
         if (response && response.data && response.data.messages && response.data.messages.length > 0) {
             const messages = response.data.messages;
-            const existingHrefs = getState().aia[baId];
+            const existingHrefs = getState().aia[baId].resources;
             const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
             if (modifiedArray) {
                 processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
@@ -126,14 +126,14 @@ export const patch = (href: string, payload: Object, baId: string, params?: Obje
         // case1: modified headers recieved in response headers
         if (response && response.headers && response.headers[modifiedHeaderTag.toLowerCase()]) {
             const modifiedUrls = response.headers[modifiedHeaderTag.toLowerCase()]
-            const existingHrefs = getState().aia[baId];
+            const existingHrefs = getState().aia[baId].resources;
             processModifiedHeaders(modifiedUrls.split(','), existingHrefs, baId, dispatch);
         }
         // case2: When patch response is in form of messages, check modified headers & refresh url to get full response
         else if (response && response.data && response.data.messages && response.data.messages.length > 0) {
             refresh(href, baId);
             const messages = response.data.messages;
-            const existingHrefs = getState().aia[baId];
+            const existingHrefs = getState().aia[baId].resources;
             const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
             if (modifiedArray) {
                 processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
@@ -167,7 +167,7 @@ export const deleteRequest = (href: string, baId: string, params?: Object) => (d
 
         if (response && response.data && response.data.messages && response.data.messages.length > 0) {
             const messages = response.data.messages;
-            const existingHrefs = getState().aia[baId];
+            const existingHrefs = getState().aia[baId].resources;
             const modifiedArray: any = messages.find((message: any) => message.context === modifiedHeaderTag);
             if (modifiedArray) {
                 processModifiedHeaders(modifiedArray.message, existingHrefs, baId, dispatch);
