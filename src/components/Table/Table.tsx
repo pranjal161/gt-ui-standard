@@ -1,4 +1,6 @@
-import { ArrowDropDownIcon, ArrowDropUpIcon, BlankIcon } from 'assets/svg';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { ArrowDropDownIcon, ArrowDropUpIcon } from 'assets/svg';
 
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
@@ -141,6 +143,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
     const classes = useStyles();
 
     const [hRef, setHRef]:[any, any] = React.useState()
+    const [hoveredColumn, setHoveredColumn] = React.useState<string>('');
     const [sortingObj, setSortingObj] = React.useState<SortingObjProps>({property: '', orientation: 'ASC'});
     const [tableData, setTableData] = React.useState<undefined | any>();
     const { t } = useTranslation();
@@ -245,18 +248,32 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
                                 <tr>
                                     {
                                         columnId.map((columnItem, index) => (
-                                            <th className={classes.columnHeader} onClick={() => setProperty(columnItem.property)} key={columnItem.label + index}>
-                                                <span>
+                                            <th className={classes.columnHeader}
+                                                onMouseEnter={() => setHoveredColumn(typeof columnItem.property === 'string' ? columnItem.property : '')}
+                                                onClick={() => setProperty(columnItem.property)}
+                                                key={columnItem.label + index}>
+
+                                                <span className={classes.headerLabel}>
                                                     {t(columnItem['label'])}
-                                                    {
-                                                        sortingObj.orientation === 'ASC' && columnItem.property === sortingObj.property && <ArrowDropUpIcon />
-                                                    }
-                                                    {
-                                                        sortingObj.orientation === 'DESC' && columnItem.property === sortingObj.property && <ArrowDropDownIcon />
-                                                    }
-                                                    {
-                                                        sortingObj.property === '' || columnItem.property !== sortingObj.property && <BlankIcon />
-                                                    }
+
+                                                    <div className={hoveredColumn !== columnItem.property ? classes.notFocusedSort : ''}>
+                                                        {
+                                                            columnItem.label !== '_ACTIONS' && typeof columnItem.property === 'string' && (
+                                                                <>
+                                                                    {
+                                                                        sortingObj.property !== columnItem.property && <ArrowDropUpIcon />
+                                                                    }
+                                                                    {
+                                                                        sortingObj.orientation === 'ASC' && sortingObj.property === columnItem.property && <ArrowDropUpIcon />
+                                                                    }
+                                                                    {
+                                                                        sortingObj.orientation === 'DESC' && columnItem.property === sortingObj.property && <ArrowDropDownIcon />
+                                                                    }
+                                                                </>
+                                                            )
+                                                        }
+                                                    </div>
+                                                    
                                                 </span>
                                             </th>
                                         ))
@@ -328,8 +345,13 @@ const useStyles = makeStyles({
         backgroundColor: `${globalTokens.__grey_6} !important`,
     },
 
-    flippedArrow: {
-        transform: 'rotate(180degree)'
+    headerLabel: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+
+    notFocusedSort: {
+        opacity: 0.5
     }
 })
 
