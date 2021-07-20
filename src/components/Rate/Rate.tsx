@@ -4,8 +4,6 @@ import {UpDownArrow} from 'assets/svg';
 import { getLink } from 'utils/functions';
 import {makeStyles} from '@material-ui/core/styles';
 
-// import TextField from 'components/TextField/TextField';
-
 const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
@@ -38,27 +36,23 @@ const useStyles = makeStyles(() => ({
         }
     }
 }));
-const Rate = (props: { property: string, response: any, icon?: Boolean, list?:any }) => {
+const Rate = (props: { property: string, response: any, icon?: Boolean, list?:any, onChange: Function }) => {
     const classes: any = useStyles();
     const hRef = props.response && getLink(props.response, 'self');
-    const onChange = (newValue: string) => {
-        console.log(newValue);
+    const onChangeMethod = (newValue: number) => {
+        props.onChange({value: newValue, data: props && props.list });
     };
 
     return (<div className={classes.root}>
         <TextField
             hRef={hRef}
-            onChange={onChange}
+            onChange={onChangeMethod}
             property={props.property}
             type="text"
             size="small"
             list={props.list}
+            notToStore={true}
         />
-        {/* <DxcInput
-            value={inputValue}
-            margin="xxsmall"
-            onChange={onChange}
-        /> */}
         {props.icon && <div className={classes.arrow}><UpDownArrow/></div>}
         <b><p className={classes.m0}>%</p></b>
     </div>);

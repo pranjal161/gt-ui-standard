@@ -44,7 +44,8 @@ export interface InputProps {
     immediatePatch?:boolean | undefined, 
     list?: any,
     size?:string,
-    loading?: boolean
+    loading?: boolean,
+    notToStore?: boolean
 }
 
 export interface ErrorField {

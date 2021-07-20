@@ -11,29 +11,37 @@ import React from 'react';
 import Section from 'components/Section/Section';
 import SelectInput from 'components/SelectInput/SelectInput';
 import useActivity from 'hooks/useActivity';
+import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 
 interface SplitPoolInterface {
     hRef: string,
-    data: any
+    data: any,
+    patchOn: string
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
     const [poolResponse] = useResponse(props.hRef);
+    const {patch} = useAia();
+    const rowExtraData = { hRefKey: 'allocation:coverage_fund', list: 'investment_split' };
+    const tableData = props.data['investment_split'].filter((funds: any) => funds['parent_product_component'] === props.hRef);
+    const tableResponse = {...props.data, investment_split: tableData }
+    const actions = <div className={'d-flex'}>
+        <label>Rate</label><Rate onChange={() => console.log('')} property={'to_be_define'} response={[]}/>
+    </div>
+    const investmentSplit = props?.data?.investment_split;
+    const onchange = (updated: any) => {
+        const payloadToPatch = investmentSplit.map((split: {'allocation:coverage_fund': string}) => (split['allocation:coverage_fund'] === updated.data['allocation:coverage_fund'] ? {...split, 'allocation:rate': parseInt(updated['value'])} : {...split}));
+        patch(props.patchOn, {'investment_split': payloadToPatch});
+    }
     const headers = [
         { title: 'Funds' },
         { title: 'Rate' }
     ];
     const columns = [
         { valueKey: 'coverage_fund:label', hRefKey: true },
-        { valueKey: 'allocation:rate', component: Rate, list: true }
+        { valueKey: 'allocation:rate', component: Rate, onChange: onchange, list: true }
     ];
-    const rowExtraData = { hRefKey: 'allocation:coverage_fund', list: 'investment_split' };
-    const tableData = props.data['investment_split'].filter((funds: any) => funds['parent_product_component'] === props.hRef);
-    const tableResponse = {...props.data, investment_split: tableData }
-    const actions = <div className={'d-flex'}>
-        <label>Rate</label><Rate property={'to_be_define'} response={[]}/>
-    </div>
 
     return (
         <>
@@ -85,6 +93,7 @@ const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
                     <MainSplitPool
                         key={index}
                         data={response.data}
+                        patchOn={hRef}
                         hRef={pool['product_component']}/>
                 )
                 )}
