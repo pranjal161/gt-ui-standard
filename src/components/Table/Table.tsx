@@ -195,7 +195,6 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
 
     React.useEffect(() => {
         if (tableData && tableData._links && tableData._links.item && tableData._links.item.length > 0 && (sortingObj.property !== '' || sortingObj.property !== undefined)) {
-            console.log({tableData});
             sortData({...tableData}, sortingObj);
         }
     }, [sortingObj])
@@ -224,11 +223,8 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
         }
     }
 
-    const setProperty = (val: any) => {    
-        console.log({val});
-        
+    const setProperty = (val: any) => {
         let orientation = '';
-
         if (sortingObj.property !== val || sortingObj.orientation === 'DESC') {
             orientation = 'ASC';
         }
