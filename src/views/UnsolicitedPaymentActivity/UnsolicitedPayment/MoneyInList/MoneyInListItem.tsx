@@ -75,7 +75,9 @@ const MoneyInListItem: React.FC<MoneyInListItemProps> = (props: MoneyInListItemP
                             <td className={classes.row} data-testid={item.property} key={key}>{getDescriptionFromOneOf(response.data[item.property], item.property, response.data)}</td>
                             :
                             <td key={key} className={classes.row}>
-                                <IconContainer onDelete={() => onDelete(hRef)} onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
+                                <IconContainer 
+                                    onDelete={IsEditable(response) ? () => onDelete(hRef) : false}
+                                    onEdit={IsEditable(response) ? () => onEdit(hRef) : false} />
                             </td>
                 ))
             }

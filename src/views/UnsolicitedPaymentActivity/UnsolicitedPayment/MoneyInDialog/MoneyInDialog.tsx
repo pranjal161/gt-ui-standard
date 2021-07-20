@@ -6,6 +6,7 @@ import DialogContent from './DialogContent/DialogContent';
 import React from 'react';
 import { getLink } from 'utils/functions';
 import { scrollIntoView } from 'utils/system';
+import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
 import { useTranslation } from 'react-i18next';
@@ -58,6 +59,7 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
     const classes = useStyles();
     const { t } = useTranslation();
     const { validateStep } = useStep();
+    const {post} = useAia();
     const {
         onClose,
         hRef,
@@ -68,9 +70,11 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
 
     const [response] = useResponse(hRef);
 
-    const addMoney = () => {
+    const addMoney = React.useCallback(() => {
         validateStep().then((inputErrors: any) => {
             if (inputErrors.length === 0) {
+                // console.log(response.data._links['cscaia:save'].href)
+                // await post(response.data._links['cscaia:save'].href, {})
                 onClose('UPPatch');
             }
             else {
@@ -78,7 +82,7 @@ const MoneyInDialog: React.FC<MoneyInDialogProps> = (props: MoneyInDialogProps) 
                 scrollIntoView(inputErrors[0])
             }
         })
-    };
+    }, [onClose, post, validateStep]);
 
     return (
         <div className={classes.container}>

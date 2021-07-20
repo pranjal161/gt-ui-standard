@@ -60,10 +60,13 @@ const IconContainer: React.FC<IconContainerProps> = (props: IconContainerProps) 
                     <PencilIcon />
                 </span>
             }
+            {
+                onDelete &&
+                <span className={classes.deleteIcon} onClick={onDelete} data-testid="delete-icon">
+                    <DeleteIcon />
+                </span>
+            }
 
-            <span className={classes.deleteIcon} onClick={onDelete} data-testid="delete-icon">
-                <DeleteIcon />
-            </span>
         </div>
     )
 }

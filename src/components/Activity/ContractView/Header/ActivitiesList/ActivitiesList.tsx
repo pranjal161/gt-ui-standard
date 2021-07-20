@@ -53,15 +53,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
 
     useEffect(() => {
         let formatResponse = getActivities(response);
-        if (formatResponse) {
-            formatResponse.sort((a: any, b:any) => {
-                if(a.name < b.name) return -1
-                if(a.name > b.name) return 1
-                
-                return 0;
-            })
-            setActivities(formatResponse);
-        }
+        setActivities(formatResponse);
     }, [response])
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
