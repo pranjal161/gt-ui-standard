@@ -1,17 +1,16 @@
 import React, {useCallback, useState} from 'react';
 import Stepper, {StepProps} from 'components/Stepper/Stepper';
 
+import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
-import InformationSheet from 'views/UnsolicitedPaymentActivity/InformationSheet/InformationSheet';
-import InvestmentSplit from 'views/UnsolicitedPaymentActivity/InvestmentSplit/InvestmentSplit';
-import UnsolicitedPayment from 'views/UnsolicitedPaymentActivity/UnsolicitedPayment/UnsolicitedPayment';
 import WithScroll from 'components/WithScroll/WithScroll';
 import {makeStyles} from '@material-ui/core/styles';
+import {scrollIntoView} from 'utils/system';
+import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
-import useConfigurations from 'hooks/useConfigurations';
 import useResponse from 'hooks/useResponse';
-import {useSelector} from 'react-redux';
+import useStep from 'hooks/useStep';
 import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,111 +41,102 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractOperation: React.FC<any> = (props: any) => {
+const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
+    const {hRef} = props
+    const {activityProps, getSteps, configurations} = useActivity()
+    const {mainEntityHRef } = activityProps
+    const {t} = useTranslation()
+    const steps = getSteps()
+    const {validateStep} = useStep()
+
+    //------------- Side bar and dynamic layout management
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
-    const hRef = props.hRef
-    const {t} = useTranslation()
-    const {getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
-    const [currentStep, setCurrentStep] = useState(0);
-    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
-    const activityResponse = useResponse(hRef);
-    const {patch} = useAia();
+    const [isSideBarOpen, setIsSideBarOpen] = useState(true)
+    const handleSidebarChange = useCallback((open: boolean) => {
+        setIsSideBarOpen(open)
+    }, [setIsSideBarOpen])
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
             setContentOffsetTop(node.offsetTop);
         }
     }, []);
-    const steps = [
-        {
-            id: 0,
-            label: t('common:_UNSOLICITED_PAYMENT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <UnsolicitedPayment response={activityResponse}/>
-        },
-        {
-            id: 1,
-            label: t('common:_INVESTMENT_SPLIT'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InvestmentSplit response={activityResponse}/>
-        },
-        {
-            id: 2,
-            label: t('common:_INFORMATION_SHEET'),
-            required: true,
-            fullfilled: true,
-            error: true,
-            component: <InformationSheet response={activityResponse}/>
-        }
-    ]
     const handleSideBarOffsetTop = useCallback((node) => {
         if (node !== null) {
             setSideBarOffsetTop(node.offsetTop);
         }
     }, []);
+    const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
+    //-------------
 
-    const configurations = getActivityConf(props)
+    const [currentStep, setCurrentStep] = useState(0);
+    const [activityResponse] = useResponse(hRef);
+    const {patch} = useAia();
 
     const SideBarConf = configurations.sidebar
 
-    const nextStep = (index: number) => {
-        const step = index >= steps.length ? steps.length - 1 : index;
-        setCurrentStep(step);
-    }
+    const nextStep = useCallback ((index: number) => {
+        validateStep().then((inputErrors:any) => {
+            if (inputErrors.length === 0) {
+                const step = index >= steps.length ? steps.length - 1 : index;
+                setCurrentStep(step);
+            }
+            else {
+                //We scroll to view the first error
+                scrollIntoView(inputErrors[0])
+            }
+        })
+    }, [steps, validateStep])
 
-    const patchDate = (value: any, id: string) => {
-        const payload: any = {};
-        payload[id] = value;
-        patch(hRef, payload).then(() => {
+    const patchDate = useCallback((value: any, id: string) => {
+        patch(hRef, {[id] : value}).then(() => {
             setCurrentStep(0);
         });
-    }
+    }, [hRef, patch])
+
+    const currentStepConfig = steps && steps.filter((step: StepProps) => (step.id === currentStep))
+    const CurrentStepComponent = currentStepConfig && currentStepConfig[0].component
+    const CurrentStep = currentStepConfig &&
+        <ActivityStep key={currentStepConfig[0].id} code={currentStepConfig[0].code}>
+            <CurrentStepComponent hRef={hRef} />
+        </ActivityStep> || <div/>
+
+    const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
+
+    const TitleOfNextValidateButton = currentStepConfig && currentStepConfig[0].isValidationStep ?
+        t('common:_VALIDATE_BUTTON'):t('common:_NEXT_BUTTON')
 
     return (
         <div className={`col-12 ${classes.body}`}>
             <div className={`col-9 ${classes.bodyLeft}`}>
-
                 <div className="d-flex pt-3 pb-3">
                     <div className="col-2">
                         {activityResponse &&
-                        <DateInput propertyName="date_effect"
-                            onChangeMethod={(value: any) => patchDate(value, 'date_effect')}
-                            data={activityResponse.data}/>}
+                        <DateInput property="date_effect"
+                            hRef={hRef}
+                            onChange={(value: any) => patchDate(value, 'date_effect')} />}
                     </div>
                     <div className="col-10">
                         <Stepper currentStep={currentStep} steps={steps} showStepsAtATime={3}
-                            onChange={(index: number) => setCurrentStep(index)}/>
+                            onChange={handleStepperOnChange}/>
                     </div>
-
                 </div>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        {steps.map((step: StepProps, index) => (
-                            <div key={index}>
-                                {step.id === currentStep &&
-                                (
-                                    <>{step.component}</>
-                                )
-                                }
-                            </div>
-                        ))
-                        }
-                        <div className="m-2 p-1" style={{float: 'right'}}><Button
-                            onClick={() => nextStep(currentStep + 1)} title={t('common:_NEXT_BUTTON')}/></div>
+                        {CurrentStep}
+
+                        <div className="m-2 p-1" style={{float: 'right'}}>
+                            <Button onClick={() => nextStep(currentStep + 1)} title={TitleOfNextValidateButton}/>
+                        </div>
                     </WithScroll>
                 </div>
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef}/>
+                <SideBarConf mainEntityHRef={mainEntityHRef} hRef={hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );
 }
 
-export default ContractOperation;
+export default React.memo(ContractOperation);

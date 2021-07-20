@@ -9,7 +9,7 @@ export const getAPIConfig =() => ({
         'x-api-key': '48SmqcLpec3t1TO8EMzaDaamMz25pDZ469NFux41'
     },
     multiHostUrlHeader: [],
-    defaultHostUrl: 'http://20.33.40.147:13111/csc/insurance/',
+    defaultHostUrl: 'http://20.33.40.147:13113/csc/insurance/',
     multiHostUrl: [],
     modifiedHeaderTag: 'X-GraphTalk-Modified'
 })

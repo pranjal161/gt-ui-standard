@@ -17,7 +17,7 @@ it('Expect 2 Child Nodes to Render for Just2Steps', () => {
     expect(getByTestId('wizard').querySelector('div')?.childNodes.length).toBe(2)
 });
 
-it('Expect Optional Step will be visible on Option Button click', () => {
+it('Expect Optional ActivityStep will be visible on Option Button click', () => {
     const {getByTestId} = render(<OptionalStep />);
     const button: any = getByTestId('option-button').querySelector('button')
     fireEvent.click(button)

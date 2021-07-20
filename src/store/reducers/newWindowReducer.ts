@@ -19,7 +19,7 @@ export interface windowTabsObjsInt {
         subTitle?: string,
         href?: string,
         type: string,
-        activityProps?:any
+        activityProps?:any,
     }
 }
 
@@ -64,7 +64,7 @@ const newWindowSlice = createSlice({
                 subTitle: secLabel,
                 type: action.payload.tabType,
                 href: URL,
-                activityProps:action.payload.activityProps
+                activityProps:action.payload.activityProps,
             };
         },
         removeWindowTabByID(state, action: PayloadAction<string>) {
@@ -89,7 +89,7 @@ const newWindowSlice = createSlice({
         },
         setSelectedWindowTabByID(state, action: PayloadAction<string>) {
             state.selectedWindowTab.id = action.payload;
-        }
+        },
     }
 });
 
@@ -99,5 +99,5 @@ export const {
     closeWindowTabs,
     addWindowTabByID,
     removeWindowTabByID,
-    setSelectedWindowTabByID
+    setSelectedWindowTabByID,
 } = newWindowSlice.actions;

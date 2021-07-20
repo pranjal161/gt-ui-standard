@@ -1,4 +1,4 @@
-import {ActivityProps} from 'components/Activity/Activity';
+import {ActivityDetailProps} from 'components/Activity/Activity';
 import {addSecondaryTabByID} from 'store/reducers/secondaryTabsReducer';
 import {addWindowTabByID} from 'store/reducers/newWindowReducer';
 import {useCallback} from 'react';
@@ -21,7 +21,7 @@ export interface TabProps {
     /**
      * activityProps
      */
-    activityProps: ActivityProps
+    activityProps: ActivityDetailProps
 }
 
 export interface forOperationProps {
@@ -135,6 +135,21 @@ const useTabs = () => {
         }
     }), [t])
 
+    /**
+     * Map contract API response based on data part
+     */
+    const forPerson = useCallback(({title, hRef}: forContractProps) => ({
+        id: hRef,
+        subTitle: t('common:personViewLabel'),
+        activityProps: {
+            title,
+            entityType: 'person',
+            activityCode: 'person_view',
+            hRef,
+            mainEntityHRef: hRef
+        }
+    }), [t])
+
     const forSearch = useCallback(({entityType, searchString, filters}:forSearchProps) => ({
         id: `search_${entityType}_${searchString}`,
         subTitle: t('common:searchViewLabel', {context:entityType}),
@@ -149,7 +164,7 @@ const useTabs = () => {
 
     }), [t])
 
-    return {openNewTab, openNewTabInSecondaryWindow, forOperation, forContract, forSearch}
+    return {openNewTab, openNewTabInSecondaryWindow, forOperation, forContract, forPerson, forSearch}
 }
 
 export default useTabs

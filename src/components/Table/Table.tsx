@@ -1,12 +1,11 @@
-import useResponse from 'hooks/useResponse';
 import React, { useEffect, useState } from 'react';
-
 import { DxcTable } from '@dxc-technology/halstack-react';
 import IconButton from 'theme/components/material/IconButton/IconButton';
 import Paginator from 'components/Paginator/Paginator';
 import { getDescriptionValue } from 'utils/functions';
 import { globalTokens } from 'theme/standard/palette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import useResponse from 'hooks/useResponse';
 import { useTranslation } from 'react-i18next';
 
 export type Column = {
@@ -140,7 +139,7 @@ const Table = ({url, columnId, showPaginator = false, onRowSelected, itemsByPage
     const { t } = useTranslation();
     const [totalItems, setTotalItems] = useState(0);
     const [selectedRow, setSelectedRow] = React.useState<any>({});
-    const response = useResponse(hRef)
+    const [response] = useResponse(hRef)
 
     useEffect(() => {
         setHRef(url)

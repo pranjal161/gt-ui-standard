@@ -1,19 +1,18 @@
 import { AddBoxIcon, PaymentIcon } from 'assets/svg';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-import Button from 'components/Button/Button';
-import CreateMoneyIn from './CreateMoneyIn/CreateMoneyIn';
-import MoneyInResume from './MoneyInResume/MoneyInResume';
+import { APIConfig } from 'configs/apiConfig';
+import { ActivityProps } from 'components/Activity/Activity';
+import Button from 'theme/components/material/Button/Button';
+import DialogActivityStep from 'components/DialogActivityStep/DialogActivityStep';
+import MoneyInDialog from './MoneyInDialog/MoneyInDialog';
+import MoneyInList from './MoneyInList/MoneyInList';
 import React from 'react';
 import Section from 'components/Section/Section';
-
-export interface MoneyInProps {
-
-    /**
-     * API response of API for the entity
-     */
-    response: any
-}
+import { getLink } from 'utils/functions';
+import useActivity from 'hooks/useActivity';
+import useAia from 'hooks/useAia';
+import useResponse from 'hooks/useResponse';
 
 const useStyles = makeStyles((theme: Theme) => ({
     avoidMovement: {
@@ -21,29 +20,74 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
+/**
+ * The component renders the money in part of the unsolicited payment
+  * @param {MoneyInProps} props Props of the component.
+  * @description Please don't forget to save the money in at the end of the unsolicited payment process
+   * @returns {React.component} Display the component.
+    */
+const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
+    const { hRef } = props
+    const { activityProps } = useActivity()
+    const { mainEntityHRef } = activityProps
     const classes = useStyles();
-    const [isMoneyInOpen, setIsMoneyInOpen]: [boolean, Function] = React.useState(false);
-    const onClose = () => {
-        setIsMoneyInOpen(false);
+    const { post, patch } = useAia();
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const [isEdit, setIsEdit] = React.useState<boolean>(false);
+    const [response] = useResponse(hRef);
+
+    const unsolicitedPaymentHref: string = getLink(response && response.data, 'self');
+    const payerURI: string = getLink(response && response.data, 'premium:addressee_person');
+    const amountUP: number = response?.data['operation:amount'];
+    const contractHRef: string = mainEntityHRef
+
+    const [moneyInHRef, setMoneyInHRef] = React.useState<any>();
+
+    const onClose = React.useCallback((name = 'default') => {
+        if (name === 'UPPatch') {
+            patch(hRef, { 'cscaia:money_in': moneyInHRef });
+        }
+        setIsOpen(false);
+        setIsEdit(false);
+    }, [hRef, moneyInHRef, patch])
+
+    const onEdit = (hRef: string) => {
+        setIsEdit(true);
+        setMoneyInHRef(hRef);
+        setIsOpen(true);
     }
 
-    React.useEffect(() => {
-        console.log(response)
-    })
+    const onCreate = async () => {
+        const moneyInCollection = APIConfig().defaultHostUrl + 'financials/money_ins';
+        const res = await post(moneyInCollection, { 'operation:contract': contractHRef });
+        setMoneyInHRef(getLink(res.data, 'self'));
+
+        setIsOpen(true);
+    }
+
+    const onDelete = async (hRef: string) => {
+        await post(hRef + '/cancel', {});
+        await patch(unsolicitedPaymentHref, { 'cscaia:money_in': '' })
+        setMoneyInHRef('');
+    }
 
     return (
         <Section title="Payment" icon={<PaymentIcon />} actions={
-            <Button onClick={() => setIsMoneyInOpen(true)} Icon={AddBoxIcon}
-                title="Collection" />} >
+            <>
+                <Button color="primary" onClick={() => onCreate()} endIcon={<AddBoxIcon />}>
+                    Collection
+                </Button>
+            </>} >
             {
                 response &&
                 <>
-                    <MoneyInResume responseUP={response} />
+                    <MoneyInList moneyInHref={moneyInHRef} onEdit={onEdit} onDelete={onDelete} />
 
                     {
-                        isMoneyInOpen ?
-                            <CreateMoneyIn open={isMoneyInOpen} onClose={onClose} response={response} />
+                        isOpen ?
+                            <DialogActivityStep code={'up_create_money_in'}>
+                                <MoneyInDialog onClose={onClose} hRef={moneyInHRef} isEdit={isEdit} payerURI={payerURI} amountUP={amountUP} />
+                            </DialogActivityStep>
                             :
                             <div className={classes.avoidMovement} />
 
@@ -55,4 +99,5 @@ const MoneyIn: React.FC<MoneyInProps> = ({ response }: MoneyInProps) => {
     )
 }
 
-export default MoneyIn;
+export default React.memo(MoneyIn);
+

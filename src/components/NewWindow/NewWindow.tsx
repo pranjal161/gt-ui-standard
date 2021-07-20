@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-
-import { DxcBox } from '@dxc-technology/halstack-react'
+import React, {useEffect, useRef} from 'react';
+import {StylesProvider, jssPreset} from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
-import { StyleSheetManager } from 'styled-components';
+import {create} from 'jss';
+import generateClassName from '../../theme/generateClassName';
 
 /*eslint "require-jsdoc": [2, {
     "require": {
@@ -13,7 +13,7 @@ import { StyleSheetManager } from 'styled-components';
 }]*/
 
 /**
- * Makes a copy of css styles in the main window and 
+ * Makes a copy of css styles in the main window and
  * passes them to the new popup window.
  * @param {any} sourceDoc The main window.
  * @param {any} targetDoc The newly created window.
@@ -21,44 +21,45 @@ import { StyleSheetManager } from 'styled-components';
  */
 function copyStyles(sourceDoc: Document, targetDoc: Document) {
 
-    let sourceStyles = sourceDoc.head.querySelectorAll('style');
-    // styled-components are inserted in a style tag with data-* attributes.
-    // Here, we check if they exist and skip importing them
-
-    for(let i = 0; i < sourceStyles.length; i++) {
-        if(sourceStyles[i].dataset &&
-           sourceStyles[i].dataset.styled === 'active') {
-            // skip import
+    (Array.from(document.styleSheets) as CSSStyleSheet[]).forEach((styleSheet) => {
+        let cssRules
+        try {
+            cssRules = styleSheet.cssRules
         }
-        else {
-            const newStyleEl = sourceDoc.createElement('style');
-            newStyleEl.appendChild(sourceDoc.createTextNode(sourceStyles[i].innerText));
+        catch (err) {
+            cssRules=undefined
+        }
+
+        if (cssRules) {
+            // for <style> elements
+            const newStyleEl = document.createElement('style');
+            Array.from(styleSheet.cssRules).forEach((cssRule) => {
+                // write the text of each rule into the body of the style element
+                newStyleEl.appendChild(document.createTextNode(cssRule.cssText));
+            });
             targetDoc.head.appendChild(newStyleEl);
         }
-    }
-
-    for(let i = 0; i < sourceDoc.styleSheets.length; i++) {
-        if (sourceDoc.styleSheets[i].href) { // for <link> elements loading CSS from a URL
-            const newLinkEl = sourceDoc.createElement('link');
+        else if (styleSheet.href) {
+            // for <link> elements loading CSS from a URL
+            const newLinkEl = document.createElement('link');
             newLinkEl.rel = 'stylesheet';
-            newLinkEl.href = sourceDoc.styleSheets[i].href!;
+            newLinkEl.href = styleSheet.href;
             targetDoc.head.appendChild(newLinkEl);
         }
-    }
-
+    });
 }
 
-const NewWindow = ( props : {
-                                        children: any, 
-                                        onCloseCallback: Function, 
-                                        windowMaximized?: boolean,
-                                        passSetFocus?: boolean,
-                                        windowWidth?: number,
-                                        windowHeight?: number,
-                                        windowLeft?: number,
-                                        windowTop?: number
-                                    }) => {
-    const { 
+const NewWindow = (props: {
+    children: any,
+    onCloseCallback: Function,
+    windowMaximized?: boolean,
+    passSetFocus?: boolean,
+    windowWidth?: number,
+    windowHeight?: number,
+    windowLeft?: number,
+    windowTop?: number
+}) => {
+    const {
         onCloseCallback = null,
         windowMaximized = false,
         passSetFocus = false,
@@ -67,14 +68,18 @@ const NewWindow = ( props : {
         windowLeft = 200,
         windowTop = 200
     } = props;
-    let { children } = props;
+    let {children} = props;
     const container = document.createElement('div');
     let windowRef = useRef<any>(null);
     let externalWindow: any;
+    const jssInstance = create({
+        ...jssPreset(),
+        insertionPoint: container
+    });
 
     const setFocus = () => {
-        if(windowRef.current &&
-           !windowRef.current.document.hasFocus()) {
+        if (windowRef.current &&
+            !windowRef.current.document.hasFocus()) {
             windowRef.current.focus();
         }
     }
@@ -82,12 +87,12 @@ const NewWindow = ( props : {
     // When passing the NewWindow setFocus function to its children, 
     // the NewWindow must have only one child element and it must have a 
     // props property named setWindowFocus.
-    if(passSetFocus) {
+    if (passSetFocus) {
         children = React.cloneElement(children, {setWindowFocus: setFocus});
     }
 
     let windowNotFullScreenSpecs = '';
-    if(!windowMaximized)
+    if (!windowMaximized)
         windowNotFullScreenSpecs = `,width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`;
     else
         windowNotFullScreenSpecs = `,width=${window.screen.availWidth},height=${window.screen.availHeight},left=0,top=0`;
@@ -97,15 +102,10 @@ const NewWindow = ( props : {
         externalWindow.document.body.appendChild(container);
         copyStyles(document, externalWindow.document);
 
-        if(onCloseCallback)
+        if (onCloseCallback)
             externalWindow.onbeforeunload = onCloseCallback;
 
         windowRef.current = externalWindow;
-        
-        return () => {
-            windowRef.current = null;
-            externalWindow.close();
-        }
     }, []);
 
     useEffect(() => {
@@ -113,18 +113,18 @@ const NewWindow = ( props : {
     }, [children]);
 
     return (
-        ReactDOM.createPortal(<DxcBox
-            margin="xxsmall"
-            size="fillParent"
-            shadowDepth={0}>
-            <StyleSheetManager 
-                target={container}>
+        ReactDOM.createPortal(
+            <StylesProvider
+                jss={jssInstance}
+                generateClassName={generateClassName}
+                sheetsManager={new Map()}>
                 {children}
-            </StyleSheetManager>
-        </DxcBox>, container)
+            </StylesProvider>
+            , container)
     )
 }
 
+//
 export default NewWindow;
 
 export const NewWindowMemo = React.memo(NewWindow);

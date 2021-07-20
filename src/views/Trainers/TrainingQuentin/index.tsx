@@ -88,7 +88,7 @@ const TrainingQuentin = () => {
 
             {activeTab === 1 && (
                 <div className={`${classes.tab} ${classes.dm}`}>
-                    <DistributorsManagement />
+                    <DistributorsManagement hRef={url} />
                 </div>
             )}
         </>

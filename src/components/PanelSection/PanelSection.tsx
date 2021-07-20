@@ -11,6 +11,21 @@ export interface PanelSectionItem {
     id?: string
 
     /**
+     * hRef of the property
+     */
+    hRef:string
+
+    /**
+     * response of the hRef, requitred
+     */
+    response : any
+
+    /**
+     * loading
+     */
+    loading : boolean
+
+    /**
      * Style of the data, format is :
      * first item : currency, date, ...
      * second item : option, like 'usd', to use the currency of the ocntract per example instead the current of locale

@@ -10,5 +10,6 @@
   "status_label": "Status",
   "currency_code": "Devise",
   "payment_source": "Source",
-  "signature_date": "Date de signature"
+  "signature_date": "Date de signature",
+  "accounting_date": "Date de comptabilisation"
 }

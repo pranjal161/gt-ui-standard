@@ -16,7 +16,7 @@ const overrides = {
         textHoverFontColor: palette.project.button.textFont, // button's text hover font color theme input
     },
     checkbox: {
-        baseColor: palette.secondary.main, // checkbox's base color theme input
+        baseColor: palette.black, // checkbox's base color theme input
         checkColor: palette.secondary.contrastText, // checkbox's check color theme input
     },
     chip: {
@@ -80,8 +80,8 @@ const overrides = {
         checkedBaseColor: palette.primary.main, // switch's checked base color theme input
     },
     table: {
-        baseColor: palette.primary.main, // table's base color theme input
-        fontColor: palette.background.paper, // table's font color theme input
+        baseColor: palette.project.table.header.background, // table's base color theme input
+        fontColor: palette.project.table.header.fontColor, // table's font color theme input
     },
     tabs: {
         baseColor: palette.primary.main, // tabs' base color theme input

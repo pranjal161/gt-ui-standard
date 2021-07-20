@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import useValidator, { Field, InputProps } from 'hooks/useValidator';
+import React, { useEffect, useState } from 'react';
 
-import { DxcInput } from '@dxc-technology/halstack-react';
-import { useTranslation } from 'react-i18next';
+import {CircularProgress} from '@material-ui/core';
+import {DxcInput} from '@dxc-technology/halstack-react';
+import { InputProps } from 'hooks/useValidator';
+import useInput from 'hooks/useInput';
 
 /**
  * Display a Input field
@@ -10,52 +11,42 @@ import { useTranslation } from 'react-i18next';
  * @returns {*} Return the Input
  */
 const TextField = (props: InputProps) => {
-    const { t } = useTranslation();
-    const { propertyName, data, type, onChangeMethod, onBlurMethod, context=undefined } = props;
-    const { FieldWrapper, Validation } = useValidator();
-    const field: Field = FieldWrapper(data, propertyName, type );
-    const [showError, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState<String | null >(null);
-    const [value, setValue] = useState(field?.value);
-    
-    const onChange = (value: any) => {
-        const validatedOutput = Validation(field, value, type);
-        setValue(value);
-        setError(!validatedOutput.valid);
-        if (!validatedOutput.valid) {
-            setErrorMessage(validatedOutput.error)
-        } 
-        else if (onChangeMethod) {
-            onChangeMethod(value);
-        }
+    const {inputId, value, label, field, invalid, setValue, errorMessage, loading} = useInput(props);
+
+    const [inputValue, updateInput] = useState(value);
+
+    const onchangeMethod = (value: any) => {
+        updateInput(value);
     }
 
-    const onBlur = (value: any) => {
-        const validatedOutput = Validation(field, value, type);
-        setValue(value);
-        setError(!validatedOutput.valid);
-        if (!validatedOutput.valid) {
-            setErrorMessage(validatedOutput.error)
-        } 
-        else if (onBlurMethod) {
-            onBlurMethod(value);
-        }
-    }
+    useEffect(() => {
+        updateInput(field.value);
+    },[field]);
+
+    const Skeleton = () => <CircularProgress
+        variant="indeterminate"
+        size={14}
+        thickness={4}
+    />
+    const otherProps = loading && {suffixIcon : <Skeleton/> }
 
     return (
-        <span hidden={!field.visible} data-testid={field.id}>
+        <div id={inputId} hidden={!field.visible && !loading} data-testid={field.id}>
             <DxcInput
-                label={t(propertyName, {context})}
+                label={label}
                 required={field?.required}
                 disabled={field?.disabled}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                assistiveText={showError? errorMessage: null}
-                invalid={showError}
+                onChange={onchangeMethod}
+                onBlur={setValue}
+                size={props.size ? props.size : 'medium'}
+                value={loading ? inputValue || ' ' : inputValue}
+                assistiveText={errorMessage}
+                invalid={invalid}
+                {...otherProps}
             />
-        </span>
+        </div>
     );
+
 };
 
 export default TextField

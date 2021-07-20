@@ -16,7 +16,7 @@ const overrides = {
         textHoverFontColor: globalStyle.colours.white, // button's text hover font color theme input
     },
     checkbox: {
-        baseColor: globalStyle.colours.blue, // checkboxes base color theme input
+        baseColor: globalStyle.colours.black, // checkboxes base color theme input
         checkColor: globalStyle.colours.white, // checkboxes check color theme input
     },
     chip: {

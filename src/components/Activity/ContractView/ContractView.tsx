@@ -1,8 +1,8 @@
+import useActivity from 'hooks/useActivity';
 import React, {useCallback, useState} from 'react';
 import WithScroll from 'components/WithScroll/WithScroll';
-import useConfigurations from 'hooks/useConfigurations';
 import {makeStyles} from '@material-ui/core/styles';
-import {useSelector} from 'react-redux';
+import useConfigurations from 'hooks/useConfigurations';
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -19,12 +19,15 @@ const useStyles = makeStyles((theme) => ({
     bodyRight: {
         maxWidth: '25%'
     },
+    toBeDefine: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height:'100%'
+    },
     content: ({contentOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${contentOffsetTop}px - 100px)`, // Footer to remove
         overflowY: 'hidden',
-        '& > * > div': {
-            marginBottom: theme.spacing(2)
-        }
     }),
     sidebar: ({sideBarOffsetTop = ''}: any) => ({
         height: `calc(100vh - ${sideBarOffsetTop}px - 100px)`, // Footer to remove
@@ -32,11 +35,14 @@ const useStyles = makeStyles((theme) => ({
     })
 }))
 
-const ContractView: React.FC<any> = (props: any) => {
+const ContractView: React.FC<any> = (props: { hRef :string}) => {
+    const {hRef } = props
+    const {activityProps} = useActivity()
+    const {activityCode, mainEntityHRef } = activityProps
     const [contentOffsetTop, setContentOffsetTop] = useState()
     const [sideBarOffsetTop, setSideBarOffsetTop] = useState()
     const {getActivityConf} = useConfigurations();
-    const isSideBarOpen = useSelector((state: any) => state.secondaryTabs.isSideBarOpen)
+
     const classes: any = useStyles({contentOffsetTop, sideBarOffsetTop});
     const handleContentOffsetTop = useCallback((node) => {
         if (node !== null) {
@@ -44,7 +50,12 @@ const ContractView: React.FC<any> = (props: any) => {
         }
     }, []);
 
-    const configurations = getActivityConf(props)
+    const configurations = getActivityConf(activityCode)
+
+    const [isSideBarOpen, setIsSideBarOpen] = useState(true)
+    const handleSidebarChange = useCallback ((open:boolean) => {
+        setIsSideBarOpen(open)
+    },[setIsSideBarOpen])
 
     const SideBarConf = configurations.sidebar
     const handleSideBarOffsetTop = useCallback((node) => {
@@ -58,13 +69,13 @@ const ContractView: React.FC<any> = (props: any) => {
             <div className={`col-9 ${classes.bodyLeft}`}>
                 <div ref={handleContentOffsetTop} className={classes.content}>
                     <WithScroll>
-                        Contract Detail to be define
+                        <div className={classes.toBeDefine}>Contract Detail to be define</div>
                     </WithScroll>
                 </div>
             </div>
             <div ref={handleSideBarOffsetTop}
                 className={isSideBarOpen ? `col-3 ${classes.bodyRight + ' ' + classes.sidebar}` : `${classes.bodyRight + ' ' + classes.sidebar}`}>
-                <SideBarConf mainEntityHRef={props.mainEntityHRef} hRef={props.hRef}/>
+                <SideBarConf mainEntityHRef={mainEntityHRef} hRef={hRef} onChange={handleSidebarChange}/>
             </div>
         </div>
     );
