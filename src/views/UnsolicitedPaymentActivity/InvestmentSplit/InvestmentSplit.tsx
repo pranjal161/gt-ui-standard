@@ -11,8 +11,8 @@ import React from 'react';
 import Section from 'components/Section/Section';
 import SelectInput from 'components/SelectInput/SelectInput';
 import useActivity from 'hooks/useActivity';
-import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
+import useSetDataToPatch from 'hooks/useSetDataToPatch';
 
 interface SplitPoolInterface {
     hRef: string,
@@ -22,7 +22,7 @@ interface SplitPoolInterface {
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
     const [poolResponse] = useResponse(props.hRef);
-    const {patch} = useAia();
+    const {setDataToPatch} = useSetDataToPatch()
     const rowExtraData = { hRefKey: 'allocation:coverage_fund', list: 'investment_split' };
     const tableData = props.data['investment_split'].filter((funds: any) => funds['parent_product_component'] === props.hRef);
     const tableResponse = {...props.data, investment_split: tableData }
@@ -30,9 +30,11 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
         <label>Rate</label><Rate onChange={() => console.log('')} property={'to_be_define'} response={[]}/>
     </div>
     const investmentSplit = props?.data?.investment_split;
+    const [dataToPatch, setPatchingData] = React.useState(investmentSplit);
     const onchange = (updated: any) => {
-        const payloadToPatch = investmentSplit.map((split: {'allocation:coverage_fund': string}) => (split['allocation:coverage_fund'] === updated.data['allocation:coverage_fund'] ? {...split, 'allocation:rate': parseInt(updated['value'])} : {...split}));
-        patch(props.patchOn, {'investment_split': payloadToPatch});
+        const payloadToPatch = dataToPatch.map((split: {'allocation:coverage_fund': string}) => (split['allocation:coverage_fund'] === updated.data['allocation:coverage_fund'] ? {...split, 'allocation:rate': parseInt(updated['value'])} : {...split}));
+        setPatchingData(payloadToPatch);
+        setDataToPatch({hRef: props.patchOn, property: 'investment_split', value: payloadToPatch});
     }
     const headers = [
         { title: 'Funds' },
@@ -88,7 +90,8 @@ const InvestmentSplit: React.FC<ActivityProps> = ( props:{hRef:string}) => {
                     onCancel={() => setOpen(false)}
                     contractUrl={contractHRef}
                 />
-                <BindToStep hRef={hRef} property={'main_pool_split'}/>
+                <BindToStep hRef={hRef} property={'main_pool_split'}/>                
+                <BindToStep hRef={hRef} property={'investment_split'}/>
                 {poolSplit && poolSplit.map((pool: any, index: number) => (
                     <MainSplitPool
                         key={index}
