@@ -13,6 +13,7 @@ import { getLink } from 'utils/functions';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
+import useSetDataToPatch from 'hooks/useSetDataToPatch';
 
 const useStyles = makeStyles((theme: Theme) => ({
     avoidMovement: {
@@ -35,7 +36,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
     const [response] = useResponse(hRef);
-
+    const { setDataToPost } = useSetDataToPatch();
     const unsolicitedPaymentHref: string = getLink(response && response.data, 'self');
     const payerURI: string = getLink(response && response.data, 'premium:addressee_person');
     const amountUP: number = response?.data['operation:amount'];
@@ -46,6 +47,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const onClose = React.useCallback((name = 'default') => {
         if (name === 'UPPatch') {
             patch(hRef, { 'cscaia:money_in': moneyInHRef });
+            setDataToPost({ hRef: hRef, property: 'cscaia:money_in', postHref: moneyInHRef + '/save', payload: {}, step: 'unsolicited_payment'});
         }
         setIsOpen(false);
         setIsEdit(false);
