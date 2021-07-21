@@ -79,6 +79,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
         validateStep().then((inputErrors:any) => {
             if (inputErrors.length === 0) {
                 const step = index >= steps.length ? steps.length - 1 : index;
+                
                 setCurrentStep(step);
             }
             else {

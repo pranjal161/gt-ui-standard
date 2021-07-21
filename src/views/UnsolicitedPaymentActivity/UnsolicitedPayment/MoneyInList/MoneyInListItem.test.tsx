@@ -44,7 +44,7 @@ describe('Renders without errors', () => {
         render(<MoneyInListItem hRef={hRef} columns={columns} onEdit={onEdit} onDelete={onDelete} />)
         expect(screen.getByTestId('money_in:payment_type')).toHaveTextContent('check_deposit')
     })
-    it('Display nothing if he doesn\'t has hRef in props', () => {
+    it('Display nothing if he does not have hRef in props', () => {
         mockUseResponse = null;
         render(<MoneyInListItem columns={columns} onEdit={onEdit} onDelete={onDelete} hRef={hRef} />)
         // Here use queryBy instead of getBy, because getBy throw an error if it found nothing
