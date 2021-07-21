@@ -11,13 +11,8 @@ interface DistributorsSearchActionsProps {
 }
 
 const DistributorsSearchActions = ({data, isSearching, onCancel, onSearch, onValidate}: DistributorsSearchActionsProps) => {
-
     const {t} = useTranslation();
-
-    React.useEffect(() => {
-        console.log({data})
-    }, []);
-
+    
     return (
         <>
             <DxcButton mode="text" label={t('cancel')} onClick={() => (onCancel ? onCancel() : undefined)} />

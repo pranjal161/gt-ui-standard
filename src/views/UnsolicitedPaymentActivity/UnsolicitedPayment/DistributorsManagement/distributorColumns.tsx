@@ -17,7 +17,7 @@ export const distributorManagementColumns: Array<Column> = [
 ];
 
 export const distributorSearchColumns: Array<Column> = [
-    { label: 'distributor', property: ['distributor_detail:identifier', 'person:display_id1'] },
+    { label: 'distributor', property: 'distributor_detail:identifier' },
     { label: 'function', property: 'distributor_detail:job_description' },
     { label: 'type', property: 'distributor_detail:agent_type' },
 ]
