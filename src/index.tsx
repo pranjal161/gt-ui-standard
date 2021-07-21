@@ -7,12 +7,12 @@ import CentralSpinner from 'components/CentralSpinner/CentralSpinner';
 import {Provider} from 'react-redux';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import configureStore from 'store/configureStore';
+import configStore from 'store/configStore';
 import generateClassName from '../src/theme/generateClassName';
 import reportWebVitals from './reportWebVitals'
 import themes from 'theme';
 
-const store = configureStore();
+const { store } = configStore();
 const matMuiTheme = createMuiTheme(themes.matTheme);
 
 console.log('matMuiTheme', matMuiTheme)
