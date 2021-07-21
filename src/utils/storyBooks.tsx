@@ -4,7 +4,7 @@ import WithActivity from 'components/WithActivity';
 import useActivity from 'hooks/useActivity';
 import {Provider} from 'react-redux';
 import React, {useEffect} from 'react';
-import configureStore from 'store/configureStore';
+import configStore from 'store/configStore';
 
 const WrapActivity = ({children}: any) => {
     const activityProps: ActivityProps = {
@@ -30,7 +30,7 @@ const WrapActivity = ({children}: any) => {
     return <WithActivity {...activityProps}><StartEndActivity>{children}</StartEndActivity> </WithActivity>
 }
 
-const store = configureStore()
+const { store } = configStore()
 
 const ProviderRedux = ({children, store}: any) => (
     <Provider store={store}>
