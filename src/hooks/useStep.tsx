@@ -1,6 +1,8 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
-import {useCallback, useContext} from 'react';
+
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useCallback, useContext} from 'react';
+
 import baContext from 'context/baContext';
 import {getStatusReport} from 'utils/functions';
 import useAia from 'hooks/useAia';
@@ -9,7 +11,7 @@ const useStep = () => {
     const dispatch = useDispatch()
     const context = useContext(baContext)
     const baId: any = context.baId
-    const {patch} = useAia()
+    const {patch, post} = useAia()
     const currentStep = useSelector((state: any) => state.aia[baId] && state.aia[baId].steps.current, shallowEqual)
     const stepRessources = useSelector((state: any) => state.aia[baId] &&
         state.aia[baId].steps &&
@@ -50,7 +52,7 @@ const useStep = () => {
     }, [stepRessources])
 
     const getRessourceStatusReport = useCallback((hRef: string) => {
-        const response = baIdRessources && baIdRessources[hRef]
+        const response = baIdRessources && baIdRessources.resources[hRef]
 
         return response && getStatusReport(response.data)
     }, [baIdRessources])
@@ -136,7 +138,7 @@ const useStep = () => {
         for (const item of Object.entries(stepRessources)) {
             const [hRef, boundInputs]:any = item
             const payload: any = {}
-
+            let postPayload: any = {};
             //For each ressources, we have to get its status_report from the baId.
             let statusReport = getRessourceStatusReport(hRef)
 
@@ -146,9 +148,12 @@ const useStep = () => {
                     if (propertyDetail.dataToPatch)
                         payload[property] = propertyDetail.dataToPatch
 
+                    if (propertyDetail.dataToPost)
+                        postPayload = { href: propertyDetail.dataToPost.postHref, 
+                            payload: propertyDetail.dataToPost.payload, property: property }
                 })
 
-            if (Object.values(payload).length > 0) {
+            if (Object.values(payload).length > 0 || Object.values(postPayload).length > 0 ) {
                 // Here the assume that the patchHref is the same as the hRef, otherwise we have to use getPatchHRef
                 // on response
                 const patchHRef = hRef
@@ -162,10 +167,20 @@ const useStep = () => {
                         newValues[property] = rest
                     })
 
-                //Here the PATCH
-                // eslint-disable-next-line no-await-in-loop
-                const patchResponse = await patch(patchHRef, payload)
-                statusReport = getStatusReport(patchResponse.data)
+                //Here the PATCH & POST 
+
+                if (postPayload && Object.values(postPayload).length > 0) {
+                    const { href, property } = postPayload;
+                    // eslint-disable-next-line no-await-in-loop
+                    const postResponse = await post(href, postPayload.payload);
+                    postResponse && dispatch(aiaReducer.aiaStepClearDataToPost({baId, hRef, property}));
+                }
+
+                if (payload && Object.values(payload).length > 0) {
+                    // eslint-disable-next-line no-await-in-loop
+                    const patchResponse = await patch(patchHRef, payload);
+                    statusReport = getStatusReport(patchResponse.data)
+                }               
 
                 //remove all dataToPatch
                 boundInputs && Object.keys(boundInputs)
