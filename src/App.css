@@ -45,6 +45,10 @@
   margin-top: 42px;
 }
 
+.ml-2 {
+  margin-left: 10px;
+}
+
 footer {
   display: none;
 }
