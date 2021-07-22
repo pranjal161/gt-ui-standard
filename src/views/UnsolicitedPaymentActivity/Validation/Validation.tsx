@@ -17,11 +17,11 @@ const Validation: React.FC<ActivityProps> = (props: { hRef: string }) => {
     return (
         <>
             {sections.map((section, index: number) => (
-                <span key={index}>
-                    <AccordionContainer title={section.title} prefixActions={<AddFolderIcon />}>
+                <div key={index}>
+                    <AccordionContainer title={section.title} prefixActions={<AddFolderIcon />} defaultExpanded={true}>
                         {section.component}
                     </AccordionContainer>
-                </span>
+                </div>
             ))}
         </>
     )

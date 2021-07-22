@@ -48,7 +48,7 @@ const MoneyIn: React.FC<ActivityProps> = (props: { hRef: string }) => {
     const onClose = React.useCallback((name = 'default') => {
         if (name === 'UPPatch') {
             patch(hRef, { 'cscaia:money_in': moneyInHRef });
-            setDataToPost({ hRef: hRef, property: 'cscaia:money_in', postHref: moneyInHRef + '/save', payload: {}, step: 'unsolicited_payment'});
+            setDataToPost({ hRef: hRef, property: 'money_in', postHref: moneyInHRef + '/save', payload: {}, step: 'unsolicited_payment'});
         }
         setIsOpen(false);
         setIsEdit(false);

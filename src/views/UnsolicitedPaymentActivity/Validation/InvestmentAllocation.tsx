@@ -42,6 +42,7 @@ const InvestmentAllocation = (props: { hRef: string }) => {
         {poolSplit && poolSplit.map((pool: any, index: number) => (
             <MainSplitPool
                 key={index}
+                defaultExpanded={true}
                 data={response.data}
                 patchOn={props.hRef}
                 pool={pool}

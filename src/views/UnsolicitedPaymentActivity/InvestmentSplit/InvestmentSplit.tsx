@@ -23,6 +23,7 @@ interface SplitPoolInterface {
     pool: any,
     actions?: any,
     columns?: Array<any>
+    defaultExpanded?:boolean
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
@@ -44,10 +45,10 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
         }
 
         return (
-            <div className="d-flex">
+            <div className="d-flex col-6">
                 <TextField 
                     notToStore={true} 
-                    size="medium" 
+                    size="fillParent" 
                     onChange={(value: any) => patchMainPool(value)} 
                     property="allocation:amount" 
                     hRef={props.patchOn} 
@@ -78,6 +79,7 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
                 <AccordionContainer
                     title={poolResponse.data['coverage_fund:label']}
                     prefixActions={<AddFolderIcon/>}
+                    defaultExpanded={props.defaultExpanded}
                     actions={props.actions ? props.actions : <MainPoolActions />}>
 
                     <ComplexTable
