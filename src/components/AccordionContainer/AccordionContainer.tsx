@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         justifyContent:'center',
     },
+    details: {
+        flexDirection: 'column'
+    },
     actions: {
         display:'flex',
         alignItems:'center',
@@ -94,7 +97,7 @@ const AccordionContainer = (props: AccordionProps) => {
                         </div>
                     </div>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails className={classes.details}>
                     {children}
                 </AccordionDetails>
             </Accordion>

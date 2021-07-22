@@ -17,7 +17,9 @@ import useSetDataToPatch from 'hooks/useSetDataToPatch';
 interface SplitPoolInterface {
     hRef: string,
     data: any,
-    patchOn: string
+    patchOn: string,
+    actions?: any,
+    columns?: Array<any>
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
@@ -51,10 +53,10 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
                 <AccordionContainer
                     title={poolResponse.data['coverage_fund:label']}
                     prefixActions={<AddFolderIcon/>}
-                    actions={actions}>
+                    actions={props.actions ? props.actions : actions}>
 
                     <ComplexTable
-                        columns={columns} 
+                        columns={props.columns ? props.columns : columns} 
                         rowExtraData={rowExtraData}
                         headers={headers}
                         data={tableResponse} />

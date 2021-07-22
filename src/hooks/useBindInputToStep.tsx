@@ -1,6 +1,6 @@
 import * as aiaReducer from 'store/reducers/aiaReducer';
 import {useContext, useEffect, useState} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import baContext from 'context/baContext';
 import {uniqueId} from 'utils/system';
 
