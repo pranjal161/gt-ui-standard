@@ -44,6 +44,7 @@ const InvestmentAllocation = (props: { hRef: string }) => {
                 key={index}
                 data={response.data}
                 patchOn={props.hRef}
+                pool={pool}
                 hRef={pool['product_component']}
                 actions={actions}
                 columns={columns} />
