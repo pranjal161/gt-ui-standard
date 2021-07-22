@@ -20,7 +20,9 @@ interface SplitPoolInterface {
     hRef: string,
     data: any,
     patchOn: string,
-    pool: any
+    pool: any,
+    actions?: any,
+    columns?: Array<any>
 }
 
 export const MainSplitPool = (props: SplitPoolInterface) => {
@@ -75,11 +77,11 @@ export const MainSplitPool = (props: SplitPoolInterface) => {
             {poolResponse && poolResponse.data &&
                 <AccordionContainer
                     title={poolResponse.data['coverage_fund:label']}
-                    prefixActions={<AddFolderIcon />}
-                    actions={<MainPoolActions />}>
+                    prefixActions={<AddFolderIcon/>}
+                    actions={props.actions ? props.actions : <MainPoolActions />}>
 
                     <ComplexTable
-                        columns={columns}
+                        columns={props.columns ? props.columns : columns} 
                         rowExtraData={rowExtraData}
                         headers={headers}
                         data={tableResponse} />
