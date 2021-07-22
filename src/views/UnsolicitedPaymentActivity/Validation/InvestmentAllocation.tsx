@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     value: {
         color: theme.palette.text.primary,
         fontSize: 17
+    },
+    leftspacing: {
+        marginLeft: 10
     }
 }));
 
@@ -26,7 +29,7 @@ const InvestmentAllocation = (props: { hRef: string }) => {
         { valueKey: 'allocation:rate', format: 'percent', list: true }
     ];
     const actions = <div className={'d-flex'}>
-        <label>Rate</label><label className={'ml-2'}><b>%</b></label>
+        <label>Rate</label><label className={classes.leftspacing}><b>%</b></label>
     </div>
 
     return (<>
