@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import {capitalizeFirstLetterAndRemove_, getActivities} from 'utils/functions';
+import { capitalizeFirstLetterAndRemove_, getActivities } from 'utils/functions';
 
 import Button from 'theme/components/material/Button/Button'
 import Menu from '@material-ui/core/Menu';
@@ -49,7 +49,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
         onLaunchActivity
     } = props
     const [response] = useResponse(props.hRef)
-    const [activities, setActivities] = React.useState([{href: null, name: t('common:operationEmptyList')}]);
+    const [activities, setActivities] = React.useState([{ href: null, name: t('common:operationEmptyList') }]);
 
     useEffect(() => {
         let formatResponse = getActivities(response);
@@ -90,7 +90,7 @@ const ActivitiesList: React.FC<ActivitiesListProps> = (props: ActivitiesListProp
                 {
                     activities &&
                     activities.map((item: any, key: number) => (
-                        <MenuItem key={key} onClick={(event) => handleChoice(event, item) }>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
+                        <MenuItem key={key} onClick={(event) => handleChoice(event, item)}>{capitalizeFirstLetterAndRemove_(item.name)}</MenuItem>))
                 }
             </Menu>
         </div>

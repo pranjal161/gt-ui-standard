@@ -1,6 +1,7 @@
 import { AddBoxIcon, DistributorIcon } from 'assets/svg';
 
 import {ActivityProps} from 'components/Activity/Activity';
+import BindToStep from 'components/BindToStep/BindToStep';
 import Button from 'theme/components/material/Button/Button';
 import DistributorsManagement from './DistributorsManagement/DistributorsManagement';
 import DistributorsSearch from './DistributorsSearch/DistributorsSearch';
@@ -21,7 +22,7 @@ const UnsolicitedPayment: React.FC<ActivityProps> = (props: { hRef:string }) => 
 
     const validateDistributor = (obj: any) => {
         const allDistributor = JSON.parse(JSON.stringify(response.data['distributor_list']));
-        const distributorPayload = { distributor: obj.distributor.distributor.href, rate: obj.distributor.rate }
+        const distributorPayload = { distributor: obj.distributor.distributor.href, rate: obj.distributor.rate, role: 'othr' }
         const payload = [...allDistributor, distributorPayload]
         patch(props.hRef, {'distributor_list': payload }).then();
         setIsVisible(false);
@@ -33,7 +34,9 @@ const UnsolicitedPayment: React.FC<ActivityProps> = (props: { hRef:string }) => 
                 <GeneralInfo hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
-                <MoneyIn hRef={hRef}/>
+                <BindToStep hRef={hRef} property={'money_in'}>
+                    <MoneyIn hRef={hRef}/>
+                </BindToStep>
             </div>
             <div className="col-12 mb-4">
                 <Section title="Distributor Management" icon={<DistributorIcon />} actions={

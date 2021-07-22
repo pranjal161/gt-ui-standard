@@ -3,10 +3,10 @@ import '@testing-library/jest-dom/extend-expect'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import IconContainer from './IconContainer';
+import React from 'react';
 
 const onEdit = jest.fn();
 const onDelete = jest.fn();
-
 
 test('Renders without error', () => {
     render(<IconContainer onEdit={onEdit} onDelete={onDelete} />)

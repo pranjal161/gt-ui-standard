@@ -28,6 +28,11 @@ export interface AccordionProps {
      * Content to display
      */
     children?: any;
+    
+    /**
+     * To open accordion by default
+     */
+    defaultExpanded?: boolean;
 
 }
 
@@ -57,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         justifyContent:'center',
     },
+    details: {
+        flexDirection: 'column'
+    },
     actions: {
         display:'flex',
         alignItems:'center',
@@ -69,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AccordionContainer = (props: AccordionProps) => {
     const classes = useStyles();
-    const { title, prefixActions, actions, children } = props;
+    const { title, prefixActions, actions, children, defaultExpanded = false } = props;
     const domId = uniqueId()
 
     //const handleOnChange = (event:any, expanded:boolean) => expanded && setTimeout(() => scrollIntoView(domId), 500)
@@ -77,7 +85,7 @@ const AccordionContainer = (props: AccordionProps) => {
 
     return (
         <>
-            <Accordion className={classes.root} onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}}>
+            <Accordion className={classes.root} onChange={handleOnChange} TransitionProps={{ mountOnEnter:true}} defaultExpanded={defaultExpanded}>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-label="Expand"
@@ -94,7 +102,7 @@ const AccordionContainer = (props: AccordionProps) => {
                         </div>
                     </div>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails className={classes.details}>
                     {children}
                 </AccordionDetails>
             </Accordion>

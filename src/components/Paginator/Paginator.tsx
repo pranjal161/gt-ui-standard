@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Paginator = (props: PaginatorProps) => {
-    const { totalItems, itemsPerPage, data, handler } = props;
+const Paginator = ({ totalItems, itemsPerPage, data, handler }: PaginatorProps) => {
     const [page, changePage] = useState(1);
     const first = data && getLink(data, 'first') ? getLink(data, 'first') : '';
     const classes: any = useStyles();

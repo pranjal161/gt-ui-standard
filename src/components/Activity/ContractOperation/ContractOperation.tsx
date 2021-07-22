@@ -5,12 +5,14 @@ import ActivityStep from 'components/ActivityStep/ActivityStep';
 import Button from 'components/Button/Button';
 import DateInput from 'theme/components/material/DateInput/DateInput';
 import WithScroll from 'components/WithScroll/WithScroll';
+import { isResponseConsistent } from 'utils/functions';
 import {makeStyles} from '@material-ui/core/styles';
 import {scrollIntoView} from 'utils/system';
 import useActivity from 'hooks/useActivity';
 import useAia from 'hooks/useAia';
 import useResponse from 'hooks/useResponse';
 import useStep from 'hooks/useStep';
+import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +44,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
-    const {hRef} = props
-    const {activityProps, getSteps, configurations} = useActivity()
+    const {hRef} = props;
+    const [ response ] = useResponse(hRef);
+    const {activityProps, getSteps, configurations} = useActivity();
     const {mainEntityHRef } = activityProps
     const {t} = useTranslation()
-    const steps = getSteps()
+    const initialSteps = getSteps();
+    const [steps, setSteps] = useState(initialSteps);
     const {validateStep} = useStep()
+    const {openNewTab, forContract} = useTabs()
 
     //------------- Side bar and dynamic layout management
     const [contentOffsetTop, setContentOffsetTop] = useState()
@@ -71,7 +76,7 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
 
     const [currentStep, setCurrentStep] = useState(0);
     const [activityResponse] = useResponse(hRef);
-    const {patch} = useAia();
+    const {patch, post} = useAia();
 
     const SideBarConf = configurations.sidebar
 
@@ -79,6 +84,16 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
         validateStep().then((inputErrors:any) => {
             if (inputErrors.length === 0) {
                 const step = index >= steps.length ? steps.length - 1 : index;
+                if (currentStepConfig && currentStepConfig[0].isValidationStep) {
+                    executeTransferOperation();
+                }
+                // eslint-disable-next-line array-callback-return
+                steps.map((step: StepProps) => {
+                    if (step.id <= currentStep) {
+                        step['valid'] = true;
+                    }
+                });
+                setSteps(steps);
                 setCurrentStep(step);
             }
             else {
@@ -101,10 +116,27 @@ const ContractOperation: React.FC<any> = (props: {hRef:string}) => {
             <CurrentStepComponent hRef={hRef} />
         </ActivityStep> || <div/>
 
-    const handleStepperOnChange = useCallback((index: number) => setCurrentStep(index), [setCurrentStep])
+    const handleStepperOnChange = useCallback((index: number) => {
+        if (index > currentStep) {
+            nextStep(index);
+        }
+        else setCurrentStep(index)
+    }, [validateStep])
 
     const TitleOfNextValidateButton = currentStepConfig && currentStepConfig[0].isValidationStep ?
         t('common:_VALIDATE_BUTTON'):t('common:_NEXT_BUTTON')
+
+    const executeTransferOperation = () => {
+        if (response && response.data && isResponseConsistent(response.data)) {
+            if (response.data._embedded['cscaia:execute']) {
+                const transferUrl = hRef + '/execute';
+
+                post(transferUrl, {}).then(() => {
+                    openNewTab(forContract({title: 'Contract', hRef:mainEntityHRef}))
+                });
+            }
+        }
+    }
 
     return (
         <div className={`col-12 ${classes.body}`}>
