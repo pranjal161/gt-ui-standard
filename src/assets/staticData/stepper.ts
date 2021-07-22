@@ -6,57 +6,56 @@ export const steps: Array<StepProps> = [
         code:'1',
         label: 'First step',
         required: true,
-        fulfilled: false,
-        error: true
+        valid: false
     },
     {
         id: 2,
         code:'2',
         label: 'Second step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 3,
         code:'3',
         label: 'Third step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 4,
         code:'4',
         label: 'Forth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 5,
         code:'5',
         label: 'Sixth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 6,
         code:'6',
         label: 'Seventh step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 7,
         code:'7',
         label: 'Eighth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 8,
         code:'8',
         label: 'Nineth step',
         required: true,
-        fulfilled: false
+        valid: false
     }
 ];
 
@@ -66,57 +65,56 @@ export const onstepTwo: Array<StepProps> = [
         code:'1',
         label: 'First step',
         required: true,
-        fulfilled: true
+        valid: true
     },
     {
         id: 2,
         code:'2',
         label: 'Second step',
         required: true,
-        fulfilled: false,
-        error: true
+        valid: false
     },
     {
         id: 3,
         code:'3',
         label: 'Third step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 4,
         code:'4',
         label: 'Forth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 5,
         code:'5',
         label: 'Sixth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 6,
         code:'6',
         label: 'Seventh step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 7,
         code:'7',
         label: 'Eighth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 8,
         code:'8',
         label: 'Nineth step',
         required: true,
-        fulfilled: false
+        valid: false
     }
 ];
 
@@ -126,57 +124,56 @@ export const onstepFour: Array<StepProps> = [
         code:'1',
         label: 'First step',
         required: true,
-        fulfilled: true
+        valid: true
     },
     {
         id: 2,
         code:'2',
         label: 'Second step',
         required: true,
-        fulfilled: false,
-        error: true
+        valid: false
     },
     {
         id: 3,
         code:'3',
         label: 'Third step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 4,
         code:'4',
         label: 'Forth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 5,
         code:'5',
         label: 'Sixth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 6,
         code:'6',
         label: 'Seventh step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 7,
         code:'7',
         label: 'Eighth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 8,
         code:'8',
         label: 'Nineth step',
         required: true,
-        fulfilled: false
+        valid: false
     }
 ];
 
@@ -186,14 +183,14 @@ export const justtwoStep: Array<StepProps> = [
         code:'1',
         label: 'First step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 2,
         code:'2',
         label: 'Second step',
         required: true,
-        fulfilled: false
+        valid: false
     }
 ];
 
@@ -203,56 +200,55 @@ export const optionalStep: Array<StepProps> = [
         code:'1',
         label: 'First step',
         required: true,
-        fulfilled: true
+        valid: true
     },
     {
         id: 2,
         code:'2',
         label: 'Second step',
         required: true,
-        fulfilled: false,
-        error: true
+        valid: false
     },
     {
         id: 3,
         code:'3',
         label: 'Third step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 4,
         code:'4',
         label: 'Forth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 5,
         code:'5',
         label: 'Sixth step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 6,
         code:'6',
         label: 'Seventh step',
         required: true,
-        fulfilled: false
+        valid: false
     },
     {
         id: 7,
         code:'7',
         label: 'Eighth step',
         required: false,
-        fulfilled: false
+        valid: false
     },
     {
         id: 8,
         code:'8',
         label: 'Nineth step',
         required: false,
-        fulfilled: false
+        valid: false
     }
 ];

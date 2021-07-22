@@ -451,9 +451,9 @@ export const isSaveOperationAvailable = (resource: any): boolean => {
 
 /** Fetches the title of the resource from _links.self.title
  * @param  {any} response provided response
- * @returns {string|null} title of the resource if pr
+ * @returns {string} title of the resource if pr
  */
-export const getTitle = (response: any): string | null => {
+export const getTitle = (response: any): string => {
     if (response &&
         response._links &&
         response._links['self'] &&
