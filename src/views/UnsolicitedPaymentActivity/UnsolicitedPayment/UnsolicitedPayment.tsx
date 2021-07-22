@@ -34,7 +34,7 @@ const UnsolicitedPayment: React.FC<ActivityProps> = (props: { hRef:string }) => 
                 <GeneralInfo hRef={hRef}/>
             </div>
             <div className="col-12 mb-4">
-                <BindToStep hRef={hRef} property={'cscaia:money_in'}>
+                <BindToStep hRef={hRef} property={'money_in'}>
                     <MoneyIn hRef={hRef}/>
                 </BindToStep>
             </div>
