@@ -29,6 +29,7 @@ const ControlDataList = (props: { hRef: string }) => {
                     <Checkbox
                         hRef={props.hRef}
                         property="info_sheet_control_data:value"
+                        notToStore={true}
                         list={{ ...item, listName: 'info_sheet_operation:control_data_list'}}
                         onChange={(value: any) => patchDataValue(value, item)} />
                     <div className="px-2 pt-2 mt-1">
