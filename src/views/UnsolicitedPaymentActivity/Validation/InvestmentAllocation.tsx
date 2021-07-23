@@ -23,7 +23,15 @@ const InvestmentAllocation = (props: { hRef: string }) => {
     </div>
 
     return (<>
-        <LabelInBlock property={'allocation_type'} hRef={props.hRef} response={response} loading={loading} />
+        <div className="row">
+            <div className="col-11 px-5">
+                <div className="row px-4">
+                    <div className="col-12 mt-2 mb-4">
+                        <LabelInBlock property={'allocation_type'} hRef={props.hRef} response={response} loading={loading} />
+                    </div>
+                </div>
+            </div>
+        </div>
         {poolSplit && poolSplit.map((pool: any, index: number) => (
             <MainSplitPool
                 key={index}
