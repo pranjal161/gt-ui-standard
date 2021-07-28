@@ -232,7 +232,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                         const ColumnComponent = column.component;
                         const ColumnActions = column.actions;
                         const columnResponse = column.list ? { ...props.row, listName: props.rowExtraData.list } : column.hRefKey ? rowResponse : props.data;
-                        const columnData = column.list ? columnResponse : columnResponse.data;
+                        const columnData = columnResponse && column.list ? columnResponse : columnResponse.data;
                         const cellValue = ColumnComponent ?
                             <ColumnComponent
                                 {...column}

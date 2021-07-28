@@ -40,7 +40,7 @@ const Rate = (props: { property: string, response: any, icon?: Boolean, list?:an
     const classes: any = useStyles();
     const hRef = props.response && getLink(props.response, 'self');
     const onChangeMethod = (newValue: number) => {
-        props.onChange({value: newValue, data: props && props.list });
+        props.onChange && props.onChange({value: newValue, data: props && props.list });
     };
 
     return (<div className={classes.root}>
