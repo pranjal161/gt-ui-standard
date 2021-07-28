@@ -1,4 +1,5 @@
 import {format, formatISO} from 'date-fns';
+
 import date_enUS from 'date-fns/locale/en-US';
 import date_frFR from 'date-fns/locale/fr';
 import i18n from 'init/i18n';
@@ -85,7 +86,7 @@ export const displayCurrency = (value: any, currency?: string) => new Intl.Numbe
     ...formatt.currency,
     currency
 } : formatt.currency).format(value);
-export const displayPercent = (value: any) => new Intl.NumberFormat(locale, formatt.percent).format(value / 100);
+export const displayPercent = (value: any) => new Intl.NumberFormat(locale, formatt.percent).format(value);
 export const displayDecimal = (value: any) => new Intl.NumberFormat(locale, formatt.decimal).format(value);
 export const displayNumber = (value: any) => new Intl.NumberFormat(locale).format(value);
 export const localizationChange = (lng: string, cntry: string) => {

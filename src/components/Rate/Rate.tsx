@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
         }
     }
 }));
-const Rate = (props: { property: string, response: any, icon?: Boolean, list?:any, onChange: Function }) => {
+const Rate = (props: { property: string, response: any, icon?: Boolean, list?:any, onChange: Function, type?:string }) => {
     const classes: any = useStyles();
     const hRef = props.response && getLink(props.response, 'self');
     const onChangeMethod = (newValue: number) => {
@@ -48,13 +48,13 @@ const Rate = (props: { property: string, response: any, icon?: Boolean, list?:an
             hRef={hRef}
             onChange={onChangeMethod}
             property={props.property}
-            type="text"
-            size="small"
+            type={props.type}
+            size="fillParent"
             list={props.list}
             notToStore={true}
         />
         {props.icon && <div className={classes.arrow}><UpDownArrow/></div>}
-        <b><p className={classes.m0}>%</p></b>
+        {!props.type && <b><p className={classes.m0}>%</p></b>}
     </div>);
 }
 

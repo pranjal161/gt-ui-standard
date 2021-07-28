@@ -1,4 +1,5 @@
 import {
+    formatValue,
     getLink,
     getMaxLength,
     getMaxValue,
@@ -68,7 +69,7 @@ const useValidator = () => {
             required: isFieldRequired(data, propertyName),
             minLength: getMinLength(data, propertyName, list),
             maxLength: getMaxLength(data, propertyName, list),
-            value: getPropertyValue(data, propertyName, list),
+            value: type ? formatValue(getPropertyValue(data, propertyName, list), type) : getPropertyValue(data, propertyName, list),
             type: type? type: getPropertyType(data, propertyName, list),
             values: getOneOfFromResponse(data, propertyName, list)
         }

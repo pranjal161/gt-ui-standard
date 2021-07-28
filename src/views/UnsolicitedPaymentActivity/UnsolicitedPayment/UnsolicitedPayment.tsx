@@ -22,7 +22,7 @@ const UnsolicitedPayment: React.FC<ActivityProps> = (props: { hRef:string }) => 
 
     const validateDistributor = (obj: any) => {
         const allDistributor = JSON.parse(JSON.stringify(response.data['distributor_list']));
-        const distributorPayload = { distributor: obj.distributor.distributor.href, rate: obj.distributor.rate, role: 'othr' }
+        const distributorPayload = { distributor: obj.distributor.distributor.href, rate: obj.distributor.rate / 100, role: 'othr' }
         const payload = [...allDistributor, distributorPayload]
         patch(props.hRef, {'distributor_list': payload }).then();
         setIsVisible(false);

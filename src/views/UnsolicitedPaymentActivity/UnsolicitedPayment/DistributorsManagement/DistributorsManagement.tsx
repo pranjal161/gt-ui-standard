@@ -32,7 +32,7 @@ const DistributorsManagement = (props: { hRef:string }) => {
     const columns = [
         { valueKey: 'distributor_detail:identifier', hRefKey: true },
         { valueKey: 'role', list: true },
-        { valueKey: 'rate', component: Rate , list: true },
+        { valueKey: 'rate', component: Rate , list: true, format: 'percent' },
         { valueKey: 'start_date', list: true, format: 'date' },
         { valueKey: 'end_date', list: true, format: 'date' },
         { valueKey: 'action', actions: [{icon: <DeleteIcon />, method: deleteDistributor }]}

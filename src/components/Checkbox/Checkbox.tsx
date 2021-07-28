@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { DxcCheckbox } from '@dxc-technology/halstack-react';
 import { InputProps } from 'hooks/useValidator';
+import React from 'react';
 import useInput from 'hooks/useInput';
 
 const Checkbox = (props: InputProps) => {

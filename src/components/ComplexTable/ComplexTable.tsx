@@ -237,6 +237,7 @@ const ComplexTableRow = React.memo((props: { columns: Array<ComplexTableColumnIt
                             <ColumnComponent
                                 {...column}
                                 key={index}
+                                type={column.format}
                                 property={column.valueKey}
                                 response={props.data}
                                 list={columnResponse}
