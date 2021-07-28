@@ -1,18 +1,18 @@
+import { getLink, getTitle } from 'utils/functions';
+
 import React from 'react';
-import { getCollectionItems } from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 
 const PersonInfoSheet = (props: { hRef: string }) => {
-    const [personInfoSheetRes] = useResponse(props.hRef);
-    // waiting for more info from API
-    const items = personInfoSheetRes && getCollectionItems(personInfoSheetRes.data);
+    const [partyRoleRes] = useResponse(props.hRef);
+    // waiting for design
+    const personHref = partyRoleRes && getLink(partyRoleRes.data, 'party_role:person');
+    const [personRes] = useResponse(personHref);
 
     return (
         <>
-            {personInfoSheetRes &&
-                items.map((item:any) => (
-                    <>{item.title}</>
-                ))
+            {personRes &&
+                getTitle(personRes.data)
             }
         </>
     );

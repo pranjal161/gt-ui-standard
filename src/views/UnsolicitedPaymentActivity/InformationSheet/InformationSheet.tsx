@@ -3,6 +3,7 @@ import OperationInfoSheets
     from 'views/UnsolicitedPaymentActivity/InformationSheet/OperationInfoSheets/OperationInfoSheets';
 import React from 'react';
 import {getLink} from 'utils/functions';
+import useActivity from 'hooks/useActivity';
 import useResponse from 'hooks/useResponse';
 
 export interface InformationSheetProps {
@@ -14,15 +15,14 @@ export interface InformationSheetProps {
 }
 
 const InformationSheet: React.FC<InformationSheetProps> = ({hRef}: InformationSheetProps) => {
-    const [response] = useResponse(hRef)
+    const [response] = useResponse(hRef);
+    const { activityProps } = useActivity();
+    const { mainEntityHRef } = activityProps;
     const infoSheetHRef = response && getLink(response.data, 'operation:info_sheet_operation_list');
-    // API not ready yet,for now: to show only payer info 
-    const payer = response && getLink(response.data, 'premium:addressee_person') ? getLink(response.data, 'premium:addressee_person') :
-        getLink(response.data, 'premium:addressee_organization');
 
     return (
         <>
-            <LinkedClient hRef={payer} />
+            <LinkedClient hRef={mainEntityHRef} inquiry="_inquiry=e_contract_parties_unsolicited_payment" />
             <OperationInfoSheets hRef={infoSheetHRef}></OperationInfoSheets>
         </>
     )
