@@ -120,7 +120,7 @@ const TableCell = ({ tableData, rowKey, row, column }: TableCellProps) => {
     else if (typeof column.property === 'object') {
         return (
             <td key={rowKey}>
-                {column.property.map((id: string) => row['summary'][id])}
+                {column.property.map((id: string) => row['summary'][id] && row['summary'][id] +' ')}
             </td>
         )
     }

@@ -722,3 +722,26 @@ export const getPropertyValue = ( data:any, propertyName: string, list?: any) =>
     }  
     else return undefined;
 }
+
+/** Create search url from search params
+ * @param  {url} url provided response
+ * @param {params} params key-value pair for propertyname & value to add for searching
+ * @returns {string} searchUrl
+ */
+
+export const createSearchUrl = (url: string, params: Array<any>) => {
+    let finalURL = url.includes('?') ? '&' : '?';
+    let paramsString = finalURL;
+    if (params.length > 0) {
+        for (let i = 0; i < params.length; i++) {
+            const paramValue = params[i].value && params[i].value !== '' && params[i].value
+            paramsString = paramsString + params[i].key + '=' + paramValue;
+            if (i !== params.length - 1) {
+                paramsString = paramsString + '&';
+            }
+        }
+    }
+    
+    return url+paramsString;
+}
+

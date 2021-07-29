@@ -1,13 +1,13 @@
-import ContractSideBar from 'components/Activity/ContractOperation/SideBar/ContractSideBar/ContractSideBar';
-import PersonPreview from 'components/Activity/PersonView/SideBar/PersonPreview/PersonPreview';
-import GlobalSideBar from 'components/SideBar/SideBar';
 import {APIConfig} from 'configs/apiConfig';
+import ContractSideBar from 'components/Activity/ContractOperation/SideBar/ContractSideBar/ContractSideBar';
+import GlobalSideBar from 'components/SideBar/SideBar';
+import PersonPreview from 'components/Activity/PersonView/SideBar/PersonPreview/PersonPreview';
 import React from 'react';
+import {getCollectionItems} from 'utils/functions';
 import useResponse from 'hooks/useResponse';
 import {useSidebar} from 'hooks/useSidebar';
 import useTabs from 'hooks/useTabs';
 import {useTranslation} from 'react-i18next';
-import {getCollectionItems} from 'utils/functions';
 
 const contractController = (value: any) => <ContractSideBar hRef={value.id}/>
 const PersonController = (value: any) => <PersonPreview hRef={value.id}/>
@@ -26,7 +26,7 @@ const SideBar = (props: any) => {
     let items: any = {}
 
     if (response) {
-        const title = response.data['person:display_id'].split(' - ')[0]
+        const title = response.data['person:display_id1'];
         items.person = [{
             title,
             display: t('common:clientTitle', {value: title}),

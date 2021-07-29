@@ -1,7 +1,8 @@
-import useActivity from 'hooks/useActivity';
+import { PureClientSearch } from 'views/ClientSearch/ClientSearch';
 import {PureContractSearch} from 'views/ContractSearch/ContractSearch';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import useActivity from 'hooks/useActivity';
 
 const useStyles = makeStyles(() => ({
     root: {},
@@ -16,6 +17,8 @@ const SearchView = () => {
 
     if (extraValues.entityType === 'contract')
         SearchComponent = PureContractSearch
+    else if (extraValues.entityType === 'client')
+        SearchComponent = PureClientSearch
     else {
         SearchComponent = NotDefinedSearchComponent
     }

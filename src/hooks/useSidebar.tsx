@@ -69,7 +69,7 @@ export const useSidebar = (items: generateProps, props :any, defaultOpen: boolea
     const [open, setOpen]: [any, any] = useState(defaultOpen)
 
     //We have to predefine the select instance for each entityClass, it will be the first item of each
-    const initialState = Object.entries(items).reduce((acc, [key, values]) => ({...acc, [key]: values[0].id}), {})
+    const initialState = Object.entries(items).reduce((acc, [key, values]) => ({...acc, [key]: values[0]?.id}), {})
     //Contains the selected instance per instanceClass
     const [entityInstanceSelections, setEntityInstanceSelections]: [any, any] = useState(initialState)
     //This is the displayed instance

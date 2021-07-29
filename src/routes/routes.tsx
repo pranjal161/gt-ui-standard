@@ -4,6 +4,7 @@ import React, { lazy } from 'react';
 
 import AppLayout from 'layouts/AppLayout/AppLayout';
 import AuthLayout from 'layouts/AuthLayout/AuthLayout';
+import ClientSearch from 'views/ClientSearch/ClientSearch';
 import ContractSearch from 'views/ContractSearch/ContractSearch';
 import ErrorLayout from 'layouts/ErrorLayout/ErrorLayout';
 import Home from 'views/Home/Home';
@@ -84,6 +85,12 @@ const routes: any = [
                 name: 'ContractSearch',
                 exact: true,
                 component: ContractSearch
+            },
+            {
+                path: '/ClientSearch',
+                name: 'ClientSearch',
+                exact: true,
+                component: ClientSearch
             },
             {
                 path: '/viewTab',

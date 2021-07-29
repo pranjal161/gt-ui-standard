@@ -194,7 +194,7 @@ const SearchBar = () => {
                 <option value={'all'}>All</option>
                 <option value={'ticket'}>Tickets</option>
                 <option value={'contract'} >Contracts</option>
-                <option value={'person'}>Persons</option>
+                <option value={'client'}>Clients</option>
                 <option value={'business'}>Businesses</option>
             </NativeSelect>
             <div
